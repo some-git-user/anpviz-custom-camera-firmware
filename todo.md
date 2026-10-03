@@ -161,6 +161,61 @@ runs stock `procman` (harmless no-op).
 **Packed image**: `out/YMF46D_3.4.5.2-custom3.bin`, rootfs 8,978,432 B
 (ceiling 9,355,264). Verified `nagios_authd.so` + `rcS` preload inside.
 
+### Phase 3 — recording-volume (SD card) metric, feed schema 2 — DONE (pending build)
+
+**The gap**: schema 1's only disk metric was `nand_used_pct` / `nand_avail_kb` --
+that is the **1 MB jffs2 config partition**, not the disk your video goes to.
+The recording volume was not reported at all, so a full or missing SD card (by
+far the most likely storage failure on a dashcam) was invisible to monitoring.
+
+**New fields** (`/opt/ch/nagios.sh`, first mounted volume, probed
+`mmc0` -> `mmc1` -> `usb`):
+
+| field | meaning |
+|---|---|
+| `rec_storage_present` | 1/0 |
+| `rec_storage_slot` | `mmc0` / `mmc1` / `usb` / `none` |
+| `rec_storage_total_kb` | `df` 1K-blocks |
+| `rec_storage_used_kb` | `df` used |
+| `rec_storage_avail_kb` | `df` available |
+| `rec_storage_used_pct` | `df` use% |
+
+Slot **label** only -- no device node or mount path, keeping the feed redacted.
+Absent card emits explicit JSON `null`s so "no card" != "card but unreadable".
+Added `mountpoint_ok()` (no `mountpoint` applet in this busybox; parse `mount`).
+`SCHEMA` 1 -> 2.
+
+**Checker** (`tools/check_anjoy_nagios.py`): `--warn-rec 90` / `--crit-rec 97`
+/ `--ignore-no-card`.
+
+```
+no card mounted                  -> CRITICAL   (nothing is recording)
+used >= --crit-rec               -> CRITICAL
+used >= --warn-rec               -> WARNING
+< 5 MB free at a low percentage  -> WARNING    (huge-card edge case)
+mounted but df unreadable        -> UNKNOWN
+field absent (schema < 2)        -> UNKNOWN
+```
+
+**Verified on device** (192.0.2.10):
+- absent -> `present:0 slot:none nulls`; checker CRITICAL, and OK with
+  `--ignore-no-card`
+- present -> bind-mounted the jffs2 partition onto `/mnt/mmc0` to get real `df`
+  numbers (total 1024 / used 260 / avail 764 / 25%); checker reported
+  `rec_storage(mmc0) only 764 KB free` = WARNING, proving the absolute-headroom
+  path E2E through the authenticated CGI route.
+- tmpfs quirk: this busybox reports **0 blocks for tmpfs**. The checker treats a
+  zero/absent total as *unreadable* (UNKNOWN), not "0 KB free" -- avoids a false
+  alarm on any pseudo-fs.
+- schema-1 fail-safe: pointed the new checker at the still-flashed custom3 device
+  and it correctly returned `rec_storage state unknown (generator schema <2?)`
+  instead of silently passing.
+- 14 fixture combinations (6 payload shapes x default/`--ignore-no-card`) all
+  return the expected exit codes.
+
+**Note**: `/opt` is squashfs (read-only) at runtime, so testing required running
+the generator from `/tmp`. The change ships via `pack.sh` like everything else.
+
 ---
 
 ## 4. Deferred / nice-to-have
@@ -179,6 +234,13 @@ runs stock `procman` (harmless no-op).
       so `tools/ctl3.exp` can log in.
 - [ ] Create a dedicated low-privilege `nagios` account in the web UI rather
       than reusing `camera`; scope it read-only if the UI allows.
+- [ ] **Build + flash `custom4`** so the schema-2 recording-volume fields actually
+      ship. Until then the checker reports `rec_storage state unknown` against the
+      live device (correct fail-safe, but the metric is not yet in the field).
+- [ ] With a **real SD card** inserted, confirm the vendor mounts the recording
+      volume at `/mnt/mmc0` (not somewhere else) and that `df` reports real vfat
+      numbers. Slot probe order `mmc0`/`mmc1`/`usb` is inferred from `hwinfo.sh`
+      and the mount dirs, not observed with a card present.
 - [ ] Port the Nagios endpoint to `YM500L` (different squashfs block size,
       different TLS story — nothing ports automatically).
 - [ ] Push branch to a remote (blocked: no SSH key configured).

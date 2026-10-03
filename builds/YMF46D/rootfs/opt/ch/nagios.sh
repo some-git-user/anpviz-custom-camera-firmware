@@ -39,7 +39,9 @@
 OUT=/tmp/nagios.txt
 TMP=/tmp/.nagios.$$.tmp
 STATE=/tmp/.nagios.state
-SCHEMA=1
+# schema 2: added the recording-storage (SD/USB) block. Schema 1 had no disk
+# metric at all beyond the 1 MB jffs2 config partition.
+SCHEMA=2
 
 # The background subshell launched from rcS may not inherit an interactive PATH.
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
@@ -86,6 +88,12 @@ digits() {
 	s=${s%%[!0-9]*}
 	s=${s##*[!0-9]}
 	printf '%s' "$s"
+}
+
+# Is $1 a real mount point? The `mountpoint` applet is NOT compiled into this
+# busybox, so parse mount instead (same approach hwinfo.sh uses).
+mountpoint_ok() {
+	mount 2>/dev/null | busybox awk -v m="$1" '$3==m{found=1} END{exit !found}'
 }
 
 collect() {
@@ -201,6 +209,54 @@ _df=$(df -k /mnt/nand 2>/dev/null | busybox awk 'NR==2 {print $4" "$5}')
 	fi
 	n "$_nand_pct" "nand_used_pct"
 	n "$_nand_avail" "nand_avail_kb"
+
+	# --- RECORDING STORAGE (SD card / USB) --------------------------------
+	# This is the disk metric that actually matters on a dashcam: the volume
+	# video is written to. Schema 1 reported only the 1 MB jffs2 config
+	# partition above, so a FULL OR MISSING recording card was completely
+	# invisible to monitoring -- the single most likely storage failure on
+	# this device class.
+	#
+	# Slot preference: mmc0 (primary recorder) then mmc1 then usb. We report
+	# the SLOT LABEL, never the device node or mount path, to stay redacted.
+	_rec_slot=""
+	_rec_mount=""
+	for pair in "mmc0:/mnt/mmc0" "mmc1:/mnt/mmc1" "usb:/mnt/usb"; do
+		_slot=${pair%%:*}
+		_m=${pair#*:}
+		if mountpoint_ok "$_m"; then
+			_rec_slot="$_slot"
+			_rec_mount="$_m"
+			break
+		fi
+	done
+
+	if [ -n "$_rec_slot" ]; then
+		n 1 "rec_storage_present"
+		f "$_rec_slot" "rec_storage_slot"
+		# df -k cols: 1K-blocks used available use%
+	_rd=$(df -k "$_rec_mount" 2>/dev/null | busybox awk 'NR==2 {print $2" "$3" "$4" "$5}')
+		_r_total=""; _r_used=""; _r_avail=""; _r_pct=""
+		if [ -n "$_rd" ]; then
+			_r_total=$(digits "$(echo "$_rd" | busybox awk '{print $1}')")
+			_r_used=$(digits "$(echo "$_rd" | busybox awk '{print $2}')")
+			_r_avail=$(digits "$(echo "$_rd" | busybox awk '{print $3}')")
+			_r_pct=$(digits "$(echo "$_rd" | busybox awk '{print $4}' | busybox sed 's/%//')")
+		fi
+		n "$_r_total" "rec_storage_total_kb"
+		n "$_r_used" "rec_storage_used_kb"
+		n "$_r_avail" "rec_storage_avail_kb"
+		n "$_r_pct" "rec_storage_used_pct"
+	else
+		# No recording volume mounted. Emit explicit nulls so the checker can
+		# tell "no card" apart from "card present but metric unreadable".
+		n 0 "rec_storage_present"
+		f "none" "rec_storage_slot"
+		n "" "rec_storage_total_kb"
+		n "" "rec_storage_used_kb"
+		n "" "rec_storage_avail_kb"
+		n "" "rec_storage_used_pct"
+	fi
 
 	# --- process liveness -------------------------------------------------
 	# Count processes, and confirm the two things we actually care about exist:

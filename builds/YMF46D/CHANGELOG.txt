@@ -18,7 +18,54 @@
 # contained in 3.4.5.2-custom1. The old labels are kept in parentheses below
 # only so earlier notes and commit messages remain traceable.
 
-[3.4.5.2-custom3] 2026-10-04  ** CURRENT **
+[3.4.5.2-custom4] 2026-10-04  ** CURRENT **  (PENDING BUILD)
+  Adds the RECORDING-VOLUME (SD card) metric to the Nagios feed. Feed schema 2.
+  Not yet packed/flashed -- the device is running custom3, which lacks these
+  fields (the checker reports "rec_storage state unknown" against it, by
+  design, rather than silently passing).
+
+  -----------------------------------------------------------------------
+  Individual changes, newest first:
+  -----------------------------------------------------------------------
+
+  * Recording-volume (SD card) metrics -- feed schema 2
+    - PROBLEM: schema 1 reported `nand_used_pct` / `nand_avail_kb`, which is
+      the 1 MB jffs2 CONFIG partition. The volume video is actually written
+      to was not reported at all, so a FULL OR MISSING recording card -- the
+      single most likely storage failure on a dashcam -- was invisible.
+    - /opt/ch/nagios.sh now emits, for the first mounted recording volume
+      (probed in order mmc0 -> mmc1 -> usb):
+          rec_storage_present      1/0
+          rec_storage_slot         "mmc0" | "mmc1" | "usb" | "none"
+          rec_storage_total_kb     df 1K-blocks
+          rec_storage_used_kb      df used
+          rec_storage_avail_kb     df available
+          rec_storage_used_pct     df use%
+      Slot LABEL only -- no device node or mount path is exposed, keeping the
+      feed redacted like the rest of it.
+    - Added `mountpoint_ok()` (the `mountpoint` applet is not compiled into
+      this busybox; parse `mount` instead, same as hwinfo.sh).
+    - Absent card emits explicit JSON nulls, so "no card" is distinguishable
+      from "card present but df unreadable".
+    - SCHEMA 1 -> 2.
+    - VERIFIED on device: absent (no card), present (bind-mount of the jffs2
+      partition gave real numbers: total 1024 / used 260 / avail 764 / 25%),
+      and the tmpfs quirk (this busybox reports 0 blocks for tmpfs, which the
+      checker classifies as "unreadable" rather than "0 KB free").
+    - Checker side (tools/check_anjoy_nagios.py):
+        --warn-rec 90 / --crit-rec 97   percentage thresholds
+        --ignore-no-card                 downgrades "no card" to a note for
+                                       fleets that legitimately ship bare
+        no card mounted                  -> CRITICAL (nothing is recording)
+        used >= crit-rec                 -> CRITICAL
+        used >= warn-rec                 -> WARNING
+        < 5 MB free at a low percentage  -> WARNING (huge-card edge case)
+        mounted but df unreadable        -> UNKNOWN
+        field absent (schema < 2)        -> UNKNOWN
+      All 14 fixture combinations tested, plus live E2E through the
+      authenticated /cgi-bin/nagios route.
+
+[3.4.5.2-custom3] 2026-10-04
   Adds the AUTHENTICATED /cgi-bin/nagios route (phase 2) on top of custom2.
   Built as: out/YMF46D_3.4.5.2-custom3.bin
   rootfs 8,978,432 B (ceiling 9,355,264 B). FLASH-VERIFIED cold boot.

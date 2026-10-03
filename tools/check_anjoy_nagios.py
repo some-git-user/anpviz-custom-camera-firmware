@@ -26,7 +26,8 @@ Usage:
       --stale 90 --warn-temp 75 --crit-temp 85 \
       --warn-cpu 85 --crit-cpu 95 \
       --warn-mem 85 --crit-mem 95 \
-      --warn-nand 80 --crit-nand 92
+      --warn-nand 80 --crit-nand 92 \
+      --warn-rec 90 --crit-rec 97
 
   # authenticated CGI route (recommended; reuses a web 'manage user' account):
   check_anjoy_nagios.py --host 192.0.2.10 --insecure \
@@ -36,6 +37,22 @@ Usage:
   With --user set, the default path becomes /cgi-bin/nagios and the creds are
   sent as nagios_user / nagios_pass query params. Use HTTPS so the credential
   is encrypted on the wire.
+
+RECORDING VOLUME (SD card)
+--------------------------
+`nand` is the 1 MB jffs2 CONFIG partition, not the disk your video goes to.
+The recording volume is reported separately as rec_storage_* and is the
+headline disk check on a dashcam:
+
+  no card mounted                 -> CRITICAL  (nothing is being recorded)
+  used >= --crit-rec (97%)        -> CRITICAL
+  used >= --warn-rec (90%)        -> WARNING
+  < 5 MB free even at low %%       -> WARNING   (huge-card edge case)
+  card mounted but df unreadable  -> UNKNOWN
+  field absent (schema < 2)       -> UNKNOWN
+
+A fleet of cameras that legitimately ship without cards should pass
+--ignore-no-card, which downgrades "no card" to an informational note.
 
 Exit codes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.
 """
@@ -77,6 +94,15 @@ def parse_args():
     p.add_argument("--crit-mem", type=float, default=95.0)
     p.add_argument("--warn-nand", type=float, default=80.0)
     p.add_argument("--crit-nand", type=float, default=92.0)
+    # Recording volume (SD card / USB). On a dashcam a full card means video is
+    # being lost, so this is the headline disk check.
+    p.add_argument("--warn-rec", type=float, default=90.0,
+                   help="percent used on the recording volume that warns")
+    p.add_argument("--crit-rec", type=float, default=97.0,
+                   help="percent used on the recording volume that is critical")
+    p.add_argument("--ignore-no-card", action="store_true",
+                   help="do not alert when no recording volume is mounted "
+                        "(default: a dashcam with no card is CRITICAL)")
     p.add_argument("--insecure", action="store_true",
                    help="do not verify the TLS certificate (self-signed camera cert)")
     p.add_argument("--user", default=None,
@@ -237,6 +263,54 @@ def main():
         ("mem_used_pct", "memory", args.warn_mem, args.crit_mem, "%"),
         ("nand_used_pct", "nand", args.warn_nand, args.crit_nand, "%"),
     ]
+
+    # --- RECORDING VOLUME (SD card) --------------------------------------
+    # Checked before the generic thresholds because it dominates the result on
+    # a dashcam: no card == nothing is being recorded.
+    _rec_present = num(data, "rec_storage_present")
+    _rec_slot = data.get("rec_storage_slot") or "none"
+    if _rec_present is None:
+        # Field absent entirely: generator predates schema 2, or it failed to
+        # evaluate. Do NOT silently pass -- say we cannot see the disk.
+        msgs.append("rec_storage state unknown (generator schema <2?)")
+        bump(UNKNOWN)
+    elif _rec_present < 1:
+        if args.ignore_no_card:
+            msgs.append("no recording card (ignored)")
+        else:
+            msgs.append("NO RECORDING CARD MOUNTED")
+            bump(CRITICAL)
+    else:
+        perf.append("rec_storage_present=1")
+        _rec_avail = num(data, "rec_storage_avail_kb")
+        _rec_total = num(data, "rec_storage_total_kb")
+        _rec_pct = num(data, "rec_storage_used_pct")
+        if _rec_pct is None or not _rec_total:
+            # Card mounted but df gave us nothing usable (or a zero-sized
+            # filesystem, which some pseudo-fs report). We genuinely cannot
+            # see the disk -- say so rather than inventing a number.
+            msgs.append("rec_storage (%s) mounted but usage unreadable"
+                       % _rec_slot)
+            bump(UNKNOWN)
+        else:
+            if _rec_avail is not None:
+                perf.append("rec_storage_avail_kb=%d" % int(_rec_avail))
+            s = threshold(_rec_pct, args.warn_rec, args.crit_rec)
+            perf.append("rec_storage_used_pct=%d;%s;%s;0;100" % (
+                int(_rec_pct),
+                "" if args.warn_rec is None else int(args.warn_rec),
+                "" if args.crit_rec is None else int(args.crit_rec)))
+            if s in (WARNING, CRITICAL):
+                msgs.append("rec_storage(%s) %d%% >= %s%%" % (
+                    _rec_slot, int(_rec_pct),
+                    int(args.crit_rec if s == CRITICAL else args.warn_rec)))
+            elif _rec_avail is not None and _rec_avail < 5120:
+                # Belt-and-braces: percentage can look fine on a huge card while
+                # the absolute headroom is still too small to matter.
+                msgs.append("rec_storage(%s) only %d KB free" % (
+                    _rec_slot, int(_rec_avail)))
+                s = WARNING
+            bump(s)
     for key, label, warn, crit, unit in checks:
         v = num(data, key)
         s = threshold(v, warn, crit)
