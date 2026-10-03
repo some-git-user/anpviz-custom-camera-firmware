@@ -115,6 +115,33 @@ echo "Build tag: V$TAG   (counter -> $(cat "$BUILD/custom_build" 2>/dev/null))"
 [ -n "$NAME" ] || NAME="${TAG}"
 OUT="out/${SLUG}_${NAME}.bin"
 
+# --- rebuild the Nagios CGI auth shim from source ---------------------------
+# The shim (opt/ch/nagios_authd.so) is cross-compiled from
+# tools/nagios_shim/nagios_authd.c. Rebuild it here on every pack so we never
+# ship a stale .so after editing the C source. Override the toolchain with
+# TC_PREFIX=... ; skip entirely by removing the .c source.
+SHIM_SRC="tools/nagios_shim/nagios_authd.c"
+SHIM_DEST="$BUILD/rootfs/opt/ch/nagios_authd.so"
+TC_PREFIX="${TC_PREFIX:-/home/user/toolchains/armv7-eabihf--uclibc--stable-2024.05-1/bin/arm-buildroot-linux-uclibcgnueabihf}"
+if [ -f "$SHIM_SRC" ]; then
+    if [ -x "${TC_PREFIX}-gcc" ]; then
+        echo "Cross-compiling Nagios shim: $SHIM_SRC -> $SHIM_DEST"
+        "${TC_PREFIX}-gcc" -O2 -fPIC -shared -o "$SHIM_DEST" "$SHIM_SRC" \
+            || { echo "ERROR: shim compile failed -- refusing to pack a stale .so" >&2; exit 1; }
+        chmod 755 "$SHIM_DEST"
+        echo "  exports: $(${TC_PREFIX}-nm -D --defined-only "$SHIM_DEST" | awk '$2=="T"{printf "%s ", $3}')"
+    elif [ -f "$SHIM_DEST" ]; then
+        echo "WARNING: toolchain not found (${TC_PREFIX}-gcc)." >&2
+        echo "         Packing the EXISTING $SHIM_DEST unchanged -- it may be" >&2
+        echo "         STALE relative to $SHIM_SRC." >&2
+        echo "         Set TC_PREFIX=... to rebuild. Continuing." >&2
+    else
+        echo "WARNING: $SHIM_SRC present but no toolchain AND no prebuilt shim." >&2
+        echo "         rcS's [ -f ] guard makes this a harmless no-op: the" >&2
+        echo "         authenticated /cgi-bin/nagios route will be absent." >&2
+    fi
+fi
+
 # --- normalise executable bits on shell scripts -----------------------------
 # squashfs preserves unix modes, so a script that lost its exec bit in the tree
 # (or in git) boots non-executable. That already broke the web-controlled
