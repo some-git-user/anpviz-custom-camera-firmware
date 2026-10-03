@@ -105,37 +105,71 @@ Requirements:
 - Nagios plugin parses the JSON and **fails on staleness**, not on HTTP code.
 - Unauthenticated — acceptable only because it is redacted and LAN-scoped.
 
-### Phase 2 — `/cgi-bin/nagios` via LD_PRELOAD shim (proper fix)
+### Phase 2 — `/cgi-bin/nagios` via LD_PRELOAD shim — DONE
 
-The CGI route table is **compiled in** — `InitHttpCgi` reads flag files but no
-route config, so a new route must be injected.
+Shipped as `tools/nagios_shim/nagios_authd.c` -> `builds/YMF46D/rootfs/opt/ch/nagios_authd.so`,
+preloaded in `rcS` on the `procman` line only. Build with `tools/nagios_shim/build_shim.sh`.
 
-Confirmed viable:
-- `http_cgi_find` is **PLT-interposable** (`R_ARM_JUMP_SLOT` @ `0x8b6ac`,
-  `.rel.plt` -> `.got`).
-- `LD_PRELOAD` **is** supported by the device's `ld-uClibc-1.0.31`.
-- `rcS` already exports `LD_LIBRARY_PATH`, so the env propagates to `web_server`
-  via `procman`.
-- Handler calls `cgi_is_valid_uid_or_username()` -> **real manage-user auth**.
-  Create a `nagios` account in the existing UI; revocable from the UI.
-- Served over the existing **HTTPS**, proper `application/json`, real `404`.
-
-Toolchain (no root required):
+**Verified ABI** (empirically, not static guess) — `http_cgi_bin` calls:
 ```
-https://toolchains.bootlin.com/downloads/releases/toolchains/armv7-eabihf/tarballs/armv7-eabihf--uclibc--stable-2024.05-1.tar.xz
+http_cgi_find(uri, r1, table_off) -> nonzero if route registered   [GATE]
+http_cgi_handle(uri, out, client_ip)                              [DISPATCH]
+   out = calloc(1, 102400)   // safe to sprintf our body
+   returns HTTP status; caller sends `out` as the body
 ```
-Device is `armv7-eabihf`, **hard-float** (`VFPv3-D16`, `Tag_ABI_VFP_args: VFP
-registers`), uClibc 1.0.31. Debian's glibc `gcc-arm-linux-gnueabihf` will **not**
-produce dynamically linked binaries that load here; a `-static` build sidesteps it.
+The shim interposes BOTH:
+- `http_cgi_find` returns 1 for `/cgi-bin/nagios` (the route is NOT in the
+  vendor table, so without this the dispatcher never runs -> 404).
+- `http_cgi_handle` serves the authenticated feed; every other route is
+  forwarded to the real function unchanged.
 
-**Risk:** a crashing shim takes down `web_server`, and the telnet toggle is itself
-web-controlled, making remote recovery awkward. Mitigate by gating the preload
-behind a flag file and testing with the device physically in hand.
+**Auth** reuses the device's own user DB (the web "manage user" UI writes
+`<UserConfig>` in `/mnt/nand/config.xml`):
+```
+GET /cgi-bin/nagios?nagios_user=<u>&nagios_pass=<p>
+  cgi_get_value(uri, "nagios_user"/"nagios_pass", ...)   // RAW, NOT urldecoded
+  url_decode() in the shim                               // REQUIRED
+  MsgUserGetPassword(user, stored) -> 0 + stored PLAINTEXT
+  constant-time compare(pass, stored)
+  serve /tmp/nagios.txt -> 200
+```
+`cgi_is_valid_username_password` was tried and ABANDONED: it needs a
+request-context object not available at this layer, and its `username` param
+substring-collides with `cgi_is_valid_uid_or_username` (order-sensitive).
+
+**Verified on device** (192.0.2.10): no-creds 403, wrong-pass 403,
+unknown-user 403, correct-creds 200+feed, control `getinfo` 200 (passthrough
+intact). Audit trail in `/tmp/nagios_auth.log` (client IP + verdict, no creds).
+**FAIL CLOSED** on: missing auth helper, null outbuf, missing creds, unknown
+user, bad pass, unreadable feed.
+
+**Persistence**: `rcS` sets `LD_PRELOAD=/opt/ch/nagios_authd.so` on the
+`procman` line only. `procman` uses `execve(__environ)`, so the preload
+propagates to the `web_server` it spawns and its respawn children. Scoped so
+no other boot process is affected; the shim exports only the two CGI symbols
+so it is inert everywhere else. If the `.so` is missing the `[ -f ]` guard
+runs stock `procman` (harmless no-op).
+
+**Gotchas recorded**:
+- `cgi_get_value` does NOT urldecode — the shim must, or a password with `%xx`
+  never matches. Verified `REDACTED_WEB_PASSWORD` -> `REDACTED_WEB_PASSWORD`.
+- The CGI route is served `Content-Type: text/xml` even though the body is
+  JSON; the Nagios plugin parses JSON regardless of declared type.
+- `procman` feeds the hardware watchdog — `killall procman` can trip a reboot.
+  Test by starting a second `procman` with the preload, or flash and reboot.
+
+**Packed image**: `out/YMF46D_3.4.5.2-custom3.bin`, rootfs 8,978,432 B
+(ceiling 9,355,264). Verified `nagios_authd.so` + `rcS` preload inside.
 
 ---
 
 ## 4. Deferred / nice-to-have
 
+- [ ] Flash `out/YMF46D_3.4.5.2-custom3.bin` and re-verify the authenticated
+      route survives a cold boot (persistence is proven by construction + the
+      manual preload test, not yet by a flashed reboot).
+- [ ] Create a dedicated low-privilege `nagios` account in the web UI rather
+      than reusing `camera`; scope it read-only if the UI allows.
 - [ ] Port the Nagios endpoint to `YM500L` (different squashfs block size,
       different TLS story — nothing ports automatically).
 - [ ] Push branch to a remote (blocked: no SSH key configured).

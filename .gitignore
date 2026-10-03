@@ -55,3 +55,12 @@ __pycache__/
 # --- Local scratch -------------------------------------------------------
 /tmp/
 *.log
+
+# --- Nagios shim build intermediates -------------------------------------
+# The compiled shim that ships is builds/<cam>/rootfs/opt/ch/nagios_authd.so
+# (tracked, because pack.sh reads the rootfs tree directly). Everything else
+# under tools/nagios_shim/ that is a compiled binary is reproducible from the
+# .c sources via build_shim.sh, so it is not committed.
+tools/nagios_shim/*.so
+tools/nagios_shim/authprobe_dyn
+tools/nagios_shim/authprobe_static

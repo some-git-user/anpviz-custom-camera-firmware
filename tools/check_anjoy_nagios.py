@@ -20,12 +20,22 @@ recording the last heartbeat and boot_id we saw, and compare.
   boot_id changed               -> device rebooted (report, and it's OK)
 
 Usage:
-  check_anjoy_nagios.py --host 192.0.2.10 [--no-tls] \
+  # static feed (no auth):
+  check_anjoy_nagios.py --host 192.0.2.10 --no-tls \
       --state-file /var/tmp/check_anjoy_109.json \
       --stale 90 --warn-temp 75 --crit-temp 85 \
       --warn-cpu 85 --crit-cpu 95 \
       --warn-mem 85 --crit-mem 95 \
       --warn-nand 80 --crit-nand 92
+
+  # authenticated CGI route (recommended; reuses a web 'manage user' account):
+  check_anjoy_nagios.py --host 192.0.2.10 --insecure \
+      --user nagios --password 's3cret' \
+      --state-file /var/tmp/check_anjoy_109.json
+
+  With --user set, the default path becomes /cgi-bin/nagios and the creds are
+  sent as nagios_user / nagios_pass query params. Use HTTPS so the credential
+  is encrypted on the wire.
 
 Exit codes: 0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN.
 """
@@ -69,13 +79,31 @@ def parse_args():
     p.add_argument("--crit-nand", type=float, default=92.0)
     p.add_argument("--insecure", action="store_true",
                    help="do not verify the TLS certificate (self-signed camera cert)")
+    p.add_argument("--user", default=None,
+                   help="nagios_user credential for the authenticated "
+                        "/cgi-bin/nagios route (a web 'manage user' account). "
+                        "Omit to poll the static /nagios.txt feed instead.")
+    p.add_argument("--password", default=None,
+                   help="nagios_pass credential (pairs with --user)")
     return p.parse_args()
 
 
 def fetch(args):
     scheme = "http" if args.no_tls else "https"
     port = args.port or (80 if args.no_tls else 443)
-    url = "%s://%s:%d%s" % (scheme, args.host, port, args.path)
+    path = args.path
+    # When credentials are supplied, hit the authenticated CGI route and carry
+    # them as query params (the shim reads nagios_user / nagios_pass). The
+    # password is URL-encoded so reserved chars (%xx, +, &) survive.
+    if args.user is not None:
+        from urllib.parse import quote
+        if path == "/nagios.txt":
+            path = "/cgi-bin/nagios"
+        sep = "&" if "?" in path else "?"
+        path = "%s%snagios_user=%s&nagios_pass=%s" % (
+            path, sep, quote(args.user, safe=""),
+            quote(args.password or "", safe=""))
+    url = "%s://%s:%d%s" % (scheme, args.host, port, path)
     ctx = ssl.create_default_context()
     if args.insecure or scheme == "http":
         ctx.check_hostname = False
@@ -86,6 +114,10 @@ def fetch(args):
             body = r.read().decode("utf-8", "replace")
             ctype = r.headers.get("Content-Type", "")
     except urllib.error.HTTPError as e:
+        if e.code == 403:
+            return None, ("HTTP 403 from %s -- auth rejected: check "
+                         "--user/--password against a web 'manage user' account"
+                         % args.host), None
         return None, "HTTP %s from %s" % (e.code, url), None
     except Exception as e:  # noqa: BLE001 - report any transport failure as UNKNOWN
         return None, "connection to %s failed: %s" % (url, e), None
@@ -95,12 +127,13 @@ def fetch(args):
         return None, ("empty body from %s (HTTP 200 -- the vendor server "
                      "returns 200 for missing .txt, so this means the "
                      "generator is dead, NOT that the URL is wrong)" % url), None
-    if "json" not in ctype and "text/plain" not in ctype:
-        return None, "unexpected Content-Type %r from %s" % (ctype, url), None
+    # The CGI route is served with Content-Type: text/xml even though our body
+    # is JSON, so we do not gate on the declared type -- we just try to parse.
     try:
         data = json.loads(body)
     except ValueError as e:
-        return None, "payload is not valid JSON (%s) from %s" % (e, url), None
+        return None, ("payload is not valid JSON (%s; Content-Type %r) "
+                     "from %s" % (e, ctype, url)), None
     return data, None, url
 
 

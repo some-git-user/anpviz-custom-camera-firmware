@@ -43,7 +43,22 @@ ifconfig lo 127.0.0.1
 
 cd /opt/ch/
 
-./procman &
+# --- NAGIOS CGI SHIM (added by custom build) ------------------------------
+# LD_PRELOAD is scoped to this procman invocation only, so it propagates to
+# the web_server that procman spawns (and its respawn children) without
+# touching the rest of the boot environment. The shim (nagios_authd.so)
+# interposes http_cgi_find + http_cgi_handle to expose an AUTHENTICATED
+# /cgi-bin/nagios route that reuses the web "manage user" account DB.
+# It exports ONLY those two symbols and forwards every other route unchanged,
+# so it is inert for all other processes. Fail-closed: if the .so is missing,
+# the preload is a harmless no-op and the stock stack runs.
+# See tools/nagios_shim/nagios_authd.c and repo memory anjoy-cgi-shim.md.
+if [ -f /opt/ch/nagios_authd.so ]; then
+	LD_PRELOAD=/opt/ch/nagios_authd.so ./procman &
+else
+	./procman &
+fi
+# --------------------------------------------------------------------------
 
 # --- HARDWARE DIAGNOSTICS COLLECTOR (added by custom build) -----------------
 # Keeps /tmp/hwinfo.txt fresh for the web UI "version" page (served at
