@@ -1,0 +1,63 @@
+<div id="page_ftpConfig" class="page_config">
+<input id="FTPCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="ftp_set" class="ui-tab-current">FTP设置</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="ftp_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_server_address_label">FTP服务器地址</label>
+<input name="textfield" id="ftp_server_address" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="ftp_server_address_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_server_port_label">端口</label>
+<input name="textfield" id="ftp_server_port" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="ftp_server_port_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_username_label">用户名</label>
+<input name="textfield" id="ftp_username" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="ftp_username_tip"></span>
+<span class="ui-tip-red" id="ftp_username_tipred"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_password_label">密码</label>
+<input type="password" name="textfield" id="ftp_password" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="ftp_password_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_passwordConfirm_label">密码确认</label>
+<input type="password" name="textfield" id="ftp_passwordConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="ftp_passwordConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="ftp_serverPath_label">存储路径</label>
+<input name="textfield" id="ftp_serverPath" class="ui-input fn-width200" maxlength="256">
+<span class="ui-text" id="ftp_serverPath_description" style="display:none">(说明：目录最后加入$date字段, 则会自动在所填目录最后添加日期目录)</span>
+<span class="ui-tip-red" id="ftp_serverPath_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<label class="ui-label fn-padl20 fn-width40">&nbsp;</label>
+<a id="ftp_test" class="ui-button" href="javascript:;">测试</a>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="ftp_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="ftp_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ftp_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="ftp_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="ftp_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

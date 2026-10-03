@@ -1,0 +1,79 @@
+<div id="page_telecomConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="telecom_set" class="telecom_tab_title ui-tab-current" data-for="telecomConfig">电信设备参数</li>
+</ul>
+</div>
+<div class="telecom_tab_content" id="telecom_tab_general">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_serialNo_label">终端SN号</label>
+<input name="textfield" id="telecom_serialNo" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_serialNo_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_devFactory_label">设备厂商编号</label>
+<input name="textfield" id="telecom_devFactory" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_devFactory_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_devType_label">设备型号</label>
+<input name="textfield" id="telecom_devType" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_devType_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_serverIp_label">平台服务器IP地址</label>
+<input name="textfield" id="telecom_serverIp" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_serverIp_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_serverPort_label">平台服务器端口号</label>
+<input name="textfield" id="telecom_serverPort" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_serverPort_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_netAdsl_label">宽带账号</label>
+<input name="textfield" id="telecom_netAdsl" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_netAdsl_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_encryKey_label">通信密钥</label>
+<input name="textfield" id="telecom_encryKey" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_encryKey_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="telecom_keyIV_label">通信密钥IV</label>
+<input name="textfield" id="telecom_keyIV" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="telecom_keyIV_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="telecom_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="telecom_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="telecom_confirm" class="ui-button admin_button" href="javascript:;">保存</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="telecom_setting_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="telecom_setting_remark_label">保存成功</label>
+</div>
+</div>
+<div id="telecom_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1></h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content">
+<span class="ui-dialog-surebox-text" id="telecom_dialog_prompt">保存后，设备将会重启</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="telecom_dialog_confirm">确认</a>
+<a class="ui-button" id="telecom_dialog_cancel">取消</a>
+</div>
+</div>
+</form>
+</div>
+</div>

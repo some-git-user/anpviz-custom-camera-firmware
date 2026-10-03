@@ -1,0 +1,1 @@
+$(function(){$("div[href]").click(function(t){window.protocolCheck($(this).attr("href"),function(){alert("未安装插件请点击下载"),parent.location.href="https://www.mydownload.store/WebCtrlPlayer_install.zip"}),t.preventDefault?t.preventDefault():t.returnValue=!1})});

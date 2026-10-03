@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="jsCore/BrowserWindow.js"></script>
+<script src="jsCore/m.js?version=2.210"></script>
+<script src="jsCore/more.js?version=2.210"></script>
+<script src="/jsCore/jscolor.js?version=2.400"></script>
+<script src="api_pluginPlay/commonNew.js?version=2.400"></script>
+<script src="api_pluginPlay/api_plugin.js?version=2.400"></script>
+<script src="lib/raw_player.js"></script>
+<script src="api_html5Play/api_h5play.js"></script>
+<script>for(var cssList=["css/reset.css","css/ui.css","css/custom.css","css/skin.css","css/main.css","css/alarm.css","css/set.css","css/resize.css","css/playback.css","css/fn.css"],i=0;i<cssList.length;i++){var lt="";Browser.ie7||Browser.ie8||(lt="?"+location.href.split("?")[1]);var cssNode=document.createElement("link");cssNode.rel="stylesheet",cssNode.type="text/css",cssNode.media="screen",cssNode.href=cssList[i]+lt,document.head.appendChild(cssNode)}function hide_login_big_logo(){$("login_logo_big").style.display="none",$("login_content_long").style.background="none",$("login_content_long").style.width="352px",$("login_content").style.background="url(../image/dl_bg.png?version=2.400.png)"}</script>
+</head>
+<body style="background-color:#fff;overflow-x:hidden">
+<div id="l" class="login" style="overflow-x:hidden;overflow:hidden">
+<div id="div_LanguageSelect" align="right" style="padding-top:30px;padding-right:25px;display:none">
+<div style="width:300px;height:20px">
+<label class="language-select-title fn-width78" id="LoginLanguage2_label">Language:</label>
+<select class="fn-width120" id="LoginLanguge2" style="height:19px">
+<option value="en-us">English</option>
+<option value="zh-cn" selected>简体中文</option>
+</select>
+</div>
+</div>
+<div id="div_login_container" class="login-container fn-clear">
+<div id="div_login_logo" style="width:100%;height:70px"><img id="img_login_logo" src="login_logo.png" style="width:600px;height:70px" onerror='this.style.display="none",this.onerror=null' ondragstart="return!1" oncontextmenu="return!1"></div>
+<div style="height:10px;width:auto">&nbsp;</div>
+<div id="login_content_long" class="login-content-long">
+<div id="login_logo_big" style="float:left;width:313px;height:313px">
+<img id="img_login_logo_big" src="login_logo_big.png" style="width:313px;height:313px" onerror='this.style.display="none",this.onerror=null,hide_login_big_logo()' ondragstart="return!1" oncontextmenu="return!1">
+</div>
+<div id="login_content" class="login-content" style="float:left">
+<div class="login-logo"></div>
+<div class="login-inputbox fn-clear" id="login_style">
+<form class="login-box">
+<div class="login-input-item fn-height17">
+</div>
+<div class="login-input-item">
+<div class="login-username-icon"></div>
+<input id="username" onfocus="OnLoginUsername_Focus()" onblur="OnLoginUsername_Blur()">
+</div>
+<div class="login-input-item fn-mart8">
+<div class="login-password-icon"></div>
+<input id="password" type="password" onfocus="OnLoginPassword_Focus()" onblur="OnLoginPassword_Blur()">
+<input id="passwordText" onfocus="OnLoginPasswordText_Focus()" style="display:none">
+</div>
+<div id="show_captcha" class="login-input-item fn-mart8" style="display:none">
+<label class="login-input-title fn-width78" id="Captcha_label">Captcha:</label>
+<input id="captcha_input">
+<canvas id="captcha" width="100" height="40" alt="点击刷新验证码"></canvas>
+</div>
+<div id="login_secure" style="display:none">
+<div>
+<select class="login-input-secure" id="secure_username">
+</select>
+</div>
+<div>
+<input id="secure_password" class="login-input" type="password">
+</div>
+<a id="detectionCertificate" class="ui-button admin_button" style="margin-left:-45px" href="javascript:;">安全证书检测</a>
+<a id="secure_button" class="ui-button admin_button" href="javascript:;">安全认证</a>
+</div>
+<div class="login-input-item fn-mart8" id="show_LoginLanguage">
+<label class="login-input-title fn-width78" id="LoginLanguage_label" style="height:19px;line-height:19px">Language:</label>
+<select class="fn-width169" id="LoginLanguge" style="height:19px">
+<option value="en-us">English</option>
+<option value="zh-cn">简体中文</option>
+</select>
+</div>
+<div id="login-btnbox-for">
+<a id="b_login" href="javascript:;">Login</a>
+</div>
+<span class="ui-tip-red fn-width250" id="login_msg_tip" style="display:none;text-align:center"></span>
+</form>
+</div>
+</div>
+</div>
+<div id="hb_login_content" class="hbc_login-content" style="display:none">
+<div class="fn-clear" id="hbc_login_style">
+<form class="login-box">
+<div class="ui-form-item">
+<label class="ui-label fn-padl170 fn-width80" id="hbc_username_label">User Name</label>
+<input id="hbc_username" class="login-input fn-width210" style="padding-left:5px">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl170 fn-width80" id="hbc_password_label">Password</label>
+<input id="hbc_password" type="password" class="login-input fn-width210" style="padding-left:5px">
+</div>
+<div class="hbc_login-btnbox fn-padl250">
+<div style="width:105px;float:left;border:none;overflow:hidden">
+<a id="hbc_LoginLanguge" class="hbc_login-btnbox-select fn-padl10" href="javascript:;" onclick="show_hbc_div_select()" style="width:95px;height:30px;line-height:30px;float:left" data-value="zh-cn">简体中文</a>
+<div id="show_hbc_divSelect" style="clear:both;display:none">
+<div id="show_hbc_en_us" data-value="en-us" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)">English</div>
+<div id="show_hbc_zh_cn" data-value="zh-cn" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)">简体中文</div>
+<div id="show_hbc_zh_tw" data-value="zh-tw" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">繁體中文</div>
+<div id="show_hbc_ru_ru" data-value="ru-ru" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">русский</div>
+<div id="show_hbc_german" data-value="german" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Deutsch</div>
+<div id="show_hbc_croatian" data-value="croatian" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Hrvatski</div>
+<div id="show_hbc_italian" data-value="italian" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Italiano</div>
+<div id="show_hbc_turkey" data-value="turkey" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Türkiye</div>
+<div id="show_hbc_korean" data-value="korean" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">한국어</div>
+<div id="show_hbc_mongolian" data-value="mongolian" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Монгол улс</div>
+<div id="show_hbc_pt_pt" data-value="pt-pt" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Português</div>
+<div id="show_hbc_pl_pl" data-value="pl-pl" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Ploski</div>
+<div id="show_hbc_Ukraine" data-value="Ukraine" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Україна</div>
+<div id="show_hbc_Farsi" data-value="Farsi" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">فارسی</div>
+<div id="show_hbc_Danish" data-value="Danish" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Dansk</div>
+<div id="show_hbc_Nederlands" data-value="Nederlands" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">Nederlands</div>
+<div id="show_hbc_French" data-value="French" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">French</div>
+<div id="show_hbc_Japanese" data-value="Japanese" href="javascript:;" class="hbc_div-select" onclick="click_hbc_div_select(this)" style="display:none">日本語</div>
+</div>
+</div>
+<a id="hbc_login" class="hbc_login-btnbox-a" href="javascript:;" style="width:105px;height:30px;line-height:30px;float:left;margin-left:5px">Login</a>
+</div>
+<span id="hbc_login_msg_tip" class="ui-tip-red fn-width250 fn-padl170 fn-padt20" style="display:none"></span>
+</form>
+</div>
+</div>
+<div id="hb_style_login_content" class="hb_style_login-content" style="display:none">
+<div class="fn-clear" id="hb_style_login_style" style="font-size:14px;color:#000">
+<form class="login-box">
+<div class="ui-form-item fn-padl250 fn-padt50">
+<label class="ui-label fn-width90 fn-padl10" id="hb_style_username_label">User Name</label>
+<input id="hb_style_username" class="fn-width96 fn-height20 fn-left fn-padl4">
+</div>
+<div class="ui-form-item fn-padl250 fn-padt30">
+<label class="ui-label fn-width90 fn-padl10" id="hb_style_password_label">Password</label>
+<input id="hb_style_password" type="password" class="fn-width96 fn-height20 fn-left fn-padl4">
+</div>
+<div class="ui-form-item fn-padl250 fn-padt30">
+<label class="ui-label fn-width90 fn-padl10" id="LoginLanguageHB_label">Language</label>
+<select class="fn-width103 fn-left" id="LoginLangugeHB" style="height:25px">
+<option value="en-us">English</option>
+<option value="zh-cn" selected>简体中文</option>
+</select>
+</div>
+<div class="ui-form-item fn-padl250 fn-padt30">
+<div class="fn-padl32">
+<a id="hb_style_login" class="hbc_login-btnbox-a" href="javascript:;" style="width:60px;height:23px;line-height:23px;float:left;margin-left:2px;color:#000">Login</a>
+<a id="hb_style_reset" class="hbc_login-btnbox-a" href="javascript:;" style="width:60px;height:23px;line-height:23px;float:left;margin-left:18px;color:#000">Reset</a>
+</div>
+</div>
+<span id="hb_style_login_msg_tip" class="ui-tip-red fn-width250 fn-padl170 fn-padt10" style="display:none"></span>
+</form>
+</div>
+</div>
+<div id="mz_style_login_content" class="mz_style_login-content" style="display:none">
+<div class="fn-clear" id="mz_style_login_style" style="font-size:14px;color:#000">
+<form class="login-box">
+<div class="login-new">
+<div class="login-item" style="white-space:nowrap">
+<label id="mz_style_username_label">Username:</label>
+<input id="mz_style_username" style="border:.5px solid #000">
+</div>
+<div class="login-item" style="white-space:nowrap">
+<label id="mz_style_password_label">Password:</label>
+<input type="password" id="mz_style_password" style="border:.5px solid #000">
+</div>
+</div>
+<div class="ui-form-item fn-clear ui-label-MZ-Login fn-mart100">
+<select id="LoginLangugeMZ" class="mz_login-language-a fn-width120" style="height:25px;float:left;margin-left:-10px">
+<option value="en-us" style="background:#6c6c6c">English</option>
+<option value="zh-cn" selected style="background:#6c6c6c">简体中文</option>
+</select>
+<a id="mz_style_login" class="mz_login-btnbox-a fn-width80" href="javascript:;" style="height:25px;float:left;line-height:23px;color:#fff;margin-left:220px">Login</a>
+</div>
+<span id="mz_style_login_msg_tip" class="ui-tip-red fn-width250 fn-padl170 fn-padt10" style="display:none"></span>
+</form>
+</div>
+</div>
+<div id="Inf_style_login_content" class="inf_style_login-content" style="display:none">
+<div class="fn-clear" id="Inf_style_login_style" style="font-size:12px;color:#000">
+<form class="login-box">
+<div class="login-new-inf">
+<div class="login-item" style="white-space:nowrap">
+<label id="Inf_style_username_label">Username:</label>
+<input id="Inf_style_username" style="border:.5px solid #000;background-color:#cdcaca">
+</div>
+<div class="login-item" style="white-space:nowrap">
+<label id="Inf_style_password_label">Password:</label>
+<input type="password" id="Inf_style_password" style="border:.5px solid #000;background-color:#cdcaca">
+</div>
+<div class="login-item" style="white-space:nowrap">
+<label id="Inf_style_language_label">Language:</label>
+<select id="LoginLangugeInf" class="inf_login-language-a fn-width96" style="height:20px;float:left;margin-left:85px">
+<option value="en-us" style="background:#d4d0cf;font-size:12px">English</option>
+<option value="zh-cn" selected style="background:#d4d0cf;font-size:12px">简体中文
+</option>
+</select>
+</div>
+<div>
+<div class="ui-checkbox" style="margin-left:190px;margin-top:10px">
+<input type="checkbox" id="Remember_password_Enable" style="float:left;border:.5px solid #000">
+<label id="Inf_Remember_password_label" for="Remember_password_Enable">记住密码</label>
+</div>
+<div class="ui-checkbox" style="margin-top:10px;margin-left:8px">
+<a id="inf_login_download_plugin" href="https://www.mydownload.store/WebCtrlPlayer_install.zip" target="_blank" style="font-size:12px;color:#000;float:left;width:70px">下载控件</a>
+</div>
+</div>
+</div>
+<div class="ui-form-item" style="position:absolute;top:240px">
+<div class="fn-padl110">
+<input type="button" id="Inf_style_confirm" value="登录" class="ui-form-bottom" style="margin-left:2px">
+<input type="button" id="Inf_style_cancel" value="取消" class="ui-form-bottom" style="margin-left:18px">
+</div>
+</div>
+<span id="Inf_style_login_msg_tip" class="ui-tip-red fn-width250 fn-padl170 fn-padt30" style="display:none"></span>
+</form>
+</div>
+</div>
+<div id="show_hb_style_copyright" style="display:none">
+<div><span id="hb_login_download_tip" style="font-size:14px;color:#000">请点击下载：</span>
+<a id="hb_login_download_plugin" href="https://www.mydownload.store/WebCtrlPlayer_install.zip" target="_blank" style="font-size:14px;color:#00f">下载插件</a>
+</div>
+<div><span id="hb_login_copyright_tip" style="font-size:14px;color:#000"></span></div>
+</div>
+</div>
+<div class="login-bottom">&nbsp;</div>
+</div>
+<div id="m_Reset_YCX" class="main-container" style="background-color:#143348;overflow-x:hidden;overflow:hidden">
+<div id="Reset_style_login_content" class="YCX_login-content" style="margin:auto;background:url(../image/dl_bg_long.png?version=2.400.png) no-repeat;background-size:contain">
+<div class="fn-clear" id="Reset_style_login_style" style="font-size:14px;color:#000">
+<form class="login-box">
+<div class="ui-form-item" style="position:absolute;top:15px;left:42%">
+<label id="Reset_password_label" style="color:#000">重置密码</label>
+</div>
+<div class="login-new-YCX">
+<div class="login-item" style="white-space:nowrap">
+<label id="Reset_style_username_label">用户名:</label>
+<label>admin</label>
+</div>
+<div class="login-item">
+<label id="Reset_style_password_label">密码:</label>
+<input type="password" id="Reset_style_password" style="border:.5px solid #000">
+</div>
+<label id="Reset_password_label_Tips" style="margin-left:120px;font-size:12px;float:left;width:220px">8-16位，只能用数字、小写字母、大写字母、特殊字符的两种及以上组合。</label>
+<div class="login-item">
+<label id="Reset_style_password_confirm_label">密码确认:</label>
+<input type="password" id="Reset_style_password_confirm" class="marb20" style="border:.5px solid #000">
+</div>
+</div>
+<div class="ui-form-item" style="position:absolute;top:220px">
+<div class="fn-padl190">
+<input type="button" id="YCX_style_confirm" value="确认" style="width:80px;height:20px;line-height:19px;float:left;margin-left:2px">
+<input type="button" id="YCX_style_cancel" value="取消" style="width:80px;height:20px;line-height:19px;float:left;margin-left:18px">
+</div>
+</div>
+<span class="ui-tip-red" id="Reset_style_password_confirm_tip"></span>
+</form>
+</div>
+</div>
+</div>
+<div id="div_mainpage">
+<div id="m" class="main-container">
+<div id="all_mask" class="mask fn-hide"></div>
+<div class="main-head" id="nav_head">
+<div class="main-logo" id="sub_logo"></div>
+<div class="main-devTitle" id="main_devTitle" style="display:none">IPCamera</div>
+<ul class="main-nav" id="nav">
+<li id="b_a">
+<a id="b_preview" href="javascript:;" data-pagename="Preview" class="main-nav-item" style="white-space:nowrap">Live</a>
+</li>
+<li id="b_b" style="display:none">
+<span class="main-nav-line"></span>
+<a id="b_ptzctrl" href="javascript:;" data-pagename="PTZ" class="main-nav-item">PTZ</a>
+</li>
+<li id="b_ab" style="display:none;overflow:hidden">
+<span class="main-nav-line"></span>
+<a id="b_playback" href="javascript:;" data-pagename="PlayBack" class="main-nav-item" style="overflow:hidden">Playback</a>
+</li>
+<li id="b_d_y" class="fn-relative" style="display:none">
+<a id="b_alarm_y" href="javascript:;" data-pagename="Alarm" class="main-nav-item1">Alarm</a>
+<div class="main-nav-alarm" id="d_alarmtip_y" style="display:none"></div>
+</li>
+<li id="show_LocalSetup_y" style="display:none">
+<a id="b_LocalSetup_y" href="javascript:;" data-pagename="LocalSetup" class="main-nav-item1">LocalSetup</a>
+</li>
+<li id="b_c_y" style="display:none">
+<a id="b_config_y" href="javascript:;" data-pagename="Setup" class="main-nav-item1">RemoteSetup</a>
+</li>
+</ul>
+<ul class="main-nav1" id="nav1">
+<li id="show_LocalSetup">
+<a id="b_LocalSetup" href="javascript:;" data-pagename="LocalSetup" class="main-nav-item1" style="white-space:nowrap">LocalSetup</a>
+</li>
+<li id="b_c">
+<a id="b_config" href="javascript:;" data-pagename="Setup" class="main-nav-item1">RemoteSetup</a>
+</li>
+<li id="b_d" class="fn-relative">
+<a id="b_alarm" href="javascript:;" data-pagename="Alarm" class="main-nav-item1">Alarm</a>
+<div class="main-nav-alarm" id="d_alarmtip" style="display:none"></div>
+</li>
+<li id="b_e">
+<a id="b_quit" href="javascript:;" class="main-nav-item1">Logout</a>
+</li>
+</ul>
+</div>
+<div id="nav_head_mo" class="main-head" style="display:none">
+<div class="main-head" style="width:50%;min-width:1px">
+<div id="sub_logo_mo" class="main-logo"></div>
+<div id="main_devTitle_mo" class="main-devTitle" style="display:none">IPCamera</div>
+<ul class="main-nav1">
+<li>
+<a id="b_quit_mo" href="javascript:;" class="main-nav-item1 main-nav-item1-current">Logout</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="nav_head_mo_2" class="main-head" style="display:none"></div>
+<div class="mainpage-left">
+<div id="mainpage_mainbtn" class="mainpage-mainbtn">
+<div id="mainbtn_live" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-live"></div>
+<div id="mainbtn_live_label" class="mainbtn-label">Live</div>
+</div>
+<div id="mainbtn_playback" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-playback"></div>
+<div id="mainbtn_playback_label" class="mainbtn-label">Playback</div>
+</div>
+<div id="mainbtn_set" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-set"></div>
+<div id="mainbtn_set_label" class="mainbtn-label">Setup</div>
+</div>
+<div id="mainbtn_localset" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-localset"></div>
+<div id="mainbtn_localset_label" class="mainbtn-label">Local</div>
+</div>
+<div id="mainbtn_alarm" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-alarm"></div>
+<div id="mainbtn_alarm_label" class="mainbtn-label">Alarm</div>
+</div>
+<div id="mainbtn_quit" class="mainbtn-div">
+<div class="mainbtn-icon mainbtn-icon-quit"></div>
+<div id="mainbtn_quit_label" class="mainbtn-label">Quit</div>
+</div>
+</div>
+<div id="mainpage_setmenu" class="mainpage-setmenu">
+</div>
+<div id="mainpage_localsetmenu" class="mainpage-localsetmenu">
+</div>
+</div>
+<div id="ajvs" style="display:none"></div>
+<div class="mainpage-right">
+<div class="main-content">
+<div id="mb_local" class="main-content-box" style="display:none"></div>
+<div id="mb0" class="main-content-box" style="display:none"></div>
+<div id="mb" class="main-content-box">
+<div class="main-content-boxcon">
+<div id="main_top_div_mo" class="main-top" style="display:none">
+<div class="main-top-iconbar" style="width:47%">
+<a id="b_Stream1_mo" class="ui-button-main fn-left" href="javascript:;" onclick="OnMobileStream1()">Main Stream</a>
+<a id="b_Stream2_mo" class="ui-button-main fn-left ui-button-main-current" href="javascript:;" onclick="OnMobileStream2()">Sub Stream</a>
+<div class="ui-video-iconbar fn-right">
+<a id="video_WH_mo" href="javascript:;" class="ui-video-icon-wh">
+</a>
+</div>
+<div class="ui-video-iconbar-line fn-right"></div>
+</div>
+</div>
+<div id="main_top_div_mo_2" class="main-top" style="display:none"></div>
+<div id="main_top_div" class="main-top">
+<div id="button_bar" class="main-top-iconbar">
+<a id="b_Stream1" class="ui-button-main fn-left ui-button-main-current" href="javascript:;" onclick="OnClickStream1()">Main Stream</a>
+<a id="b_Stream2" class="ui-button-main fn-left" href="javascript:;" onclick="OnClickStream2()">Sub Stream</a>
+<a id="b_Stream3" class="ui-button-main fn-left" href="javascript:;" onclick="OnClickStream3()" style="display:none">Third Stream</a>
+<div id="button_bar_right_all">
+<a id="b_manualAlarm" class="main-top-icon-manualalarm" href="javascript:;" style="cursor:pointer" onclick="OnClickAlarm()" onmousedown='$("b_manualAlarm").addClass("main-top-icon-manualalarm-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+</div>
+<div id="button_bar_right">
+<a id="b_help" class="main-top-icon-help" href="javascript:;" hidefocus="true" style="display:none"></a>
+<a class="main-top-icon-line" style="display:none"></a>
+<a id="b_talk" class="main-top-icon-speak" href="javascript:;" onclick="OnClickTalk()" onmousedown='$("b_talk").toggleClass("main-top-icon-speak-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="b_record" class="main-top-icon-vedio" href="javascript:;" onclick="OnClickRecord()" onmousedown='$("b_record").addClass("main-top-icon-vedio-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="b_snap" class="main-top-icon-picture" href="javascript:;" onclick="OnClickSnap()" onmousedown='$("b_snap").addClass("main-top-icon-picture-current")' onmouseup='$("b_snap").removeClass("main-top-icon-picture-current")' onmouseout='$("b_snap").removeClass("main-top-icon-picture-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="open_store_path" href="javascript:;" onclick="OnOpenStorePath()" style="background:url(image/openFolder_54_40.png);background-position:0 0;width:54px;height:40px;float:right" onmouseover='this.style.backgroundPosition="0px -40px"' onmouseout='this.style.backgroundPosition="0px 0px"'>
+</a>
+<a class="main-top-icon-line"></a>
+<p><a id="plugin_upgrade_icon" style="cursor:pointer" var="https://www.mydownload.store/WebCtrlPlayer_install.zip" onclick="openPluginDownloadWindow($(this))" style="background:url(image/upgrade_icon_54_40.png);background-position:0 0;width:54px;height:40px;float:right;display:none">
+</a></p>
+<span id="plugin_upgrade_icon_span" style="background:url(image/upgrade_icon_54_40.png);background-position:0 0;width:54px;height:40px;float:right;display:none">
+</span>
+<a id="plugin_upgrade_icon_line" class="main-top-icon-line" style="display:none"></a>
+<div class="ui-tip-container fn-right" id="live_remark" style="display:none;margin-top:4px;min-width:0;width:auto">
+<span class="ui-tip-icon"></span>
+<label id="live_remark_label" style="width:auto">保存成功</label>
+</div>
+</div>
+</div>
+<div id="helpDIV" style="display:none">
+<a id="ptz_help" class="main-top-icon-help fn-hide" href="javascript:;" hidefocus="true"></a>
+<a id="playback_help" class="main-top-icon-help fn-hide" href="javascript:;" hidefocus="true"></a>
+<a class="main-top-icon-line fn-hide"></a>
+<a id="playback_snap" class="main-top-icon-picture playback-not-for-jpg" href="javascript:;" hidefocus="true" onmousedown='$("playback_snap").addClass("main-top-icon-picture-current")' onmouseup='$("playback_snap").removeClass("main-top-icon-picture-current")' onmouseout='$("playback_snap").removeClass("main-top-icon-picture-current")' onclick="OnClickPlaybackSnap()"></a>
+<a id="playback_snap_line" class="main-top-icon-line"></a>
+<a id="open_playbackstore_path" href="javascript:;" onclick="OnOpenPlaybackStorePath()" style="background:url(image/openFolder_54_40.png);background-position:0 0;width:54px;height:40px;float:right" onmouseover='this.style.backgroundPosition="0px -40px"' onmouseout='this.style.backgroundPosition="0px 0px"'>
+</a>
+<a class="main-top-icon-line"></a>
+<a id="playback_zoom" class="main-top-icon-big playback-not-for-jpg fn-hide" href="javascript:;" hidefocus="true" style="display:none"></a>
+<span id="playback_snapTip" style="float:right;padding:10px;display:none">抓图成功</span>
+<div class="ui-tip-container fn-right" id="playbackTop_remark" style="display:none;margin-top:4px;min-width:0;width:auto">
+<span class="ui-tip-icon"></span>
+<label id="playbackTop_remark_label" style="width:auto">抓图成功</label>
+</div>
+</div>
+</div>
+<div class="main-bottom" id="videoH">
+<div id="videoCon" class="fn-relative">
+<div class="main-video-container playback-video-container" id="main_videobox">
+<div id="live_WebconfigDiv" style="text-align:center;display:none">
+<div id="live_WebconfigDownload_top">&nbsp;</div>
+<p><a id="live_WebconfigDownload" class="fn-color-purple fn-fontsize24" style="cursor:pointer" var="https://www.mydownload.store/WebCtrlPlayer_install.zip" onclick="openPluginDownloadWindow($(this))">请点击安装播放插件</a></p>
+<span id="live_WebconfigDownload_span" class="fn-color-purple fn-fontsize24" style="display:none">请点击安装播放插件</span>
+</div>
+<div id="video1" class="main-video" align="center">
+</div>
+<div class="ui-video-bar" id="videobar">
+<div id="hideControl_icons" style="display:none" class="ui-video-iconbar">
+<a class="play-bottom-icon-play-live" href="javascript:;" onclick="OnClickShowHomePage()">
+</a>
+</div>
+<div class="ui-video-iconbar-line"></div>
+<div id="fullscreen_show" class="ui-video-iconbar video_fullscreen">
+<a id="video_fullscreen" href="javascript:;" class="ui-video-icon-full">
+</a>
+</div>
+<div id="fullscreen_line" class="ui-video-iconbar-line"></div>
+<div class="ui-video-iconbar" id="video_WH_con">
+<a id="video_WH" href="javascript:;" class="ui-video-icon-wh">
+</a>
+<div id="video_WH_wrap" class="ui-video-wrap" style="display:none">
+<a id="video_WH_original_rate" class="ui-video-wrap-item ui-video-wrap-current">
+Original Rate
+</a>
+<a id="video_WH_adaptive_window" class="ui-video-wrap-item">
+Adaptive Screen
+</a>
+</div>
+</div>
+<div class="ui-video-iconbar-line"></div>
+<div class="ui-video-iconbar">
+<a id="ptz_control_show" href="javascript:;" class="set-menu-icon set-menu-icon-ptz">
+</a>
+</div>
+<div id="ptz_control_show_line" class="ui-video-iconbar-line"></div>
+<div class="ui-video-iconbar">
+<a id="live_soundEnable" href="javascript:;" class="set-menu-icon" style="background:url(image/soundDisable_40.png);background-position:0 0" onmouseover='this.style.backgroundPosition="0px -40px"' onmouseout='this.style.backgroundPosition="0px 0px"'>
+</a>
+</div>
+<div id="live_soundEnable_show_line" class="ui-video-iconbar-line"></div>
+<div id="show_decoding">
+<div class="fn-left fn-padl10 fn-mart6">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="Software_decoding_50" name="decoding_Format">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="Software_decoding" for="Software_decoding_50">软解</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="hardware_decoding_60" name="decoding_Format">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="hardware_decoding" for="hardware_decoding_60">硬解</label>
+</div>
+</div>
+<div id="live_decoding_show_line" class="ui-video-iconbar-line"></div>
+<div id="PlayMode_show" class="ui-slider fn-left fn-padt5">
+<span class="ui-slider-text fn-left" id="live_PlayBuf_Realtime">实时</span>
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="live_less_PlayBuf"></a>
+<div id="live_line_PlayBuf" class="ui-slider-container fn-width40 fn-left" style="display:inline-block">
+<div id="live_icon_PlayBuf" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="live_add_PlayBuf"></a>
+<span class="ui-slider-text fn-left" id="live_PlayBuf_Smooth">流畅</span>
+<span class="ui-slider-text" id="live_PlayBuf_title" style="display:none"></span>
+</div>
+<div id="button_bar_all_y" style="display:none">
+<a id="b_manualAlarm_y" class="main-top-icon-manualalarm" href="javascript:;" style="cursor:pointer" onclick="OnClickAlarm()" onmousedown='$("b_manualAlarm_y").addClass("main-top-icon-manualalarm-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+</div>
+<div id="button_bar_y" class="main-top-iconbar" style="display:none">
+<a id="open_store_path_y" href="javascript:;" onclick="OnOpenStorePath()" style="background:url(image/openFolder_54_40.png);background-position:0 0;width:54px;height:40px;float:right" onmouseover='this.style.backgroundPosition="0px -40px"' onmouseout='this.style.backgroundPosition="0px 0px"'>
+</a>
+<a class="main-top-icon-line"></a>
+<a id="b_record_y" class="main-top-icon-vedio" href="javascript:;" onclick="OnClickRecord()" onmousedown='$("b_record").addClass("main-top-icon-vedio-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="b_snap_y" class="main-top-icon-picture" href="javascript:;" onclick="OnClickSnap()" onmousedown='$("b_snap").addClass("main-top-icon-picture-current")' onmouseup='$("b_snap").removeClass("main-top-icon-picture-current")' onmouseout='$("b_snap").removeClass("main-top-icon-picture-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="b_talk_y" class="main-top-icon-speak" href="javascript:;" onclick="OnClickTalk()" onmousedown='$("b_talk").addClass("main-top-icon-speak-current")' hidefocus="true"></a>
+<a class="main-top-icon-line"></a>
+<a id="plugin_upgrade_icon_y" href="https://www.mydownload.store/WebCtrlPlayer_install.zip" target="_blank" style="background:url(image/upgrade_icon_54_40.png);background-position:0 0;width:54px;height:40px;float:right;display:none">
+</a>
+<span id="plugin_upgrade_icon_span_y" style="background:url(image/upgrade_icon_54_40.png);background-position:0 0;width:54px;height:40px;float:right;display:none">
+</span>
+<a id="plugin_upgrade_icon_line_y" class="main-top-icon-line" style="display:none"></a>
+<div class="ui-tip-container fn-right" id="live2_remark" style="display:none;margin-top:4px;min-width:0;width:auto">
+<span class="ui-tip-icon"></span>
+<label id="live2_remark_label" style="width:auto">保存成功</label>
+</div>
+</div>
+</div>
+</div>
+<div id="ptz_control_btn" class="main-ptz-btn-radius main-ptz-btn-hide">
+<li><span>云台控制</span></li>
+</div>
+<div id="video_control_bar" class="main-right-container fn-clear">
+<div id="ptz_control" class="main-ptz fn-clear">
+<div class="main-ptz-title">
+<span id="ptz_control_title" class="main-ptz-title1">PTZ</span>
+</div>
+<div id="pev_cot" class="main-ptz-container fn-boder-bottom-radius">
+<div class="main-ptz-top fn-left">
+<div style="width:100%;height:10px">&nbsp;</div>
+<div id="yt" class="ui-ptz-iconbox fn-padt10" data-tab-content="vPtz">
+<a id="yt1" class="ui-ptz-icon-leftup ptzControl" href="javascript:;" data-direction="left_up" data-isdown="no"></a>
+<a id="yt2" class="ui-ptz-icon-up ptzControl" href="javascript:;" data-direction="up" data-isdown="no"></a>
+<a id="yt3" class="ui-ptz-icon-rightup ptzControl" href="javascript:;" data-direction="right_up" data-isdown="no"></a>
+<a id="yt4" class="ui-ptz-icon-left ptzControl" href="javascript:;" data-direction="left" data-isdown="no">
+</a>
+<a id="yt5" class="ui-ptz-icon-center" href="javascript:;" style="cursor:default"></a>
+<a id="yt6" class="ui-ptz-icon-right ptzControl" href="javascript:;" data-direction="right" data-isdown="no"></a>
+<a id="yt7" class="ui-ptz-icon-leftdown ptzControl" href="javascript:;" data-direction="left_down" data-isdown="no"></a>
+<a id="yt8" class="ui-ptz-icon-down ptzControl" href="javascript:;" data-direction="down" data-isdown="no"></a>
+<a id="yt9" class="ui-ptz-icon-rightdown ptzControl" href="javascript:;" data-direction="right_down" data-isdown="no"></a>
+</div>
+<div id="ptz_y" class="ui-ptz-iconbox-y fn-padt10" data-tab-content="vPtz" style="display:none">
+<a id="ptz1_y" class="ui-ptz-icon-leftup-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="left_up" data-isdown="no"></a>
+<a id="ptz2_y" class="ui-ptz-icon-up-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="up" data-isdown="no"></a>
+<a id="ptz3_y" class="ui-ptz-icon-rightup-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="right_up" data-isdown="no"></a>
+<a id="ptz4_y" class="ui-ptz-icon-left-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="left" data-isdown="no">
+</a>
+<a id="ptz5_y" class="ui-ptz-icon-center-y ui-ptz-icon-y" href="javascript:;" style="cursor:default"></a>
+<a id="ptz6_y" class="ui-ptz-icon-right-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="right" data-isdown="no"></a>
+<a id="ptz7_y" class="ui-ptz-icon-leftdown-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="left_down" data-isdown="no"></a>
+<a id="ptz8_y" class="ui-ptz-icon-down-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="down" data-isdown="no"></a>
+<a id="ptz9_y" class="ui-ptz-icon-rightdown-y ui-ptz-icon-y ptzControl" href="javascript:;" data-direction="right_down" data-isdown="no"></a>
+</div>
+<div id="bc" class="main-ptz-step" data-tab-content="vPtz">
+<span id="t_bc">Speed(1-10):</span>
+<select id="ps" class="ui-select ui-ptz-speed-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5" selected>5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>
+</div>
+<div id="tiaojie" class="main-ptz-adjust">
+<div id="ptz_bb_wrap" class="ui-ptz-adjust-item fn-clear">
+<a id="b_bb2" class="ui-ptz-icon-less" href="javascript:;" data-direction="ZoomWide" data-isdown="no"></a>
+<label id="t_bb" class="ui-ptz-adjust-text">Zoom</label>
+<a id="b_bb1" class="ui-ptz-icon-more" href="javascript:;" data-direction="ZoomTele" data-isdown="no"></a>
+</div>
+<div id="ptz_bj_wrap" class="ui-ptz-adjust-item fn-clear">
+<a id="b_bj2" class="ui-ptz-icon-less" href="javascript:;" data-direction="FocusFar" data-isdown="no">
+</a>
+<label id="t_bj" class="ui-ptz-adjust-text">Focus</label>
+<a id="b_bj1" class="ui-ptz-icon-more" href="javascript:;" data-direction="FocusNear" data-isdown="no">
+</a>
+</div>
+<div id="ptz_gq_wrap" class="ui-ptz-adjust-item fn-clear">
+<a id="b_gq2" class="ui-ptz-icon-less" href="javascript:;" data-direction="IrisSmall" data-isdown="no">
+</a>
+<label id="t_gq" class="ui-ptz-adjust-text">Iris</label>
+<a id="b_gq1" class="ui-ptz-icon-more" href="javascript:;" data-direction="IrisLarge" data-isdown="no">
+</a>
+</div>
+</div>
+<div class="fn-clear"></div>
+</div>
+<div id="ytzcfg" class="main-ptz-advance fn-border-radius">
+<ul class="main-ptz-advance-nav fn-border-top-radius" style="display:none">
+<li id="p_ptzset" class="fn-border-top-radius main-ptz-advance-nav-current">
+PTZ Settings</li>
+<li id="p_ptzmenu" class="fn-border-top-radius fn-hide">Menu
+</li>
+</ul>
+<div id="cfgPTZ" class="main-ptz-advance-container">
+<div id="ytszSelect_wrap" style="display:none">
+<select id="ytszSelect" class="ui-select main-ptzSet-select">
+<option id="idOrbit" value="Orbit" selected>
+开启巡视</option>
+<option id="idScanBegin" value="ScanBegin">线扫起点</option>
+<option id="idScanEnd" value="ScanEnd">线扫终点</option>
+<option id="idScanOn" value="ScanOn">开启线扫</option>
+<option id="idPtzRestore" value="PtzRestore">云台恢复出厂
+</option>
+<option id="idFocusRestore" value="FocusRestore">恢复镜头聚焦
+</option>
+<option id="idGuardPos" value="GuardPos">看守位</option>
+<option id="idPtzReboot" value="PtzReboot">云台重启</option>
+</select>
+</div>
+<div id="xhzCon" style="margin-top:3px">
+<label id="preset_title">Preset</label>
+<div class="main-ptz-advance-item" style="margin-top:5px">
+<select id="i_xhz_select" class="ui-select fn-height19">
+</select>
+<input name="textfield" maxlength="64" id="i_xhz" class="ui-input fn-width80 fn-height17" style="position:relative;margin-left:-150px;background:#fff;color:#000;line-height:17px;margin-top:4px;border:none">
+<span id="title_TourMin" class="main-ptz-advance-item-tip">1</span>
+<span class="main-ptz-advance-item-tip">~</span>
+<span id="title_TourMax" class="main-ptz-advance-item-tip">255</span>
+<div class="ui-button-box">
+<a href="javascript:;" id="b_xhz1" class="ui-button-special fn-width179">
+<i class="ui-button-icon-start">&nbsp;</i>
+<label id="b_xhz1_label">Call</label>
+</a>
+<a href="javascript:;" id="b_xhz2" class="ui-button-special fn-width68" style="display:none">
+<i class="ui-button-icon-stop">&nbsp;</i>
+<label id="b_xhz2_label">Stop</label>
+</a>
+<a href="javascript:;" id="b_xhset" class="ui-button-special fn-width88">
+<i class="ui-button-icon-add">&nbsp;</i>
+<label id="b_xhset_label">Add</label>
+</a>
+<a href="javascript:;" id="b_delxhz" class="ui-button-special fn-width88">
+<i class="ui-button-icon-del">&nbsp;</i>
+<label id="b_delxhz_label">Del</label>
+</a>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ytszSelect_advance_cfg" style="display:none">
+<label class="ui-label" id="ytszSelect_advance_cfg_label">高级配置</label>
+<select id="ytszSelect_advance" class="ui-select fn-width179">
+</select>
+<a href="javascript:;" id="ytszSelect_call" class="ui-button-special fn-width179">
+<i class="ui-button-icon-start">&nbsp;</i>
+<label id="ytszSelect_call_label">Call</label>
+</a>
+</div>
+<div id="ptz_hx_div" style="display:none">
+<label id="preset_title">Scan</label>
+<div class="main-ptz-advance-item" style="margin-top:5px">
+<input type="hidden" id="i_scan">
+<div class="ui-button-box">
+<a href="javascript:;" id="b_scan_start" class="ui-button-special fn-width88">
+<i class="ui-button-icon-start">&nbsp;</i>
+<label id="b_scan_start_label">Start</label>
+</a>
+<a href="javascript:;" id="b_scan_stop" class="ui-button-special fn-width88">
+<i class="ui-button-icon-stop">&nbsp;</i>
+<label id="b_scan_stop_label">Stop</label>
+</a>
+<a href="javascript:;" id="b_scan_left" class="ui-button-special fn-width179">
+<i class="ui-button-icon-border">&nbsp;</i>
+<label id="b_scan_left_label">Set Left Border&nbsp;&nbsp;</label>
+</a>
+<a href="javascript:;" id="b_scan_right" class="ui-button-special fn-width179">
+<i class="ui-button-icon-border">&nbsp;</i>
+<label id="b_scan_right_label">Set Right Border</label>
+</a>
+</div>
+</div>
+<label id="preset_title">Pattern</label>
+<div class="main-ptz-advance-item" style="margin-top:5px">
+<input type="hidden" id="i_pattern">
+<div class="ui-button-box">
+<a href="javascript:;" id="b_pattern_start" class="ui-button-special fn-width88">
+<i class="ui-button-icon-start">&nbsp;</i>
+<label id="b_pattern_start_label">Start</label>
+</a>
+<a href="javascript:;" id="b_pattern_stop" class="ui-button-special fn-width88">
+<i class="ui-button-icon-stop">&nbsp;</i>
+<label id="b_pattern_stop_label">Stop</label>
+</a>
+<a href="javascript:;" id="b_pattern_set_start" class="ui-button-special fn-width179">
+<i class="ui-button-icon-border">&nbsp;</i>
+<label id="b_pattern_set_start_label">Set Start</label>
+</a>
+<a href="javascript:;" id="b_pattern_set_end" class="ui-button-special fn-width179">
+<i class="ui-button-icon-border">&nbsp;</i>
+<label id="b_pattern_set_end_label">Set End&nbsp;&nbsp;</label>
+</a>
+</div>
+</div>
+<label id="preset_title">Cruise</label>
+<div class="main-ptz-advance-item" style="margin-top:5px">
+<span id="title_TourMin" class="main-ptz-advance-item-tip">Duration</span>
+<input id="i_duration" class="ui-input fn-width80">
+<div class="ui-button-box">
+<a href="javascript:;" id="b_cruise_save" class="ui-button-special fn-width88">
+<i class="ui-button-icon-save">&nbsp;</i>
+<label id="b_cruise_start_label">Save</label>
+</a>
+<br>
+<a href="javascript:;" id="b_cruise_start" class="ui-button-special fn-width88">
+<i class="ui-button-icon-start">&nbsp;</i>
+<label id="b_cruise_start_label">Start</label>
+</a>
+<a href="javascript:;" id="b_cruise_stop" class="ui-button-special fn-width88">
+<i class="ui-button-icon-stop">&nbsp;</i>
+<label id="b_cruise_stop_label">Stop</label>
+</a>
+</div>
+</div>
+</div>
+</div>
+<div id="div_main_logo_y" class="main-logo-y" style="margin-top:3px;width:180px;height:90px;display:none">
+</div>
+</div>
+<div id="menuPTZ" style="display:none">
+</div>
+</div>
+</div>
+</div>
+<div id="playback_left_bar" class="fn-relative" style="display:none">
+<div class="playback-right-container fn-border-radius">
+<div id="page_calendarsearch">
+<div class="ui-form-item fn-clear fn-padt10">
+<label class="ui-label fn-width70 fn-padr10 fn-padl10" id="span_recordtypeselect">录像类型</label>
+<select class="ui-select fn-width120" id="recordtypeselect">
+<option id="recordtypeselect_all" value="-1">全部</option>
+<option id="recordtypeselect_motion" value="4">移动侦测</option>
+<option id="recordtypeselect_schedule" value="2">定时录像</option>
+<option id="recordtypeselect_alarm" value="8">告警录像</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width70 fn-padr10 fn-padl10" id="span_mediatypeselect">媒体类型</label>
+<select class="ui-select fn-width120" id="mediatypeselect">
+<option id="mediatypeselect_av" value="3">视频和音频</option>
+<option id="mediatypeselect_video" value="2">视频</option>
+<option id="mediatypeselect_jpg" value="4">图片</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="show_streamtypeselect">
+<label class="ui-label fn-width70 fn-padr10 fn-padl10" id="span_streamtypeselect">码流类型</label>
+<select class="ui-select fn-width120" id="streamtypeselect">
+<option id="streamtypeselect_all" value="-1">所有码流</option>
+<option id="streamtypeselect_main" value="1">主码流</option>
+<option id="streamtypeselect_sub" value="2">子码流</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-width60 fn-padr10 fn-padl10" id="span_filetypeselect">File Type</label>
+<select class="ui-select playback-fileType-select" name="filetype" id="filetypeselect">
+</select>
+</div>
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-width60 fn-padr10 fn-padl10" id="span_filesrcselect">Data Src</label>
+<select class="ui-select playback-fileType-select" name="filesrc" id="filesrcselect"></select>
+</div>
+<div class="ui-special-calendar fn-clear" id="div_calendar">
+<div class="ui-special-calendar-date fn-marl5">
+<select id="inputMonth" class="ui-select playback-fileType-select fn-width80 fn-marr10">
+<option value="1">Jan</option>
+<option value="2">Feb</option>
+<option value="3">Mar</option>
+<option value="4">Apr</option>
+<option value="5">May</option>
+<option value="6">Jun</option>
+<option value="7">Jul</option>
+<option value="8">Aug</option>
+<option value="9">Sep</option>
+<option value="10">Oct</option>
+<option value="11">Nov</option>
+<option value="12">Dec</option>
+</select>
+<a href="javascript:;" class="ui-special-calendar-date-btn" id="reduceValue">
+<i class="ui-special-calendar-icon-last"></i>
+</a>
+<input class="ui-playback-input fn-width60 fn-mart4" value="2013" id="inputYear">
+<a href="javascript:;" class="ui-special-calendar-date-btn" id="increaseValue">
+<i class="ui-special-calendar-icon-next"></i>
+</a>
+</div>
+<div class="ui-special-calendar-box fn-clear">
+<ul class="ui-special-calendar-title">
+<li id="li_7day">Sun</li>
+<li id="li_1day">Mon</li>
+<li id="li_2day">Tue</li>
+<li id="li_3day">Wed</li>
+<li id="li_4day">Thu</li>
+<li id="li_5day">Fri</li>
+<li id="li_6day">Sat</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day0">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day1">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day2">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day3">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day4">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day5">1</a>
+</li>
+<li>
+<a href="javascript:;" id="day6">1</a>
+</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day7">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day8">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day9">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day10">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day11">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day12">2</a>
+</li>
+<li>
+<a href="javascript:;" id="day13">2</a>
+</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day14">9</a>
+</li>
+<li>
+<a href="javascript:;" id="day15">10</a>
+</li>
+<li>
+<a href="javascript:;" id="day16">11</a>
+</li>
+<li>
+<a href="javascript:;" id="day17">12</a>
+</li>
+<li>
+<a href="javascript:;" id="day18">13</a>
+</li>
+<li>
+<a href="javascript:;" id="day19">14</a>
+</li>
+<li>
+<a href="javascript:;" id="day20">15</a>
+</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day21">16</a>
+</li>
+<li>
+<a href="javascript:;" id="day22">17</a>
+</li>
+<li>
+<a href="javascript:;" id="day23">18</a>
+</li>
+<li>
+<a href="javascript:;" id="day24">19</a>
+</li>
+<li>
+<a href="javascript:;" id="day25">20</a>
+</li>
+<li>
+<a href="javascript:;" id="day26">21</a>
+</li>
+<li>
+<a href="javascript:;" id="day27">22</a>
+</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day28">22</a>
+</li>
+<li>
+<a href="javascript:;" id="day29">23</a>
+</li>
+<li>
+<a href="javascript:;" id="day30">24</a>
+</li>
+<li>
+<a href="javascript:;" id="day31">25</a>
+</li>
+<li>
+<a href="javascript:;" id="day32">26</a>
+</li>
+<li>
+<a href="javascript:;" id="day33">27</a>
+</li>
+<li>
+<a href="javascript:;" id="day34">28</a>
+</li>
+</ul>
+<ul class="ui-special-calendar-day">
+<li>
+<a href="javascript:;" id="day35">29</a>
+</li>
+<li>
+<a href="javascript:;" id="day36">30</a>
+</li>
+<li>
+<a href="javascript:;" id="day37">29</a>
+</li>
+<li>
+<a href="javascript:;" id="day38">30</a>
+</li>
+<li>
+<a href="javascript:;" id="day39">29</a>
+</li>
+<li>
+<a href="javascript:;" id="day40">30</a>
+</li>
+<li>
+<a href="javascript:;" id="day41">30</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="page_filelist" style="display:none">
+<div class="ui-form-item fn-clear fn-padt10">
+<div class="ui-input-box palyback-starttime">
+<input maxlength="2" id="begintime0" class="fn-width20" value="00">
+<span>:</span>
+<input maxlength="2" id="begintime1" class="fn-width20" value="00">
+<span>:</span>
+<input maxlength="2" id="begintime2" class="fn-width20" value="00">
+<span>-</span>
+<input maxlength="2" id="endtime0" class="fn-width20" value="23">
+<span>:</span>
+<input maxlength="2" id="endtime1" class="fn-width20" value="59">
+<span>:</span>
+<input maxlength="2" id="endtime2" class="fn-width20" value="59">
+</div>
+<a href="javascript:;" class="playback-button" id="btnsearchfile">
+<i class="playback-button-icon-search"></i>
+</a>
+</div>
+<div class="ui-form-item fn-clear playback-not-for-jpg" id="playBack_mp4DownLoad" style="display:none">
+<label class="ui-label-sub fn-padl5 fn-marr4" id="playBack_downloadFormat">Download Format</label>
+<div class="ui-checkbox fn-marr4">
+<input type="radio" id="playBack_vedioDav" name="vedioFormat" checked>
+</div>
+<label class="ui-label-sub fn-minwid20 fn-marr4" for="playBack_vedioDav">dav</label>
+<div class="ui-checkbox fn-marr4">
+<input type="radio" id="playBack_vedioMP4" name="vedioFormat" checked>
+</div>
+<label class="ui-label-sub fn-minwid20" for="playBack_vedioMP4">mp4</label>
+</div>
+<div class="playback-download" id="playBack_filelist">
+<div class="playback-dates-title" id="showfilelist_title">
+<ul class="playback-dates-title">
+<li class="fn-width100 fn-padl5" id="playback_dates_title">文件列表</li>
+</ul>
+</div>
+<div class="playback-dates" id="playback_dates">
+<div class="playback-filelist" id="showfilelist" onselectstart="return!1" unselectable="on">
+</div>
+</div>
+<div class="ui-page playback-pageview fn-clear" style="display:none">
+<div class="ui-autobox">
+<div class="ui-autobox-content">
+<a class="ui-page-icon-first" id="beginPage" title="Home"></a>
+<a class="ui-page-icon-pre" id="prePage" title="PgUp"></a>
+<div class="ui-page-view">
+<span id="curPage">1</span>
+<span>/</span>
+<span id="totalPage">10</span>
+</div>
+<a class="ui-page-icon-next" id="nextPage" title="PgDn"></a>
+<a class="ui-page-icon-last" id="endPage" title="End"></a>
+<span class="ui-text" id="t_goto" style="display:none">Go To</span>
+<input class="ui-input ui-page-input" id="goPage">
+<a class="ui-page-icon-confirm" id="confirmPage" title="Go To"></a>
+</div>
+</div>
+</div>
+<div class="playback-detail fn-clear playback-not-for-jpg" style="display:none">
+<div class="ui-detail-item fn-clear">
+<span class="ui-text fn-width70" id="span_fileBeginTime">Begin Time:</span>
+<span class="ui-text-ex" id="fileBeginTime"></span>
+</div>
+<div class="ui-detail-item fn-clear">
+<span class="ui-text fn-width70" id="span_fileEndTime">End Time:</span>
+<span class="ui-text-ex" id="fileEndTime"></span>
+</div>
+<div class="ui-detail-item fn-clear">
+<span class="ui-text fn-width70" id="span_fileSize">File Size:</span>
+<span class="ui-text-ex" id="fileSize"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="ui-autobox playback-down-icons">
+<div class="ui-autobox-content ui-button-box">
+<a href="javascript:;" class="ui-button-special fn-width184" id="go_page_fileList">
+<i class="ui-button-playback-icon-list">&nbsp;</i>
+<label id="go_page_fileList_span">File List</label>
+</a>
+<div id="playback_show_download_delete" style="display:none">
+<a id="playback_file_download" class="ui-button fn-width88" href="javascript:;">下载</a>
+<a id="playback_file_delete" class="ui-button fn-width88" href="javascript:;">删除</a>
+</div>
+<a href="javascript:;" class="ui-button-special fn-width184" id="go_page_calendarsearch" style="display:none">
+<i class="ui-button-playback-icon-back">&nbsp;</i>
+<label id="go_page_calendarsearch_span">Back</label>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="playback_bottom_bar" class="playback-bottom fn-relative" style="display:none">
+<div class="playback-iconbar">
+<div class="playback-iconbox fn-relative">
+<div class="playback-iconbg"></div>
+<div id="playback_icons_record" class="playback-icons">
+<a class="play-bottom-iconbg" id="playControl">
+<i id="playControl_icons" class="play-bottom-icon-play"></i>
+</a>
+<a class="play-bottom-iconbg" id="pauseControl" style="display:none">
+<i class="play-bottom-icon-pause"></i>
+</a>
+<a class="play-bottom-iconbg playback-not-for-jpg" id="stopControl">
+<i class="play-bottom-icon-stop"></i>
+</a>
+<a class="play-bottom-iconbg playback-not-for-jpg" id="slowPlayControl">
+<i class="play-bottom-icon-slow"></i>
+</a>
+<a class="play-bottom-iconbg playback-not-for-jpg" id="fastPlayControl">
+<i class="play-bottom-icon-fast"></i>
+</a>
+<a class="play-bottom-iconbg playback-not-for-jpg" id="nextFrameControl" style="display:none">
+<i class="play-bottom-icon-next"></i>
+</a>
+<div class="ui-tip-container fn-right" id="playback_remark" style="display:none;margin-top:4px;min-width:0;width:auto">
+<span class="ui-tip-icon"></span>
+<label id="playback_remark_label" style="width:auto">保存成功</label>
+</div>
+<div class="ui-playback-slider" style="display:none">
+<span class="ui-slider-text">16X</span>
+<div class="ui-slider-container">
+<div class="ui-slider-container-current"></div>
+<a class="ui-playback-slider-sax"></a>
+</div>
+</div>
+</div>
+<div id="playback_icons_picture" class="playback-icons" style="display:none">
+<a class="play-bottom-iconbg" id="playback_playPicture">
+<i class="play-bottom-icon-play"></i>
+</a>
+<a class="play-bottom-iconbg" id="playback_nextPicture">
+<i class="play-bottom-icon-next"></i>
+</a>
+<div class="ui-tip-container fn-right" id="playbackPic_remark" style="display:none;margin-top:4px;min-width:0;width:auto">
+<span class="ui-tip-icon"></span>
+<label id="playbackPic_remark_label" style="width:auto">保存成功</label>
+</div>
+</div>
+</div>
+<div class="playback-iconbox fn-relative playback-not-for-jpg" style="display:none">
+<div class="playback-iconbg"></div>
+<div class="playback-icons">
+<a class="play-bottom-iconbg" id="closeSoundControl">
+<i class="play-bottom-icon-sound"></i>
+</a>
+<div class="ui-slider-container fn-width120 fn-mart15" id="volumeBg">
+<a class="ui-slider-sax" id="setVolumeControl"></a>
+</div>
+<a class="ui-slider-voice fn-mart10"></a>
+</div>
+</div>
+<div class="playback-fisheye" id="playback_fisheye" style="display:none">
+<a class="play-bottom-iconbg playback-not-for-jpg" id="fisheyeControl">
+<i class="play-bottom-icon-fisheye"></i>
+</a>
+<div class="playback-fisheye-mode" id="playback-fisheye-mode" style="display:none">
+<ul id="playback-fisheye-fitMode" class="playback-fisheyeOCX-list">
+<li id="playback_CeilMode" class="fitMode_ceil" style="display:block" data-for="1"></li>
+<li id="playback_WallMode" class="fitMode_wall" style="display:block" data-for="2"></li>
+<li id="playback_FloorMode" class="fitMode_floor" style="display:block" data-for="3"></li>
+</ul>
+<ul id="playback-fisheye-playMode" class="playback-fisheyeOCX-list">
+<li class="playMode_1" support-for="CeilMode FloorMode WallMode" data-for="0"></li>
+<li class="playMode_1P-1" support-for="CeilMode FloorMode" data-for="2"></li>
+<li class="playMode_2P" support-for="CeilMode FloorMode" data-for="3"></li>
+<li class="playMode_2-1F" support-for="CeilMode" data-for="4">
+</li>
+<li class="playMode_1-2" support-for="CeilMode" data-for="15">
+</li>
+<li class="playMode_1-3" support-for="CeilMode FloorMode" data-for="5"></li>
+<li class="playMode_4-1F" support-for="CeilMode FloorMode" data-for="7"></li>
+<li class="playMode_1-4" support-for="CeilMode FloorMode" data-for="8"></li>
+<li class="playMode_1P-6" support-for="CeilMode FloorMode" data-for="10"></li>
+<li class="playMode_1-8" support-for="CeilMode FloorMode" data-for="11"></li>
+<li class="playMode_1P" support-for="WallMode" data-for="1">
+</li>
+<li class="playMode_1P-3" support-for="WallMode" data-for="6">
+</li>
+<li class="playMode_4-1PF" support-for="WallMode" data-for="9">
+</li>
+<li class="playMode_1P-4" support-for="WallMode" data-for="16">
+</li>
+<li class="playMode_1P-8" support-for="WallMode" data-for="12">
+</li>
+</ul>
+</div>
+</div>
+<div class="playback-cut fn-right fn-relative playback-not-for-jpg" style="display:none">
+<a id="playback_cut_time_region" href="javascript:;" class="playback-cut-begin-time fn-left"></a>
+<div id="playback_cut_download_precent" class="playback-cut-download-precent"></div>
+<div class="playback-cut-time fn-left fn-relative">
+<div id="playback_cut_time_wrap" class="playback-cuttime-wrap">
+<span id="playback_cut_begin_time_text" class="fn-marl20">00:00:00</span>
+<span>-</span>
+<span id="playback_cut_end_time_text">00:00:00</span>
+</div>
+<div id="playback_cut_status_wrap" style="text-align:center">
+<span id="playback_cut_status"></span>
+</div>
+</div>
+<a id="playback_cut_down" href="javascript:;" class="playback-cut-download fn-left"></a>
+<a id="playback_cut_delete" href="javascript:;" class="playback-cut-delete fn-left" style="display:none"></a>
+</div>
+<div class="fn-fontsize0 fn-right fn-padt10 playback-not-for-jpg">
+<a href="javascript:;" class="ui-button-special ui-smart-button" id="btn_time1">
+<i class="ui-button-icon-time">&nbsp;</i>
+<label id="time_24hr">24hr</label>
+</a>
+<a href="javascript:;" class="ui-button-special ui-smart-button" id="btn_time2">
+<i class="ui-button-icon-time">&nbsp;</i>
+<label id="time_2hr">2hr</label>
+</a>
+<a href="javascript:;" class="ui-button-special ui-smart-button" id="btn_time3">
+<i class="ui-button-icon-time">&nbsp;</i>
+<label id="time_1hr">1hr</label>
+</a>
+<a href="javascript:;" class="ui-button-special ui-smart-button" id="btn_time4">
+<i class="ui-button-icon-time">&nbsp;</i>
+<label id="time_30min">30min</label>
+</a>
+</div>
+</div>
+<div class="playback-progress playback-not-for-jpg" id="div_gridBox">
+<div id="div_timeTitle" class="playback-progress-title"></div>
+<div id="div_showGrid" class="playback-progress-grid">
+<div id="btn_dragSlider" class="playback-on-play"></div>
+</div>
+<div class="playback-time">
+<div id="div_timeShow" class="playback-timetip" style="display:none">
+12312312312</div>
+</div>
+</div>
+<div class="playback-tipbar" style="display:none">
+<div class="fn-mart10">
+<span class="ui-text fn-color-white playback-not-for-jpg fn-marl10" id="li_Playstate">stop</span>
+<div class="fn-left fn-padl80">
+<label class="ui-label-sub fn-bold fn-color-white" id="li_recordType">Record Type:</label>
+<div class="ui-checkbox">
+<input type="checkbox" checked id="input_allType">
+</div>
+<label class="ui-label-sub fn-minwid20 fn-color-white" id="lab_all" for="input_allType">All</label>
+<div class="ui-checkbox">
+<input type="checkbox" checked id="input_Normal">
+</div>
+<label class="ui-label-sub fn-minwid20 fn-color-white fn-marr4" id="lab_normal" for="input_Normal">Normal</label>
+<i class="playback-dates-type-green fn-left"></i>
+<div class="ui-checkbox">
+<input type="checkbox" checked id="input_Motion">
+</div>
+<label class="ui-label-sub fn-minwid20 fn-color-white fn-marr4" id="lab_motion" for="input_Motion">Motion</label>
+<i class="playback-dates-type-yellow fn-left"></i>
+<div class="ui-checkbox">
+<input type="checkbox" checked id="input_Alarm">
+</div>
+<label class="ui-label-sub fn-minwid20 fn-color-white fn-marr4" id="lab_alarm" for="input_Alarm">Alarm</label>
+<i class="playback-dates-type-red fn-left"></i>
+<div class="ui-checkbox playback-not-for-jpg">
+<input type="checkbox" checked id="input_Manual">
+</div>
+<label class="ui-label-sub fn-minwid20 fn-color-white fn-marr4 playback-not-for-jpg" id="lab_manual" for="input_Manual">Manual</label>
+<i class="playback-dates-type-blue fn-left playback-not-for-jpg"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="mb2" style="display:none" class="main-content-box">
+<div class="J_alarm" style="position:relative;min-height:565px">
+<div class="main-bottom alarm-content">
+<div class="alarm-right">
+<div class="ui-table">
+<div class="ui-table-header">
+<table>
+<tbody>
+<tr>
+<th id="inedx_0" class="fn-widp20">No.</th>
+<th id="time_0" class="fn-widp30">Time</th>
+<th id="alarmTypeCGI" class="fn-widp30">Alarm Type</th>
+<th id="alarmChannel">Alarm Channel</th>
+</tr>
+</tbody>
+</table>
+</div>
+<iframe src="" width="100%" class="alarm-frame" id="alarm_frame" frameborder="0" scrolling="yes"></iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="mobile_config" class="main-content" style="display:none;width:100%;height:700px;clear:both">
+<div class="ui-tab">
+<ul>
+<li id="mobile_PtzControl" data-for="PtzControl" class="mobile_tab_title" style="display:none">
+云台控制</li>
+<li id="mobile_VideoEncode" data-for="VideoEncode" class="mobile_tab_title ui-tab-current">视频编码
+</li>
+<li id="mobile_NetworkConfig" data-for="NetworkConfig" class="mobile_tab_title">网络配置</li>
+<li id="mobile_VersionInfo" data-for="VersionInfo" class="mobile_tab_title">版本信息</li>
+</ul>
+</div>
+<div class="ui-container" id="mobile_tab_PtzControl" style="display:none">
+</div>
+<div class="ui-container" id="mobile_tab_VideoEncode" style="display:none">
+<form class="ui-form fn-clear" style="padding-left:0;padding-top:3px">
+<div class="ui-half-box-mo">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="mo_VEncode_mainStream_label">主码流</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="mo_VEncode_showStreamEnable0" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_StreamEnable0_label">状态</label>
+<select class="ui-select fn-width80" id="mo_VEncode_StreamEnable0">
+<option id="mo_VEncode_StreamEnable0_0" value="0">禁用</option>
+<option id="mo_VEncode_StreamEnable0_1" value="1">启用</option>
+</select>
+</div>
+<div id="mo_VEncode_showStreamInfo0">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_compress0_label">编码模式</label>
+<select class="ui-select fn-width80" id="mo_VEncode_compression0">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_resolut0_label">分辨率</label>
+<select class="ui-select fn-width80" id="mo_VEncode_resolution0"></select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_fps0_label">帧频（FPS）</label>
+<select class="ui-select fn-width80" id="mo_VEncode_fps0"></select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_bitctrl0_label">码流控制</label>
+<select class="ui-select fn-width80" id="mo_VEncode_bitctrl0">
+<option value="CBR">CBR</option>
+<option value="VBR">VBR</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_bitrate0_label">码流</label>
+<div class="fn-left fn-width160">
+<input id="mo_VEncode_bitrate0" class="ui-input fn-width74">
+<span class="ui-text" id="mo_VEncode_bitrate0_range"></span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="mo_VEncode_showGop0">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_gop0_label">帧间间隔</label>
+<div class="fn-left fn-width160">
+<input id="mo_VEncode_gop0" class="ui-input fn-width74">
+<span class="ui-text" id="mo_VEncode_gop0_range">(1~200)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="mo_VEncode_subStream_con" class="ui-half-box-mo fn-marl5">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="mo_VEncode_subStream_label">辅码流</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="mo_VEncode_showStreamEnable1" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_StreamEnable1_label">状态</label>
+<select class="ui-select fn-width80" id="mo_VEncode_StreamEnable1">
+<option id="mo_VEncode_StreamEnable1_0" value="0">禁用</option>
+<option id="mo_VEncode_StreamEnable1_1" value="1">启用</option>
+</select>
+</div>
+<div id="mo_VEncode_showStreamInfo1">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_compress1_label">编码模式</label>
+<select class="ui-select fn-width80" id="mo_VEncode_compression1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_resolut1_label">分辨率</label>
+<select class="ui-select fn-width80" id="mo_VEncode_resolution1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_fps1_label">帧频（FPS）</label>
+<select class="ui-select fn-width80" id="mo_VEncode_fps1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_bitctrl1_label">码流控制</label>
+<select class="ui-select fn-width80" id="mo_VEncode_bitctrl1">
+<option value="CBR">CBR</option>
+<option value="VBR">VBR</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_bitrate1_label">码流</label>
+<div class="fn-left fn-width160">
+<input id="mo_VEncode_bitrate1" class="ui-input fn-width74">
+<span class="ui-text" id="mo_VEncode_bitrate1_range"></span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="mo_VEncode_showGop1">
+<label class="ui-label fn-width100 fn-padl3" id="mo_VEncode_gop1_label">帧间间隔</label>
+<div class="fn-left fn-width160">
+<input id="mo_VEncode_gop1" class="ui-input fn-width74">
+<span class="ui-text" id="mo_VEncode_gop1_range">(1~200)</span>
+</div>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padl100 fn-padt10">
+<a id="mo_VEncode_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="mo_VEncode_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="mo_VEncode_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-padl20">
+<div class="ui-tip-container" id="mo_VEncode_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="mo_VEncode_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ui-container" id="mobile_tab_NetworkConfig">
+<form class="ui-form">
+<div class="ui-form-item" id="mo_tcpip_mode_wrap">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_mode_label">模式</label>
+<input type="radio" name="tcpip_v4_mode" id="mo_tcpip_mode_static">
+<label id="mo_tcpip_mode_static_label" for="mo_tcpip_mode_static">静态</label>
+<input type="radio" name="mo_tcpip_mode" id="mo_tcpip_mode_dhcp">
+<label id="mo_tcpip_mode_dhcp_label" for="mo_tcpip_mode_dhcp">DHCP</label>
+</div>
+<div class="ui-form-item" id="mo_tcpip_macadd">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_mac_address_label">MAC地址</label>
+<div class="fn-left">
+<input id="mo_tcpip_mac_address" class="ui-input fn-width146 fn-padl12" style="letter-spacing:2px;font-size:11.5px" disabled>
+</div>
+</div>
+<div id="mo_tcpip_wrap">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_address_label">IP地址</label>
+<div class="ui-input-box">
+<input id="mo_tcpip_address_0">
+<span>.</span>
+<input id="mo_tcpip_address_1">
+<span>.</span>
+<input id="mo_tcpip_address_2">
+<span>.</span>
+<input id="mo_tcpip_address_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_subnet_mask_label">子网掩码</label>
+<div class="ui-input-box">
+<input id="mo_tcpip_subnet_mask_0">
+<span>.</span>
+<input id="mo_tcpip_subnet_mask_1">
+<span>.</span>
+<input id="mo_tcpip_subnet_mask_2">
+<span>.</span>
+<input id="mo_tcpip_subnet_mask_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_gateway_label">默认网关</label>
+<div class="ui-input-box">
+<input id="mo_tcpip_gateway_0">
+<span>.</span>
+<input id="mo_tcpip_gateway_1">
+<span>.</span>
+<input id="mo_tcpip_gateway_2">
+<span>.</span>
+<input id="mo_tcpip_gateway_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_preferred_dns_label">首选DNS服务器</label>
+<div class="ui-input-box">
+<input id="mo_tcpip_preferred_dns_0">
+<span>.</span>
+<input id="mo_tcpip_preferred_dns_1">
+<span>.</span>
+<input id="mo_tcpip_preferred_dns_2">
+<span>.</span>
+<input id="mo_tcpip_preferred_dns_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="mo_tcpip_alternate_dns_label">备用DNS服务器</label>
+<div class="ui-input-box">
+<input id="mo_tcpip_alternate_dns_0">
+<span>.</span>
+<input id="mo_tcpip_alternate_dns_1">
+<span>.</span>
+<input id="mo_tcpip_alternate_dns_2">
+<span>.</span>
+<input id="mo_tcpip_alternate_dns_3">
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padl20 fn-padt10">
+<a id="mo_tcpip_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="mo_tcpip_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="mo_tcpip_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-padl20">
+<div class="ui-tip-container" id="mo_tcpip_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="mo_tcpip_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ui-container" id="mobile_tab_VersionInfo" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item">
+<label id="mobile_version_kernel_label" class="ui-label fn-padl20">内核版本</label>
+<span id="mobile_version_kernel" class="ui-text"></span>
+</div>
+<div class="ui-form-item">
+<label id="mobile_version_fs_label" class="ui-label fn-padl20">文件系统版本</label>
+<span id="mobile_version_fs" class="ui-text"></span>
+</div>
+<div class="ui-form-item">
+<label id="mobile_version_sn_label" class="ui-label fn-padl20">序列号</label>
+<span id="mobile_version_sn" class="ui-text"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label id="mobile_version_web_label" class="ui-label fn-padl20">WEB版本</label>
+<span id="mobile_version_web" class="ui-text"></span>
+</div>
+</form>
+</div>
+</div>
+<input id="pluginPrompt" style="display:none">
+<div id="main_foot" class="main-foot">&nbsp;</div>
+<div id="estopAll" style="display:none" class="J_estop_all"></div>
+<div id="video" style="background:#000;position:absolute;top:-10000px;width:1px;height:1px;overflow:hidden;display:none">
+</div>
+<iframe id="_download" src="" style="display:none"></iframe>
+<script src="jsCore/md5.js?version=2.400"></script>
+<script src="jsCore/des.js?version=2.400"></script>
+<script src="jsCore/useridpasswd.js?version=2.400"></script>
+<script src="jsCore/xmlParser.js?version=2.400"></script>
+<script src="jsCore/base64.js?version=2.400"></script>
+<script src="jsCore/rpcCore.js?version=2.400"></script>
+<script src="jsCore/rpcLogin.js?version=2.400"></script>
+<script src="jsCore/common.js?version=2.400"></script>
+<script src="jsCore/publicLibrary.js?version=2.400"></script>
+<script src="js/publicFunc.js?version=2.400"></script>
+<script src="js/loginEx.js?version=2.400"></script>
+<script src="js/ptzCtrl.js?version=2.400"></script>
+<script src="js/alarm.js?version=2.400"></script>
+<script src="js/set.js?version=2.400"></script>
+<script src="js/localSetup.js?version=2.400"></script>
+<script src="js/PlayBack.js?version=2.400"></script>
+<script src="js/ui-schedule.js?version=2.400"></script>
+<script src="jsCore/promise-1.0.0.js?version=2.400"></script>
+<script src="js/index.js?version=2.400"></script>
+<script src="jsCore/qrcode.js?version=@WebVersion@"></script>
+<script src="js/mobileConfig.js?version=2.400"></script>
+<script src="js/webSocket.js?version=2.400"></script>
+<script src="js/loginWebSocket.js?version=2.400"></script>
+<script src="jsCore/imageCreate.js?version=2.400"></script>
+</div>
+</div>
+</body>
+</html>

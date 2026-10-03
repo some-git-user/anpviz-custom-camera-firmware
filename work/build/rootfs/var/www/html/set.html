@@ -1,0 +1,301 @@
+<div class="set-container" id="set_page">
+<div id="set_sidebar" class="set-sidebar">
+<div id="set">
+<div>
+<a href="javascript:;" class="set-menu">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-camera"></span>
+<label id="camera_label">Camera</label>
+</a>
+<ul>
+<li auth="VideoInputConfig" id="m_camera">
+<a href="javascript:;" class="set-item" data-filename="cameraConfig">
+<span class="set-item-icon"></span>
+<label id="l_camera_label">Conditions</label>
+</a>
+</li>
+<li auth="EncodeConf" id="set_video">
+<a href="javascript:;" class="set-item" data-filename="encodeConfig">
+<span class="set-item-icon"></span>
+<label id="l_encode_label">Video</label>
+</a>
+</li>
+<li auth="EncodeConf" id="b_audio">
+<a href="javascript:;" class="set-item" data-filename="audioConfig" id="menu_audioConfig">
+<span class="set-item-icon"></span>
+<label id="l_audio_label">Audio</label>
+</a>
+</li>
+<li auth="EncodeConf" id="b_picture_capture">
+<a href="javascript:;" class="set-item" data-filename="pictureConfig" id="menu_pictureConfig">
+<span class="set-item-icon"></span>
+<label id="l_picture_capture_label">picture capture</label>
+</a>
+</li>
+</ul>
+</div>
+<div>
+<a href="javascript:;" class="set-menu">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-network"></span>
+<label id="network_label">Network</label>
+</a>
+<ul>
+<li auth="NetConf" id="show_networkConfig">
+<a href="javascript:;" class="set-item" data-filename="networkConfig">
+<span class="set-item-icon"></span>
+<label id="l_tcpip_label">TCP/IP</label>
+</a>
+</li>
+<li auth="NetConf" id="show_encryptionConfig">
+<a href="javascript:;" class="set-item" data-filename="encryptionConfig">
+<span class="set-item-icon"></span>
+<label id="l_encryption_label">Encryption</label>
+</a>
+</li>
+<li auth="NetConf" id="show_telecomConfig">
+<a href="javascript:;" class="set-item" data-filename="telecomConfig">
+<span class="set-item-icon"></span>
+<label id="l_telecomConfig_label">电信设备参数</label>
+</a>
+</li>
+<li auth="NetConf" id="showStreamingMediaConfig">
+<a href="javascript:;" class="set-item" data-filename="StreamingMediaConfig">
+<span class="set-item-icon"></span>
+<label id="l_StreamingMedia_label">Streaming Media</label>
+</a>
+</li>
+<li auth="NetConf" id="show_p2pConfig">
+<a href="javascript:;" class="set-item" data-filename="p2pConfig">
+<span class="set-item-icon"></span>
+<label id="l_p2p_label">P2P</label>
+</a>
+</li>
+<li auth="NetConf" id="show_WifiAPConfig">
+<a href="javascript:;" class="set-item" data-filename="WifiAPConfig">
+<span class="set-item-icon"></span>
+<label id="l_WifiAP_label">WIFIAP</label>
+</a>
+</li>
+<li auth="NetConf" id="show_WifiConfig">
+<a href="javascript:;" class="set-item" data-filename="WifiConfig">
+<span class="set-item-icon"></span>
+<label id="l_Wifi_label">WIFI</label>
+</a>
+</li>
+<li auth="NetConf" id="showEmailConfig">
+<a href="javascript:;" class="set-item" data-filename="emailConfig">
+<span class="set-item-icon"></span>
+<label id="l_email_label">SMTP(Email)</label>
+</a>
+</li>
+<li auth="NetConf" id="showFtpConfig">
+<a href="javascript:;" class="set-item" data-filename="ftpConfig">
+<span class="set-item-icon"></span>
+<label id="l_ftp_label">FTP</label>
+</a>
+</li>
+<li auth="NetConf" id="show_ipvs" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="ipvsConfig">
+<span class="set-item-icon"></span>
+<label id="l_ipvs_label">IPVS</label>
+</a>
+</li>
+<li auth="NetConf" id="show_gb28181" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="gb28181Config">
+<span class="set-item-icon"></span>
+<label id="l_gb28181_label">GB28181</label>
+</a>
+</li>
+<li auth="NetConf" id="show_gat1400">
+<a href="javascript:;" class="set-item" data-filename="gat1400Config">
+<span class="set-item-icon"></span>
+<label id="l_gat1400_label">GAT1400</label>
+</a>
+</li>
+<li auth="NetConf" id="show_rtmp" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="rtmpConfig">
+<span class="set-item-icon"></span>
+<label id="l_rtmp_label">RTMP</label>
+</a>
+</li>
+<li auth="NetConf" id="show_upload_alarm_server" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="alarmServerConfig">
+<span class="set-item-icon"></span>
+<label id="l_upload_alarm_server_label">Alarm Server Config</label>
+</a>
+</li>
+<li auth="NetConf" id="show_connectCheck">
+<a href="javascript:;" class="set-item" data-filename="connectCheckConfig">
+<span class="set-item-icon"></span>
+<label id="l_connect_check_label">Connect Check</label>
+</a>
+</li>
+</ul>
+</div>
+<div id="m_ptz_config">
+<a class="set-menu" id="ptzConfig" href="javascript:;">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-ptz"></span>
+<label id="ptzConfig_label">PTZ</label>
+</a>
+<ul>
+<li auth="PtzConfig" id="ptzproSet">
+<a href="javascript:;" class="set-item" data-filename="ptzConfig">
+<span class="set-item-icon"></span>
+<label id="l_pact_label">Protocol</label>
+</a>
+</li>
+</ul>
+</div>
+<div id="m_event_config">
+<a href="javascript:;" class="set-menu" id="affair">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-event"></span>
+<label id="affair_label">Event</label>
+</a>
+<ul>
+<li id="show_IVEConfig" auth="VideoConfig" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="IVEConfig">
+<span class="set-item-icon"></span>
+<label id="l_IVEConfig_label">IVEConfig</label>
+</a>
+</li>
+<li auth="VideoConfig" id="show_videoDetectConfig">
+<a href="javascript:;" class="set-item" data-filename="videoDetectConfig">
+<span class="set-item-icon"></span>
+<label id="l_videtect_label">Video Dection</label>
+</a>
+</li>
+<li auth="VideoConfig" id="show_ioAlarmConfig" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="ioAlarmConfig">
+<span class="set-item-icon"></span>
+<label id="l_io_label">IO</label>
+</a>
+</li>
+<li auth="VideoConfig" id="show_videoAlarmConfig" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="videoAlarmConfig">
+<span class="set-item-icon"></span>
+<label id="l_videoAlarm_label">Intelligent Detection</label>
+</a>
+</li>
+<li auth="VideoConfig" id="show_videoCoverAlarmConfig" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="videoCoverAlarmConfig">
+<span class="set-item-icon"></span>
+<label id="l_videoCoverAlarm_label">Video Cover Config</label>
+</a>
+</li>
+<li auth="VideoConfig" id="show_humitureAlarmConfig" style="display:none">
+<a href="javascript:;" class="set-item" data-filename="humitureAlarmConfig">
+<span class="set-item-icon"></span>
+<label id="l_humiture_label">humiture</label>
+</a>
+</li>
+</ul>
+</div>
+<div id="m_storage_config">
+<a href="javascript:;" class="set-menu" id="snapRecord">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-storage"></span>
+<label id="snapRecord_label">Storage</label>
+</a>
+<ul>
+<li auth="RecordConf" id="m_memoryConfig">
+<a href="javascript:;" class="set-item" data-filename="memoryConfig">
+<span class="set-item-icon"></span>
+<label id="l_memory_label">基本配置</label>
+</a>
+</li>
+<li auth="RecordConf" id="m_scheduleRecord_config">
+<a href="javascript:;" class="set-item" data-filename="scheduleRecordConfig">
+<span class="set-item-icon"></span>
+<label id="l_scheduleRecord_label">定时录像</label>
+</a>
+</li>
+<li auth="RecordConf" id="m_storageDevInfo">
+<a href="javascript:;" class="set-item" data-filename="storageDevInfo">
+<span class="set-item-icon"></span>
+<label id="l_storageDevInfo_label">存储设备信息</label>
+</a>
+</li>
+</ul>
+</div>
+<div>
+<a href="javascript:;" class="set-menu" id="system">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-system"></span>
+<label id="system_label">System</label>
+</a>
+<ul>
+<li auth="Account" id="show_userManageConfig">
+<a href="javascript:;" class="set-item" data-filename="userManageConfig">
+<span class="set-item-icon"></span>
+<label id="l_usrmanage_label">Account</label>
+</a>
+</li>
+<li auth="GeneralConf" id="show_languageConfig">
+<a href="javascript:;" class="set-item" data-filename="languageConfig">
+<span class="set-item-icon"></span>
+<label id="l_languageConfig_label">Language</label>
+</a>
+</li>
+<li auth="GeneralConf" id="show_datetimeConfig">
+<a href="javascript:;" class="set-item" data-filename="datetimeConfig">
+<span class="set-item-icon"></span>
+<label id="l_datetimeConfig_label">Date & Time</label>
+</a>
+</li>
+<li auth="GeneralConf" id="show_tamperProofConfig">
+<a href="javascript:;" class="set-item" data-filename="tamperProofConfig">
+<span class="set-item-icon"></span>
+<label id="l_tamperProofConfig_label">fixip</label>
+</a>
+</li>
+<li id="showDefaultConfig" auth="DefaultConfig">
+<a href="javascript:;" class="set-item" data-filename="defaultConfig">
+<span class="set-item-icon"></span>
+<label id="l_default_label">Default</label>
+</a>
+</li>
+<li id="showRebootConfig" auth="RebootConfig">
+<a href="javascript:;" class="set-item" data-filename="rebootConfig">
+<span class="set-item-icon"></span>
+<label id="l_reboot_label">Reboot</label>
+</a>
+</li>
+<li id="showAutoMaintainConfig" auth="AutoMaintainConfig">
+<a href="javascript:;" class="set-item" data-filename="autoMaintainConfig">
+<span class="set-item-icon"></span>
+<label id="l_autoMaintain_label">Auto Maintain</label>
+</a>
+</li>
+<li auth="SysUpdate" id="m_SysUpdate">
+<a href="javascript:;" class="set-item" data-filename="upgradeConfig">
+<span class="set-item-icon"></span>
+<label id="l_upgrade_label">Upgrade</label>
+</a>
+</li>
+</ul>
+</div>
+<div>
+<a href="javascript:;" class="set-menu" id="infoSet">
+<span class="set-menu-icon-tree"></span>
+<span class="set-menu-icon set-menu-icon-information"></span>
+<label id="infoSet_label">Information</label>
+</a>
+<ul>
+<li id="show_versionConfig">
+<a href="javascript:;" class="set-item" data-filename="versionConfig">
+<span class="set-item-icon"></span>
+<label id="l_version_label">Version</label>
+</a>
+</li>
+</ul>
+</div>
+<div class="mask-set fn-hide" id="all_mask_set"></div>
+</div>
+</div>
+<div class="set-content" id="cmaincont1">
+<div class="set-content-box" id="cmaincont"></div>
+</div>
+</div>

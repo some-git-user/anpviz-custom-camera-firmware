@@ -1,0 +1,79 @@
+<div class="page_config" id="page_gat1400Config">
+<div class="ui-tab">
+<ul>
+<li class="ui-tab-current" id="gat1400_set" data-for="gat1400Config">GAT1400平台接入配置</li>
+</ul>
+</div>
+</div>
+<div class="ui-tab-content" id="gat1400Config_tab_content">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_login_label">登录接入服务器</label>
+<select class="ui-select" id="gat1400_login">
+<option id="gat1400_login_Disable" value="0">禁用</option>
+<option id="gat1400_login_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_https_enable_label">HTTPS</label>
+<select class="ui-select" id="gat1400_https_enable">
+<option id="gat1400_https_enable_Disable" value="0">禁用</option>
+<option id="gat1400_https_enable_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_server_URL_label">接入服务器地址</label>
+<input name="textfield" id="gat1400_server_URL" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_server_port_label">接入服务器端口(1-65535)</label>
+<input name="textfield" id="gat1400_server_port" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_server_username_label">接入服务器账号</label>
+<input name="textfield" id="gat1400_server_username" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_server_password_label">接入服务器密码</label>
+<input type="password" name="textfield" id="gat1400_server_password" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gat1400_snap_stream_label">抓拍图片</label>
+<select class="ui-select" id="gat1400_snap_stream">
+<option id="gat1400_snap_stream_0" value="0">主码流</option>
+<option id="gat1400_snap_stream_1" value="1">子码流</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_heartbeat_cycle_label">心跳周期(s)</label>
+<input name="textfield" id="gat1400_heartbeat_cycle" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_max_heartbeat_num_label">最大心跳次数</label>
+<input name="textfield" id="gat1400_max_heartbeat_num" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gat1400_alarm_gap_label">报警时间间隔(s)</label>
+<input name="textfield" id="gat1400_alarm_gap" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_device_ID_label">设备ID</label>
+<input name="textfield" id="gat1400_device_ID" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gat1400_channel_ID_label">通道ID</label>
+<input name="textfield" id="gat1400_channel_ID" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="gat1400_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="gat1400_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="gat1400_confirm" class="ui-button admin_button" href="javascript:;">保存</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="gat1400_setting_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="gat1400_setting_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>

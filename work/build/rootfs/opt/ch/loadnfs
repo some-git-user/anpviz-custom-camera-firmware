@@ -1,0 +1,19 @@
+#!/bin/sh
+
+PATH_MODULE=/config/modules/5.10/
+
+###common  module
+## NFS
+insmod ${PATH_MODULE}/grace.ko
+insmod ${PATH_MODULE}/sunrpc.ko
+insmod ${PATH_MODULE}/lockd.ko
+insmod ${PATH_MODULE}/nfs.ko
+insmod ${PATH_MODULE}/nfs_layout_flexfiles.ko
+insmod ${PATH_MODULE}/nfs_layout_nfsv41_files.ko
+insmod ${PATH_MODULE}/nfsv2.ko
+insmod ${PATH_MODULE}/nfsv3.ko
+insmod ${PATH_MODULE}/nfsv4.ko
+
+insmod ${PATH_MODULE}/ms_notify.ko
+
+

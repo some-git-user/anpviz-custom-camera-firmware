@@ -1,0 +1,45 @@
+<div id="page_rebootConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="reboot" class="ui-tab-current">重启设备</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="reboot_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-button-box fn-padt10 fn-marl20">
+<a id="reboot_recovery" class="ui-button fn-width200" href="javascript:;">重启设备</a>
+</div>
+<div class="fn-padl20 fn-padt10" id="reboot_showWait" style="display:none">
+<span id="reboot_rebooting">正在重启，请稍等...</span>
+<span id="reboot_waitTime">0</span>
+<span id="reboot_waitSec">s</span>
+</div>
+<div class="ui-tip fn-marl20">
+<div class="ui-tip-container" id="reboot_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="reboot_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+</form>
+</div>
+<div id="reboot_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>恢复默认</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="reboot_dialog_prompt">确定恢复默认配置吗？</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="reboot_dialog_confirm">保存</a>
+<a class="ui-button" id="reboot_dialog_cancel">取消</a>
+</div>
+</div>
+</div>

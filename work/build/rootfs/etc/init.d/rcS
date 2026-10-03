@@ -1,0 +1,56 @@
+#!/bin/sh
+
+source /etc/profile 
+
+export PATH=/config:/sbin:/bin:/opt/ch:/tmp/oem/app
+export LD_LIBRARY_PATH="/mnt/app/app:/tmp/app/app:/mnt/app/app:/tmp/oem/app:/tmp:/lib:/usr/lib:/ext/lib:/usr/local/lib:/system/lib:/opt/ch:$LD_LIBRARY_PATH"
+
+
+mount -t sysfs none /sys
+mount -t tmpfs mdev /dev
+
+mount -t debugfs none /sys/kernel/debug/
+mkdir -p /dev/pts
+mkdir -p /dev/bus/usb
+mount -t devpts devpts /dev/pts
+mdev -s
+chip=`cat /sys/devices/soc0/machine | busybox awk '{print $2}'`
+echo "$chip"
+
+mount -a
+mkdir -p /dev/shm
+mkdir -p /dev/pts
+mount devpts
+
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+
+/sbin/mdev -s
+
+
+
+
+mkdir -p /tmp/network
+umount -fl /mnt/usb
+
+
+ifconfig lo up
+ifconfig lo 127.0.0.1
+
+#ifconfig eth0 up
+#udhcpc &
+
+/opt/ch/loadko
+
+cd /opt/ch/
+
+./procman &
+
+#telnetd &
+
+
+
+
+
+
+cp /etc/passwd_sys /tmp/passwd
+sysctl -p

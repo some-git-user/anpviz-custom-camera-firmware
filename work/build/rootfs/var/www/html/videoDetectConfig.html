@@ -1,0 +1,1091 @@
+<div id="page_videoDetectConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="videoDetect_motion" class="videoDetect_tab_title ui-tab-current" data-for="motionDetect">动态监测</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="videoDetect_help"></a>
+</li>
+</ul>
+</div>
+<div class="videoDetect_tab_con ui-container" id="videoDetect_tab_motionDetect">
+<form class="ui-form">
+<div class="ui-form-item">
+<div class="ui-form-item fn-clear" id="videoDetect_deployment_setting">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_title_able0" for="videoDetect_able0">启动</label>
+<select class="ui-select" id="videoDetect_able0">
+<option id="videoDetect_deployment_setting_enable_0" value="0">禁用</option>
+<option id="videoDetect_deployment_setting_enable_1" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_showConfig">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item fn-clear" id="videoDetect_deployment_setting">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_deployment_set_label">布防设置</label>
+<select class="ui-select" id="videoDetect_deployment_set_enable">
+<option id="videoDetect_deployment_set_enable_0" value="0">禁用</option>
+<option id="videoDetect_deployment_set_enable_1" value="1">全天布防</option>
+<option id="videoDetect_deployment_set_enable_2" value="2">白天布防</option>
+<option id="videoDetect_deployment_set_enable_3" value="3">夜晚布防</option>
+<option id="videoDetect_deployment_set_enable_4" value="4">自定义时间段</option>
+</select>
+</div>
+<div class="ui-form-item" id="videoDetect_workPeriod__showConfig">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_workPeriod0">布防时间段</label>
+<a id="videoDetect_setButton0" class="ui-button fn-width146 fn-left" href="javascript:;"></a>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_setzone">设置区域</label>
+<a id="videoDetect_setzoneButton" class="ui-button fn-width146 fn-left" href="javascript:;"></a>
+</div>
+<div id="videoDetect_showReordSnap">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_recordEnable_label" for="videoDetect_recordEnable">告警录像</label>
+<select class="ui-select" id="videoDetect_recordEnable">
+<option id="videoDetect_recordEnable_0" value="0">禁用</option>
+<option id="videoDetect_recordEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoDetect_showRecordConfig">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_recordStream_label">视频源</label>
+<div class="fn-left" id="videoDetect_recordStream_slct">
+<select id="videoDetect_recordStream" class="ui-select">
+<option id="videoDetect_recordStream0" value="1">主码流</option>
+<option id="videoDetect_recordStream1" value="2">子码流</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_recordFormat_label">录像格式</label>
+<div class="fn-left" id="videoDetect_recordFormat_slct">
+<select id="videoDetect_recordFormat" class="ui-select">
+<option value="MP4">MP4</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="videoDetect_showRecordAudio">
+<label class="ui-label fn-padl20" id="videoDetect_recordAudio_label">是否录音频</label>
+<div class="fn-left" id="videoDetect_recordAudio_slct">
+<select id="videoDetect_recordAudio" class="ui-select">
+<option id="videoDetect_recordAudio_No" value="0">否</option>
+<option id="videoDetect_recordAudio_Yes" value="1">是</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_prerecordTime_label">预录时长</label>
+<input class="ui-input fn-width80" id="videoDetect_prerecordTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~5)</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_recordTime_label">录像时长</label>
+<input class="ui-input fn-width80" id="videoDetect_recordTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(10~600)</span>
+</div>
+<div id="videoDetect_showRecordFtpEmail" class="ui-form-item fn-padl20">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_recordFTP">
+</div>
+<label class="ui-label fn-width100" id="videoDetect_recordFTP_label" for="videoDetect_recordFTP">上传到FTP</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_recordEmail">
+</div>
+<label class="ui-label" id="videoDetect_recordEmail_label" for="videoDetect_recordEmail">发送邮件</label>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item" id="videoDetect_showSnapEnable">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_snapEnable_label" for="videoDetect_snapEnable">告警抓拍</label>
+<select class="ui-select" id="videoDetect_snapEnable">
+<option id="videoDetect_snapEnable_0" value="0">禁用</option>
+<option id="videoDetect_snapEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoDetect_showSnapConfig">
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="videoDetect_presnapTime_label">预拍时长</label>
+<input class="ui-input fn-width80" id="videoDetect_presnapTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~5)</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_snapTime_label">拍照时长</label>
+<input class="ui-input fn-width80" id="videoDetect_snapTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+<div id="videoDetect_showSnapFtpEmail">
+<div class="ui-form-item fn-padl20">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_snapFTP">
+</div>
+<label class="ui-label fn-width100" id="videoDetect_snapFTP_label" for="videoDetect_snapFTP">上传到FTP</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_snapEmail">
+</div>
+<label class="ui-label" id="videoDetect_snapEmail_label" for="videoDetect_snapEmail">发送邮件</label>
+</div>
+<div class="ui-form-item" id="videoDetect_showSnapSendFrequency">
+<label class="ui-label fn-padl20" id="videoDetect_snapSendFrequency_label">发送频率</label>
+<input class="ui-input fn-width80" id="videoDetect_snapSendFrequency">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="videoDetect_showIoOutput">
+<div class="fn-horizontal-line"></div>
+<div id="videoDetect_showIoOutputOld">
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_OutputEnable">
+</div>
+<label class="ui-label" id="videoDetect_OutputEnable_label" for="videoDetect_OutputEnable">触发输出</label>
+</div>
+<div id="videoDetect_showOutputConfig">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_OutputPort_label">输出端口</label>
+<div class="fn-left" id="videoDetect_OutputPort_slct">
+<select id="videoDetect_OutputPort" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_OutputType_label">输出类型</label>
+<div class="fn-left" id="videoDetect_OutputType_slct">
+<select id="videoDetect_OutputType" class="ui-select">
+<option id="videoDetect_OutputType_Open" value="0">常开</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_OutputDuration_label">持续时长</label>
+<input class="ui-input fn-width80" id="videoDetect_OutputDuration">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(0~60)</span>
+</div>
+</div>
+</div>
+<div id="videoDetect_showIoOutputNew" style="display:none">
+<div id="videoDetect_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoDetect_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoDetect_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoDetect_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoDetect_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div id="videoDetect_showAlarmOutput" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_AlarmOutput_label">报警输出</label>
+<div class="fn-left">
+<select id="videoDetect_AlarmOutput" class="ui-select">
+<option id="videoDetect_AlarmOutput_0" value="0">关闭</option>
+<option id="videoDetect_AlarmOutput_1" value="1">全天报警</option>
+<option id="videoDetect_AlarmOutput_2" value="2">补灯光联动</option>
+</select>
+</div>
+</div>
+</div>
+<div id="videoDetect_light_action" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_light_actionEnable_label" for="videoDetect_light_actionEnable">灯光联动</label>
+<select class="ui-select" id="videoDetect_light_actionEnable">
+<option id="videoDetect_light_actionEnable_0" value="0">禁用</option>
+<option id="videoDetect_light_actionEnable_1" value="1">启用</option>
+<option id="videoDetect_light_actionEnable_2" value="2">白天布防</option>
+<option id="videoDetect_light_actionEnable_3" value="3">夜晚布防</option>
+<option id="videoDetect_light_actionEnable_4" value="4">自定义时间段</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_upload_alarm_server" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_upload_alarm_serverEnable_label" for="videoDetect_upload_alarm_serverEnable">上报告警中心</label>
+<select class="ui-select" id="videoDetect_upload_alarm_serverEnable">
+<option id="videoDetect_upload_alarm_serverEnable_0" value="0">禁用</option>
+<option id="videoDetect_upload_alarm_serverEnable_1" value="1">启用</option>
+<option id="videoDetect_upload_alarm_serverEnable_2" value="2">白天布防</option>
+<option id="videoDetect_upload_alarm_serverEnable_3" value="3">夜晚布防</option>
+<option id="videoDetect_upload_alarm_serverEnable_4" value="4">自定义时间段</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_alarm_push" style="display:inline">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_alarm_pushEnable_label" for="videoDetect_alarm_pushEnable">告警推送</label>
+<select class="ui-select" id="videoDetect_alarm_pushEnable">
+<option id="videoDetect_alarm_pushEnable_0" value="0">禁用</option>
+<option id="videoDetect_alarm_pushEnable_1" value="1">启用</option>
+<option id="videoDetect_alarm_pushEnable_2" value="2">白天布防</option>
+<option id="videoDetect_alarm_pushEnable_3" value="3">夜晚布防</option>
+<option id="videoDetect_alarm_pushEnable_4" value="4">自定义时间段</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_alarm_led" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_alarm_ledEnable_label" for="videoDetect_alarm_ledEnable">红蓝警灯</label>
+<select class="ui-select" id="videoDetect_alarm_ledEnable">
+<option id="videoDetect_alarm_ledEnable_0" value="0">禁用</option>
+<option id="videoDetect_alarm_ledEnable_1" value="1">启用</option>
+<option id="videoDetect_alarm_ledEnable_2" value="2">白天布防</option>
+<option id="videoDetect_alarm_ledEnable_3" value="3">夜晚布防</option>
+<option id="videoDetect_alarm_ledEnable_4" value="4">自定义时间段</option>
+</select>
+</div>
+</div>
+<div id="videoDetect_showAudioAction" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="videoDetect_AudioActionEnable_label" for="videoDetect_AudioActionEnable">声音音频</label>
+<select class="ui-select" id="videoDetect_AudioActionEnable">
+<option id="videoDetect_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoDetect_AudioActionEnable_1" value="1">启用</option>
+<option id="videoDetect_AudioActionEnable_2" value="2">白天布防</option>
+<option id="videoDetect_AudioActionEnable_3" value="3">夜晚布防</option>
+<option id="videoDetect_AudioActionEnable_4" value="4">自定义时间段</option>
+</select>
+</div>
+<div id="videoDetect_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoDetect_AudioActionFile" class="ui-select fn-width215">
+</select>
+<a id="videoDetect_AudioActionFileTest" class="ui-button fn-marl3" href="javascript:;">试听</a>
+<a id="videoDetect_AudioActionFileDelete" class="ui-button" href="javascript:;">删除</a>
+<a id="videoDetect_AudioActionFileErase" class="ui-button" href="javascript:;" style="display:none">重新分区</a>
+</div>
+<div class="fn-padl20 fn-padt10" id="Repartition_showWait" style="display:none">
+<span id="Repartition_rebooting">正在重启，请稍等...</span>
+<span id="Repartition_waitTime">0</span>
+<span id="Repartition_waitSec">s</span>
+</div>
+</div>
+<audio id="videoDetect_show_audio_play" controls style="display:none">
+<source id="videoDetect_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoDetect_AudioActionTimes" class="ui-select fn-width215">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoDetect_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="videoDetect_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_md" style="display:none">
+<form id="form_form_md" class="ui-form" name="f_form_md" action="/WebUploadFormFile" method="post" target="post_frame_md" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20" id="videoDetect_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoDetect_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoDetect_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoDetect_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<div id="videoDetect_tab_setting_wrap" style="display:inline">
+<div class="fn-horizontal-line"></div>
+<div class="ui-table-header fn-padl40">
+<table>
+<tr>
+<th id="videoDetect_tab_setting_number" style="width:170px"></th>
+<th id="videoDetect_tab_setting_time1" style="width:185px">时间段1</th>
+<th id="videoDetect_tab_setting_time2" style="width:185px">时间段2</th>
+<th id="videoDetect_tab_setting_time3" style="width:185px">时间段3</th>
+<th id="videoDetect_tab_setting_time4" style="width:185px">时间段4</th>
+</tr>
+</table>
+<div id="videoDetect_tab_setting_infolist" class="ui-table-container fn-width950 fn-height120">
+<table id="videoDetect_tab_setting_table">
+<tbody>
+<tr id="videoDetect_tab_setting_infolist_0" class="videoDetect_tab_setting ui-table-tr-odd" style="display:none">
+<td id="videoDetect_tab_setting_light_twinkle" class="fn-width124">灯光联动</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time0_0" class="ui-input-box">
+<input id="videoDetect_setting_time0_0_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_0_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_0_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time0_0_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_0_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_0_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time0_1" class="ui-input-box">
+<input id="videoDetect_setting_time0_1_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_1_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_1_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time0_1_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_1_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_1_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time0_2" class="ui-input-box">
+<input id="videoDetect_setting_time0_2_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_2_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_2_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time0_2_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_2_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_2_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time0_3" class="ui-input-box">
+<input id="videoDetect_setting_time0_3_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_3_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_3_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time0_3_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_3_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time0_3_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+</tr>
+<tr id="videoDetect_tab_setting_infolist_1" class="videoDetect_tab_setting ui-table-tr-odd" style="display:none">
+<td id="videoDetect_tab_setting_upload_alarm_server" class="fn-width124">上报告警中心</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time1_0" class="ui-input-box">
+<input id="videoDetect_setting_time1_0_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_0_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_0_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time1_0_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_0_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_0_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time1_1" class="ui-input-box">
+<input id="videoDetect_setting_time1_1_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_1_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_1_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time1_1_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_1_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_1_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time1_2" class="ui-input-box">
+<input id="videoDetect_setting_time1_2_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_2_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_2_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time1_2_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_2_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_2_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time1_3" class="ui-input-box">
+<input id="videoDetect_setting_time1_3_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_3_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_3_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time1_3_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_3_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time1_3_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+</tr>
+<tr id="videoDetect_tab_setting_infolist_2" class="videoDetect_tab_setting ui-table-tr-odd" style="display:none">
+<td id="videoDetect_tab_setting_alarm_push" class="fn-width124">告警推送</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time2_0" class="ui-input-box">
+<input id="videoDetect_setting_time2_0_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_0_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_0_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time2_0_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_0_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_0_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time2_1" class="ui-input-box">
+<input id="videoDetect_setting_time2_1_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_1_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_1_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time2_1_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_1_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_1_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time2_2" class="ui-input-box">
+<input id="videoDetect_setting_time2_2_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_2_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_2_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time2_2_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_2_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_2_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time2_3" class="ui-input-box">
+<input id="videoDetect_setting_time2_3_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_3_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_3_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time2_3_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_3_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time2_3_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+</tr>
+<tr id="videoDetect_tab_setting_infolist_3" class="videoDetect_tab_setting ui-table-tr-odd" style="display:none">
+<td id="videoDetect_tab_setting_audio_action" class="fn-width124">警戒声音</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_0" class="ui-input-box">
+<input id="videoDetect_setting_time3_0_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_0_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_0_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time3_0_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_0_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_0_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_1" class="ui-input-box">
+<input id="videoDetect_setting_time3_1_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_1_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_1_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time3_1_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_1_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_1_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_2" class="ui-input-box">
+<input id="videoDetect_setting_time3_2_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_2_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_2_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time3_2_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_2_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_2_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_3" class="ui-input-box">
+<input id="videoDetect_setting_time3_3_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_3_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_3_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time3_3_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_3_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time3_3_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+</tr>
+<tr id="videoDetect_tab_setting_infolist_4" class="videoDetect_tab_setting ui-table-tr-odd" style="display:none">
+<td id="videoDetect_tab_setting_alarm_led" class="fn-width124">红蓝警灯</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_0" class="ui-input-box">
+<input id="videoDetect_setting_time4_0_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_0_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_0_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time4_0_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_0_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_0_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_1" class="ui-input-box">
+<input id="videoDetect_setting_time4_1_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_1_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_1_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time4_1_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_1_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_1_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_2" class="ui-input-box">
+<input id="videoDetect_setting_time4_2_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_2_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_2_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time4_2_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_2_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_2_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+<td class="fn-left fn-width185">
+<div id="videoDetect_setting_time3_3" class="ui-input-box">
+<input id="videoDetect_setting_time4_3_0" data-index="1" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_3_1" data-index="2" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_3_2" data-index="3" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>~</span>
+<input id="videoDetect_setting_time4_3_3" data-index="4" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_3_4" data-index="5" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+<span>:</span>
+<input id="videoDetect_setting_time4_3_5" data-index="6" maxlength="2" onbeforepaste="pasteChk()" style="width:15px" value="0" disabled>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<form class="ui-form">
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="videoDetect_default0" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="videoDetect_refresh0" class="ui-button" href="javascript:;">刷新</a>
+<a id="videoDetect_confirm0" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="videoDetect_remark0" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="videoDetect_remark0_label">恢复默认配置成功！</label>
+</div>
+</div>
+</form>
+<iframe name="post_frame_md" id="post_frame_md" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div id="Repartition_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1 id="Repartition_dialog_name">重新分区</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="Repartition_dialog_prompt">确定重新分区吗?</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="Erase_dialog_confirm">保存</a>
+<a class="ui-button" id="Erase_dialog_cancel">取消</a>
+</div>
+</div>
+<div id="videoDetect_setTimeTable" class="ui-dialog fn-width780">
+<div class="ui-dialog-title">
+<h1>设置</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-container">
+<div class="ui-dialog-content">
+<div class="ui-timeplan unselectable" unselectable="on" onselectstart="return!1">
+<div class="ui-timeplan-hour fn-clear">
+<ul>
+<li>0</li>
+<li>2</li>
+<li>4</li>
+<li>6</li>
+<li>8</li>
+<li>10</li>
+<li>12</li>
+<li>14</li>
+<li>16</li>
+<li>18</li>
+<li>20</li>
+<li>22</li>
+<li class="ui-timeplan-hour-lilast">24</li>
+</ul>
+<div class="ui-timeplan-hourbg"></div>
+</div>
+<div class="fn-clear">
+<div class="ui-timeplan-week">
+<ul>
+<li id="videoDetect_sun">星期日</li>
+<li id="videoDetect_mon">星期一</li>
+<li id="videoDetect_tue">星期二</li>
+<li id="videoDetect_wen">星期三</li>
+<li id="videoDetect_thu">星期四</li>
+<li id="videoDetect_fri">星期五</li>
+<li id="videoDetect_sat">星期六</li>
+</ul>
+</div>
+<div class="ui-timeplan-canvas fn-relative" id="videoDetect_chartZone">
+<div class="general"></div>
+<div class="general"></div>
+<div class="general"></div>
+</div>
+<div class="ui-timeplan-button">
+<a id="videoDetect_tmset0" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset1" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset2" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset3" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset4" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset5" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="videoDetect_tmset6" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+</div>
+</div>
+</div>
+<div class="ui-timesection" style="display:none">
+<form>
+<div class="ui-form-item ui-videoDetect-bg">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_allweek">
+</div>
+<label class="ui-label fn-width80" id="videoDetect_titleaweek" for="videoDetect_allweek">全周:</label>
+<div class="fn-left" id="weeks">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day0">
+</div>
+<label class="ui-label-sub" for="videoDetect_day0" id="videoDetect_titleday0">星期日</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day1">
+</div>
+<label class="ui-label-sub" for="videoDetect_day1" id="videoDetect_titleday1">星期一</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day2">
+</div>
+<label class="ui-label-sub" for="videoDetect_day2" id="videoDetect_titleday2">星期二</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day3">
+</div>
+<label class="ui-label-sub" for="videoDetect_day3" id="videoDetect_titleday3">星期三</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day4">
+</div>
+<label class="ui-label-sub" for="videoDetect_day4" id="videoDetect_titleday4">星期四</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day5">
+</div>
+<label class="ui-label-sub" for="videoDetect_day5" id="videoDetect_titleday5">星期五</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_day6">
+</div>
+<label class="ui-label-sub" for="videoDetect_day6" id="videoDetect_titleday6">星期六</label>
+</div>
+</div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts0">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts0" id="videoDetect_tmsection0">时间段1:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t00">
+<span>:</span>
+<input name="textfield" id="videoDetect_t01">
+<span>:</span>
+<input name="textfield" id="videoDetect_t02">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t03">
+<span>:</span>
+<input name="textfield" id="videoDetect_t04">
+<span>:</span>
+<input name="textfield" id="videoDetect_t05">
+</div>
+</div>
+<div class="ui-form-item ui-videoDetect-bg">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts1">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts1" id="videoDetect_tmsection1">时间段2:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t10">
+<span>:</span>
+<input name="textfield" id="videoDetect_t11">
+<span>:</span>
+<input name="textfield" id="videoDetect_t12">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t13">
+<span>:</span>
+<input name="textfield" id="videoDetect_t14">
+<span>:</span>
+<input name="textfield" id="videoDetect_t15">
+</div>
+</div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts2">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts2" id="videoDetect_tmsection2">时间段3:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t20">
+<span>:</span>
+<input name="textfield" id="videoDetect_t21">
+<span>:</span>
+<input name="textfield" id="videoDetect_t22">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t23">
+<span>:</span>
+<input name="textfield" id="videoDetect_t24">
+<span>:</span>
+<input name="textfield" id="videoDetect_t25">
+</div>
+</div>
+<div class="ui-form-item ui-videoDetect-bg">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts3">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts3" id="videoDetect_tmsection3">时间段4:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t30">
+<span>:</span>
+<input name="textfield" id="videoDetect_t31">
+<span>:</span>
+<input name="textfield" id="videoDetect_t32">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t33">
+<span>:</span>
+<input name="textfield" id="videoDetect_t34">
+<span>:</span>
+<input name="textfield" id="videoDetect_t35">
+</div>
+</div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts4">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts4" id="videoDetect_tmsection4">时间段5:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t40">
+<span>:</span>
+<input name="textfield" id="videoDetect_t41">
+<span>:</span>
+<input name="textfield" id="videoDetect_t42">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t43">
+<span>:</span>
+<input name="textfield" id="videoDetect_t44">
+<span>:</span>
+<input name="textfield" id="videoDetect_t45">
+</div>
+</div>
+<div class="ui-form-item ui-videoDetect-bg">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoDetect_ts5">
+</div>
+<label class="ui-label fn-width80" for="videoDetect_ts5" id="videoDetect_tmsection5">时间段6:</label>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t50">
+<span>:</span>
+<input name="textfield" id="videoDetect_t51">
+<span>:</span>
+<input name="textfield" id="videoDetect_t52">
+</div>
+<span class="ui-symbol">-</span>
+<div class="ui-input-box">
+<input name="textfield" id="videoDetect_t53">
+<span>:</span>
+<input name="textfield" id="videoDetect_t54">
+<span>:</span>
+<input name="textfield" id="videoDetect_t55">
+</div>
+</div>
+</form>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="videoDetect_timeConfirm0">确定</a>
+<a class="ui-button" id="videoDetect_timeCancle0">取消</a>
+</div>
+</div>
+</div>
+<div class="ui-dialog fn-width844" id="videoDetect_zone">
+<div class="ui-dialog-title">
+<h1>区域设置</h1>
+<a id="videoDetect_exit" class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-container fn-clear">
+<div class="ui-dialog-content fn-height450">
+<div class="ui-video-left videodetect-left">
+<div class="ui-videobox fn-relative" id="videoDetect_node">
+<div id="md_WebconfigDiv" style="text-align:center;display:none">
+<div id="md_WebconfigDownload_top">&nbsp;</div>
+<a id="md_WebconfigDownload" class="fn-color-purple fn-fontsize14" href="https://www.mydownload.store/WebCtrlPlayer_install.zip" target="_blank">请点击安装播放插件</a>
+<span id="md_WebconfigDownload_span" class="fn-color-purple fn-fontsize14" style="display:none">请点击安装播放插件</span>
+</div>
+<div id="videoDetect_detZone" class="ui-videobox-video" align="center">
+</div>
+</div>
+<div class="ui-videobox-iconbar">
+<div class="ui-button-box fn-left">
+<a id="videoDetect_AddAll" class="ui-button" href="javascript:;"></a>
+<a id="videoDetect_RemoveAll" class="ui-button" href="javascript:;"></a>
+</div>
+<div>
+<a id="videoDetect_MouseInfo1" class="fn-left fn-lineh24 fn-padl5">选择：从左向右拖选</a>
+</div>
+<div>
+<a id="videoDetect_MouseInfo2" class="fn-left fn-lineh24 fn-padl5">移除：从右向左拖选</a>
+</div>
+</div>
+</div>
+<div class="videotect-regionbox">
+<form>
+<div class="ui-form-item fn-padt10">
+<label class="ui-label fn-width100 fn-textright fn-padr0" id="videoDetect_Sensitive_label">灵敏度</label>
+<div class="ui-slider">
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoDetect_less_Sensitive"></a>
+<div class="ui-slider-container fn-width120 fn-mart5" style="margin-left:8px" id="videoDetect_Sensitive_line">
+<div class="ui-slider-sax" id="videoDetect_Sensitive_icon"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoDetect_add_Sensitive"></a>
+<span class="ui-slider-text" id="videoDetect_Sensitive_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-padt10">
+<label class="ui-label fn-width100 fn-textright fn-padr0" id="videoDetect_Threshold_label">告警门限</label>
+<div class="ui-slider">
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoDetect_less_Threshold"></a>
+<div class="ui-slider-container fn-width120 fn-mart5" style="margin-left:8px" id="videoDetect_Threshold_line">
+<div class="ui-slider-sax" id="videoDetect_Threshold_icon"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoDetect_add_Threshold"></a>
+<span class="ui-slider-text" id="videoDetect_Threshold_title">100</span>
+</div>
+</div>
+<div id="videoDetect_showBlockCount" class="ui-form-item fn-padt10">
+<label class="ui-label fn-textright fn-padr0 fn-width100" id="videoDetect_BlockCount_label">区域数量</label>
+<div class="fn-left fn-padl15" id="videoDetect_BlockCount_slct">
+<select id="videoDetect_BlockCount" class="ui-select fn-width115">
+<option value="65537">1X1</option>
+<option value="131074">2X2</option>
+<option value="196610">3X2</option>
+<option value="196611">3X3</option>
+<option value="262147">4X3</option>
+<option value="262148">4X4</option>
+<option value="524296">8X8</option>
+<option value="1048592">16X16</option>
+<option value="1441810">22X18</option>
+</select>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+<div id="videoDetect_showNightTime" class="ui-form-item fn-padt10">
+<label class="ui-label fn-textright fn-padr0 fn-width100" id="videoDetect_NightTime_label">启用夜间参数</label>
+<div class="fn-left fn-padl15" id="videoDetect_NightTime_slct">
+<select id="videoDetect_NightTime" class="ui-select fn-width115">
+<option id="videoDetect_NightTime_Disable" value="0">Disable</option>
+<option id="videoDetect_NightTime_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div style="display:none">
+<div id="videoDetect_showNightStartTime" class="ui-form-item fn-padt10">
+<label class="ui-label fn-textright fn-padr0 fn-width100" id="videoDetect_NightStartTime_label">夜间起始时间</label>
+<div class="fn-left fn-padl15" id="videoDetect_NightStartTime_slct">
+<div class="ui-input-box">
+<input id="videoDetect_NightStartTime_0" style="width:29px">
+<span>:</span>
+<input id="videoDetect_NightStartTime_1" style="width:29px">
+<span>:</span>
+<input id="videoDetect_NightStartTime_2" style="width:29px">
+</div>
+</div>
+</div>
+<div id="videoDetect_showNightEndTime" class="ui-form-item fn-padt10">
+<label class="ui-label fn-textright fn-padr0 fn-width100" id="videoDetect_NightEndTime_label">夜间结束时间</label>
+<div class="fn-left fn-padl15" id="videoDetect_NightEndTime_slct">
+<div class="ui-input-box">
+<input id="videoDetect_NightEndTime_0" style="width:29px">
+<span>:</span>
+<input id="videoDetect_NightEndTime_1" style="width:29px">
+<span>:</span>
+<input id="videoDetect_NightEndTime_2" style="width:29px">
+</div>
+</div>
+</div>
+</div>
+<div class="ui-form-item fn-padt10" id="videoDetect_showNightSensitive">
+<label class="ui-label fn-width100 fn-textright fn-padr0" id="videoDetect_NightSensitive_label">夜间灵敏度</label>
+<div class="ui-slider">
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoDetect_less_NightSensitive"></a>
+<div class="ui-slider-container fn-width120 fn-mart5" style="margin-left:8px" id="videoDetect_NightSensitive_line">
+<div class="ui-slider-sax" id="videoDetect_NightSensitive_icon"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoDetect_add_NightSensitive"></a>
+<span class="ui-slider-text" id="videoDetect_NightSensitive_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-padt10" id="videoDetect_showNightThreshold">
+<label class="ui-label fn-width100 fn-textright fn-padr0" id="videoDetect_NightThreshold_label">夜间告警门限</label>
+<div class="ui-slider">
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoDetect_less_NightThreshold"></a>
+<div class="ui-slider-container fn-width120 fn-mart5" style="margin-left:8px" id="videoDetect_NightThreshold_line">
+<div class="ui-slider-sax" id="videoDetect_NightThreshold_icon"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoDetect_add_NightThreshold"></a>
+<span class="ui-slider-text" id="videoDetect_NightThreshold_title">100</span>
+</div>
+</div>
+<div id="videoDetect_MotionFigure_wrap" class="videodetect-figure-wrap" style="display:none">
+<div id="videoDetect_MotionFigure" class="videodetect-figure"></div>
+<div id="videoDetect_MotionFigure_threshold" class="videodetect-threshold"></div>
+</div>
+</form>
+</div>
+</div>
+<div class="ui-tip fn-marl140" style="display:none">
+<div class="ui-tip-container" id="videoDetect_remark1" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="videoDetect_remark1_label"></label>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="videoDetect_savezone" class="ui-button" href="javascript:;">Confirm</a>
+<a id="videoDetect_close" class="ui-button" href="javascript:;">Close</a>
+</div>
+</div>
+<iframe id="videoDetect_motionFigure_frame" src="" style="display:none"></iframe>
+</div>

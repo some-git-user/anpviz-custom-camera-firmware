@@ -1,0 +1,461 @@
+<div id="page_gb28181Config" class="page_config">
+<input id="GB28181CFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="gb_gb28181_tab" data-for="gb28181" class="gb_tab_title ui-tab-current">GB28181</li>
+<li id="gb_certificate_tab" data-for="certificate" class="gb_tab_title" style="display:block">证书管理</li>
+</ul>
+</div>
+<div class="gb_tab_con ui-container" id="gb_tab_gb28181">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_enable_label" for="gb28181_enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="gb28181_enable">
+</div>
+</div>
+<div class="ui-form-item" id="show_gb35114_enable">
+<label class="ui-label fn-padl20" id="gb35114_enable_label">启用GB35114</label>
+<div class="fn-left">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="gb35114_enable1" name="gb35114_enable">
+</div>
+<label class="ui-label-sub fn-minwid30 fn-width60" id="gb35114_enable1_label" for="gb35114_enable1">强制关闭</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="gb35114_enable2" name="gb35114_enable">
+</div>
+<label class="ui-label-sub fn-minwid30 fn-width60" id="gb35114_enable2_label" for="gb35114_enable2">强制使能</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="gb35114_enable3" name="gb35114_enable">
+</div>
+<label class="ui-label-sub fn-minwid30 fn-width60" id="gb35114_enable3_label" for="gb35114_enable3">自动检测</label>
+</div>
+</div>
+<div class="ui-form-item" id="show_gb28181_status_label">
+<label class="ui-label fn-padl20" id="gb28181_status_label">设备在线状态</label>
+<div class="ui-checkbox">
+<input type="radio" id="gb28181_status" name="gb28181_status_name" disabled>
+</div>
+<label class="ui-label fn-color-purple" id="gb28181_status_label" for="gb28181_status">离线</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_version_label">协议版本</label>
+<select class="ui-select fn-width204" id="gb28181_version">
+<option id="gb28181_version_0" value="0">GB/T28181</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_type_label">传输协议</label>
+<select class="ui-select fn-width204" id="gb28181_type">
+<option id="gb28181_type_0" value="0">UDP</option>
+<option id="gb28181_type_1" value="1">TCP</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_nstreams_label">码流</label>
+<select class="ui-select fn-width204" id="gb28181_nstreams">
+<option id="gb28181_nstreams_0" value="0">主码流</option>
+<option id="gb28181_nstreams_1" value="1">子码流</option>
+</select>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_nChannelNum_label">通道数量</label>
+<input name="textfield" id="gb28181_nChannelNum" class="ui-input fn-width200">
+<span class="ui-text"></span>
+<span class="ui-tip-red" id="gb28181_nChannelNum_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcId_label">SIP服务器ID</label>
+<input name="textfield" id="gb28181_hcId" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="gb28181_hcId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcIp_label">SIP服务器地址</label>
+<input name="textfield" id="gb28181_hcIp_address" class="ui-input fn-width200">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcName_label">SIP服务器名称</label>
+<input name="textfield" id="gb28181_hcName" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_hcName_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcPort_label">SIP服务器端口</label>
+<input name="textfield" id="gb28181_hcPort" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="gb28181_hcPort_tip"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_hcPwd_label">hcPwd</label>
+<input type="password" name="textfield" id="gb28181_hcPwd" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_hcPwd_tip"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_hcPwdConfirm_label">hcPwd密码确认</label>
+<input type="password" name="textfield" id="gb28181_hcPwdConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_hcPwdConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPort_label">本地SIP端口</label>
+<input name="textfield" id="gb28181_lcPort" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="gb28181_lcPort_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcId_label">SIP用户认证ID</label>
+<input name="textfield" id="gb28181_lcId" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="gb28181_lcId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcName_label">SIP用户名</label>
+<input name="textfield" id="gb28181_lcName" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_lcName_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPwd_label">SIP认证密码</label>
+<input type="password" name="textfield" id="gb28181_lcPwd" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_lcPwd_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPwdConfirm_label">SIP认证密码确认</label>
+<input type="password" name="textfield" id="gb28181_lcPwdConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_lcPwdConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_camId_label">视频通道编码ID</label>
+<input name="textfield" id="gb28181_camId" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_camId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_alarmId_label">告警设备ID</label>
+<input name="textfield" id="gb28181_alarmId" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_alarmId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_Device_name_label">设备名称</label>
+<input name="textfield" id="gb28181_Device_name" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_Device_name_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="gb28181_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="gb28181_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="gb28181_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="gb28181_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="gb28181_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="gb_tab_con ui-container" id="gb_tab_certificate">
+<div class="ui-form-item">
+<label class="ui-title" id="certificate_manage_label">模式切换</label>
+</div>
+<div class="ui-form" id="certificate_page_change">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="certificate_manage_label">标准模式：</label>
+<input class="ui-checkbox" type="radio" id="certificate_manage_radio" name="certificatePage_status" checked>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="certificate_MSG_label">GA模式：</label>
+<input class="ui-checkbox" type="radio" id="certificate_MSG_radio" name="certificatePage_status">
+</div>
+</div>
+<div id="certificate_Manage">
+<form class="ui-form">
+<div class="ui-form-item">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="P10_output_label">P10 导出</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="country_showSelect" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="country_Select_label">国家</label>
+<select class="ui-select" id="country_Select">
+<option id="country_Select_0" value="0">CN</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb_ID_label">国标ID</label>
+<input name="textfield" id="gb_ID" class="ui-input fn-width200" maxlength="128">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="output_Format_label">输出格式</label>
+<div class="fn-left">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="DER_select" name="P10_select">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30 fn-width100" id="DER_select_label" for="DER_select">DER</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="PEM_select" name="P10_select">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="PEM_select_label" for="PEM_select">PEM</label>
+<a id="P10_output_btn" class="ui-button" href="javascript:;">P10导出</a>
+</div>
+</div>
+</div>
+</form>
+<div class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="device_Certificate_label">设备证书</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="certificate_Message_label">证书信息</label>
+<input name="textfield" id="certificate_Message" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="signing_Certificate_label">签名证书</label>
+<input name="textfield" id="signing_Certificate" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_Certificate_label">加密证书</label>
+<input name="textfield" id="encryption_Certificate" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+<div class="ui-form-item">
+<form id="aaa1" class="ui-form-item" name="bbb1" action="/CertificateKey1" method="post" target="ccc1" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="signingCertificate_file_label">签名证书导入路径</label>
+<div class="fn-left">
+<select id="signingCertificate_file" class="ui-select">
+</select>
+</div>
+<a id="signingCertificate_btn" class="ui-button" href="javascript:;">证书导入</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-checkbox fn-opacity" name="oem_mp3" id="signingCertificate_file_check" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="signingCertificate_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="ccc1" id="ccc1" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-form-item">
+<form id="aaa2" class="ui-form-item" name="bbb2" action="/CertificateKey2" method="post" target="ccc2" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="encryptionKey_file_label">加密秘钥导入路径</label>
+<div class="fn-left">
+<select id="encryptionKey_file" class="ui-select">
+</select>
+</div>
+<a id="encryptionKey_btn" class="ui-button" href="javascript:;">证书导入</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-checkbox fn-opacity" name="oem_mp3" id="encryptionKey_file_check" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="encryptionKey_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="ccc2" id="ccc2" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-form-item">
+<form id="aaa3" class="ui-form-item" name="bbb3" action="/CertificateKey3" method="post" target="ccc3" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="encryptionCertificate_file_label">加密证书导入路径</label>
+<div class="fn-left">
+<select id="encryptionCertificate_file" class="ui-select">
+</select>
+</div>
+<a id="encryptionCertificate_btn" class="ui-button" href="javascript:;">证书导入</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-checkbox fn-opacity" name="oem_mp3" id="encryptionCertificate_file_check" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="encryptionCertificate_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="ccc3" id="ccc3" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="keyPair_format_label">密钥对格式</label>
+<div class="fn-left">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="Format2_selectFormat" name="keyPair_select">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30 fn-width100" id="Format2_selectFormat_label" for="Format2_selectFormat">GM09</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="Format5_selectFormat" name="keyPair_select">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30 fn-width100" id="Format5_selectFormat_label" for="Format5_selectFormat">RAWDATA</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="RAW_selectFormat" name="keyPair_select">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30 fn-width100" id="RAW_selectFormat_label" for="RAW_selectFormat">P7B</label>
+</div>
+</div>
+</div>
+<div class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="platform/user_Certificate_label">平台/用户证书</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="File_showSelect" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="certificate_File_label">证书类型</label>
+<select class="ui-select" id="certificate_file">
+<option id="file_Select_0" value="0">签名证书</option>
+<option id="file_Select_1" value="1">加密证书</option>
+</select>
+</div>
+<div class="ui-form-item">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="certificate_File_label1">证书文件</label>
+<div class="fn-left">
+<select id="certificate_file1" class="ui-select">
+</select>
+</div>
+<a id="certificate_Search_btn" class="ui-button" href="javascript:;">证书检索</a>
+<a id="certificate_Delete_btn" class="ui-button" href="javascript:;">证书删除</a>
+</div>
+</div>
+</div>
+<div id="gb_platform_remark">
+<form id="aaa5" class="ui-form-item" name="bbb5" action="/CertificateKey4" method="post" target="ccc5" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="platformCertificate_file_label">导入路径</label>
+<div class="fn-left">
+<select id="platformCertificate_file" class="ui-select">
+</select>
+</div>
+<a id="platformCertificate_btn" class="ui-button" href="javascript:;">证书导入</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-checkbox fn-opacity" name="oem_mp3" id="platformCertificate_File_check" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="platformCertificate_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="ccc5" id="ccc5" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-form-item" id="gb_platform_remark1" style="display:none">
+<form id="aaa6" class="ui-form-item" name="bbb6" action="/CertificateKey5" method="post" target="ccc6" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="platformCertificate_file_label1">导入路径</label>
+<div class="fn-left">
+<select id="platformCertificate_file1" class="ui-select">
+</select>
+</div>
+<a id="platformCertificate_btn1" class="ui-button" href="javascript:;">证书导入</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-checkbox fn-opacity" name="oem_mp3" id="platformCertificate_File_check1" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="platformCertificate_submit1" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="ccc6" id="ccc6" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="Certificate_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="Certificate_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="Certificate_confirm" class="ui-button admin_button" href="javascript:;">保存</a>
+</div>
+</div>
+</div>
+<div id="certificate_MSG" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="test_label">设备自检信息</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test1_label">摘要算法</label>
+<label class="ui-label" id="test1">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test2_label">随机数</label>
+<label class="ui-label" id="test2">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test3_label">文件IO</label>
+<label class="ui-label" id="test3">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test4_label">非对称算法</label>
+<label class="ui-label" id="test4">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test5_label">对称算法</label>
+<label class="ui-label" id="test5">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="test6_label">设备状态</label>
+<label class="ui-label" id="test6">空</label>
+</div>
+</div>
+</form>
+<form class="ui-form">
+<div class="ui-form-item">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="SDK_test_label">安全SDK信息</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="SDK_test1_label">SDK模式</label>
+<label class="ui-label" id="SDK_test1">联网模式</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="SDK_test2_label">SDK版本</label>
+<input name="textfield" id="SDK_test2_Message" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="SDK_test3_label">序列号</label>
+<input name="textfield" id="SDK_test3_Message" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="SDK_test4_label">是否发证</label>
+<label class="ui-label" id="SDK_test4">空</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="SDK_test5_label">cos芯片版本</label>
+<input name="textfield" id="SDK_test5_Message" class="ui-input fn-width200" readonly maxlength="128">
+</div>
+</div>
+</form>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="test_clearKey" class="ui-button" href="javascript:;">擦除初始密钥</a>
+<a id="test_refresh" class="ui-button" href="javascript:;">刷新</a>
+</div>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="gb_setting_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="gb_setting_remark_label">保存成功</label>
+</div>
+</div>
+<div id="gb28181_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>恢复默认</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="gb28181_dialog_prompt">请输入密码：</span>
+<input type="password" name="textfield" id="pass_dialog" class="ui-input fn-width200" maxlength="128">
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="gb28181_dialog_confirm">保存</a>
+<a class="ui-button" id="gb28181_dialog_cancel">取消</a>
+</div>
+</div>
+</div>
+</div>

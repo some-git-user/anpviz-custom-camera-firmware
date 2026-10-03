@@ -1,0 +1,15 @@
+#!/bin/sh
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export LD_LIBRARY_PATH=/lib
+mkdir -p /dev/pts
+ulimit -c unlimited
+export PATH=$PATH:/config
+export TERMINFO=/config/terminfo
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/config/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/customer/ssh/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/customer
+export TERM=vt100
+export TERMINFO=/etc/terminfo
+export LD_LIBRARY_PATH="/mnt/app/app:/tmp/oem/app:/tmp:/lib:/usr/lib:/ext/lib:/usr/local/lib:/system/lib:/opt/ch:$LD_LIBRARY_PATH"
+export PATH="/config:$PATH"
+umask 000

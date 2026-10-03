@@ -1,0 +1,1005 @@
+<div id="page_cameraConfig" class="page_config">
+<input id="CAMERA" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="camera_Images_label" data-for="Images" class="camera_tab_title ui-tab-current">Image</li>
+<li id="camera_OSD_label" data-for="OSD" class="camera_tab_title">OSD</li>
+<li id="camera_CustomTitle_label" data-for="CustomTitle" class="camera_tab_title" style="display:none">Custom Title</li>
+<li id="camera_ROI_label" data-for="ROI" class="camera_tab_title" style="display:none">ROI</li>
+<li id="camera_PrivacyMask_label" data-for="PrivacyMask" class="camera_tab_title" style="display:none">隐私遮挡</li>
+<li id="camera_HotImages_label" data-for="HotImages" class="camera_tab_title" style="display:none">热成像设置</li>
+</ul>
+</div>
+<div class="ui-container camera_tab_con" id="camera_tab_Images">
+<div id="camera_left_div" class="camera-left">
+<div id="camera_video_node" class="camera-video-box">
+<div id="camera_WebconfigDiv" style="text-align:center;display:none">
+<div id="camera_WebconfigDownload_top">&nbsp;</div>
+<p><a id="camera_WebconfigDownload" class="fn-color-purple fn-fontsize14" style="cursor:pointer" var="https://www.mydownload.store/WebCtrlPlayer_install.zip" onclick="openPluginDownloadWindow($(this))">请点击安装播放插件</a></p>
+<span id="camera_WebconfigDownload_span" class="fn-color-purple fn-fontsize14" style="display:none">请点击安装播放插件</span>
+</div>
+<div class="camera-video" id="camera_showVideo" align="center" oncontextmenu="return!1">
+</div>
+<div id="camera_overlay_div" style="z-index:996;font-size:12px;color:#00f;font-weight:700;display:none;position:absolute">
+<iframe id="camera_overlay_iframe_title" src="" style="z-index:997;display:none;position:absolute;opacity:0;cursor:move">
+</iframe>
+<iframe id="camera_overlay_iframe_time" src="" style="z-index:998;display:none;position:absolute;opacity:0;cursor:move">
+</iframe>
+<label id="camera_overlay_title" style="z-index:999;border:solid thin;cursor:move;padding-left:1px;padding-top:0;position:absolute;white-space:nowrap">Camera</label>
+<label id="camera_overlay_time" style="z-index:999;border:solid thin;cursor:move;padding-left:1px;padding-top:0;position:absolute;white-space:nowrap">xxxx-xx-xx xx:xx:xx</label>
+</div>
+</div>
+<div class="ui-video-bar camera-video-iconbar" id="camera_showFullScene" style="display:none">
+<div class="ui-video-iconbar">
+<a id="camera_btn_FullScene" href="javascript:;" class="ui-video-icon">
+<span class="ui-video-icon-full"></span>
+</a>
+</div>
+</div>
+<div id="camera_button_box" class="ui-button-box fn-padt10">
+<a id="camera_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="camera_refresh" class="ui-button" href="javascript:;"></a>
+<a id="camera_confirm" class="ui-button admin_button" href="javascript:;"></a>
+</div>
+<div class="ui-tip">
+<div class="ui-tip-container" id="camera_remark0">
+<span class="ui-tip-icon"></span>
+<label id="camera_remark0_label"></label>
+</div>
+</div>
+</div>
+<div class="camera-right" id="camera_right_Images">
+<form class="ui-form">
+<div id="camera_ImagesBase" class="ui-half-box-image">
+<div class="ui-form-item fn-clear" id="camera_showBrightness">
+<label class="ui-label fn-padl20 fn-width100" id="camera_Brightness_label">Brightness</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-light fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Brightness"></a>
+<div id="camera_line_Brightness" class="ui-slider-container fn-width120">
+<div id="camera_icon_Brightness" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Brightness"></a>
+<span class="ui-slider-text" id="camera_Brightness_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showContrast">
+<label class="ui-label fn-padl20 fn-width100" id="camera_Contrast_label">Contrast</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-contrast fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Contrast"></a>
+<div id="camera_line_Contrast" class="ui-slider-container fn-width120">
+<div id="camera_icon_Contrast" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Contrast"></a>
+<span class="ui-slider-text" id="camera_Contrast_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showSaturation">
+<label class="ui-label fn-padl20 fn-width100" id="camera_Saturation_label">Saturation</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-saturation fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Saturation"></a>
+<div id="camera_line_Saturation" class="ui-slider-container fn-width120">
+<div id="camera_icon_Saturation" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Saturation"></a>
+<span class="ui-slider-text" id="camera_Saturation_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showEEMode">
+<label class="ui-label fn-padl20 fn-width100" id="camera_EEMode_label">Sharpness</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-sharpness fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_EEMode"></a>
+<div id="camera_line_EEMode" class="ui-slider-container fn-width120">
+<div id="camera_icon_EEMode" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_EEMode"></a>
+<span class="ui-slider-text" id="camera_EEMode_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showBackLight">
+<label class="ui-label fn-padl20 fn-width100" id="camera_BackLight_label">BackLight</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-BackLight fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_BackLight"></a>
+<div id="camera_line_BackLight" class="ui-slider-container fn-width120">
+<div id="camera_icon_BackLight" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_BackLight"></a>
+<span class="ui-slider-text" id="camera_BackLight_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showHLC">
+<label class="ui-label fn-padl20 fn-width100" id="camera_HLC_label">HLC</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_HLC"></a>
+<div id="camera_line_HLC" class="ui-slider-container fn-width120">
+<div id="camera_icon_HLC" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_HLC"></a>
+<span class="ui-slider-text" id="camera_HLC_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showDenoise2D">
+<label class="ui-label fn-padl20 fn-width100" id="camera_Denoise2D_label">2D降噪</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-Denoise2D fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Denoise2D"></a>
+<div id="camera_line_Denoise2D" class="ui-slider-container fn-width120">
+<div id="camera_icon_Denoise2D" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Denoise2D"></a>
+<span class="ui-slider-text" id="camera_Denoise2D_title">255</span>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showDenoise3D">
+<label class="ui-label fn-padl20 fn-width100" id="camera_Denoise3D_label">3D降噪</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-Denoise3D fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Denoise3D"></a>
+<div id="camera_line_Denoise3D" class="ui-slider-container fn-width120">
+<div id="camera_icon_Denoise3D" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Denoise3D"></a>
+<span class="ui-slider-text" id="camera_Denoise3D_title">255</span>
+</div>
+</div>
+<div id="camera_showAWBMode" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_AWBMode_label">白平衡</label>
+<div class="fn-left fn-padl20" id="camera_AWBMode_slct">
+<select id="camera_AWBMode" class="ui-select">
+<option id="AWBMode_Disable" value="0">Disable</option>
+<option id="AWBMode_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showAWBGain" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_AWBRedGain_label">白平衡R增益</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-AWBRedGain fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_AWBRedGain"></a>
+<div id="camera_line_AWBRedGain" class="ui-slider-container fn-width120">
+<div id="camera_icon_AWBRedGain" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_AWBRedGain"></a>
+<span class="ui-slider-text" id="camera_AWBRedGain_title">255</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_AWBGreenGain_label">白平衡G增益</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-AWBGreenGain fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_AWBGreenGain"></a>
+<div id="camera_line_AWBGreenGain" class="ui-slider-container fn-width120">
+<div id="camera_icon_AWBGreenGain" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_AWBGreenGain"></a>
+<span class="ui-slider-text" id="camera_AWBGreenGain_title">255</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_AWBBlueGain_label">白平衡B增益</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-AWBBlueGain fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_AWBBlueGain"></a>
+<div id="camera_line_AWBBlueGain" class="ui-slider-container fn-width120">
+<div id="camera_icon_AWBBlueGain" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_AWBBlueGain"></a>
+<span class="ui-slider-text" id="camera_AWBBlueGain_title">255</span>
+</div>
+</div>
+</div>
+<div id="camera_showVideoFormat" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width100" id="camera_VideoFormat_label">VideoFormat</label>
+<div class="fn-left fn-padl20">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="camera_VideoFormat_50" name="camera_selectVideoFormat">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="camera_VideoFormat_50_label" for="camera_VideoFormat_50">50Hz</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="camera_VideoFormat_60" name="camera_selectVideoFormat">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="camera_VideoFormat_60_label" for="camera_VideoFormat_60">60Hz</label>
+</div>
+</div>
+<div id="camera_show_antiflicker" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width120" id="camera_antiflicker_label">强制抗闪</label>
+<div class="fn-left fn-padl0">
+<select id="camera_antiflicker" class="ui-select">
+<option id="camera_antiflicker_0" value="0">禁用</option>
+<option id="camera_antiflicker_1" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+<div id="camera_show_video_crop" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width120" id="camera_video_crop_x_label">水平方向裁剪像素</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_video_crop_x"></a>
+<div id="camera_line_video_crop_x" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_icon_video_crop_x" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_video_crop_x"></a>
+<span class="ui-slider-text" id="camera_video_crop_x_title">256</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width120" id="camera_video_crop_y_label">垂直方向裁剪像素</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_video_crop_y"></a>
+<div id="camera_line_video_crop_y" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_icon_video_crop_y" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_video_crop_y"></a>
+<span class="ui-slider-text" id="camera_video_crop_y_title">256</span>
+</div>
+</div>
+</div>
+<div id="camera_showHorizonFlip" class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width100" id="camera_HorizonFlip_label">HorizonFlip</label>
+<div class="fn-left fn-padl20" id="camera_HorizonFlip_slct">
+<select id="camera_HorizonFlip" class="ui-select">
+<option id="HorizonFlip_Disable" value="0">Disable</option>
+<option id="HorizonFlip_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showVerticalFlip" class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width100" id="camera_VerticalFlip_label">VerticalFlip</label>
+<div class="fn-left fn-padl20" id="camera_showVerticalFlip_slct">
+<select id="camera_VerticalFlip" class="ui-select">
+<option id="VerticalFlip_Disable" value="0">Disable</option>
+<option id="VerticalFlip_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showRotateMode" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_RotateMode_label">Rotate</label>
+<div class="fn-left fn-padl20" id="camera_showRotateMode_slct">
+<select id="camera_RotateMode" class="ui-select">
+<option id="RotateMode_Disable" value="0">Disable</option>
+<option id="RotateMode_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showDfrogFlag" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_DfrogFlag_label">去雾开关</label>
+<div class="fn-left fn-padl20" id="camera_DfrogFlag_slct">
+<select id="camera_DfrogFlag" class="ui-select">
+<option id="DfrogFlag_Disable" value="0">Disable</option>
+<option id="DfrogFlag_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showDfrogValue" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_DfrogValue_label">去雾范围</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-DfrogValue fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_DfrogValue"></a>
+<div id="camera_line_DfrogValue" class="ui-slider-container fn-width120">
+<div id="camera_icon_DfrogValue" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_DfrogValue"></a>
+<span class="ui-slider-text" id="camera_DfrogValue_title">255</span>
+</div>
+</div>
+<div id="camera_showWDRMode" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_WDRMode_label">WDR模式</label>
+<div class="fn-left fn-padl20" id="camera_WDRMode_slct">
+<select id="camera_WDRMode" class="ui-select">
+<option id="WDRMode_Disable" value="0">Disable</option>
+<option id="WDRMode_DWDR" value="1">DWDR</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showWDRValue" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_WDRValue_label">WDR范围</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-WDRValue fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_WDRValue"></a>
+<div id="camera_line_WDRValue" class="ui-slider-container fn-width120">
+<div id="camera_icon_WDRValue" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_WDRValue"></a>
+<span class="ui-slider-text" id="camera_WDRValue_title">255</span>
+</div>
+</div>
+<div id="camera_showShutter" style="display:none">
+<div class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterModeDay_label">DayShutterMode</label>
+<div class="fn-left">
+<select id="camera_ShutterModeDay" class="ui-select">
+<option id="ShutterModeDay_Auto" value="0">Auto</option>
+<option id="ShutterModeDay_Manual" value="1">Manual</option>
+</select>
+</div>
+</div>
+<div id="camera_showShutterMinSpeedDay" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterMinSpeedDay_label">白天快门最小速度</label>
+<input id="camera_ShutterMinSpeedDay" class="ui-input fn-width70" maxlength="128">
+<label class="ui-label fn-pad120 fn-width60" id="camera_ShutterMinSpeedDayValue_label">(10~10000)</label>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showShutterSpeedDay">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterSpeedDay_label">ShutterSpeedDay</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-ShutterSpeedDay fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_ShutterSpeedDay"></a>
+<div id="camera_line_ShutterSpeedDay" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_icon_ShutterSpeedDay" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_ShutterSpeedDay"></a>
+<span class="ui-slider-text">1/</span>
+<span class="ui-slider-text" id="camera_ShutterSpeedDay_title">10000</span>
+<span class="ui-slider-text">s</span>
+</div>
+</div>
+<div class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterModeNight_label">NightShutterMode</label>
+<div class="fn-left">
+<select id="camera_ShutterModeNight" class="ui-select">
+<option id="ShutterModeNight_Auto" value="0">Auto</option>
+<option id="ShutterModeNight_Manual" value="1">Manual</option>
+</select>
+</div>
+</div>
+<div id="camera_showShutterMinSpeedNight" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterMinSpeedNight_label">夜晚快门最小速度</label>
+<input id="camera_ShutterMinSpeedNight" class="ui-input fn-width70" maxlength="128">
+<label class="ui-label fn-pad120 fn-width60" id="camera_ShutterMinSpeedNightValue_label">(10~10000)</label>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showShutterSpeedNight">
+<label class="ui-label fn-padl20 fn-width120" id="camera_ShutterSpeedNight_label">ShutterSpeedNight</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-ShutterSpeedNight fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_ShutterSpeedNight"></a>
+<div id="camera_line_ShutterSpeedNight" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_icon_ShutterSpeedNight" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_ShutterSpeedNight"></a>
+<span class="ui-slider-text">1/</span>
+<span class="ui-slider-text" id="camera_ShutterSpeedNight_title">10000</span>
+<span class="ui-slider-text">s</span>
+</div>
+</div>
+</div>
+<div id="camera_showIspMode" style="display:none">
+<div id="camera_showIspColorMode" class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IspColorMode_label">ISP彩色模式</label>
+<div class="fn-left fn-padl20">
+<select id="camera_IspColorMode" class="ui-select">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+</select>
+</div>
+</div>
+<div id="camera_showIspNightMode" class="ui-form-item" style="display:block">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IspNightMode_label">ISP夜间模式</label>
+<div class="fn-left fn-padl20">
+<select id="camera_IspNightMode" class="ui-select">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+</select>
+</div>
+</div>
+</div>
+<div id="show_IRCutSetting" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100 fn-bold" id="camera_IRCutSetting_label">IRCut Setting</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IRCutMode_label">IRCUT Mode</label>
+<div class="fn-left fn-padl20">
+<select class="ui-select" id="camera_IRCutMode_mode">
+<option id="IRCutModeActive" value="0">Active</option>
+<option id="IRCutModeDayAndNight" value="1">Day And Night</option>
+<option id="IRCutModePassive" value="2">Passive</option>
+<option id="IRCutModeManual" value="3">Manual</option>
+<option id="IRCutModeLightAlwaysOn" value="6">手动常开</option>
+<option id="IRCutModeLightAlwaysOff" value="7">手动常闭</option>
+</select>
+</div>
+</div>
+<div id="showIRCutModeManual_button" class="ui-form-item">
+<div id="showKeep_onOff_button" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100"></label>
+<div class="fn-left fn-padl20">
+<a id="keep_on" class="ui-button fn-width68" href="javascript:;">Keep On</a>
+<a id="keep_off" class="ui-button fn-width68" href="javascript:;">Keep Off</a>
+</div>
+</div>
+<label class="ui-label fn-padl20 fn-width100">&nbsp;</label>
+<div class="fn-left fn-padl20">
+<a id="IRCutManual_DayMode" class="ui-button fn-width68" href="javascript:;"></a>
+<a id="IRCutManual_NightMode" class="ui-button fn-width68" href="javascript:;"></a>
+</div>
+</div>
+<div id="camera_showIRCutKeepColor" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IRCutKeepColor_label">Keep color</label>
+<div class="fn-left fn-padl20" id="camera_showIRCutKeepColor_slct">
+<select id="camera_IRCutKeepColor" class="ui-select">
+<option id="IRCutKeepColor_No" value="0">No</option>
+<option id="IRCutKeepColor_Yes" value="1">Yes</option>
+</select>
+</div>
+</div>
+<div id="camera_showIRCutSensitivity" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IRCutSensitivity_label">Sensitivity</label>
+<div class="fn-left fn-padl20" id="camera_IRCutSensitivity_slct">
+<input id="camera_IRCutSensitivity" class="ui-input fn-width140">
+</div>
+</div>
+<div id="camera_showIRCutStartTimeNight" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IRCutStartTimeNight_label">Start time of night</label>
+<div class="fn-left fn-padl20" id="camera_IRCutStartTimeNight_slct">
+<div class="ui-input-box">
+<input id="camera_IRCutStartTimeNight_0" style="width:39px">
+<span>:</span>
+<input id="camera_IRCutStartTimeNight_1" style="width:39px">
+<span>:</span>
+<input id="camera_IRCutStartTimeNight_2" style="width:39px">
+</div>
+</div>
+</div>
+<div id="camera_showIRCutEndTimeNight" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width100" id="camera_IRCutEndTimeNight_label">End time of night</label>
+<div class="fn-left fn-padl20" id="camera_IRCutEndTimeNight_slct">
+<div class="ui-input-box">
+<input id="camera_IRCutEndTimeNight_0" style="width:39px">
+<span>:</span>
+<input id="camera_IRCutEndTimeNight_1" style="width:39px">
+<span>:</span>
+<input id="camera_IRCutEndTimeNight_2" style="width:39px">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="camera_ImagesAdvance" class="ui-half-box-image">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-bold fn-width270" id="camera_AdvancedImageOptions_label">高级图像设置</label>
+</div>
+<div id="camera_showLedtypeSet" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_LedtypeSet_label">补光灯工作模式</label>
+<div class="fn-left">
+<select id="camera_LedtypeSet" class="ui-select">
+<option id="PureInfraredLight" value="0">Pure infrared light</option>
+<option id="PureWhiteLight" value="1">Pure white light</option>
+<option id="SmartDualLight" value="2">Smart Dual Light</option>
+</select>
+</div>
+</div>
+<div id="camera_showIspAdvMode" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_IspAdvMode_label">补光图像选项</label>
+<div class="fn-left">
+<select id="camera_IspAdvMode" class="ui-select">
+<option id="IspAdvMode_0" value="0">Normal</option>
+<option id="IspAdvMode_1" value="1">Prevent overexposure face</option>
+<option id="IspAdvMode_2" value="2">License plate</option>
+</select>
+</div>
+</div>
+</div>
+<div class="ui-form-item" id="camera_Anti_human_face_11">
+<label class="ui-label fn-padl20 fn-width140" id="camera_Anti_human_face_label">防人脸过爆</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_less_Anti_human_face"></a>
+<div id="camera_line_Anti_human_face" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_icon_Anti_human_face" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_add_Anti_human_face"></a>
+<span class="ui-slider-text" id="camera_Anti_human_face_title">100</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_lights_off_sensitivity_label">关灯灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_lights_off_sensitivity_less"></a>
+<div id="camera_lights_off_sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_lights_off_sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_lights_off_sensitivity_add"></a>
+<span class="ui-slider-text" id="camera_lights_off_sensitivity_title">100</span>
+</div>
+</div>
+<div id="camera_showIRCutLedDelay" style="display:none">
+<div id="camera_showLedBrightnessMode" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_LedBrightnessMode_label">补光亮度模式</label>
+<div class="fn-left">
+<select id="camera_LedBrightnessMode" class="ui-select">
+<option id="camera_LedBrightnessMode_Manual" value="1">手动</option>
+<option id="camera_LedBrightnessMode_RestrictedAuto" value="2">补光亮度自动</option>
+<option id="camera_LedBrightnessMode_LowPower" value="3">低功耗</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="camera_showLedBrightness" style="display:none">
+<label class="ui-label fn-padl20 fn-width140" id="camera_LedBrightness_label">补光亮度</label>
+<div class="fn-left">
+<select id="camera_LedBrightness" class="ui-select">
+<option value="0">0%(OFF)</option>
+<option value="3">3%</option>
+<option value="5">5%</option>
+<option value="10">10%</option>
+<option value="20">20%</option>
+<option value="30">30%</option>
+<option value="40">40%</option>
+<option value="50">50%</option>
+<option value="60">60%</option>
+<option value="70">70%</option>
+<option value="80">80%</option>
+<option value="90">90%</option>
+<option value="100">100%</option>
+</select>
+</div>
+</div>
+<div id="camera_showLedBrightness_adv" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_LedBrightness_static_label">值守灯光亮度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_LedBrightness_static_less"></a>
+<div id="camera_LedBrightness_static_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_LedBrightness_static_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_LedBrightness_static_add"></a>
+<span class="ui-slider-text" id="camera_LedBrightness_static_title">100</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_LedBrightness_alarm_label">触发灯光亮度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="camera_LedBrightness_alarm_less"></a>
+<div id="camera_LedBrightness_alarm_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="camera_LedBrightness_alarm_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="camera_LedBrightness_alarm_add"></a>
+<span class="ui-slider-text" id="camera_LedBrightness_alarm_title">100</span>
+</div>
+</div>
+</div>
+<div id="camera_showIRCutLedDelaySet" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_IRCutLedDelay_label">补光延时</label>
+<div class="fn-left">
+<select id="camera_IRCutLedDelay" class="ui-select">
+</select>
+</div>
+</div>
+</div>
+<div id="camera_show_vencodemode_set" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="camera_vencodemode_set_label">图像模式</label>
+<div class="fn-left">
+<select id="camera_vencodemode_set" class="ui-select">
+<option id="camera_vencodemode_set_0" value="0">正常模式</option>
+<option id="camera_vencodemode_set_1" value="1">强制帧率模式</option>
+<option id="camera_vencodemode_set_2" value="2">超星光模式</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div class="camera-right" id="camera_right_OSD" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" id="camera_showOSDEnable">
+<label class="ui-label fn-padl10" id="camera_OSDEnable_label">OSD显示</label>
+<select class="ui-select fn-width250" id="camera_OSDEnable">
+<option id="camera_OSDEnable_0" value="0">禁用</option>
+<option id="camera_OSDEnable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="camera_showOSDColorStyle">
+<label class="ui-label fn-padl10" id="camera_OSDColorStyle_label">风格</label>
+<select class="ui-select fn-width250" id="camera_OSDColorStyle">
+<option id="camera_OSDColorStyle_0" value="0">白色背景黑色文字</option>
+<option id="camera_OSDColorStyle_1" value="1">黑色背景白色文字</option>
+<option id="camera_OSDColorStyle_2" value="2">透明背景白框黑字</option>
+<option id="camera_OSDColorStyle_3" value="3">透明背景黑框白字</option>
+<option id="camera_OSDColorStyle_4" value="4">透明背景黑字</option>
+<option id="camera_OSDColorStyle_5" value="5">透明背景白字</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="camera_showOSDFontSize">
+<label class="ui-label fn-padl10" id="camera_OSDFontSize_label">字体大小</label>
+<select class="ui-select fn-width250" id="camera_OSDFontSize">
+<option id="camera_OSDFontSize_0" value="0">标准</option>
+<option id="camera_OSDFontSize_1" value="1">大</option>
+<option id="camera_OSDFontSize_2" value="2">超大</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="camera_showOSDFontSize_GB">
+<label class="ui-label fn-padl10" id="camera_OSDFontSize_GB_label">字体大小</label>
+<select class="ui-select fn-width250" id="camera_OSDFontSize_GB">
+<option id="camera_OSDFontSize_GB_0" value="0">标准</option>
+<option id="camera_OSDFontSize_GB_1" value="1">大</option>
+<option id="camera_OSDFontSize_GB_2" value="2">超大</option>
+<option id="camera_OSDFontSize_GB_3" value="3">国标</option>
+</select>
+</div>
+<div id="camera_showOSDOverlap">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSDOverlap_label">叠加类型</label>
+<div class="ui-checkbox"><input type="checkbox" id="camera_OSD_Title"></div>
+<label class="ui-label fn-width65" id="camera_OSD_Title_label" for="camera_OSD_Title">标题</label>
+<div class="ui-checkbox"><input type="checkbox" id="camera_OSD_Resolution"></div>
+<label class="ui-label fn-width74" id="camera_OSD_Resolution_label" for="camera_OSD_Resolution">分辨率</label>
+<div class="ui-checkbox"><input type="checkbox" id="camera_OSD_Bitrate"></div>
+<label class="ui-label fn-width65" id="camera_OSD_Bitrate_label" for="camera_OSD_Bitrate">码率</label>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10">&nbsp;</label>
+<div class="ui-checkbox"><input type="checkbox" id="camera_OSD_Time"></div>
+<label class="ui-label fn-width65" id="camera_OSD_Time_label" for="camera_OSD_Time">时间</label>
+<div class="ui-checkbox"><input type="checkbox" id="camera_OSD_Week"></div>
+<label class="ui-label fn-width74" id="camera_OSD_Week_label" for="camera_OSD_Week">星期</label>
+</div>
+</div>
+<div id="camera_showOSDTime">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSDTimePos_label">时间位置</label>
+<select class="ui-select fn-width250" id="camera_OSDTimePos">
+<option id="camera_OSDTimePos_0" value="0">左上角</option>
+<option id="camera_OSDTimePos_1" value="1">右上角</option>
+<option id="camera_OSDTimePos_2" value="2">左下角</option>
+<option id="camera_OSDTimePos_3" value="3">右下角</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSDTimeFormat_label">时间显示格式</label>
+<select class="ui-select fn-width250" id="camera_OSDTimeFormat">
+<option value="yyyy-mm-dd hh:mm:ss">yyyy-mm-dd hh:mm:ss</option>
+<option value="yyyy/mm/dd hh:mm:ss">yyyy/mm/dd hh:mm:ss</option>
+<option value="yy-mm-dd hh:mm:ss">yy-mm-dd hh:mm:ss</option>
+<option value="yy/mm/dd hh:mm:ss">yy/mm/dd hh:mm:ss</option>
+<option value="hh:mm:ss dd/mm/yyyy">hh:mm:ss dd/mm/yyyy</option>
+<option value="hh:mm:ss dd-mm-yyyy">hh:mm:ss dd-mm-yyyy</option>
+<option value="hh:mm:ss mm/dd/yyyy">hh:mm:ss mm/dd/yyyy</option>
+<option value="hh:mm:ss mm-dd-yyyy">hh:mm:ss mm-dd-yyyy</option>
+<option value="mm/dd/yyyy hh:mm:ss">mm/dd/yyyy hh:mm:ss</option>
+<option value="mm-dd-yyyy hh:mm:ss">mm-dd-yyyy hh:mm:ss</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSD_time24or12_label">12小时/24小时</label>
+<select class="ui-select fn-width250" id="camera_OSD_time24or12">
+<option id="camera_OSD_time24or12_0" value="0">24小时</option>
+<option id="camera_OSD_time24or12_1" value="1">12小时</option>
+</select>
+</div>
+</div>
+<div id="camera_showOSDTitle">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSDTitlePos_label">标题位置</label>
+<select class="ui-select fn-width250" id="camera_OSDTitlePos">
+<option id="camera_OSDTitlePos_0" value="0">左上角</option>
+<option id="camera_OSDTitlePos_1" value="1">右上角</option>
+<option id="camera_OSDTitlePos_2" value="2">左下角</option>
+<option id="camera_OSDTitlePos_3" value="3">右下角</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_OSDTitleMsg_label">标题内容</label>
+<input id="camera_OSDTitleMsg" class="ui-input fn-width245">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10 fn-width400" id="camera_OSDTitleMsgHint_label">(多行用^分隔)</label>
+</div>
+</div>
+</form>
+</div>
+<div class="camera-right" id="camera_right_CustomTitle" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_Status_label">状态</label>
+<select class="ui-select" id="CustomTitle_Status">
+<option id="CustomTitle_Status_0" value="0">禁用</option>
+<option id="CustomTitle_Status_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="camera_CustomTitle_2_label">标题位置</label>
+<select class="ui-select fn-width145" id="camera_CustomTitle_2">
+<option id="camera_CustomTitle_2_0" value="0">左上角</option>
+<option id="camera_CustomTitle_2_1" value="1">右上角</option>
+<option id="camera_CustomTitle_2_2" value="2">左下角</option>
+<option id="camera_CustomTitle_2_3" value="3">右下角</option>
+<option id="camera_CustomTitle_2_4" value="4">自定义</option>
+</select>
+</div>
+<div id="show_camera_CustomTitle_2" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl10 fn-width100" id="CustomTitle_PosX_label">PosX</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="CustomTitle_less_PosX"></a>
+<div id="CustomTitle_line_PosX" class="ui-slider-container fn-width120">
+<div id="CustomTitle_icon_PosX" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="CustomTitle_add_PosX"></a>
+<span class="ui-slider-text" id="CustomTitle_PosX_title">100</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl10 fn-width100" id="CustomTitle_PosY_label">PosY</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="CustomTitle_less_PosY"></a>
+<div id="CustomTitle_line_PosY" class="ui-slider-container fn-width120">
+<div id="CustomTitle_icon_PosY" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="CustomTitle_add_PosY"></a>
+<span class="ui-slider-text" id="CustomTitle_PosY_title">100</span>
+</div>
+</div>
+</div>
+<div id="show_CustomTitle_Color" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_Color_label">颜色</label>
+<input id="CustomTitle_Color" value="000000" class="ui-input">
+<button id="CustomTitle_Color_Pick" class="jscolor {valueElement:'CustomTitle_Color', onFineChange:'changeColorCallback(this)'}" style="width:20px;height:20px;margin-top:3px;border:none;cursor:pointer"></button>
+</div>
+</div>
+<div id="show_CustomTitle_Transparency" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl10 fn-width100" id="CustomTitle_Transparency_label">Transparency</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="CustomTitle_less_Transparency"></a>
+<div id="CustomTitle_line_Transparency" class="ui-slider-container fn-width120">
+<div id="CustomTitle_icon_Transparency" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="CustomTitle_add_Transparency"></a>
+<span class="ui-slider-text" id="CustomTitle_Transparency_title">100</span>
+</div>
+</div>
+<div id="show_CustomTitle_Type" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_Type_label">类型</label>
+<select class="ui-select" id="CustomTitle_Type">
+<option id="CustomTitle_Type_0" value="0">文字</option>
+<option id="CustomTitle_Type_1" value="1">图片</option>
+</select>
+</div>
+</div>
+<div id="show_CustomTitle_Text">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_FontSize_label">字体大小</label>
+<select class="ui-select fn-width145" id="CustomTitle_FontSize">
+<option id="CustomTitle_FontSize_0" value="0">标准</option>
+<option id="CustomTitle_FontSize_1" value="1">大</option>
+<option id="CustomTitle_FontSize_2" value="2">超大</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_Content_label">内容</label>
+<input id="CustomTitle_Content" class="ui-input fn-width145">
+</div>
+</div>
+<div id="show_CustomTitle_Picture" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_PicMain_label">主码流图片</label>
+<select class="ui-select" id="CustomTitle_PicMain">
+</select>
+<a id="CustomTitle_PictureDelete" class="ui-button" href="javascript:;">删除</a>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10" id="CustomTitle_PicSub_label">子码流图片</label>
+<select class="ui-select" id="CustomTitle_PicSub">
+</select>
+</div>
+</div>
+</form>
+<div id="f_form_CustomTitle" style="display:none">
+<form class="ui-form" name="f_form_CustomTitle" action="/WebUploadFormFile" method="post" target="post_frame_CustomTitle" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl10" id="CustomTitle_upload_file_label">上传 BMP</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_logo" id="CustomTitle_upload_file_logo" hidefocus="hidefocus">
+</div>
+</div>
+<a id="CustomTitle_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="CustomTitle_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<iframe name="post_frame_CustomTitle" id="post_frame_CustomTitle" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="camera-right" id="camera_right_ROI" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" id="camera_showROIEnable">
+<label class="ui-label fn-padl20" id="camera_ROIEnable_label">兴趣区域</label>
+<select class="ui-select" id="camera_ROIEnable">
+<option id="camera_ROIEnable_0" value="0">禁用</option>
+<option id="camera_ROIEnable_1" value="1">启用</option>
+</select>
+</div>
+</form>
+</div>
+<div class="camera-right" id="camera_right_PrivacyMask">
+<form id="show_PrivacyMaskInput" class="ui-form" style="display:none">
+<div id="camera_PrivacyMask_showMain_label" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-bold fn-width85" id="camera_PrivacyMask_Main_label">主码流</label>
+<div class="ui-button-box" style="display:inline-block">
+<a id="camera_PrivacyMask_Main" class="ui-button fn-width80" href="javascript:;">预览主码流</a>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_MainArea1_label">区域一</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea1X_label">X:</label>
+<input id="camera_PrivacyMask_MainArea1X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea1Y_label">Y:</label>
+<input id="camera_PrivacyMask_MainArea1Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea1W_label">W:</label>
+<input id="camera_PrivacyMask_MainArea1W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea1H_label">H:</label>
+<input id="camera_PrivacyMask_MainArea1H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_MainArea2_label">区域二</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea2X_label">X:</label>
+<input id="camera_PrivacyMask_MainArea2X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea2Y_label">Y:</label>
+<input id="camera_PrivacyMask_MainArea2Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea2W_label">W:</label>
+<input id="camera_PrivacyMask_MainArea2W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea2H_label">H:</label>
+<input id="camera_PrivacyMask_MainArea2H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_MainArea3_label">区域三</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea3X_label">X:</label>
+<input id="camera_PrivacyMask_MainArea3X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea3Y_label">Y:</label>
+<input id="camera_PrivacyMask_MainArea3Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea3W_label">W:</label>
+<input id="camera_PrivacyMask_MainArea3W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea3H_label">H:</label>
+<input id="camera_PrivacyMask_MainArea3H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_MainArea4_label">区域四</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea4X_label">X:</label>
+<input id="camera_PrivacyMask_MainArea4X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea4Y_label">Y:</label>
+<input id="camera_PrivacyMask_MainArea4Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea4W_label">W:</label>
+<input id="camera_PrivacyMask_MainArea4W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_MainArea4H_label">H:</label>
+<input id="camera_PrivacyMask_MainArea4H" class="ui-input fn-width60">
+</div>
+<div id="camera_PrivacyMask_showSub">
+<div class="ui-form-item fn-clear"><label class="ui-label">&nbsp;</label></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-bold fn-width85" id="camera_PrivacyMask_Sub_label">子码流</label>
+<div class="ui-button-box" style="display:inline-block">
+<a id="camera_PrivacyMask_Sub" class="ui-button fn-width80" href="javascript:;">预览子码流</a>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_SubArea1_label">区域一</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea1X_label">X:</label>
+<input id="camera_PrivacyMask_SubArea1X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea1Y_label">Y:</label>
+<input id="camera_PrivacyMask_SubArea1Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea1W_label">W:</label>
+<input id="camera_PrivacyMask_SubArea1W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea1H_label">H:</label>
+<input id="camera_PrivacyMask_SubArea1H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_SubArea2_label">区域二</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea2X_label">X:</label>
+<input id="camera_PrivacyMask_SubArea2X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea2Y_label">Y:</label>
+<input id="camera_PrivacyMask_SubArea2Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea2W_label">W:</label>
+<input id="camera_PrivacyMask_SubArea2W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea2H_label">H:</label>
+<input id="camera_PrivacyMask_SubArea2H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_SubArea3_label">区域三</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea3X_label">X:</label>
+<input id="camera_PrivacyMask_SubArea3X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea3Y_label">Y:</label>
+<input id="camera_PrivacyMask_SubArea3Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea3W_label">W:</label>
+<input id="camera_PrivacyMask_SubArea3W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea3H_label">H:</label>
+<input id="camera_PrivacyMask_SubArea3H" class="ui-input fn-width60">
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width60" id="camera_PrivacyMask_SubArea4_label">区域四</label>
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea4X_label">X:</label>
+<input id="camera_PrivacyMask_SubArea4X" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea4Y_label">Y:</label>
+<input id="camera_PrivacyMask_SubArea4Y" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea4W_label">W:</label>
+<input id="camera_PrivacyMask_SubArea4W" class="ui-input fn-width60">
+<label class="ui-label fn-padl5 fn-width20" id="camera_PrivacyMask_SubArea4H_label">H:</label>
+<input id="camera_PrivacyMask_SubArea4H" class="ui-input fn-width60">
+</div>
+</div>
+</form>
+<div id="show_PrivacyMaskInput_tip" style="display:inline">
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text" id="camera_PrivacyMask_note"></span>
+</div>
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text" id="camera_PrivacyMask_tip1"></span>
+</div>
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text" id="camera_PrivacyMask_tip2"></span>
+</div>
+</div>
+</div>
+<div class="camera-right" id="camera_right_HotImages">
+<form class="ui-form">
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_default" class="ui-button ui-button-big" href="javascript:;"></a>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_add" class="ui-button ui-button-big ui-button-font-big" href="javascript:;">+</a>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_menu_ok" class="ui-button ui-button-big" href="javascript:;"></a>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_sub" class="ui-button ui-button-big ui-button-font-big" href="javascript:;">&ndash;</a>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_save" class="ui-button ui-button-big" href="javascript:;"></a>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="camera_HotImages_reboot" class="ui-button ui-button-big" href="javascript:;"></a>
+</div>
+</form>
+</div>
+</div>
+<div class="camera_tab_con ui-container fn-clearonly" id="camera_table_CustomTitle" style="display:none">
+<form class="ui-form fn-padl10 fn-padt0 fn-padr5">
+<div class="ui-table">
+<div class="ui-table-header">
+<table>
+<tr>
+<th class="fn-widp5" id="customTitle_tab_number">序号</th>
+<th class="fn-widp10" id="customTitle_tab_enable">启用</th>
+<th class="fn-widp10" id="customTitle_tab_pos">标题位置</th>
+<th class="fn-widp10" id="customTitle_tab_horizontal_location">水平位置</th>
+<th class="fn-widp10" id="customTitle_tab_vertical_location">垂直位置</th>
+<th class="fn-widp10" id="customTitle_tab_color">颜色</th>
+<th class="fn-widp10" id="customTitle_tab_transparency">透明度</th>
+<th class="fn-widp10" id="customTitle_tab_type">类型</th>
+<th class="fn-widp35" id="customTitle_tab_content">内容</th>
+</tr>
+</table>
+</div>
+<div id="CustomTitle_infolist" class="ui-table-container fn-height140">
+</div>
+</div>
+</form>
+</div>
+</div>

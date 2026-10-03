@@ -1,0 +1,140 @@
+<div id="page_scheduleRecordConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="schedule_tab_title_record" data-for="record" class="schedule_tab_title ui-tab-current">录像计划</li>
+<li class="ui-tab-help">
+<a id="schedule_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container schedule_tabs" id="schedule_tab_record" unselectable="on" onselectstart="return!1">
+<form class="ui-form">
+<div class="ui-timeplan">
+<div class="ui-timeplan-hour fn-clear">
+<ul>
+<li>0</li>
+<li>2</li>
+<li>4</li>
+<li>6</li>
+<li>8</li>
+<li>10</li>
+<li>12</li>
+<li>14</li>
+<li>16</li>
+<li>18</li>
+<li>20</li>
+<li>22</li>
+<li class="ui-timeplan-hour-lilast">24</li>
+</ul>
+<div class="ui-timeplan-hourbg"></div>
+</div>
+<div class="fn-clear">
+<div class="ui-timeplan-week">
+<ul>
+<li class="schedule_sunday">星期日</li>
+<li class="schedule_monday">星期一</li>
+<li class="schedule_tuesday">星期二</li>
+<li class="schedule_wendesday">星期三</li>
+<li class="schedule_thursday">星期四</li>
+<li class="schedule_friday">星期五</li>
+<li class="schedule_saturday">星期六</li>
+</ul>
+</div>
+<div class="schedule_canvas ui-timeplan-canvas fn-relative" id="schedule_tab_record_canvas">
+<div class="general"></div>
+<div class="general"></div>
+<div class="general"></div>
+</div>
+<div class="ui-timeplan-button">
+<a id="schedule_tmset0" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset1" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset2" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset3" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset4" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset5" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+<a id="schedule_tmset6" class="ui-button-special fn-width68 schedule_setup" href="javascript:;">全选</a>
+</div>
+</div>
+</div>
+<div class="fn-padl32">
+<div class="ui-button-bg fn-width600"></div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="Schedule_RecordEnable">
+</div>
+<label class="ui-label" id="Schedule_RecordEnable_label" for="Schedule_RecordEnable">启用</label>
+</div>
+<div id="Schedule_showRecordConfig">
+<div class="ui-form-item">
+<div class="fn-left fn-padl20">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="Schedule_selectRecord" name="Schedule_selectRecordSnap">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30 fn-width100" id="Schedule_selectRecord_label" for="Schedule_selectRecord">录像计划</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="Schedule_selectSnap" name="Schedule_selectRecordSnap" display="none">
+</div>
+<label class="ui-label-sub fn-marr4 fn-minwid30" id="Schedule_selectSnap_label" for="Schedule_selectSnap" display="none">抓图计划</label>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Schedule_RecordStream_label">视频源</label>
+<div class="fn-left" id="Schedule_RecordStream_slct">
+<select id="Schedule_RecordStream" class="ui-select">
+<option id="Schedule_RecordStream0" value="1">主码流</option>
+<option id="Schedule_RecordStream1" value="2">子码流</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Schedule_RecordFormat_label">媒体格式</label>
+<div class="fn-left" id="Schedule_RecordFormat_slct">
+<select id="Schedule_RecordFormat" class="ui-select">
+<option id="Schedule_RecordFormat_MP4" value="MP4">MP4</option>
+</select>
+<select id="Schedule_SnapshotFormat" class="ui-select" style="display:none">
+<option id="Schedule_RecordFormat_JPG" value="JPG">JPG</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="Schedule_showRecordAudio">
+<label class="ui-label fn-padl20" id="Schedule_RecordAudio_label">是否录音频</label>
+<div class="fn-left" id="Schedule_RecordAudio_slct">
+<select id="Schedule_RecordAudio" class="ui-select">
+<option id="Schedule_RecordAudio_No" value="0">否</option>
+<option id="Schedule_RecordAudio_Yes" value="1">是</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="Schedule_showJpegInterval">
+<label class="ui-label fn-padl20" id="Schedule_JpegInterval_label">拍照频率</label>
+<input class="ui-input fn-width80" id="Schedule_JpegInterval">
+<span class="ui-text" name="t_sec_per_photo">秒每张</span>
+<span class="ui-text">(1~3600)</span>
+</div>
+<div id="Schedule_showRecordFtpEmail" class="ui-form-item fn-padl20">
+<div class="ui-checkbox">
+<input type="checkbox" id="Schedule_RecordFTP">
+</div>
+<label class="ui-label fn-width100" id="Schedule_RecordFTP_label" for="Schedule_RecordFTP">上传到FTP</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Schedule_RecordEmail">
+</div>
+<label class="ui-label" id="Schedule_RecordEmail_label" for="Schedule_RecordEmail">发送邮件</label>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-marl100 fn-padt10">
+<a id="schedule_tab_record_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="schedule_tab_record_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="schedule_tab_record_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl100">
+<div class="ui-tip-container" id="schedule_tab_record_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="schedule_tab_record_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+</form>
+</div>
+</div>

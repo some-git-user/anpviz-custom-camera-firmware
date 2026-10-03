@@ -1,0 +1,587 @@
+<div id="page_ptzConfig" class="page_config">
+<input id="PTZCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="ptz_base_tab" data-for="base" class="ptz_tab_title ui-tab-current">云台设置</li>
+<li id="ptz_advance_tab" data-for="advance" class="ptz_tab_title">云台高级设置</li>
+<li id="ptz_configuration_tab" data-for="configuration" class="ptz_tab_title" style="display:none">自动聚焦配置</li>
+<li id="ptz_high_ctrl_tab" data-for="high_ctrl" class="ptz_tab_title" style="display:none">云台高级控制</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="ptz_help"></a>
+</li>
+</ul>
+</div>
+<div class="ptz_tab_con ui-container" id="ptz_tab_base">
+<form class="ui-form fn-clear">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_Protocol_label">云台协议</label>
+<select class="ui-select" id="ptz_Protocol">
+<option id="ptz_Protocol_PELCO_P" value="PELCO_P">PELCO_P</option>
+<option id="ptz_Protocol_PELCO_D" value="PELCO_D">PELCO_D</option>
+<option id="ptz_Protocol_MOLYN_P" value="MOLYN_P">MOLYN_P</option>
+<option id="ptz_Protocol_SANTA_P" value="SANTA_P">SANTA_P</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_AddressPort_label">地址码</label>
+<div class="fn-left fn-width230">
+<input id="ptz_AddressPort" class="ui-input fn-width140">
+<span class="ui-text" id="ptz_AddressPort_range">(1~255)</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_Baudrate_label">波特率</label>
+<select class="ui-select" id="ptz_Baudrate">
+<option id="ptz_Baudrate_2400" value="2400">2400</option>
+<option id="ptz_Baudrate_4800" value="4800">4800</option>
+<option id="ptz_Baudrate_9600" value="9600">9600</option>
+<option id="ptz_Baudrate_19200" value="19200">19200</option>
+<option id="ptz_Baudrate_57600" value="57600">57600</option>
+<option id="ptz_Baudrate_115200" value="115200">115200</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_DataBits_label">数据位</label>
+<select class="ui-select" id="ptz_DataBits">
+<option id="ptz_DataBits_5" value="5">5</option>
+<option id="ptz_DataBits_6" value="6">6</option>
+<option id="ptz_DataBits_7" value="7">7</option>
+<option id="ptz_DataBits_8" value="8">8</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_StopBits_label">停止位</label>
+<select class="ui-select" id="ptz_StopBits">
+<option id="ptz_StopBits_1" value="10">1</option>
+<option id="ptz_StopBits_1_5" value="15">1.5</option>
+<option id="ptz_StopBits_2" value="20">2</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_Verify_label">奇偶校验</label>
+<select class="ui-select" id="ptz_Verify">
+<option id="ptz_Verify_no" value="NONE">无</option>
+<option id="ptz_Verify_odd" value="ODD">奇校验</option>
+<option id="ptz_Verify_even" value="EVEN">偶校验</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_DataControl_label">数据流控制</label>
+<select class="ui-select" id="ptz_DataControl">
+<option id="ptz_DataControl_no" value="NONE">无</option>
+<option id="ptz_DataControl_hardware" value="HARDWARE">硬件控制</option>
+<option id="ptz_DataControl_software" value="SOFTWARE">软件控制</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_BootAction_label">开机操作</label>
+<select class="ui-select" id="ptz_BootAction">
+<option id="ptz_BootAction_no" value="0">无操作</option>
+<option id="ptz_BootAction_1" value="1">调用预置点1</option>
+</select>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="ptz_base_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="ptz_base_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ptz_base_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="ptz_remark0">
+<span class="ui-tip-icon"></span>
+<label id="ptz_remark0_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ptz_tab_con ui-container" id="ptz_tab_advance">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" id="ptz_showCaptureVolume">
+<label class="ui-label fn-padl20" id="ptz_CaptureVolume_label">采集音量</label>
+<div class="fn-left fn-width230">
+<input id="ptz_CaptureVolume" class="ui-input fn-width140">
+<span class="ui-text" id="ptz_CaptureVolume_range">(1~100)</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_showPlayVolume">
+<label class="ui-label fn-padl20" id="ptz_PlayVolume_label">播放音量</label>
+<div class="fn-left fn-width230">
+<input id="ptz_PlayVolume" class="ui-input fn-width140">
+<span class="ui-text" id="ptz_PlayVolume_range">(1~100)</span>
+</div>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="ptz_advance_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="ptz_advance_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ptz_advance_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="ptz_remark1">
+<span class="ui-tip-icon"></span>
+<label id="ptz_remark1_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ptz_tab_con ui-container" id="ptz_tab_configuration">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_Enable_label">自动聚焦</label>
+<select class="ui-select" id="ptz_AF_Enable">
+<option id="ptz_ptz_AF_Disable" value="0">禁用</option>
+<option id="ptz_ptz_AF_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_configuration_label">协议版本</label>
+<select class="ui-select" id="ptz_AF_configuration">
+<option id="ptz_ptz_AF_Edition_1" value="0">协议版本1</option>
+<option id="ptz_ptz_AF_Edition_2" value="1">协议版本2</option>
+<option id="ptz_ptz_AF_Edition_3" value="2">协议版本3</option>
+<option id="ptz_ptz_AF_Edition_4" value="3">协议版本4</option>
+<option id="ptz_ptz_AF_Edition_5" value="4">协议版本5</option>
+<option id="ptz_ptz_AF_Edition_6" value="5">协议版本6</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="ptz_Data_transmission_label">数据发送</label>
+<select class="ui-select" id="ptz_Data_transmission">
+<option id="ptz_Yuntai_transmission" value="0">有云台带操作后才自动聚焦</option>
+<option id="ptz_Always_transmission" value="1">始终自动聚焦</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_Coordinate_Config_tab">
+<label class="ui-label fn-padl20" id="ptz_Coordinate_Config_label">坐标配置</label>
+<select class="ui-select" id="ptz_Coordinate_Config">
+<option id="ptz_Coordinate_Config_Disable" value="0">禁用</option>
+<option id="ptz_Coordinate_Config_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="ptz_AF_configuration_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="ptz_AF_configuration_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ptz_AF_configuration_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="ptz_remark2">
+<span class="ui-tip-icon"></span>
+<label id="ptz_remark2_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ptz_tab_con ui-container" id="ptz_tab_high_ctrl">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" id="ptz_ShowStartCruiseGroup1_config">
+<label class="ui-label fn-width200" id="ptz_StartCruiseGroup1_label" style="display:inline-block">开启巡航组1</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup1_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup1_num1selc">
+<option class="ui-form-item" id="StartCruiseGroup1_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup1_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup1_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup1_num2selc">
+<option class="ui-form-item" id="StartCruiseGroup1_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup1_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartCruiseGroup2_config">
+<label class="ui-label fn-width200" id="ptz_StartCruiseGroup2_label">开启巡航组2</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup2_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup2_num1selc">
+<option class="ui-form-item" id="StartCruiseGroup2_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup2_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup2_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup2_num2selc">
+<option class="ui-form-item" id="StartCruiseGroup2_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup2_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartCruiseGroup3_config">
+<label class="ui-label fn-width200" id="ptz_StartCruiseGroup3_label">开启巡航组3</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup3_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup3_num1selc">
+<option class="ui-form-item" id="StartCruiseGroup3_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup3_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup3_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup3_num2selc">
+<option class="ui-form-item" id="StartCruiseGroup3_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup3_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartCruiseGroup4_config">
+<label class="ui-label fn-width200" id="ptz_StartCruiseGroup4_label">开启巡航组4</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup4_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup4_num1selc">
+<option class="ui-form-item" id="StartCruiseGroup4_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup4_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartCruiseGroup4_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartCruiseGroup4_num2selc">
+<option class="ui-form-item" id="StartCruiseGroup4_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartCruiseGroup4_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowGuardPositionOn_config">
+<label class="ui-label fn-width200" id="ptz_GuardPositionOn_label">开启看守位</label>
+<div class="fn-left fn-width120">
+<input id="ptz_GuardPositionOn_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_GuardPositionOn_num1selc">
+<option class="ui-form-item" id="GuardPositionOn_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="GuardPositionOn_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_GuardPositionOn_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_GuardPositionOn_num2selc">
+<option class="ui-form-item" id="GuardPositionOn_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="GuardPositionOn_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_GuardPositionOff_config">
+<label class="ui-label fn-width200" id="ptz_GuardPositionOff_label">关闭看守位</label>
+<div class="fn-left fn-width120">
+<input id="ptz_GuardPositionOff_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_GuardPositionOff_num1selc">
+<option class="ui-form-item" id="GuardPositionOff_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="GuardPositionOff_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_GuardPositionOff_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_GuardPositionOff_num2selc">
+<option class="ui-form-item" id="GuardPositionOff_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="GuardPositionOff_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowLeftMargin_config">
+<label class="ui-label fn-width200" id="ptz_LeftMargin_label">左边界</label>
+<div class="fn-left fn-width120">
+<input id="ptz_LeftMargin_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_LeftMargin_num1selc">
+<option class="ui-form-item" id="LeftMargin_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="LeftMargin_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_LeftMargin_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_LeftMargin_num2selc">
+<option class="ui-form-item" id="LeftMargin_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="LeftMargin_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowRightMargin_config">
+<label class="ui-label fn-width200" id="ptz_RightMargin_label">右边界</label>
+<div class="fn-left fn-width120">
+<input id="ptz_RightMargin_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_RightMargin_num1selc">
+<option class="ui-form-item" id="RightMargin_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="RightMargin_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_RightMargin_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_RightMargin_num2selc">
+<option class="ui-form-item" id="RightMargin_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="RightMargin_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowScanHighSpeed_config">
+<label class="ui-label fn-width200" id="ptz_ScanHighSpeed_label">两点高速扫描</label>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanHighSpeed_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanHighSpeed_num1selc">
+<option class="ui-form-item" id="ScanHighSpeed_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanHighSpeed_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanHighSpeed_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanHighSpeed_num2selc">
+<option class="ui-form-item" id="ScanHighSpeed_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanHighSpeed_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowScanMidSpeed_config">
+<label class="ui-label fn-width200" id="ptz_ScanMidSpeed_label">两点中速扫描</label>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanMidSpeed_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanMidSpeed_num1selc">
+<option class="ui-form-item" id="ScanMidSpeed_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanMidSpeed_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanMidSpeed_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanMidSpeed_num2selc">
+<option class="ui-form-item" id="ScanMidSpeed_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanMidSpeed_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowScanLowSpeed_config">
+<label class="ui-label fn-width200" id="ptz_ScanLowSpeed_label">两点低速扫描</label>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanLowSpeed_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanLowSpeed_num1selc">
+<option class="ui-form-item" id="ScanLowSpeed_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanLowSpeed_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_ScanLowSpeed_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ScanLowSpeed_num2selc">
+<option class="ui-form-item" id="ScanLowSpeed_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ScanLowSpeed_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowPTZReset_config">
+<label class="ui-label fn-width200" id="ptz_PTZReset_label">云台归零</label>
+<div class="fn-left fn-width120">
+<input id="ptz_PTZReset_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_PTZReset_num1selc">
+<option class="ui-form-item" id="PTZReset_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="PTZReset_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_PTZReset_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_PTZReset_num2selc">
+<option class="ui-form-item" id="PTZReset_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="PTZReset_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowResetDefault_config">
+<label class="ui-label fn-width200" id="ptz_ResetDefault_label">恢复默认</label>
+<div class="fn-left fn-width120">
+<input id="ptz_ResetDefault_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ResetDefault_num1selc">
+<option class="ui-form-item" id="ResetDefault_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ResetDefault_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_ResetDefault_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_ResetDefault_num2selc">
+<option class="ui-form-item" id="ResetDefault_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="ResetDefault_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowTrackAutoOn_config">
+<label class="ui-label fn-width200" id="ptz_TrackAutoOn_label">开启自动跟踪</label>
+<div class="fn-left fn-width120">
+<input id="ptz_TrackAutoOn_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_TrackAutoOn_num1selc">
+<option class="ui-form-item" id="TrackAutoOn_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="TrackAutoOn_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_TrackAutoOn_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_TrackAutoOn_num2selc">
+<option class="ui-form-item" id="TrackAutoOn_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="TrackAutoOn_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowTrackAutoOff_config">
+<label class="ui-label fn-width200" id="ptz_TrackAutoOff_label">关闭自动跟踪</label>
+<div class="fn-left fn-width120">
+<input id="ptz_TrackAutoOff_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_TrackAutoOff_num1selc">
+<option class="ui-form-item" id="TrackAutoOff_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="TrackAutoOff_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_TrackAutoOff_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_TrackAutoOff_num2selc">
+<option class="ui-form-item" id="TrackAutoOff_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="TrackAutoOff_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartWiper_config">
+<label class="ui-label fn-width200" id="ptz_StartWiper_label">启动雨刷</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartWiper_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartWiper_num1selc">
+<option class="ui-form-item" id="StartWiper_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartWiper_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartWiper_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartWiper_num2selc">
+<option class="ui-form-item" id="StartWiper_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartWiper_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartHeatDefogger_config">
+<label class="ui-label fn-width200" id="ptz_StartHeatDefogger_label">启动除霜</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartHeatDefogger_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartHeatDefogger_num1selc">
+<option class="ui-form-item" id="StartHeatDefogger_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartHeatDefogger_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartHeatDefogger_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartHeatDefogger_num2selc">
+<option class="ui-form-item" id="StartHeatDefogger_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartHeatDefogger_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartNightColorMode_config">
+<label class="ui-label fn-width200" id="ptz_StartNightColorMode_label">启用全彩夜视</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartNightColorMode_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartNightColorMode_num1selc">
+<option class="ui-form-item" id="StartNightColorMode_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartNightColorMode_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartNightColorMode_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartNightColorMode_num2selc">
+<option class="ui-form-item" id="StartNightColorMode_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartNightColorMode_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="ptz_ShowStartNightInfraredMode_config">
+<label class="ui-label fn-width200" id="ptz_StartNightInfraredMode_label">启用红外夜视</label>
+<div class="fn-left fn-width120">
+<input id="ptz_StartNightInfraredMode_num1" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartNightInfraredMode_num1selc">
+<option class="ui-form-item" id="StartNightInfraredMode_num1Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartNightInfraredMode_num1Set" value="1">设置预置点</option>
+</select>
+</div>
+<div class="fn-left fn-width120">
+<input id="ptz_StartNightInfraredMode_num2" class="ui-input fn-width110">
+</div>
+<div class="ui-select">
+<select id="ptz_StartNightInfraredMode_num2selc">
+<option class="ui-form-item" id="StartNightInfraredMode_num2Call" value="0">调用预置点</option>
+<option class="ui-form-item" id="StartNightInfraredMode_num2Set" value="1">设置预置点</option>
+</select>
+</div>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="ptz_high_ctrl_default" class="ui-button admin_button" href="javascript:;">默认参数</a>
+<a id="ptz_high_ctrl_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ptz_high_ctrl_save" class="ui-button admin_button" href="javascript:;">保存</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="ptz_remark3">
+<span class="ui-tip-icon"></span>
+<label id="ptz_remark3_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>
+<iframe src="" name="osdImageFileImport" id="osdImageFileImport" style="display:none" mce_style="display:none;"></iframe>

@@ -1,0 +1,183 @@
+<div id="page_networkConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="tcpip" class="tcpip_tab_title ui-tab-current" data-for="tcpip">TCP/IP</li>
+<li id="tcpip_Port" class="tcpip_tab_title" data-for="Port" style="display:none">Port</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="tcpip_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container" id="tcpip_tab_tcpip">
+<form class="ui-form">
+<div class="ui-form-item" id="tcpip_v4_mode_wrap">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_mode_label">模式</label>
+<input type="radio" name="tcpip_v4_mode" id="tcpip_v4_mode_static">
+<label id="tcpip_v4_mode_static_label" for="tcpip_v4_mode_static">静态</label>
+<input type="radio" name="tcpip_v4_mode" id="tcpip_v4_mode_dhcp">
+<label id="tcpip_v4_mode_dhcp_label" for="tcpip_v4_mode_dhcp">DHCP</label>
+</div>
+<div class="ui-form-item fn-clear" id="dhcp_ip_fix_time">
+<label class="ui-label fn-padl20 fn-width150" id="dhcp_ip_fix_time_label">DHCP IP固定时间</label>
+<select class="ui-select fn-width160" id="dhcp_ip_fix_time_option">
+<option id="dhcp_ip_fix_all" value="255">DHCP一直生效</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="4">4</option>
+<option value="6">6</option>
+<option value="8">8</option>
+<option value="12">12</option>
+<option value="24">24</option>
+<option value="48">48</option>
+</select>
+</div>
+<div class="ui-form-item" id="macadd">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_mac_address_label">MAC地址</label>
+<div class="fn-left">
+<input id="tcpip_mac_address" class="ui-input fn-width146 fn-padl12" style="letter-spacing:2px;font-size:11.5px" disabled>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_ipversion_label">IP 版本</label>
+<select class="ui-select fn-width160" id="tcpip_ipversion">
+<option value="0" id="tcpip_v4_option">IPv4</option>
+<option value="1" id="tcpip_v6_option">IPv6</option>
+</select>
+</div>
+<div id="tcpip_v4_wrap">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_address_label">IP地址</label>
+<div class="ui-input-box">
+<input id="tcpip_v4_address_0">
+<span>.</span>
+<input id="tcpip_v4_address_1">
+<span>.</span>
+<input id="tcpip_v4_address_2">
+<span>.</span>
+<input id="tcpip_v4_address_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_subnet_mask_label">子网掩码</label>
+<div class="ui-input-box">
+<input id="tcpip_v4_subnet_mask_0">
+<span>.</span>
+<input id="tcpip_v4_subnet_mask_1">
+<span>.</span>
+<input id="tcpip_v4_subnet_mask_2">
+<span>.</span>
+<input id="tcpip_v4_subnet_mask_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_gateway_label">默认网关</label>
+<div class="ui-input-box">
+<input id="tcpip_v4_gateway_0">
+<span>.</span>
+<input id="tcpip_v4_gateway_1">
+<span>.</span>
+<input id="tcpip_v4_gateway_2">
+<span>.</span>
+<input id="tcpip_v4_gateway_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_preferred_dns_label">首选DNS服务器</label>
+<div class="ui-input-box">
+<input id="tcpip_v4_preferred_dns_0">
+<span>.</span>
+<input id="tcpip_v4_preferred_dns_1">
+<span>.</span>
+<input id="tcpip_v4_preferred_dns_2">
+<span>.</span>
+<input id="tcpip_v4_preferred_dns_3">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v4_alternate_dns_label">备用DNS服务器</label>
+<div class="ui-input-box">
+<input id="tcpip_v4_alternate_dns_0">
+<span>.</span>
+<input id="tcpip_v4_alternate_dns_1">
+<span>.</span>
+<input id="tcpip_v4_alternate_dns_2">
+<span>.</span>
+<input id="tcpip_v4_alternate_dns_3">
+</div>
+</div>
+</div>
+<div id="tcpip_v6_wrap" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v6_address_label">IP地址</label>
+<input id="tcpip_v6_address" class="ui-input fn-width152 fn-padl5" value="2001:250:3000:1::1:2" disabled>
+<div style="float:left" class="fn-padt5 fn-padl5 fn-padr5">/</div>
+<input id="tcpip_v6_mask" class="ui-input fn-width35" value="112" disabled>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v6_gateway_label">默认网关</label>
+<input id="tcpip_v6_gateway" class="ui-input fn-width152 fn-padl5" value="2001:250:3000:1::1:1" disabled>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v6_preferred_dns_label">首选DNS服务器</label>
+<input id="tcpip_v6_preferred_dns" class="ui-input fn-width152 fn-padl5" value="2001:da8:2000:2017::33" disabled>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_v6_alternate_dns_label">备用DNS服务器</label>
+<input id="tcpip_v6_alternate_dns" class="ui-input fn-width152 fn-padl5" value="2001:da8:2000:2193::33" disabled>
+</div>
+</div>
+<div class="ui-form-item" id="show_tcpip_hostname">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_hostname_label">Hostname</label>
+<div class="fn-left">
+<input name="textfield" id="tcpip_hostname" class="ui-input fn-width152">
+</div>
+</div>
+<div class="ui-form-item" id="show_tcpip_mtu">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_mtu_label">MTU</label>
+<div class="fn-left">
+<input name="textfield" id="tcpip_mtu" class="ui-input fn-width152">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width150" id="tcpip_onvif_allnet_label" for="tcpip_onvif_allnet">ONVIF全网通</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="tcpip_onvif_allnet">
+</div>
+</div>
+<div class="ui-button-box fn-marl144 fn-padt10">
+<a id="tcpip_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="tcpip_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="tcpip_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl144">
+<div class="ui-tip-container" id="tcpip_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="tcpip_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ui-container" id="tcpip_tab_Port" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="AccessPort_WEB_label">WEB端口</label>
+<div class="fn-left">
+<input id="AccessPort_WEB" class="ui-input fn-width140">
+<span class="ui-text" id="AccessPort_WEB_range">(80,1000~65535)</span>
+</div>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="tcpip_Port_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="tcpip_Port_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="tcpip_Port_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="tcpip_Port_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="tcpip_Port_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

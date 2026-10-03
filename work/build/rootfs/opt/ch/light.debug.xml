@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<DEBUG_LIGHT_CONFIG>
+		<light close="-20000" open="-100000" /> 
+</DEBUG_LIGHT_CONFIG>

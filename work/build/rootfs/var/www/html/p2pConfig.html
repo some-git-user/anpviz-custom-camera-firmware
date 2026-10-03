@@ -1,0 +1,94 @@
+<div id="page_p2pConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="p2p_showTab" class="p2p_tab_title ui-tab-current" data-for="general">P2P</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="p2p_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container" id="p2p_tab_general">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="p2p_P2PEnable_label" for="p2p_P2PEnable">开启云</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="p2p_P2PEnable">
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showP2PServerType" style="display:none">
+<label class="ui-label fn-padl20" id="p2p_P2PServerType_label">云服务类型</label>
+<select class="ui-select fn-width200" id="p2p_P2PServerType">
+<option id="P2PServerType_DANALE" value="1">DANALE</option>
+<option id="P2PServerType_ANKO" value="2">ANKO</option>
+<option id="P2PServerType_GOOLINK" value="3">GOOLINK</option>
+<option id="P2PServerType_YUECAM" value="4">YUECAM</option>
+<option id="P2PServerType_QQCONNECT" value="5">QQCONNECT</option>
+</select>
+</div>
+<div class="ui-form-item" id="audio_showP2PAuthcode">
+<label class="ui-label fn-padl20" id="p2p_P2PAuthcode_label">P2P授权码</label>
+<div class="fn-left">
+<input id="p2p_P2PAuthcode" class="ui-input fn-width195">
+</div>
+</div>
+<div class="ui-form-item" id="audio_showP2PLoginStatus">
+<label class="ui-label fn-padl20" id="p2p_P2PLoginStatus_label">登录状态</label>
+<div id="p2p_P2PLoginStatus" class="ui-text"></div>
+</div>
+<div class="ui-form-item" id="audio_showP2PCloudID">
+<label class="ui-label fn-padl20" id="p2p_P2PCloudID_label">设备云ID</label>
+<div id="p2p_P2PCloudID" class="ui-text"></div>
+</div>
+<div class="ui-form-item" id="audio_showP2PqrCode">
+<label class="ui-label fn-padl20 fn-width160" id="p2p_P2PqrCode_label" t="w_qrCode">QR Code</label>
+<div id="show_p2p_qrcodeSN" style="float:left;text-align:center;vertical-align:middle;width:250px;height:250px;margin-left:20px;margin-top:10px;background-color:#fff">
+<div class="ui-text" id="p2p_qrcodeSN"></div>
+</div>
+</div>
+<div class="ui-form-item" id="audio_showAndroidAppqrCode" style="display:none">
+<label class="ui-label fn-padl20 fn-width160" id="p2p_AndroidAppqrCode_label" t="w_qrCode">Android App QR Code</label>
+<div id="show_AndroidApp_qrcodeSN" style="float:left;text-align:center;vertical-align:middle;width:250px;height:250px;margin-left:20px;margin-top:10px;background-color:#fff">
+<div class="ui-text" id="AndroidApp_qrcodeSN"></div>
+</div>
+</div>
+<div class="ui-form-item" id="audio_showIosAppqrCode" style="display:none">
+<label class="ui-label fn-padl20 fn-width160" id="p2p_IOSAppqrCode_label" t="w_qrCode">IOS App QR Code</label>
+<div id="show_iosApp_qrcodeSN" style="float:left;text-align:center;vertical-align:middle;width:250px;height:250px;margin-left:20px;margin-top:10px;background-color:#fff">
+<div class="ui-text" id="iosApp_qrcodeSN"></div>
+</div>
+</div>
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text" id="p2p_note"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="p2p_P2Pdefault" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="p2p_P2Prefresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="p2p_P2PUnbind" class="ui-button" href="javascript:;">解绑</a>
+<a id="p2p_P2Pconfirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="p2p_P2Premark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="p2p_P2Premark_label">保存成功</label>
+</div>
+</div>
+</form>
+<div id="p2p_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>设备解绑</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="p2p_dialog_prompt">确定解绑设备吗？</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="p2p_dialog_confirm">确定</a>
+<a class="ui-button" id="p2p_dialog_cancel">取消</a>
+</div>
+</div>
+</div>
+</div>

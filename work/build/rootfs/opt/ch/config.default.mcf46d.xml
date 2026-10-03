@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<IPCConfig>
+    <ConfigVersion Version="" />
+    <SystemConfig>
+		<PTZConfig Protocol="PELCO_D" ComPort="1" BaudRate="2400" DataBits="8" StopBits="10" Verify="NONE" FlowControl="NONE" BootAction="0">
+			<AfConfig enable="1" type="0" bSendOnStart="0" />
+			<DzoomConfig multiple_max="1" multiple_set="1" />
+			<AdvanceConfig>
+				<FunctionConfig FunctionName="StartCruiseGroup1" PresetNumber="41" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartCruiseGroup2" PresetNumber="42" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartCruiseGroup3" PresetNumber="0" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartCruiseGroup4" PresetNumber="0" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="GuardPositionOn" PresetNumber="105" Function="Call" PresetNumber2="101" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="GuardPositionOff" PresetNumber="105" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="LeftMargin" PresetNumber="36" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="RightMargin" PresetNumber="35" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="ScanHighSpeed" PresetNumber="0" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="ScanMidSpeed" PresetNumber="38" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="ScanLowSpeed" PresetNumber="0" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="PTZReset" PresetNumber="253" Function="Set" PresetNumber2="252" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="ResetDefault" PresetNumber="115" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="TrackAutoOn" PresetNumber="56" Function="Set" PresetNumber2="56" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="TrackAutoOff" PresetNumber="58" Function="Call" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartWiper" PresetNumber="0" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartHeatDefogger" PresetNumber="0" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartNightColorMode" PresetNumber="0" Function="Set" PresetNumber2="0" Function2="Call" interval_sec="2"/>
+				<FunctionConfig FunctionName="StartNightInfraredMode" PresetNumber="0" Function="Set" PresetNumber2="0" Function2="Set" interval_sec="0"/>
+			</AdvanceConfig>
+		</PTZConfig>
+        <TimeConfig TimeMode="MANUAL" TimeZone="1200">
+            <NTPConfig ServerIP="pool.ntp.org" ServerPort="123" RefreshInterval="60" />
+            <SummerTime enable="0" auto="0" offset="60">
+                <start month="3" week="2" weekday="0" hour="2" />
+                <end month="11" week="1" weekday="0" hour="2" />
+            </SummerTime>
+        </TimeConfig>
+        <UserConfig>
+            <Account Username="admin" EncryptPwd="3a3b338d87b8837da90860c06da14377" Group="Administrator" Status="Enable" />
+        </UserConfig>
+        <SystemLogConfig LogLevel="DEBUG+RUN+ERROR+OPERATION+ALARM+STAT+COMMON" MaxDay="30" StoreMedia="FLASH" StorePolicy="OVERWRITE" AutoBackup="0" BackupWay="EMAIL" />
+        <MiscConfig Language="en_us" />
+        <MaintainConfig Enable="0" Day="0" Time=" 0: 0: 0" />
+        <AlowIpConfig Enable="0" ipaddr1="0" ipaddr2="0" ipaddr3="0" ipaddr4="0" ipaddr5="0" />
+        <AlarmClockConfig>
+            <AlarmOnEveryHour enable="0" from_hour="0" from_minute="0" from_second="0" to_hour="0" to_minute="0" to_second="0" />
+            <alarmclock>
+                <clock enable="0" hour="0" minute="0" second="0" />
+                <clock enable="0" hour="0" minute="0" second="0" />
+                <clock enable="0" hour="0" minute="0" second="0" />
+                <clock enable="0" hour="0" minute="0" second="0" />
+                <clock enable="0" hour="0" minute="0" second="0" />
+            </alarmclock>
+        </AlarmClockConfig>
+    </SystemConfig>
+    <NetworkConfig>
+        <LANConfig MacAddress="F0:00:05:22:EB:CC" DHCP="1" dhcpOffTime="24" ALLNET="0" IPAddress="192.168.0.123" Netmask="255.255.255.0" Gateway="192.168.0.1" DNS1="192.168.0.1" DNS2="8.8.8.8" hostname="" MTU="1400" />
+        <WIFIConfig Version="2.0" Enable="0" DHCP="1" IPAddress="192.168.0.201" Netmask="255.255.255.0" Gateway="192.168.0.1" OperationMode="managed" MacAddress="" ChannelNumber="0" Region="CN" ESSID="88888888" ESSID_UTF8="3838383838383838" BitRate="33" MacMode="9">
+            <WirelessEncrypt Enable="1" EncryptType="wpa">
+                <WEPEncrypt AuthMode="WPA2PSK" KeyIndex="1" EncryptType="WEP64" KeyMode="HEX" KeyValue="88888888" />
+                <WPAEncrypt EncryptType="AES" AuthMode="WPA2PSK" KeyValue="88888888" />
+            </WirelessEncrypt>
+            <PingWatchConfig Enable="0" PingAddress="" Interval="0" MaxFail="0" />
+        </WIFIConfig>
+        <WIFIApConfig Version="2.0" Enable="1" IPAddress="" Netmask="" MacAddress="" ChannelNumber="0" Region="" ESSID="" BitRate="" MacMode="">
+            <WirelessEncrypt Enable="1" EncryptType="wpa">
+                <WEPEncrypt AuthMode="" KeyIndex="0" EncryptType="" KeyMode="" KeyValue="" />
+                <WPAEncrypt EncryptType="aes" AuthMode="WPA2PSK" KeyValue="88888888" />
+            </WirelessEncrypt>
+        </WIFIApConfig>
+        <AlarmServerConfig url="" withattachment="0" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" />
+        <ADSLConfig Enable="0" Username="test@163.gd" EncryptPwd="bb798ad555ccadf3de85c5a74697c589" />
+        <DDNSConfig Enable="0" Server="3322.org" Domain="test" Username="test" EncryptPwd="7fe2bcf40f6ca474fed7801194f9dbe1" FreshInterval="600" DdnsTypeList="speco,0,http://specoddns.net/,66.207.40.101;" />
+        <UPNPConfig Enable="0" />
+        <G3Config Enable="0" Type="0" DialNumber="*99***1#" APN='&quot;UNINET&quot;' Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" DialOption="0" CenterNumber="" SMSC="" />
+        <G4Config Manual="0" CurOperator="0" />
+        <PPTPConfig Enable="0" Server="" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" MTU="1460" />
+        <P2PConfig Enable="0" Type="10" Authcode="" />
+    </NetworkConfig>
+    <ServerConfig>
+        <FTPList>
+            <FTPConfig Index="0" ServerIP="" ServerPort="21" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" FilePath="alarm" FileSize="1000" />
+            <FTPConfig Index="1" ServerIP="" ServerPort="21" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" FilePath="alarm" FileSize="1000" />
+            <FTPConfig Index="2" ServerIP="" ServerPort="21" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" FilePath="alarm" FileSize="1000" />
+            <FTPConfig Index="3" ServerIP="" ServerPort="21" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" FilePath="alarm" FileSize="1000" />
+        </FTPList>
+        <SMTPList ServerIP="" ServerPort="25" Auth="0" Username="" EncryptPwd="69721a299df9f9733a1e745ab1678158" FromEmail="">
+            <SMTPConfig Index="0" ToEmail="" CcEmail="" Subject="hello" />
+            <SMTPConfig Index="1" ToEmail="" CcEmail="" Subject="hello" />
+            <SMTPConfig Index="2" ToEmail="" CcEmail="" Subject="hello" />
+        </SMTPList>
+    </ServerConfig>
+    <MediaConfig>
+        <Video>
+            <Capture Brightness="128" Contrast="128" Saturation="128" Sharpness="128" TVSystem="1" forct_antiflicker="0" cropxpix="0" cropypix="0" HFlip="0" VFlip="0" rotate="0" WB_RGB="8421504" BackLight="0" HLC="0" TNF="128" SNF="128" IrcutMode="0" IrcutSensitivity="50" IrcutOpenLedDelay="3" led_brightness_mode="2" led_brightness_value="100" led_brightness_alarm="0" IrcutNightStartTime="18:00:00" IrcutNightEndTime="08:00:00" IrcutKeepColor="0" led_mode="2" ispadvmode="0" bManualGain="0" gainValue="0" WDRMode="0" WDRValue="128" DfrogFlag="0" DfrogValue="128" WDRStartTime="00:00:00" WDREndTime="00:00:00" shutter_mode="0" shutter_mode_night="0" shutter_speed_day="10" shutter_speed_night="10" isp_mode_color="0" isp_mode_night="0" videoEncodeMode="0" light_off_sensitivity="50" face_exposure_sensitivity="0">
+                <FishEyeCfg Enable="0" autocrop="0" diameter_ppm="0" center_ppm_x="0" center_ppm_y="0" />
+            </Capture>
+            <Encode>
+                <EncodeConfig Stream="1" Enable="1" Resolution="3072X2048" EncodeFormat="H265" BitRateControl="VBR" Initquant="100" BitRateQuality="0" qp_enable="0" qp_min="30" qp_max="51" BitRate="4000" FrameRate="25" />
+                <EncodeConfig Stream="2" Enable="1" Resolution="D1" EncodeFormat="H265" BitRateControl="VBR" Initquant="100" BitRateQuality="0" qp_enable="0" qp_min="30" qp_max="51" BitRate="500" FrameRate="25" />
+                <EncodeConfig Stream="0" Enable="0" Resolution="" EncodeFormat="" BitRateControl="" Initquant="0" BitRateQuality="0" qp_enable="0" qp_min="30" qp_max="51" BitRate="0" FrameRate="0" />
+                <AdvanceEncodeConfig EncodeProfile="0" DisablePrivateData="1" TwoLensWorkMode="0" OptimumDistance="6000" />
+            </Encode>
+            <JpegConfig Enable="1" Quality="80" />
+            <Overlay Enable="1" Transparency="0" RealTransparency="0" time24or12="0" ovlayfps="0" Week="1" Fontsize="0" Style="3">
+                <TimeOverlay PosX="1" PosY="1" Format="yyyy-mm-dd hh:mm:ss" PosType="0" />
+                <TitleOverlay PosX="0" PosY="0" PosType="0" TitleType="0" TitleUtf8="43616d657261" Title="43616d657261" />
+            </Overlay>
+            <Mask>
+                <MainStream Area1PosX="0" Area1PosY="0" Area1Width="0" Area1Height="0" Area2PosX="0" Area2PosY="0" Area2Width="0" Area2Height="0" Area3PosX="0" Area3PosY="0" Area3Width="0" Area3Height="0" Area4PosX="0" Area4PosY="0" Area4Width="0" Area4Height="0" />
+                <SubStream Area1PosX="0" Area1PosY="0" Area1Width="0" Area1Height="0" Area2PosX="0" Area2PosY="0" Area2Width="0" Area2Height="0" Area3PosX="0" Area3PosY="0" Area3Width="0" Area3Height="0" Area4PosX="0" Area4PosY="0" Area4Width="0" Area4Height="0" />
+            </Mask>
+            <ROI Enable="0" Area1PosX="0" Area1PosY="0" Area1Width="0" Area1Height="0" Area2PosX="0" Area2PosY="0" Area2Width="0" Area2Height="0" Area3PosX="0" Area3PosY="0" Area3Width="0" Area3Height="0" Area4PosX="0" Area4PosY="0" Area4Width="0" Area4Height="0" />
+            <UserOverlay>
+                <UserOSD enable="0" PosType="0" pos_xscale="0" pos_yscale="0" color_front="16777215" color_back="0" transparency="0" Fontsize="0" linegap="0" titleType="0" TitleUtf8="" />
+                <UserOSD enable="0" PosType="0" pos_xscale="0" pos_yscale="0" color_front="16777215" color_back="0" transparency="0" Fontsize="0" linegap="0" titleType="0" TitleUtf8="" />
+                <UserOSD enable="0" PosType="0" pos_xscale="0" pos_yscale="0" color_front="16777215" color_back="0" transparency="0" Fontsize="0" linegap="0" titleType="0" TitleUtf8="" />
+                <UserOSD enable="0" PosType="0" pos_xscale="0" pos_yscale="0" color_front="16777215" color_back="0" transparency="0" Fontsize="0" linegap="0" titleType="0" TitleUtf8="" />
+                <UserOSD enable="0" PosType="0" pos_xscale="0" pos_yscale="0" color_front="16777215" color_back="0" transparency="0" Fontsize="0" linegap="0" titleType="0" TitleUtf8="" />
+            </UserOverlay>
+            <YUV Enable="0" Resolution="" FrameRate="0" Format="0" />
+        </Video>
+        <Audio>
+            <Capture Channels="1" BitsPerSample="16" SampleRate="8000" Volume="90" VolumePlay="95" amplify="1" ra_answer="0" aec_enable="1" mute_ptz_turn="0" />
+            <Encode Enable="1" SampleRate="8000" EncodeType="G.711A" BitRate="64000" />
+        </Audio>
+    </MediaConfig>
+    <MediaStreamConfig>
+        <StreamAccess Auth="1" VideoPort="554" RTPOverRTSP="1" enable_rtsp="1" enable_onvif="1" enable_web="1" OnvifAuth="0" WEBPort="80" httpsPort="443" h5Port="12351" httpsCertificate="" httpsKey="" enable_comm="1" PTZPort="8091" enable_hik="1" hik_port="8000" hik_auth="0" enable_dh="1" dh_port="37777" dh_auth="0" enable_tst="0" enable_rtmp="0" rtmp_port="1935" streamno="0" rtmp_type="0" rtmp_server="a.rtmp.youtube.com" rtmp_appname="live2" rtmp_streamid="" Multicast0_enable="0" Multicast0_port="0" Multicast0_IP="0" Multicast1_enable="0" Multicast1_port="0" Multicast1_IP="0">
+            <RtmpCfg>
+                <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            </RtmpCfg>
+        </StreamAccess>
+    </MediaStreamConfig>
+    <PlatformConfig>
+        <TopseeConfig Enable="0" Server="" Port="10001" Username="user" EncryptPwd="9082a082425f0feba92925fd8d9f56d9" PlayTone="0" InRingTimes="1" reserved="1" keyPressTimeLen="500" FileName="" />
+    </PlatformConfig>
+    <GB28181Config>
+        <GB28181 Enable="0" tcp="0" nstreams="0" nChannelNum="0" hcId="" hcIp="" hcName="" hcPwd="" hcPort="0" lcId="" lcName="" lcPwd="" lcPort="0" camId="" alarmId="" deviceName="" />
+    </GB28181Config>
+    <GAT1400Config>
+        <GAT1400 Enable="0" Https="0" StreamType="0" KeepAliveTime="0" KeepAliveCount="0" AlarmTime="0" UserName="" Password="" DeviceID="" ChannelID="" ServerAddr="" ServerPort="0" />
+    </GAT1400Config>
+    <RecordConfig>
+        <Common LocalEnable="1" StorageSequence="0" RemoteEnable="0" MountParam="" StoragePolicy="FIFO" RecordFileSize="10" recordFileKeeyDays="0" timelapseEnable="0" timelapseSec="4" timelapseFps="25" timelapseFileSize="10" />
+        <ScheduleRecord Stream="1" FileFormat="MP4" MediaType="AV" LocalStore="1" RemoteStore="0" JpegInterval="1" FtpUpload="0" EmailUpload="0">
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+        </ScheduleRecord>
+        <MotionDetectRecord Stream="1" FileFormat="MP4" MediaType="AV" PreRecordTime="5" RecordTime="60" LocalStore="0" RemoteStore="0" FtpUpload="0" EmailUpload="0" alarmbits="1048575" />
+        <MotionDetectCapture PreTakeTime="5" sendoutInterval="0" TotalTakeTime="10" LocalStore="0" RemoteStore="0" FtpUpload="0" EmailUpload="0" StopNoAlarm="0" Stream="1" alarmbits="1048575" />
+        <InputAlarmRecord Stream="1" FileFormat="MP4" MediaType="AV" PreRecordTime="5" RecordTime="60" LocalStore="0" RemoteStore="0" FtpUpload="0" EmailUpload="0" alarmbits="1048575" />
+        <InputAlarmCapture PreTakeTime="5" sendoutInterval="0" TotalTakeTime="10" LocalStore="0" RemoteStore="0" FtpUpload="0" EmailUpload="0" StopNoAlarm="0" Stream="1" alarmbits="1048575" />
+    </RecordConfig>
+    <AlarmConfig>
+        <InputAlarm>
+            <AlarmChannel PortIndex="1" ChannelType="input1" TriggerType="HIGH-LOW" Enable="0">
+                <EnableTimeList>
+                    <Workday Day="7">
+                        <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                    </Workday>
+                </EnableTimeList>
+                <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+                <AlarmAction light_twinkle="0" notify_alarmserver="0" notify_sms="0">
+                    <IOOutputAction>
+                        <OutputChannelAction Enable="1" PortIndex="1" />
+                        <OutputChannelAction Enable="1" PortIndex="2" />
+                        <OutputChannelAction Enable="0" PortIndex="3" />
+                        <OutputChannelAction Enable="0" PortIndex="4" />
+                    </IOOutputAction>
+                    <PTZAction Enable="0" ActionType="PresetPosition">
+                        <PresetPosition>
+                            <PTZPosition PositionIndex="1" />
+                        </PresetPosition>
+                    </PTZAction>
+                    <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="1" Intervel="3" FileName="/opt/ch/alarmMp3/voice_You_are_being_monitored.mp3" />
+                </AlarmAction>
+            </AlarmChannel>
+        </InputAlarm>
+        <MotionDetectAlarm Enable="1" arming_flag="1" BlockCount="1441810" BlockConfig="111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" Sensitivity="80" AlarmThreshold="20" DayNightSwitch="1" NightSensitivity="80" NightAlarmThreshold="20" NightStartTime=" 0: 0: 0" NightEndTime=" 0: 0: 0">
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction light_twinkle="0" notify_alarmserver="0" alarm_led="0" alarm_push="1">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <PTZAction Enable="0" ActionType="PositionWalk">
+                    <PositionWalk Interval="2" WalkCount="1">
+                        <PTZPosition PositionIndex="1" />
+                        <PTZPosition PositionIndex="2" />
+                        <PTZPosition PositionIndex="3" />
+                    </PositionWalk>
+                </PTZAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="1" Intervel="3" FileName="/opt/ch/alarmMp3/voice_You_are_being_monitored.mp3" />
+            </AlarmAction>
+        </MotionDetectAlarm>
+        <VideoLostAlarm Enable="0">
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction>
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+            </AlarmAction>
+        </VideoLostAlarm>
+        <VideoCoverAlarm Enable="1" Sensitivity="20" threadhold_second="5" backgroundUpdateSecond="40">
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction>
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="0" Intervel="0" FileName="" />
+            </AlarmAction>
+        </VideoCoverAlarm>
+        <StorageFullAlarm Enable="1" Threshold="95">
+            <AlarmAction>
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+            </AlarmAction>
+        </StorageFullAlarm>
+        <AudioAlarm enable_babycry="0" sensity_babycry="50" enable_lsd="0" sensity_lsd="50" />
+        <VideoGate Enable="0" arming_flag="1">
+            <Line1 fromx="0" fromy="0" tox="0" toy="0" EnableDay="1" EnableNight="1" Enable="0" sensitivity="50" type="17" direction="0" />
+            <Line2 fromx="0" fromy="0" tox="0" toy="0" EnableDay="1" EnableNight="1" Enable="0" sensitivity="50" type="17" direction="0" />
+            <Line3 fromx="0" fromy="0" tox="0" toy="0" EnableDay="1" EnableNight="1" Enable="0" sensitivity="50" type="17" direction="0" />
+            <Line4 fromx="0" fromy="0" tox="0" toy="0" EnableDay="1" EnableNight="1" Enable="0" sensitivity="50" type="17" direction="0" />
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction drawrect="1" draw_target="1" light_twinkle="0" notify_alarmserver="0" alarm_led="0" alarm_push="0">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="1" Intervel="3" FileName="/opt/ch/alarmMp3/voice_You_are_being_monitored.mp3" />
+            </AlarmAction>
+        </VideoGate>
+        <VideoRegionAi Enable="0" arming_flag="0">
+            <Polygon PointCnt="0" />
+            <Rule1 enable="0" sensitivity="0" type_filter="0" mode="0" stayseconds="0" />
+            <Rule2 enable="0" sensitivity="0" type_filter="0" mode="0" stayseconds="0" />
+            <Rule3 enable="0" sensitivity="0" type_filter="0" mode="0" stayseconds="0" />
+            <EnableTimeList />
+            <TimeSpanCfg day0="0" day1="0" day2="0" day3="0" day4="0" day5="0" day6="0" />
+            <AlarmAction drawrect="0" draw_target="0" light_twinkle="0" notify_alarmserver="0" alarm_led="0" alarm_push="0">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="0" />
+                    <OutputChannelAction Enable="0" PortIndex="0" />
+                    <OutputChannelAction Enable="0" PortIndex="0" />
+                    <OutputChannelAction Enable="0" PortIndex="0" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="0" Intervel="0" FileName="" />
+            </AlarmAction>
+        </VideoRegionAi>
+        <VideoPD Enable="1" arming_flag="1" EnableDay="1" EnableNight="1" Type="27" Threshold="0" Sensitivity="5" minTargetRate="0" allowMd="0" nonMotionFilter="1" xPos="0" yPos="0" width="100" height="100">
+            <Polygon PointCnt="4">
+                <Point x="0" y="0" />
+                <Point x="100" y="0" />
+                <Point x="100" y="100" />
+                <Point x="0" y="100" />
+            </Polygon>
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction drawrect="1" draw_human="1" track_human="0" auto_zoom="0" gunball_track_mode="0" rect_twinkle="0" light_twinkle="0" notify_alarmserver="0" alarm_led="1" alarm_push="1">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="1" Intervel="3" FileName="/opt/ch/alarmMp3/voice_You_are_being_monitored.mp3" />
+            </AlarmAction>
+            <Sensitivitys>
+                <d v="50" t="0" />
+                <d v="50" t="1" />
+                <d v="50" t="2" />
+                <d v="50" t="3" />
+                <d v="50" t="4" />
+                <d v="50" t="5" />
+                <d v="50" t="6" />
+                <d v="50" t="7" />
+                <d v="50" t="8" />
+            </Sensitivitys>
+        </VideoPD>
+        <Lpr Enable="0" arming_flag="0" Sensitivity="0" detectionmode="0" actionInterval="0" snapQuality="">
+            <Polygon PointCnt="4">
+                <Point x="0" y="0" />
+                <Point x="100" y="0" />
+                <Point x="100" y="100" />
+                <Point x="0" y="100" />
+            </Polygon>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction drawosd="0" playvoice="0" notify_alarmserver="0" alarm_push="0" drawrect="0" draw_target="0" />
+        </Lpr>
+        <FlameAndFlumes Enable="0" arming_flag="0" Sensitivity="0" Sensitivity_smog="0" actionInterval="0" snapQuality="">
+            <Polygon PointCnt="4">
+                <Point x="0" y="0" />
+                <Point x="100" y="0" />
+                <Point x="100" y="100" />
+                <Point x="0" y="100" />
+            </Polygon>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction drawrect="0" draw_target="0" light_twinkle="0" notify_alarmserver="0" alarm_led="0" alarm_push="0">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="0" Intervel="0" FileName="" />
+            </AlarmAction>
+        </FlameAndFlumes>
+        <FaceDetect Enable="0" arming_flag="1" EnableDay="1" EnableNight="1" Threshold="0" Sensitivity="0" xPos="0" yPos="0" width="100" height="100">
+            <EnableTimeList>
+                <Workday Day="7">
+                    <TimeSpan StartTime=" 0: 0: 0" EndTime="23:59: 0" />
+                </Workday>
+            </EnableTimeList>
+            <TimeSpanCfg day0="16777215" day1="16777215" day2="16777215" day3="16777215" day4="16777215" day5="16777215" day6="16777215" />
+            <AlarmAction drawrect="0">
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+                <AudioPlayAction Enable="0" EnableNight="0" enable_flag="0" Times="1" Intervel="0" FileName="/opt/ch/attention.mp3" />
+            </AlarmAction>
+        </FaceDetect>
+        <Temp_humidity temp_enable="0" temp_upper_limit="0" temp_lower_limit="0" temp_range_lower="-50" temp_range_upper="100" humidity_enable="0" humidity_upper_limit="0" humidity_lower_limit="0" humidity_range_lower="0" humidity_range_upper="100" voc_enable="0" voc_good="500" voc_TracePollution="1000" voc_LightPollution="2000" voc_ModeratePollution="3000" voc_HeavyPollution="5">
+            <AlarmAction>
+                <IOOutputAction>
+                    <OutputChannelAction Enable="0" PortIndex="1" />
+                    <OutputChannelAction Enable="0" PortIndex="2" />
+                    <OutputChannelAction Enable="0" PortIndex="3" />
+                    <OutputChannelAction Enable="0" PortIndex="4" />
+                </IOOutputAction>
+            </AlarmAction>
+        </Temp_humidity>
+        <OutputAlarm>
+            <OutputChannel PortIndex="1" ChannelType="alarmoutput" TriggerType="HIGH" Duration="10" enable_flag="1" DayEnable="1" NightEnable="1" EnableDay="1" EnableNight="1" />
+            <OutputChannel PortIndex="2" ChannelType="output" TriggerType="HIGH" Duration="10" enable_flag="1" DayEnable="1" NightEnable="1" EnableDay="1" EnableNight="1" />
+            <OutputChannel PortIndex="3" ChannelType="output" TriggerType="HIGH" Duration="10" enable_flag="1" DayEnable="1" NightEnable="1" EnableDay="1" EnableNight="1" />
+            <OutputChannel PortIndex="4" ChannelType="output" TriggerType="HIGH" Duration="10" enable_flag="1" DayEnable="1" NightEnable="1" EnableDay="1" EnableNight="1" />
+        </OutputAlarm>
+        <SMSAlarm enable="0" min_interval="0" playresult="0" dstnumber="" content="" />
+    </AlarmConfig>
+</IPCConfig>

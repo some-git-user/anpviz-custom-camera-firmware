@@ -1,0 +1,62 @@
+<div id="page_encryptionConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="encryption_set" class="encryption_tab_title ui-tab-current" data-for="encryptionConfig">加密配置</li>
+</ul>
+</div>
+<div class="encryption_tab_content" id="encryption_tab_general">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_url_label">密服平台地址</label>
+<input name="textfield" id="encryption_url" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_url_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_machineId_label">客户端国标id</label>
+<input name="textfield" id="encryption_machineId" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_machineId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_machineSalt_label">设备设置的盐值</label>
+<input name="textfield" id="encryption_machineSalt" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_machineSalt_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_productID_label">单点登录的应用id</label>
+<input name="textfield" id="encryption_productID" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_productID_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_productSecret_label">单点登录的应用凭证</label>
+<input name="textfield" id="encryption_productSecret" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_productSecret_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_vkekInterval_label">vkek的更新周期</label>
+<input name="textfield" id="encryption_vkekInterval" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_vkekInterval_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_authPassword_label">认证密码</label>
+<input type="password" name="textfield" id="encryption_authPassword" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_authPassword_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="encryption_confirmPassword_label">确认密码</label>
+<input type="password" name="textfield" id="encryption_confirmPassword" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="encryption_confirmPassword_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="encryption_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="encryption_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="encryption_confirm" class="ui-button admin_button" href="javascript:;">保存</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="encryption_setting_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="encryption_setting_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

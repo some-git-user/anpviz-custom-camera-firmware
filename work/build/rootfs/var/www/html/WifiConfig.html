@@ -1,0 +1,285 @@
+<div id="Wifi_Config" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="wifi" class="ui-tab-current">WIFI</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div id="show_wifi_start_wireless_network" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_start_wireless_network_label">启用无线网络</label>
+<select class="ui-select fn-width204" id="start_wireless_network_wifi">
+<option id="wifi_start_wireless_network_wifi_0" value="1">启用</option>
+<option id="wifi_start_wireless_network_wifi_1" value="0">禁用</option>
+</select>
+</div>
+<div id="show_wifi_config" style="display:none">
+<div id="show_wifi_Working_mode" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_Working_mode_label">工作模式</label>
+<select class="ui-select fn-width204" id="wifi_Working_mode">
+<option id="wifi_Working_mode_0" value="0">Station</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_ESSID_label">ESSID</label>
+<input name="textfield" id="wifi_ESSID" class="ui-input fn-width200" maxlength="64">
+<a id="wifi_ESSID_searchButton" class="ui-button fn-width68 fn-left" href="javascript:;">搜索</a>
+<span class="ui-tip-red" id="wifi_ESSID_tip"></span>
+</div>
+<div id="show_wifi_connect_status" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="show_wifi_connect_status_label">状态</label>
+<div class="fn-left">
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="wifi_connect_status" name="wifi_connect_status_name" disabled>
+</div>
+<label class="ui-label fn-color-purple" id="wifi_connect_status_label" for="wifi_connect_status">已连接</label>
+</div>
+</div>
+<div id="show_wifi_MAC_mode" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_MAC_mode_label">MAC模式</label>
+<select class="ui-select fn-width204" id="wifi_MAC_mode">
+<option id="wifi_MAC_mode_b_g" value="0">802.11b/g</option>
+<option id="wifi_MAC_mode_b" value="1">802.11b</option>
+<option id="wifi_MAC_mode_a" value="2">802.11a</option>
+<option id="wifi_MAC_mode_a_b_g" value="3">802.11a/b/g</option>
+<option id="wifi_MAC_mode_g" value="4">802.11g</option>
+<option id="wifi_MAC_mode_a_b_g_n" value="5">802.11a/b/g/n</option>
+<option id="wifi_MAC_mode_n" value="6">802.11n</option>
+<option id="wifi_MAC_mode_g_n" value="7">802.11g/n</option>
+<option id="wifi_MAC_mode_a_n" value="8">802.11a/n</option>
+<option id="wifi_MAC_mode_b_g_n" value="9">802.11b/g/n</option>
+<option id="wifi_MAC_mode_a_g_n" value="10">802.11a/g/n</option>
+</select>
+</div>
+<div id="show_wifi_Channel_area" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_Channel_area_label">信道区域</label>
+<select class="ui-select fn-width204" id="wifi_Channel_area">
+<option id="wifi_Channel_area_AG" value="AG">AG</option>
+<option id="wifi_Channel_area_AR" value="AR">AR</option>
+<option id="wifi_Channel_area_AW" value="AW">AW</option>
+<option id="wifi_Channel_area_AU" value="AU">AU</option>
+<option id="wifi_Channel_area_AT" value="AT">AT</option>
+<option id="wifi_Channel_area_BS" value="BS">BS</option>
+<option id="wifi_Channel_area_BB" value="BB">BB</option>
+<option id="wifi_Channel_area_BM" value="BM">BM</option>
+<option id="wifi_Channel_area_BR" value="BR">BR</option>
+<option id="wifi_Channel_area_BE" value="BE">BE</option>
+<option id="wifi_Channel_area_BG" value="BG">BG</option>
+<option id="wifi_Channel_area_CA" value="CA">CA</option>
+<option id="wifi_Channel_area_KY" value="KY">KY</option>
+<option id="wifi_Channel_area_CL" value="CL">CL</option>
+<option id="wifi_Channel_area_CN" value="CN">CN</option>
+<option id="wifi_Channel_area_CO" value="CO">CO</option>
+<option id="wifi_Channel_area_CR" value="CR">CR</option>
+<option id="wifi_Channel_area_CY" value="CY">CY</option>
+<option id="wifi_Channel_area_CZ" value="CZ">CZ</option>
+<option id="wifi_Channel_area_DK" value="DK">DK</option>
+<option id="wifi_Channel_area_DO" value="DO">DO</option>
+<option id="wifi_Channel_area_EC" value="EC">EC</option>
+<option id="wifi_Channel_area_SV" value="SV">SV</option>
+<option id="wifi_Channel_area_FI" value="FI">FI</option>
+<option id="wifi_Channel_area_FR" value="FR">FR</option>
+<option id="wifi_Channel_area_DE" value="DE">DE</option>
+<option id="wifi_Channel_area_GR" value="GR">GR</option>
+<option id="wifi_Channel_area_GU" value="GU">GU</option>
+<option id="wifi_Channel_area_GT" value="GT">GT</option>
+<option id="wifi_Channel_area_HT" value="HT">HT</option>
+<option id="wifi_Channel_area_HN" value="HN">HN</option>
+<option id="wifi_Channel_area_HK" value="HK">HK</option>
+<option id="wifi_Channel_area_HU" value="HU">HU</option>
+<option id="wifi_Channel_area_IS" value="IS">IS</option>
+<option id="wifi_Channel_area_IN" value="IN">IN</option>
+<option id="wifi_Channel_area_ID" value="ID">ID</option>
+<option id="wifi_Channel_area_IE" value="IE">IE</option>
+<option id="wifi_Channel_area_IL" value="IL">IL</option>
+<option id="wifi_Channel_area_IT" value="IT">IT</option>
+<option id="wifi_Channel_area_JP" value="JP">JP</option>
+<option id="wifi_Channel_area_JO" value="JO">JO</option>
+<option id="wifi_Channel_area_LV" value="LV">LV</option>
+<option id="wifi_Channel_area_LT" value="LT">LT</option>
+<option id="wifi_Channel_area_LI" value="LI">LI</option>
+<option id="wifi_Channel_area_MA" value="MA">MA</option>
+<option id="wifi_Channel_area_MT" value="MT">MT</option>
+<option id="wifi_Channel_area_MY" value="MY">MY</option>
+<option id="wifi_Channel_area_MX" value="MX">MX</option>
+<option id="wifi_Channel_area_NL" value="NL">NL</option>
+<option id="wifi_Channel_area_NZ" value="NZ">NZ</option>
+<option id="wifi_Channel_area_NO" value="NO">NO</option>
+<option id="wifi_Channel_area_PE" value="PE">PE</option>
+<option id="wifi_Channel_area_PT" value="PT">PT</option>
+<option id="wifi_Channel_area_PL" value="PL">PL</option>
+<option id="wifi_Channel_area_RO" value="RO">RO</option>
+<option id="wifi_Channel_area_RU" value="RU">RU</option>
+<option id="wifi_Channel_area_SA" value="SA">SA</option>
+<option id="wifi_Channel_area_CS" value="CS">CS</option>
+<option id="wifi_Channel_area_SG" value="SG">SG</option>
+<option id="wifi_Channel_area_SK" value="SK">SK</option>
+<option id="wifi_Channel_area_SI" value="SI">SI</option>
+<option id="wifi_Channel_area_ZA" value="ZA">ZA</option>
+<option id="wifi_Channel_area_KR" value="KR">KR</option>
+<option id="wifi_Channel_area_ES" value="ES">ES</option>
+<option id="wifi_Channel_area_SE" value="SE">SE</option>
+<option id="wifi_Channel_area_CH" value="CH">CH</option>
+<option id="wifi_Channel_area_TW" value="TW">TW</option>
+<option id="wifi_Channel_area_TR" value="TR">TR</option>
+<option id="wifi_Channel_area_GB" value="GB">GB</option>
+<option id="wifi_Channel_area_UA" value="UA">UA</option>
+<option id="wifi_Channel_area_AE" value="AE">AE</option>
+<option id="wifi_Channel_area_US" value="US">US</option>
+<option id="wifi_Channel_area_VE" value="VE">VE</option>
+</select>
+</div>
+<div id="show_wifi_Signal_channel" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_Signal_channel_label">信号通道</label>
+<select class="ui-select fn-width204" id="wifi_Signal_channel">
+<option id="wifi_Signal_channel_0" value="0">Auto</option>
+<option id="wifi_Signal_channel_1" value="1">1</option>
+<option id="wifi_Signal_channel_2" value="2">2</option>
+<option id="wifi_Signal_channel_3" value="3">3</option>
+<option id="wifi_Signal_channel_4" value="4">4</option>
+<option id="wifi_Signal_channel_5" value="5">5</option>
+<option id="wifi_Signal_channel_6" value="6">6</option>
+<option id="wifi_Signal_channel_7" value="7">7</option>
+<option id="wifi_Signal_channel_8" value="8">8</option>
+<option id="wifi_Signal_channel_9" value="9">9</option>
+<option id="wifi_Signal_channel_10" value="10">10</option>
+<option id="wifi_Signal_channel_11" value="11">11</option>
+<option id="wifi_Signal_channel_12" value="12">12</option>
+<option id="wifi_Signal_channel_13" value="13">13</option>
+</select>
+</div>
+<div id="show_wifi_encryption_method" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_encryption_method_label">加密方法</label>
+<select class="ui-select fn-width204" id="wifi_encryption_method">
+<option id="wifi_encryption_method_0" value="">不加密</option>
+<option id="wifi_encryption_method_1" value="wpa">WPA</option>
+<option id="wifi_encryption_method_2" value="wep">WEP</option>
+</select>
+</div>
+<div id="show_wifi_encryption_method_for" style="display:none">
+<div id="show_wifi_Key_type" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_Key_type_label">密钥类型</label>
+<select class="ui-select fn-width204" id="wifi_Key_type">
+<option id="wifi_Key_type_0" value="TKIP">TKIP</option>
+<option id="wifi_Key_type_1" value="AES">AES</option>
+</select>
+</div>
+<div id="show_wifi_Authentication_mode" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="wifi_Authentication_mode_label">认证模式</label>
+<select class="ui-select fn-width204" id="wifi_Authentication_mode">
+<option id="wifi_Authentication_mode_0" value="WPA2PSK">WPA2PSK</option>
+<option id="wifi_Authentication_mode_1" value="WPAPSK">WPAPSK</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_password_label">密钥</label>
+<input type="password" name="textfield" id="wifi_password" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="wifi_password_tip"></span>
+</div>
+</div>
+<div id="show_wifi_start_DHCP_network" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_start_DHCP_network_label">DHCP功能</label>
+<select class="ui-select fn-width204" id="start_DHCP_network">
+<option id="wifi_start_DHCP_network_0" value="1">启用</option>
+<option id="wifi_start_DHCP_network_1" value="0">禁用</option>
+</select>
+</div>
+<div id="show_wifi_DHCP_config" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_IP_label">IP地址</label>
+<input name="textfield" id="wifi_IP" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="wifi_IP_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_Subnet_mask_label">子网掩码</label>
+<input name="textfield" id="wifi_Subnet_mask" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="wifi_Subnet_mask_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_default_gateway_label">网关地址</label>
+<input name="textfield" id="wifi_default_gateway" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="wifi_default_gateway_tip"></span>
+</div>
+</div>
+<div id="show_wifi_Enable_PING_Surveillance_Dog" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_Enable_PING_Surveillance_Dog_label">启用PING监视狗</label>
+<select class="ui-select fn-width204" id="wifi_Enable_PING_Surveillance_Dog">
+<option id="wifi_Enable_PING_Surveillance_Dog_0" value="1">启用</option>
+<option id="wifi_Enable_PING_Surveillance_Dog_1" value="0">禁用</option>
+</select>
+</div>
+<div id="show_wifi_PING_config" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifi_PING_IP_label">PING的IP地址</label>
+<input name="textfield" id="wifi_PING_IP" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="wifi_PING_IP_tip"></span>
+</div>
+<div id="show_wifi_PING_IP_address" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_PING_IP_address_label">PING的时间间隔</label>
+<select class="ui-select fn-width204" id="wifi_PING_IP_address">
+<option id="wifi_PING_IP_address_0" value="0">3</option>
+<option id="wifi_PING_IP_address_1" value="1">5</option>
+<option id="wifi_PING_IP_address_2" value="2">10</option>
+<option id="wifi_PING_IP_address_3" value="3">20</option>
+<option id="wifi_PING_IP_address_4" value="4">30</option>
+<option id="wifi_PING_IP_address_5" value="5">40</option>
+<option id="wifi_PING_IP_address_6" value="6">50</option>
+<option id="wifi_PING_IP_address_7" value="7">60</option>
+</select>
+</div>
+<div id="show_wifi_Maximum_number_of_timeouts" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifi_Maximum_number_of_timeouts_label">最大超时次数</label>
+<select class="ui-select fn-width204" id="wifi_Maximum_number_of_timeouts">
+<option id="wifi_Maximum_number_of_timeouts_0" value="0">10</option>
+<option id="wifi_Maximum_number_of_timeouts_1" value="1">20</option>
+<option id="wifi_Maximum_number_of_timeouts_2" value="2">30</option>
+</select>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="wifi_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="wifi_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="wifi_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+<a id="wifi_check" class="ui-button admin_button" href="javascript:;">测试</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="wifi_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="wifi_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="ui-dialog fn-width500" id="wifi_ESSID_zone">
+<div class="ui-dialog-title">
+<h1>WiFi</h1>
+<a id="wifi_ESSID_exit" class="ui-dialog-icon"></a>
+</div>
+<div class="ui-table">
+<div class="ui-table-header">
+<table>
+<tr>
+<th id="wifi_ESSID_select" class="fn-width40">选择</th>
+<th id="wifi_ESSID_number" class="fn-width50">序号</th>
+<th id="wifi_ESSID_essid" class="fn-width150">ESSID</th>
+<th id="wifi_ESSID_quality" class="fn-width150">quality</th>
+</tr>
+</table>
+</div>
+<div id="wifi_ESSID_infolist" class="ui-table-container">
+</div>
+</div>
+<div class="ui-tip fn-marl70">
+<div class="ui-tip-container" id="wifi_ESSID_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="wifi_ESSID_remark_label">正在搜索，请稍后...</label>
+</div>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="wifi_ESSID_refresh" class="ui-button" href="javascript:;">refresh</a>
+<a id="wifi_ESSID_confirm" class="ui-button" href="javascript:;">Confirm</a>
+<a id="wifi_ESSID_close" class="ui-button" href="javascript:;">Close</a>
+</div>
+</div>
+</div>

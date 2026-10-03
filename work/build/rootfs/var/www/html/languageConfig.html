@@ -1,0 +1,52 @@
+<div id="page_languageConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li class="language_tab_title ui-tab-current" data-for="language_setting" id="language_tab_title_language_setting">设备语言</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="language_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container language_tabs" id="language_tab_language_setting">
+<form class="ui-form">
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="language_setting_device_name_label">设备名称</label>
+<input maxlength="32" name="textfield" id="language_setting_device_name" class="ui-input">
+<span class="ui-tip-red" id="language_setting_device_name_tip"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="language_setting_device_number_label">设备编号</label>
+<input maxlength="16" name="textfield" id="language_setting_device_number" class="ui-input">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="language_setting_language_label">语言选择</label>
+<select id="language_setting_language" class="ui-select">
+<option value="zh_cn">简体中文</option>
+<option value="en_us">English</option>
+</select>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="language_setting_video_standard_label">视频制式</label>
+<select id="language_setting_video_standard" class="ui-select">
+</select>
+</div>
+<div class="ui-form-item" id="language_videoOut" style="display:none">
+<label class="ui-label fn-padl20" id="language_setting_tvout_label">模拟输出</label>
+<select class="ui-select" id="videoOut_sel">
+<option value="0" id="tvClose">关闭</option>
+</select>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="language_setting_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="language_setting_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="language_setting_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="language_setting_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="language_setting_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

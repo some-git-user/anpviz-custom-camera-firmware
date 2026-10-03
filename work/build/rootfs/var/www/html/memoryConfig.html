@@ -1,0 +1,177 @@
+<div id="page_memoryConfig" class="page_config">
+<input id="memoryCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="memory_set" class="ui-tab-current">存储设置</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="memory_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div id="memory_LocalStorage_div" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold" id="memory_LocalStorage_label">本地存储</label>
+</div>
+<div id="memory_LocalStorageEnable_div" class="ui-form-item">
+<div class="ui-checkbox fn-padl20">
+<input type="checkbox" id="memory_LocalStorageEnable">
+</div>
+<label class="ui-label fn-width200" id="memory_LocalStorageEnable_label" for="memory_LocalStorageEnable">存储卡 & USB</label>
+</div>
+<div id="memory_showNetworkStorage">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold" id="memory_NetworkStorage_label">网络存储</label>
+</div>
+<div class="ui-form-item">
+<div class="ui-checkbox fn-padl20">
+<input type="checkbox" id="memory_NetworkStorageEnable">
+</div>
+<label class="ui-label" id="memory_NetworkStorageEnable_label" for="memory_NetworkStorageEnable">NFS</label>
+</div>
+<div id="memory_showNetworkStorageConfig">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="memory_NFS_server_label">NFS服务器</label>
+<input name="textfield" id="memory_NFS_server" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="memory_serverPath_label">存储路径</label>
+<input name="textfield" id="memory_serverPath" class="ui-input fn-width200" maxlength="256">
+</div>
+</div>
+</div>
+<div id="memory_showStorageConfig">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="memory_AlloweCoverOldRecord_label">允许覆盖旧记录</label>
+<div class="fn-left" id="memory_AlloweCoverOldRecord_slct">
+<select id="memory_AlloweCoverOldRecord" class="ui-select fn-width204">
+<option id="AlloweCoverOldRecord_No" value="0">Disable</option>
+<option id="AlloweCoverOldRecord_Yes" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="memory_MaxTime_label">最大录像时长</label>
+<div class="fn-left" id="memory_MaxTime_slct">
+<select id="memory_MaxTime" class="ui-select fn-width204">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+<option value="30">30</option>
+</select>
+</div>
+<span class="ui-text" id="memory_Min_tip">分钟</span>
+</div>
+</div>
+<div id="memory_showTimeLapseConfig">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item" id="memory_showTimeLapse_label">
+<label class="ui-label fn-padl20" id="memory_TimeLapse_label">延时摄影</label>
+<div class="fn-left">
+<select id="memory_TimeLapse" class="ui-select fn-width204">
+<option id="TimeLapse_Disable" value="0">Disable</option>
+<option id="TimeLapse_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="memory_showIntervalTimeConfig">
+<label class="ui-label fn-padl20" id="memory_intervalTime_label">间隔时间</label>
+<div class="fn-left">
+<input class="ui-input fn-width200" id="memory_intervalTime">
+<span class="ui-text" name="t_sec_per">秒</span>
+</div>
+</div>
+<div class="ui-form-item" id="memory_showPlayFpsConfig">
+<label class="ui-label fn-padl20" id="memory_playFps_label">播放帧率</label>
+<div class="fn-left" id="memory_playFps_select">
+<select id="memory_playFps" class="ui-select fn-width204">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+<option value="55">55</option>
+<option value="56">56</option>
+<option value="57">57</option>
+<option value="58">58</option>
+<option value="59">59</option>
+<option value="60">60</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="memory_showfileSizeConfig">
+<label class="ui-label fn-padl20" id="memory_fileSize_label">文件大小</label>
+<div class="fn-left">
+<input class="ui-input fn-width200" id="memory_fileSize">
+<span class="ui-text">(1~2048)</span>
+<span class="ui-text" name="t_MB">MB</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="memory_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="memory_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="memory_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="memory_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="memory_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

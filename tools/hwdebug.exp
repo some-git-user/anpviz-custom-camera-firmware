@@ -1,0 +1,86 @@
+#!/usr/bin/expect -f
+# hwdebug.exp -- connect to the camera recovery shell and run a diagnostic battery.
+# Usage: expect hwdebug.exp [host]   (default 192.0.2.10)
+#
+# Requires the recovery shell to be enabled first:
+#   1. put an empty file named  telnet.enable  in the root of the SD card
+#   2. power-cycle the camera
+#   3. run this script
+
+set timeout 25
+set host [expr {[llength $argv] >= 1 ? [lindex $argv 0] : "192.0.2.10"}]
+set pass "REDACTED_RECOVERY_PASSWORD"
+
+log_user 1
+spawn telnet $host 23
+
+# HTTPS8 uses a custom login wrapper (reclogin.sh) whose prompts are
+#   "Recovery login (root): " and "Password: "
+# Older builds used the stock "login:" / "Password:". Match both.
+expect {
+    -re "(?i)(recovery login|login):" { send "root\r" }
+    -re "(?i)password:" { }
+    timeout { puts "\nERROR: no login prompt (is telnet enabled? port open?)"; exit 1 }
+    eof { puts "\nERROR: connection closed"; exit 1 }
+}
+
+expect {
+    -re "(?i)password:" { send "$pass\r" }
+    -re "\\\$ *$" { }
+    timeout { puts "\nERROR: no password prompt"; exit 1 }
+}
+
+# wait for a shell prompt
+expect {
+    -re {[#\$] $} { }
+    -re {[#\$]} { }
+    timeout { puts "\nWARN: no clear prompt, continuing anyway" }
+}
+
+proc run {cmd} {
+    send "$cmd\r"
+    expect {
+        -re {[#\$] $} { }
+        -re {[#\$]} { }
+        timeout { }
+    }
+}
+
+puts "\n===== ENVIRONMENT ====="
+run "echo PATH=\\\$PATH"
+run "which date grep awk sed head tr uname ps df lsusb mount busybox sh"
+run "ls -l /bin/sh /bin/busybox"
+run "cat /etc/filesys.ver"
+
+puts "\n===== COLLECTOR PRESENT? ====="
+run "ls -l /opt/ch/hwinfo.sh"
+run "ls -l /tmp/hwinfo.txt /tmp/.hwinfo.prev 2>&1"
+run "cat /tmp/hwinfo.txt 2>&1 | head -c 800"
+
+puts "\n===== IS COLLECTOR RUNNING? ====="
+run "ps 2>/dev/null | grep -i hwinfo | grep -v grep"
+run "ps 2>/dev/null | grep -i 'loop 5' | grep -v grep"
+
+puts "\n===== RUN COLLECTOR MANUALLY (traced) ====="
+run "cd /tmp && rm -f /tmp/hwinfo.txt /tmp/.hwinfo.prev"
+run "sh /opt/ch/hwinfo.sh 2>/tmp/hw.err; echo RC=\\\$?"
+run "echo '--- stderr ---'; cat /tmp/hw.err 2>&1 | head -40"
+run "echo '--- output ---'; cat /tmp/hwinfo.txt 2>&1 | head -c 1200"
+
+puts "\n===== KEY NODES EXIST? ====="
+run "ls -l /sys/devices/soc0/ 2>&1"
+run "cat /sys/devices/soc0/machine 2>&1"
+run "ls -d /sys/class/thermal/thermal_zone* 2>&1"
+run "cat /proc/meminfo 2>&1 | head -3"
+run "cat /proc/stat 2>&1 | head -1"
+run "cat /proc/uptime 2>&1"
+run "ifconfig 2>&1 | head -20"
+run "mount 2>&1 | grep -E 'squashfs|/mnt/nand|mmc|usb'"
+
+puts "\n===== WEB SERVER CAN READ IT? ====="
+run "wget -qO- http://127.0.0.1/hwinfo.txt 2>&1 | head -c 400"
+run "ls -l /var/www/hwinfo.txt 2>&1"
+
+puts "\n===== DONE ====="
+send "exit\r"
+expect eof

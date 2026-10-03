@@ -1,0 +1,181 @@
+<div id="page_humitureAlarmConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="humidity_temperature_detection" class="ui-tab-current">温湿度检测</li>
+</ul>
+</div>
+<div class="ui-container" id="humidity_temperature_record">
+<form class="ui-form">
+<div class="ui-form-item" id="show_temperatureConfig" style="display:none">
+<div class="ui-form-item">
+<label id="temperature_label" class="ui-label fn-padl20">温度</label>
+<select class="ui-select" id="temperature_OutputEnable">
+<option id="temperature_OutputEnable_0" value="0">禁用</option>
+<option id="temperature_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_show_temperatureConfig" style="display:none">
+<div class="ui-form-item" id="humiture_temperature_upper_limit">
+<label class="ui-label fn-padl20" id="temperature_upper_limit_label" style="white-space:normal;word-break:break-all">温度上限</label>
+<input class="ui-input fn-width140" id="temperature_upper_limit">
+<span class="ui-text" name="t_sec_per_temperature">每摄氏度</span>
+<span class="ui-text">(-50~100)</span>
+</div>
+<div class="ui-form-item" id="humiture_temperature_lower_limit">
+<label class="ui-label fn-padl20" id="temperature_lower_limit_label" style="white-space:normal;word-break:break-all">温度下限</label>
+<input class="ui-input fn-width140" id="temperature_lower_limit">
+<span class="ui-text" name="t_sec_per_temperature">每摄氏度</span>
+<span class="ui-text">(-50~100)</span>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+</div>
+<div class="ui-form-item" id="show_humidityConfig" style="display:none">
+<div class="ui-form-item">
+<label id="humidity_label" class="ui-label fn-padl20">湿度</label>
+<select class="ui-select" id="humiture_OutputEnable">
+<option id="humiture_OutputEnable_0" value="0">禁用</option>
+<option id="humiture_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_show_humidityConfig" style="display:none">
+<div class="ui-form-item" id="humiture_humidity_upper_limit">
+<label class="ui-label fn-padl20" id="humidity_upper_limit_label" style="white-space:normal;word-break:break-all">湿度上限</label>
+<input class="ui-input fn-width140" id="humidity_upper_limit">
+<span class="ui-text" name="t_sec_per_humidity">每相对湿度</span>
+<span class="ui-text">(1~100)</span>
+</div>
+<div class="ui-form-item" id="humiture_humidity_lower_limit">
+<label class="ui-label fn-padl20" id="humidity_lower_limit_label" style="white-space:normal;word-break:break-all">湿度下限</label>
+<input class="ui-input fn-width140" id="humidity_lower_limit">
+<span class="ui-text" name="t_sec_per_humidity">每相对湿度</span>
+<span class="ui-text">(1~100)</span>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+</div>
+<div class="ui-form-item" id="show_vocDetection_Config" style="display:none">
+<div class="ui-form-item">
+<label id="voc_label" class="ui-label fn-padl20">有毒气体检测</label>
+<select class="ui-select" id="vocDetectionEnable">
+<option id="vocDetectionEnable_0" value="0">禁用</option>
+<option id="vocDetectionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_show_vocDetectionConfig" style="display:none">
+<div class="ui-form-item" id="show_vocDetection_goodAir_limit">
+<label class="ui-label fn-padl20" id="vocDetection_goodAir_limit_label" style="white-space:normal;word-break:break-all">空气优良门限</label>
+<input class="ui-input fn-width140" id="vocDetection_goodAir_limit">
+<span class="ui-text" name="t_sec_per_goodAir">ppb</span>
+</div>
+<div class="ui-form-item" id="show_vocDetection_TracePollution_limit">
+<label class="ui-label fn-padl20" id="vocDetection_TracePollution_limit_label" style="white-space:normal;word-break:break-all">微量污染门限</label>
+<input class="ui-input fn-width140" id="vocDetection_TracePollution_limit">
+<span class="ui-text" name="t_sec_per_TracePollution">ppb</span>
+</div>
+<div class="ui-form-item" id="show_vocDetection_lightPollution_limit">
+<label class="ui-label fn-padl20" id="vocDetection_lightPollution_limit_label" style="white-space:normal;word-break:break-all">轻度污染门限</label>
+<input class="ui-input fn-width140" id="vocDetection_lightPollution_limit">
+<span class="ui-text" name="t_sec_per_lightPollution">ppb</span>
+</div>
+<div class="ui-form-item" id="show_vocDetection_moderatelyPollution_limit">
+<label class="ui-label fn-padl20" id="vocDetection_moderatelyPollution_limit_label" style="white-space:normal;word-break:break-all">中度污染门限</label>
+<input class="ui-input fn-width140" id="vocDetection_moderatelyPollution_limit">
+<span class="ui-text" name="t_sec_per_moderatelyPollution">ppb</span>
+</div>
+<div class="ui-form-item" id="show_vocDetection_heavyPollution_limit">
+<label class="ui-label fn-padl20" id="vocDetection_heavyPollution_limit_label" style="white-space:normal;word-break:break-all">重度污染门限</label>
+<input class="ui-input fn-width140" id="vocDetection_heavyPollution_limit">
+<span class="ui-text" name="t_sec_per_heavyPollution">ppb</span>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+</div>
+<div id="humidity_temperature_showIoOutputOld">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="humidity_temperature_OutputEnable_label">触发输出</label>
+<select class="ui-select" id="humidity_temperature_OutputEnable">
+<option id="humidity_temperature_OutputEnable_0" value="0">禁用</option>
+<option id="humidity_temperature_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="humidity_temperature_showOutputConfig" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_PortIndex_label">输出端口</label>
+<select class="ui-select" id="humidity_temperature_PortIndex">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_OutputType_label">输出方式</label>
+<select class="ui-select" id="humidity_temperature_OutputType">
+<option id="humidity_temperature_NormalOpen_0" value="0">常开</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_Duration_label">告警时长</label>
+<div class="fn-left fn-width230">
+<input id="humidity_temperature_Duration" class="ui-input fn-width140">
+<span class="ui-text">(0-60)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="humidity_temperature_showIoOutputNew" style="display:none">
+<div id="humidity_temperature_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="humidity_temperature_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="humidity_temperature_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="humidity_temperature_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="humidity_temperature_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="humidity_temperature_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="humidity_temperature_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="humidity_temperature_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="humidity_temperature_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+<div class="ui-form-item">
+<label id="blank_label" class="ui-label fn-padl20"></label>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="humitureAlarm_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="humitureAlarm_refresh" class="ui-button" href="javascript:;"></a>
+<a id="humitureAlarm_confirm" class="ui-button admin_button" href="javascript:;"></a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="humitureAlarm_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="humitureAlarm_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

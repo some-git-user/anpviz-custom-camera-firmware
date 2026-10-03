@@ -1,0 +1,28 @@
+#!/usr/bin/expect -f
+# usage: ctl3.exp "<command to run on device>"
+# Runs one command over the recovery telnet login, waits for a trailing sentinel,
+# and prints everything captured.
+set timeout 40
+set cmd [lindex $argv 0]
+set mark "ZZDONEZZ"
+log_user 1
+spawn telnet 192.0.2.10 23
+expect {
+    -re "(?i)login" { send "root\r" }
+    timeout { puts "TIMEOUT_login"; exit 1 }
+}
+expect {
+    -re "(?i)assword:" { send "REDACTED_RECOVERY_PASSWORD\r" }
+    timeout { puts "TIMEOUT_password"; exit 1 }
+}
+expect {
+    -re "(?i)Login OK|#" { }
+    timeout { puts "TIMEOUT_shell"; exit 1 }
+}
+# send command followed by a unique end marker on its own line
+send "$cmd; echo $mark\r"
+# wait until we see the marker at the start of a line (the echo output, not the typed cmd)
+expect {
+    -re "\r?\n$mark\r?\n" { }
+    timeout { puts "TIMEOUT_cmd" }
+}
