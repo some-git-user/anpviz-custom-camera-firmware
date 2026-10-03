@@ -1,0 +1,70 @@
+<div id="WifiAP_versionConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="wifiap" class="ui-tab-current">WIFIAP</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div id="show_wifiap_start_wireless_network" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifiap_start_wireless_network_label">启用无线网络</label>
+<select class="ui-select fn-width204" id="start_wireless_network">
+<option id="wifiap_start_wireless_network_0" value="1">启用</option>
+<option id="wifiap_start_wireless_network_1" value="0">禁用</option>
+</select>
+</div>
+<div id="show_wifi_ap" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifiap_ESSID_label">ESSID</label>
+<input name="textfield" id="wifiap_ESSID" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="wifiap_ESSID_tip"></span>
+</div>
+<div id="show_wifiap_encryption_method" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifiap_encryption_method_label">加密方法</label>
+<select class="ui-select fn-width204" id="wifiap_encryption_method">
+<option id="wifiap_encryption_method_0" value="wpa">WPA</option>
+<option id="wifiap_encryption_method_1" value="">不加密</option>
+</select>
+</div>
+<div id="show_wifi_ap_encryption" style="display:none">
+<div id="show_wifiap_key_type" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifiap_key_type_label">密钥类型</label>
+<select class="ui-select fn-width204" id="wifiap_key_type">
+<option id="wifiap_key_type_0" value="TKIP">TKIP</option>
+<option id="wifiap_key_type_1" value="aes">AES</option>
+</select>
+</div>
+<div id="show_wifiap_key_index" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifiap_key_index_label">密钥索引</label>
+<select class="ui-select fn-width204" id="wifiap_key_index">
+<option id="wifiap_key_index_0" value="1">1</option>
+</select>
+</div>
+<div id="show_wifiap_authentication_mode" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="wifiap_authentication_mode_label">认证模式</label>
+<select class="ui-select fn-width204" id="wifiap_authentication_mode">
+<option id="wifiap_authentication_mode_0" value="0">WPA2PSK</option>
+<option id="wifiap_authentication_mode_1" value="1">WPAPSK</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="wifiap_password_label">密钥</label>
+<input type="password" name="textfield" id="wifiap_password" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="wifiap_password_tip"></span>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="wifiap_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="wifiap_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="wifiap_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="wifiap_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="wifiap_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

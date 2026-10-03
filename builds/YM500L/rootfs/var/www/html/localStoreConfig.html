@@ -1,0 +1,84 @@
+<div id="page_localStoreConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="localStore" class="ui-tab-current">存储路径</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="localStore_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10 fn-bold fn-width135" id="localStore_LivePath_label">直播存储路径 :</label>
+</div>
+<div class="ui-form-item fn-clear" id="localStore_showSnapPath">
+<label class="ui-label fn-padl10 fn-width135" id="localStore_SnapPath_label">抓图存储路径</label>
+<div class="fn-left">
+<input id="localStore_SnapPath" class="ui-input fn-width320">
+<div id="localStore_showSnapPath_Browse" class="ui-button-box" style="display:inline-block">
+<a id="localStore_SnapPath_Browse" class="ui-button" href="javascript:;">浏览</a>
+</div>
+<div style="display:inline-block">
+<span class="ui-tip-red" id="localStore_SnapPath_tip" style="margin-top:5px;line-height:5px"></span>
+</div>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="localStore_showRecordPath">
+<label class="ui-label fn-padl10 fn-width135" id="localStore_RecordPath_label">录像存储路径</label>
+<div class="fn-left">
+<input id="localStore_RecordPath" class="ui-input fn-width320">
+<div id="localStore_showRecordPath_Browse" class="ui-button-box" style="display:inline-block">
+<a id="localStore_RecordPath_Browse" class="ui-button" href="javascript:;">浏览</a>
+</div>
+<div style="display:inline-block">
+<span class="ui-tip-red" id="localStore_RecordPath_tip" style="margin-top:5px;line-height:5px"></span>
+</div>
+</div>
+</div>
+<div id="localStore_showPlaybackPath">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl10 fn-bold fn-width135" id="localStore_PlaybackPath_label">回放存储路径 :</label>
+</div>
+<div class="ui-form-item fn-clear" id="localStore_showPlaybackSnapPath">
+<label class="ui-label fn-padl10 fn-width135" id="localStore_PlaybackSnapPath_label">抓图存储路径</label>
+<div class="fn-left">
+<input id="localStore_PlaybackSnapPath" class="ui-input fn-width320">
+<div id="localStore_showPlaybackSnapPath_Browse" class="ui-button-box" style="display:inline-block">
+<a id="localStore_PlaybackSnapPath_Browse" class="ui-button" href="javascript:;">浏览</a>
+</div>
+<div style="display:inline-block">
+<span class="ui-tip-red" id="localStore_PlaybackSnapPath_tip" style="margin-top:5px;line-height:5px"></span>
+</div>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="localStore_showPlaybackPicturePath" style="display:none">
+<label class="ui-label fn-padl10 fn-width135" id="localStore_PlaybackPicturePath_label">播放图片缓存路径</label>
+<div class="fn-left">
+<input id="localStore_PlaybackPicturePath" class="ui-input fn-width320" readonly onkeydown="if(8==event.keyCode)return event.keyCode=0,event.returnValue=!1">
+<span class="ui-tip-red" id="localStore_PlaybackPicturePath_tip"></span>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl144">
+<a id="localStore_default" class="ui-button" href="javascript:;">恢复默认</a>
+<a id="localStore_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="localStore_confirm" class="ui-button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="localStore_remark0">
+<span class="ui-tip-icon"></span>
+<label id="localStore_remark0_label">保存成功</label>
+</div>
+</div>
+<div class="ui-form-item" id="localStore_showNewWebconfigInfo" style="display:none">
+<p><a id="localStore_newWebconfigInfo" class="ui-text fn-color-red fn-padl10" style="cursor:pointer" var="http://www.icamra.com/download/WEBConfig.exe" onclick="openPluginDownloadWindow($(this))">修改存储路径需更新插件，点击此处下载，安装时请关闭浏览器</a></p>
+<span id="localStore_newWebconfigInfo_span" class="ui-text fn-color-red fn-padl10" style="display:none">修改存储路径需更新插件，点击此处下载，安装时请关闭浏览器</span>
+</div>
+<div class="ui-form-item" id="localStore_showNeedIEInfo" style="display:none">
+<span id="localStore_NeedIEInfo" class="ui-text fn-color-red fn-padl10">'浏览'需要使用IE浏览器</span>
+</div>
+<div id="localStore_webconfig_container"></div>
+</form>
+</div>
+</div>

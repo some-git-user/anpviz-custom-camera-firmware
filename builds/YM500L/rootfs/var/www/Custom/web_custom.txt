@@ -1,0 +1,78 @@
+//Web customization files, do not have the equal sign in the comment content, because the left and right values of the equal sign will be read during web parsing
+
+//The default language for login, if the browser has not logged in to the device, it will default to this language, if it has been logged in, it will default to the language of the last login
+//Simplified Chinese:zh-cn, English:en-us, Traditional Chinese:zh-tw, Russian:ru-ru, German:german, Italian:italian
+default_login_language = en-us
+
+//Only English other languages do not display 1, no limit 0
+only_English = 0
+
+//Only show some languages 1, no limit 0
+only_part_language = 0
+display_en_us = 1
+display_zh_cn = 0
+display_zh_tw = 0
+display_ru_ru = 0
+display_german = 0
+display_italian = 0
+display_Japanese = 1
+
+//Thermal imaging page 1, non-thermal imaging page 0
+isHotImages = 0
+
+//Hanbang overseas version 2, Hanbang version 1, non-Hanbang version 0, Hanbang overseas version 3
+isHanbang = 0
+
+//General style page 0, HB style page 1
+is_HB_WEB_Style = 0
+
+//Supports Russian 1, does not support Russian 0
+hasRussian = 1
+
+//Traditional Chinese 1 is supported, Traditional Chinese 0 is not supported
+hasTraditionalChinese = 1
+
+//Canada 1, which supports Yan Chongxing, does not support 0
+hasY_CX1066 = 0
+
+//Supports Korean 1, does not support Korean 0
+haskorean = 1
+
+//Support Polish Polski
+hasPolish = 1
+
+//support Japanese
+hasJapanese = 1
+
+//show FTP serverPath description
+is_show_ftp_serverPath_description = 1
+
+//show led control keep_on and keep_off
+is_show_kepp_onOff = 1
+
+//There is an official website link page 0, no official website link page 1
+is_Official_Website = 1
+
+//_Y_EN7 needs to be set to 1
+//If the prompt to download the plug-in on the set 1 page is not made into a hyperlink, it prompts to install the plug-in from the CD. Set to 0 by default, use hyperlink
+webConfigInCD = 0
+
+//General style page 0, YCX style page 1
+is_Y_WEB = 1
+
+//Universal style page 0, South Korea reset password style page 1
+is_Korea_WEB = 0
+//Whether to display the prompt only the first time, 1 Only the first login will display the password insecure prompt (depending on the requirements of ShiMaiwei), 0 Display the password insecure prompt every time (used with the Korean version)
+only_FirstLogin_Check = 0
+
+//Is there a plug-in player, yes 1, no 0
+has_ApiPlugin = 1
+
+//Is there an h5 player, yes 1, no 0
+has_ApiH5play = 1
+
+//Default password, not used for default password setting, used to read and judge
+Y_Default_Password = 123456
+
+//Password detection rule, the initial value is 20 or 9, the research innovation is 21, and the Turkish police station is 23
+password_check_rule = 21

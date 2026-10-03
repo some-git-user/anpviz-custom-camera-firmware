@@ -1,0 +1,42 @@
+<div id="page_upgradeConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="upgrade" class="ui-tab-current">固件升级</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form" name="f_form" id="f_form" action="/IPC_FirmwareUpgrade" method="post" target="post_frame" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20" id="upgrade_import_label">选择固件文件</label>
+<input class="ui-input fn-width300" id="upgrade_path" readonly onkeydown="if(8==event.keyCode)return event.keyCode=0,event.returnValue=!1">
+<div class="fn-left fn-relative">
+<a class="ui-button" id="upgrade_import" href="javascript:;">浏览</a>
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="ipcameraupgrade" id="ipcameraupgrade" hidefocus="hidefocus">
+</div>
+</div>
+<a class="ui-button" id="upgrade_update" href="javascript:;">升级</a>
+<input type="submit" id="upgrade_submit" value="Submit" style="display:none">
+</div>
+<div class="ui-form-item fn-relative fn-marl20" style="display:none">
+<a class="ui-button fn-width150" id="upgrade_download" href="javascript:;">Download the latest Firmware</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="upgrade_remark">
+<span class="ui-tip-icon"></span>
+<label id="upgrade_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+<div class="upgrade-loading" id="upgrade_probar" style="visibility:hidden">
+<div class="upgrade-loading-box">
+<div class="upgrade-loading-slider" id="upgrade_process"></div>
+</div>
+<span id="upgrade_UploadProgress">[0%] </span>
+<span id="upgrade_updating">正在传输文件，请稍等...</span>
+<span id="upgrade_waitTime" style="display:none">0</span>
+<span id="upgrade_waitSec" style="display:none">s</span>
+</div>
+</form>
+</div>
+<iframe name="post_frame" id="post_frame" style="display:none" mce_style="display:none;"></iframe>
+</div>

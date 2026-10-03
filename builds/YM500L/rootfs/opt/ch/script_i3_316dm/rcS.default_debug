@@ -1,0 +1,169 @@
+#!/bin/sh
+export PS1='[\w]## '
+
+EXT_KERNEL_MODULES_DIR=/ext/lib/modules
+
+mknod /dev/irled c 93 0
+
+### param
+## TCP/IP configuration
+echo 163840 > /proc/sys/net/core/rmem_max
+echo 512000 > /proc/sys/net/core/wmem_max
+echo 163840 > /proc/sys/net/core/rmem_default
+echo 256000 > /proc/sys/net/core/wmem_default
+echo '924 1232 1848' > /proc/sys/net/ipv4/tcp_mem
+echo '4096 87380 325120' > /proc/sys/net/ipv4/tcp_rmem
+echo '4096 16384 325120' > /proc/sys/net/ipv4/tcp_wmem
+
+ulimit -c 0
+#echo /ext/core.%e.%t > /proc/sys/kernel/core_pattern
+echo 2 > /sys/class/mstar/mvhe/rct
+#echo 3 > /sys/class/mstar/mmfe/rct
+echo 1 > /sys/class/mstar/msys/dmem_realloc
+#disable overcommit
+ulimit -s 512
+#echo 2 > /proc/sys/vm/overcommit_memory
+#echo 100 > /proc/sys/vm/overcommit_ratio
+###common  module
+## NFS
+#insmod ${EXT_KERNEL_MODULES_DIR}/grace.ko
+#insmod ${EXT_KERNEL_MODULES_DIR}/sunrpc.ko
+#insmod ${EXT_KERNEL_MODULES_DIR}/lockd.ko
+#insmod ${EXT_KERNEL_MODULES_DIR}/nfs.ko
+#insmod ${EXT_KERNEL_MODULES_DIR}/nfsv2.ko
+
+insmod ${EXT_KERNEL_MODULES_DIR}/ms_notify.ko
+
+### platform
+chip=`cat /sys/devices/soc0/machine | awk '{print $2}'`
+echo "$chip"
+memsize=`cat /proc/meminfo | grep MemTotal | awk '{print $2}' `
+
+if [ $memsize -le '65536' ]
+then
+
+    # SW OSD  ; 32 align privacy mask
+    setprop mi.osd.gop.use 0
+
+    # SW OSD  ; general privacy mask but more memory
+    # setprop mi.osd.gop.use 2
+    # setprop mi.osd.stretch 2
+
+    ### MSC313E
+    setprop mi.vi.src 2
+    setprop mi.sys.shrink_mem 1
+    setprop mi.vi.img.sub 0
+    setprop mi.venc.bufcnt 1
+    setprop mi.venc.sub.bufcnt 1
+    setprop mi.vi.bufcnt 3
+    setprop mi.vi.sub.bufcnt 3
+    setprop mi.vi.sub.width 704
+    setprop mi.vi.sub.height 576
+
+
+    echo D > /sys/class/mstar/mhvsp1/fbmg
+    echo 9 > /sys/class/mstar/mhvsp1/fbmg
+
+else
+		# 316DM+OV4689 SW OSD
+    # SW OSD  ; 32 align privacy mask
+    setprop mi.osd.gop.use 0
+    #setprop mstar.omx.gop.disable 1
+
+
+    ## CIFS
+    insmod ${EXT_KERNEL_MODULES_DIR}/nls_utf8.ko
+    insmod ${EXT_KERNEL_MODULES_DIR}/cifs.ko
+
+#    ## generic SCSI driver
+#    insmod /lib/modules/scsi_mod.ko
+#    insmod /lib/modules/sd_mod.ko
+#
+#    ## generic MMC driver
+#    insmod /lib/modules/mmc_core.ko
+#    insmod /lib/modules/mmc_block.ko
+#
+#    ## VFAT file system
+#    insmod ${EXT_KERNEL_MODULES_DIR}/fat.ko
+#    insmod ${EXT_KERNEL_MODULES_DIR}/msdos.ko
+#    insmod ${EXT_KERNEL_MODULES_DIR}/vfat.ko
+#
+#    ## USB_HOST
+#    #insmod /lib/modules/ms_usb.ko
+#    insmod /lib/modules/usb-common.ko
+#    insmod /lib/modules/usbcore.ko
+#    insmod /lib/modules/ehci-hcd.ko force_host=1
+#    insmod /lib/modules/usb-storage.ko
+#
+#
+#    ## USB_DEVICE OTG, need to mark out USB_HOST modules and use OTG adapter for Host mode
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/ms_usb.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/usb-common.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/usbcore.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/ehci-hcd.ko force_host=1
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/usb-storage.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/udc-core.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/udc-msb250x.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/phy-ms-usb.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/libcomposite.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/u_serial.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/usb_f_serial.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/usb_f_acm.ko
+#    #insmod ${EXT_KERNEL_MODULES_DIR}/g_android.ko
+#
+#
+#    ## SDMMC
+#    insmod /lib/modules/kdrv_sdmmc.ko
+#
+#    #kernel/drivers/mtd/nand/nand.ko
+#    #kernel/drivers/mtd/nand/nand_ecc.ko
+#    #kernel/drivers/mtd/nand/nand_ids.ko
+#    #kernel/drivers/net/wireless/mt7601U/UTIL/mtutil7601Usta.ko
+#    #kernel/drivers/net/wireless/mt7601U/MODULE/mt7601Usta.ko
+#    #kernel/drivers/net/wireless/mt7601U/NETIF/mtnet7601Usta.ko
+#    #kernel/drivers/mstar/unfd/kdrv_unfd.ko
+#    #kernel/drivers/mstar/ir/kdrv_ir.ko
+#    #insmod /lib/modules/oprofile.ko
+#    #kernel/net/wireless/cfg80211.ko
+
+
+		setprop mi.osd.gop.use 0
+#		setprop mi.vi.src 2
+		setprop mi.video.height.force.aligned32  1
+		
+		setprop mi.sys.shrink_mem 1
+		setprop mi.venc.bufcnt 2
+		setprop mi.venc.sub.bufcnt 2
+		setprop mi.vi.bufcnt 3
+		setprop mi.vi.sub.bufcnt 2
+		setprop mi.vi.sub.width 704
+		setprop mi.vi.sub.height 576 
+		setprop mi.vi.img.sub 0
+
+fi
+
+
+###############################################################
+
+mkdir -p /tmp/network
+umount -fl /mnt/usb
+
+
+ifconfig lo up
+ifconfig lo 127.0.0.1
+
+ifconfig  eth0 up
+ifconfig eth0 192.168.1.10
+#mount -t nfs -o nolock,soft,intr,bg,timeo=50 192.168.1.5://ftp/mstar /opt/ch
+
+tar -zxvf /opt/ch/data.tgz -C /tmp
+mkdir /tmp/ajdata
+ln -s /tmp/data /tmp/ajdata
+ 
+ln -s /tmp/resolv.conf "$PUB_ROOTFS"/data/resolv.conf
+
+telnetd &
+/system/bin/sh
+
+
+

@@ -1,0 +1,128 @@
+<div id="page_audioConfig" class="page_config">
+<input id="ENCODECFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="audio_encode_tab" data-for="encode" class="audio_tab_title ui-tab-current">编码</li>
+<li id="audio_volume_tab" data-for="volume" class="audio_tab_title">音量</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="audio_help"></a>
+</li>
+</ul>
+</div>
+<div class="audio_tab_con ui-container" id="audio_tab_encode">
+<form class="ui-form fn-clear">
+<div class="ui-form-item fn-clear" id="audio_showEncodeEnable">
+<label class="ui-label fn-padl20" id="audio_EncodeEnable_label">开启音频</label>
+<select class="ui-select" id="audio_EncodeEnable">
+<option id="audio_EncodeEnable_Disable" value="0">禁用</option>
+<option id="audio_EncodeEnable_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showEncodeType">
+<label class="ui-label fn-padl20" id="audio_EncodeType_label">编码类型</label>
+<select class="ui-select" id="audio_EncodeType">
+<option value="0">G.711</option>
+<option value="1">AAC</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showEncodeSampleRate">
+<label class="ui-label fn-padl20" id="audio_EncodeSampleRate_label">采样率</label>
+<select class="ui-select" id="audio_EncodeSampleRate">
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showEncodeBitrate">
+<label class="ui-label fn-padl20" id="audio_EncodeBitrate_label">比特率</label>
+<select class="ui-select" id="audio_EncodeBitrate">
+</select>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="audio_encode_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="audio_encode_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="audio_encode_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="audio_remark0">
+<span class="ui-tip-icon"></span>
+<label id="audio_remark0_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+<div class="audio_tab_con ui-container" id="audio_tab_volume">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" id="audio_showChannels">
+<label class="ui-label fn-padl20" id="audio_Channels_label">通道设置</label>
+<select class="ui-select" id="audio_Channels">
+<option id="audio_Channels_mono" value="1">单声道</option>
+<option id="audio_Channels_Stereo" value="2">立体音</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showSamplingRate">
+<label class="ui-label fn-padl20" id="audio_SamplingRate_label">采样率</label>
+<select class="ui-select" id="audio_SamplingRate">
+<option id="audio_SamplingRate_8000" value="8000">8000</option>
+<option id="audio_SamplingRate_16000" value="16000">16000</option>
+<option id="audio_SamplingRate_32000" value="32000">32000</option>
+<option id="audio_SamplingRate_48000" value="48000">48000</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showCaptureVolume">
+<label class="ui-label fn-padl20" id="audio_CaptureVolume_label">采集音量</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-CaptureVolume fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="audio_less_CaptureVolume"></a>
+<div id="audio_line_CaptureVolume" class="ui-slider-container fn-width120 fn-marl0">
+<div id="audio_icon_CaptureVolume" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="audio_add_CaptureVolume"></a>
+<span class="ui-slider-text" id="audio_CaptureVolume_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showPlayVolume">
+<label class="ui-label fn-padl20" id="audio_PlayVolume_label">播放音量</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-PlayVolume fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="audio_less_PlayVolume"></a>
+<div id="audio_line_PlayVolume" class="ui-slider-container fn-width120 fn-marl0">
+<div id="audio_icon_PlayVolume" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="audio_add_PlayVolume"></a>
+<span class="ui-slider-text" id="audio_PlayVolume_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showAmplifyEnable">
+<label class="ui-label fn-padl20" id="audio_AmplifyEnable_label">功放</label>
+<select class="ui-select" id="audio_AmplifyEnable">
+<option id="audio_AmplifyEnable_Disable" value="0">禁用</option>
+<option id="audio_AmplifyEnable_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showAecEnable">
+<label class="ui-label fn-padl20" id="audio_AecEnable_label">回音消除</label>
+<select class="ui-select" id="audio_AecEnable">
+<option id="audio_AecEnable_Disable" value="0">禁用</option>
+<option id="audio_AecEnable_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="audio_showPtzMoveMute">
+<label class="ui-label fn-padl20" id="audio_PtzMoveMute_label">云台转动时静音</label>
+<select class="ui-select" id="audio_PtzMoveMuteEnable">
+<option id="audio_PtzMoveMute_Disable" value="0">禁用</option>
+<option id="audio_PtzMoveMute_Enable" value="1">启用</option>
+</select>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="audio_volume_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="audio_volume_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="audio_volume_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="audio_remark1">
+<span class="ui-tip-icon"></span>
+<label id="audio_remark1_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>
+<iframe src="" name="osdImageFileImport" id="osdImageFileImport" style="display:none" mce_style="display:none;"></iframe>

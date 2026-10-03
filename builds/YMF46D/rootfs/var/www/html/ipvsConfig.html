@@ -1,0 +1,114 @@
+<div id="page_ipvsConfig" class="page_config">
+<input id="IPVSCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="ipvs_set" class="ui-tab-current">IPVS</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_enable_label" for="ipvs_enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="ipvs_enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_server_address_label">服务器地址</label>
+<input name="textfield" id="ipvs_server_address" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="ipvs_server_address_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_server_port_label">端口</label>
+<input name="textfield" id="ipvs_server_port" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="ipvs_server_port_tip"></span>
+</div>
+<div class="ui-form-item" id="ipvs_username_div">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_username_label">用户名</label>
+<input name="textfield" id="ipvs_username" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="ipvs_username_tip"></span>
+<span class="ui-tip-red" id="ipvs_username_tipred"></span>
+</div>
+<div class="ui-form-item" id="ipvs_hostnum_div" style="display:none">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_hostnum_label">本机号码</label>
+<input name="textfield" id="ipvs_hostnum" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="ipvs_hostnum_tip"></span>
+<span class="ui-tip-red" id="ipvs_hostnum_tipred"></span>
+</div>
+<div class="ui-form-item" id="ipvs_callnum_div" style="display:none">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_callnum_label">呼叫目标号码</label>
+<input name="textfield" id="ipvs_callnum" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="ipvs_callnum_tip"></span>
+<span class="ui-tip-red" id="ipvs_callnum_tipred"></span>
+</div>
+<div id="show_ipvs_password" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_password_label">密码</label>
+<input type="password" name="textfield" id="ipvs_password" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="ipvs_password_tip"></span>
+</div>
+<div id="show_ipvs_passwordConfirm" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_passwordConfirm_label">密码确认</label>
+<input type="password" name="textfield" id="ipvs_passwordConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="ipvs_passwordConfirm_tip"></span>
+</div>
+<div id="show_void" style="display:none">
+<div id="ipvs_showStartPlayBeep" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_StartPlayBeep_label">启动时播放提示音</label>
+<select class="ui-select" id="ipvs_StartPlayBeepEnable">
+<option id="ipvs_StartPlayBeepEnable_0" value="0">禁用</option>
+<option id="ipvs_StartPlayBeepEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="ipvs_showCalledRings" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_CalledRings_label">被叫振铃次数</label>
+<select class="ui-select" id="ipvs_CalledRingsEnable">
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+</div>
+<div id="ipvs_showCallButtonTime" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_CallButtonTime_label">呼叫按键时间</label>
+<select class="ui-select" id="ipvs_CallButtonTime">
+</select>
+</div>
+</div>
+</form>
+<form id="form_form_ipvs_Ringtone" class="ui-form" name="f_form_ipvs_Ringtone" action="/WebUploadFormFile" method="post" target="post_frame_ipvs_Ringtone" enctype="multipart/form-data" style="display:none">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width160" id="ipvs_Ringtone_file_label">铃声文件</label>
+<div class="fn-left">
+<select id="ipvs_Ringtone_file" class="ui-select">
+</select>
+</div>
+<a id="ipvs_Ringtone_file_Test" class="ui-button" href="javascript:;">试听</a>
+<a id="ipvs_Ringtone_file_Delete" class="ui-button" href="javascript:;">删除</a>
+<a id="ipvs_Ringtone_btn" class="ui-button" href="javascript:;">上传</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="ipvs_Ringtone_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="ipvs_Ringtone_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="post_frame_ipvs_Ringtone" id="post_frame_ipvs_Ringtone" style="display:none" mce_style="display:none;"></iframe>
+<div class="ui-button-box fn-padl20 fn-marl160 fn-padt10">
+<a id="ipvs_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="ipvs_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="ipvs_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-padl20 fn-marl160">
+<div class="ui-tip-container" id="ipvs_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="ipvs_remark_label">保存成功</label>
+</div>
+</div>
+</div>
+</div>

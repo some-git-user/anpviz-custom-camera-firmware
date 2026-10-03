@@ -1,0 +1,141 @@
+./bin/atbox MVX1####gc5d0264CM_ATBOX#####XVM
+./bin/busybox MVX2####g9dfae01CM_BYBOX1241#XVM
+./bin/i2c_read_write
+./bin/logcat MVX1####gc5d0264CM_ATLCAT####XVM
+./bin/miu_protect
+./bin/riu_r
+./bin/riu_w
+./font/HZ12.mz
+./font/HZ16.mz
+./font/HZ8.mz
+./lib/AVQE_LICENSE.txt
+./lib/ld-2.19-2014.04.so
+./lib/libai.so MVX2####ge274f35############[BR:I3/sz1109]#XVM
+./lib/libanl-2.19-2014.04.so
+./lib/libat.so MVX1####gc5d0264CM_AT########XVM
+./lib/libBrokenLocale-2.19-2014.04.so
+./lib/libc-2.19-2014.04.so
+./lib/libCamAlgo.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libcamera.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libCamSensor.so
+./lib/libCamUtil.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libcrypt-2.19-2014.04.so
+./lib/libdl-2.19-2014.04.so
+./lib/libdrv_ms_cus_ar0230_compressed_12bit.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0230.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0237_fpga.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0237_RGBIR.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0237.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0238.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0239_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0330_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0330.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ar0521_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_BRV0200ES_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_BRV0200_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_BRV0500_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_carme_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_f22_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_f22.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_f23_RGBIR.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_gc2023_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_gc2033_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_gc4603_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_hm2131_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_hm2140_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_hm5532_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx123_MIPI_HD.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx123_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx291_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx307_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx323_fpga.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx323.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx326_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx327_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_imx335_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_JXK02_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_MN34220_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_MN34227_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_OS02B10_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_OS05A10_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_OS08A10_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2710_MIPI_HD.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2710_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2710.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2718_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2718R2A_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2735_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2735.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov2775_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov4686_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov4689_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov9712.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov9732_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ov9756_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_pattern.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libdrv_ms_cus_POA030.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5220_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5220.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5230_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5230.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5250.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5260_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5280_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_ps5510_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2135.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2232_MIPI_RGBIR.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2232_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2232_RGBIR.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2232.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2235_49.5Mpclk.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2235.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2300.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2310_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc2310.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc3035_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc3035.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc4232_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc4236_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc4236.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc4238_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc5035_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sc5238_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libdrv_ms_cus_sp2328_MIPI.so MVX2####g29fd2fdI3_ISP######[BR:I3_master]#XVM
+./lib/libffmpeg.so
+./lib/libISP_hal.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libISP_procfs.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libISP.so MVX2##I3g1abfc7cM_ISP#######[BR:I3_sz1109]#XVM
+./lib/libm-2.19-2014.04.so
+./lib/libmemusage.so
+./lib/libmi_isp.so MVX2##I3g59b40c0M_ISP#######[BR:I3_sz1109]#XVM
+./lib/libmi.so MVX2####ge274f35MI##########[BR:I3/sz1109]#XVM
+./lib/libnsl-2.19-2014.04.so
+./lib/libnss_compat-2.19-2014.04.so
+./lib/libnss_db-2.19-2014.04.so
+./lib/libnss_dns-2.19-2014.04.so
+./lib/libnss_files-2.19-2014.04.so
+./lib/libnss_hesiod-2.19-2014.04.so
+./lib/libnss_nis-2.19-2014.04.so
+./lib/libnss_nisplus-2.19-2014.04.so
+./lib/libOMX_ACODEC.so MVX2##I3gfaab716OMX_ACODEC##[BR:I3_sz1109]#XVM
+./lib/libOMX_ALSA.so MVX2##I3gfaab716OMX_ALSA####[BR:I3_sz1109]#XVM
+./lib/libOMX_ASPL.so MVX2##I3gfaab716OMX_ASPL####[BR:I3_sz1109]#XVM
+./lib/libOMX_AVQE_A.so MVX2##I3gfaab716OMX_AVQE_A##[BR:I3_sz1109]#XVM MVX1##I3######gd67b3##SRC##########XVM MVX1##I3######gbc8b9##AEC##########XVM MVX1##I3######gf8414##APC##########XVM MVX1##I3######s35691##WNR##########XVM
+./lib/libOMX_BELA.so MVX2####gfaab716OMX_BELA####[BR:I3_sz1109]#XVM
+./lib/libOMX_IJPE_ENC_HW.so
+./lib/libOMX_IJPE_MEM_MGR.so
+./lib/libOMX_IJPE.so MVX2##I3gfaab716OMX_IJPE####[BR:I3_sz1109]#XVM
+./lib/libOMX_VMFE.so MVX2##I3gfaab716OMX_VMFE####[BR:I3_sz1109]#XVM
+./lib/libOMX_VSPL.so MVX2##I3gfaab716OMX_VSPL####[BR:I3_sz1109]#XVM
+./lib/libOMX_VSRC.so MVX2##I3gfaab716OMX_VSRC####[BR:I3_sz1109]#XVM
+./lib/libOMX_VVHE.so MVX2##I3gfaab716OMX_VVHE####[BR:I3_sz1109]#XVM
+./lib/libpcprofile.so
+./lib/libpthread-2.19-2014.04.so
+./lib/libresolv-2.19-2014.04.so
+./lib/librt-2.19-2014.04.so
+./lib/libSegFault.so
+./lib/libthread_db-1.0.so
+./lib/libtinyalsa.so
+./lib/libtoken.so
+
+SDK.BUILD_ID 1905151737-I3_sz1109

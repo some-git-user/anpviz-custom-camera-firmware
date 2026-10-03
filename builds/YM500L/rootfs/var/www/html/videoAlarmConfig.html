@@ -1,0 +1,1457 @@
+﻿<div id="page_videoAlarmConfig" class="page_config">
+<input id="inputHuman" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="videoAlarm_Human_label" data-for="Human" class="videoAlarm_tab_title ui-tab-current">Intelligent detection</li>
+<li id="videoAlarm_face_label" data-for="face" class="videoAlarm_tab_title">Face</li>
+<li id="videoAlarm_lpr_label" data-for="lpr" class="videoAlarm_tab_title">Lpr</li>
+<li id="videoAlarm_videoRegionAi_label" data-for="videoRegionAi" class="videoAlarm_tab_title">VideoRegionAi</li>
+<li id="videoAlarm_VideoGate_label" data-for="VideoGate" class="videoAlarm_tab_title">Video Gate</li>
+</ul>
+</div>
+<div class="ui-container videoAlarm_tab_con" id="videoAlarm_tab_Human">
+<div class="alarm-video-left">
+<div id="videoAlarm_video_node" class="camera-video-box">
+<div id="videoAlarm_WebconfigDiv" style="text-align:center;display:none">
+<div id="videoAlarm_WebconfigDownload_top">&nbsp;</div>
+<a id="videoAlarm_WebconfigDownload" class="fn-color-purple fn-fontsize14" href="http://www.icamra.com/download/WEBConfig.exe" target="_blank">请点击安装播放插件</a>
+<span id="videoAlarm_WebconfigDownload_span" class="fn-color-purple fn-fontsize14" style="display:none">请点击安装播放插件</span>
+</div>
+<div class="camera-video" id="videoAlarm_showVideo" align="center" oncontextmenu="return!1">
+</div>
+</div>
+<div class="ui-video-bar camera-video-iconbar" id="videoAlarm_showFullScene" style="display:none">
+<div class="ui-video-iconbar">
+<a id="videoAlarm_btn_FullScene" href="javascript:;" class="ui-video-icon">
+<span class="ui-video-icon-full"></span>
+</a>
+</div>
+</div>
+</div>
+<div class="alarm-video-right" id="videoAlarm_right_Human" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20 fn-bold fn-width270" id="videoAlarm_Human_DetectionSettings_label">人形检测设置</label>
+</div>
+<div id="videoAlarm_Human_show_license_tip" class="ui-form-item fn-clear" style="display:none">
+<div><a id="videoAlarm_Human_license_tip" class="fn-color-purple fn-padl20" target="_blank" href="http://www.sstarai.com/payai">人形检测算法未授权，请点击购买</a></div>
+<br>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_human_choose_target">目标选择</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_Pedestrian_Enable" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Pedestrian_label" for="videoAlarm_Human_Pedestrian_Enable">人形</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_Car_Enable" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Car_label" for="videoAlarm_Human_Car_Enable">汽车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_Motorcycle_Enable" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Motorcycle_label" for="videoAlarm_Human_Motorcycle_Enable">摩托车</label>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width120">&nbsp;</label>
+<div class="ui-checkbox fn-padl20">
+<input type="checkbox" id="videoAlarm_Human_Electricity_Bicycle_Enable" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Electricity_Bicycle_label" for="videoAlarm_Human_Electricity_Bicycle_Enable">电瓶车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_Bicycle_Enale" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Bicycle_label" for="videoAlarm_Human_Bicycle_Enable">自行车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_Fire_Enable" disabled>
+</div>
+<label class="ui-label fn-width90" id="videoAlarm_Human_Fire_label" for="videoAlarm_Human_Fire_Enable">火焰</label>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_EnableDay_label">白天</label>
+<select class="ui-select" id="videoAlarm_Human_EnableDay">
+<option id="videoAlarm_Human_EnableDay_0" value="0">禁用</option>
+<option id="videoAlarm_Human_EnableDay_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_EnableNight_label">夜晚</label>
+<select class="ui-select" id="videoAlarm_Human_EnableNight">
+<option id="videoAlarm_Human_EnableNight_0" value="0">禁用</option>
+<option id="videoAlarm_Human_EnableNight_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<div class="fn-horizontal-line"></div>
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_Draw_label">显示检测区域框</label>
+<select class="ui-select" id="videoAlarm_Human_Draw">
+<option id="videoAlarm_Human_Draw_0" value="0">禁用</option>
+<option id="videoAlarm_Human_Draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_draw_human_div">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_draw_human_label">目标检测框</label>
+<select class="ui-select" id="videoAlarm_draw_human">
+<option id="videoAlarm_draw_human_0" value="0">禁用</option>
+<option id="videoAlarm_draw_human_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_track_human_div">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_track_human_label">人形跟踪</label>
+<select class="ui-select" id="videoAlarm_track_human">
+<option id="videoAlarm_track_human_0" value="0">禁用</option>
+<option id="videoAlarm_track_human_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<div id="videoAlarm_Human_show_singleSensitivity" style="display:inline">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_show_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_Human_show_Sensitivity_less"></a>
+<div id="videoAlarm_Human_show_Sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_Human_show_Sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_Human_show_Sensitivity_add"></a>
+<span class="ui-slider-text" id="videoAlarm_Human_show_Sensitivity_title">100</span>
+</div>
+</div>
+</div>
+<div id="videoAlarm_Human_show_advSensitivity" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_Threshold_label">阈值</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_Human_Threshold_less"></a>
+<div id="videoAlarm_Human_Threshold_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_Human_Threshold_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_Human_Threshold_add"></a>
+<span class="ui-slider-text" id="videoAlarm_Human_Threshold_title">100</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_Human_Sensitivity_less"></a>
+<div id="videoAlarm_Human_Sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_Human_Sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_Human_Sensitivity_add"></a>
+<span class="ui-slider-text" id="videoAlarm_Human_Sensitivity_title">4</span>
+</div>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item fn-clear" id="videoAlarm_rect_twinkle_div">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_rect_twinkle_label">检测区域框闪烁</label>
+<select class="ui-select" id="videoAlarm_rect_twinkle">
+<option id="videoAlarm_rect_twinkle_0" value="0">禁用</option>
+<option id="videoAlarm_rect_twinkle_1" value="1">闪烁检测区域</option>
+<option id="videoAlarm_rect_twinkle_2" value="2">闪烁画面边框</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_light_twinkle" style="display:none">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_light_twinkle_label">灯光闪烁</label>
+<select class="ui-select" id="videoAlarm_Human_light_twinkle_enable">
+<option id="videoAlarm_Human_EnableLight_twinkle_0" value="0">禁用</option>
+<option id="videoAlarm_Human_EnableLight_twinkle_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_Human_showAudioAction" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_AudioActionEnable_label">触发声音</label>
+<select class="ui-select" id="videoAlarm_Human_AudioActionEnable">
+<option id="videoAlarm_Human_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoAlarm_Human_AudioActionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_Human_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_AudioActionFile" class="ui-select">
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140"></label>
+<div class="fn-left">
+<a id="videoAlarm_Human_AudioActionFileTest" class="ui-button" href="javascript:;">试听</a>
+<a id="videoAlarm_Human_AudioActionFileDelete" class="ui-button" href="javascript:;">删除</a>
+</div>
+</div>
+<audio id="videoAlarm_Human_show_audio_play" controls style="display:none">
+<source id="videoAlarm_Human_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_AudioActionTimes" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="Human_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_videoAlarm_Human" style="display:none">
+<form id="form_form_videoAlarm_Human" class="ui-form" name="f_form_videoAlarm_Human" action="/WebUploadFormFile" method="post" target="post_frame_videoAlarm_Human" enctype="multipart/form-data" style="display:none">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoAlarm_Human_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoAlarm_Human_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoAlarm_Human_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<form id="videoAlarm_Human_showOutputAction" class="ui-form" style="display:none">
+<div id="videoAlarm_Human_showIoOutputOld">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_OutputEnable_label">告警输出</label>
+<select class="ui-select" id="videoAlarm_Human_OutputEnable">
+<option id="videoAlarm_Human_OutputEnable_0" value="0">禁用</option>
+<option id="videoAlarm_Human_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_Human_showOutputConfig" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_PortIndex_label">输出端口</label>
+<select class="ui-select" id="videoAlarm_Human_PortIndex">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_OutputType_label">输出方式</label>
+<select class="ui-select" id="videoAlarm_Human_OutputType">
+<option id="videoAlarm_Human_NormalOpen_0" value="0">常开</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_Duration_label">告警时长</label>
+<div class="fn-left fn-width230">
+<input id="videoAlarm_Human_Duration" class="ui-input fn-width140">
+<span class="ui-text">(0-60)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="videoAlarm_Human_showIoOutputNew" style="display:none">
+<div id="videoAlarm_Human_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_Human_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_Human_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_Human_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_Human_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoAlarm_Human_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+<div id="videoAlarm_Human_upload_alarm_server" style="display:none">
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_upload_alarm_serverEnable">
+</div>
+<label class="ui-label fn-width200" id="videoAlarm_Human_upload_alarm_serverEnable_label" for="videoAlarm_Human_upload_alarm_serverEnable">上报告警中心</label>
+</div>
+</div>
+<div id="videoAlarm_Human_showReordSnap">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_recordEnable">
+</div>
+<label class="ui-label" id="videoAlarm_Human_recordEnable_label" for="videoAlarm_Human_recordEnable">告警录像</label>
+</div>
+<div id="videoAlarm_Human_showRecordConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_recordStream_label">视频源</label>
+<div class="fn-left" id="videoAlarm_Human_recordStream_slct">
+<select id="videoAlarm_Human_recordStream" class="ui-select">
+<option id="videoAlarm_Human_recordStream0" value="1">主码流</option>
+<option id="videoAlarm_Human_recordStream1" value="2">子码流</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_recordFormat_label">录像格式</label>
+<div class="fn-left" id="videoAlarm_Human_recordFormat_slct">
+<select id="videoAlarm_Human_recordFormat" class="ui-select">
+<option value="MP4">MP4</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="videoAlarm_Human_showRecordAudio">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_recordAudio_label">是否录音频</label>
+<div class="fn-left" id="videoAlarm_Human_recordAudio_slct">
+<select id="videoAlarm_Human_recordAudio" class="ui-select">
+<option id="videoAlarm_Human_recordAudio_No" value="0">否</option>
+<option id="videoAlarm_Human_recordAudio_Yes" value="1">是</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_prerecordTime_label">预录时长</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="videoAlarm_Human_prerecordTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~5)</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_recordTime_label">录像时长</label>
+<input class="ui-input fn-width80" id="videoAlarm_Human_recordTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(10~600)</span>
+</div>
+<div id="videoAlarm_Human_showRecordFtpEmail" class="ui-form-item fn-padl20">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_recordFTP">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_Human_recordFTP_label" for="videoAlarm_Human_recordFTP">上传到FTP</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_recordEmail">
+</div>
+<label class="ui-label" id="videoAlarm_Human_recordEmail_label" for="videoAlarm_Human_recordEmail">发送邮件</label>
+</div>
+</div>
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_snapEnable">
+</div>
+<label class="ui-label" id="videoAlarm_Human_snapEnable_label" for="videoAlarm_Human_snapEnable">告警抓拍</label>
+</div>
+<div id="videoAlarm_Human_showSnapConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_snapTime_label">拍照时长</label>
+<input class="ui-input fn-width80" id="videoAlarm_Human_snapTime">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+<div id="videoAlarm_Human_showSnapFtpEmail">
+<div class="ui-form-item fn-padl20">
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_snapFTP">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_Human_snapFTP_label" for="videoAlarm_Human_snapFTP">上传到FTP</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_Human_snapEmail">
+</div>
+<label class="ui-label" id="videoAlarm_Human_snapEmail_label" for="videoAlarm_Human_snapEmail">发送邮件</label>
+</div>
+<div class="ui-form-item" id="videoAlarm_Human_showSnapSendFrequency">
+<label class="ui-label fn-padl20" id="videoAlarm_Human_snapSendFrequency_label">发送频率</label>
+<input class="ui-input fn-width80" id="videoAlarm_Human_snapSendFrequency">
+<span class="ui-text" name="t_sec">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<iframe name="post_frame_videoAlarm_Human" id="post_frame_videoAlarm_Human" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="alarm-video-right" id="videoAlarm_right_lpr" style="display:online">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_lpr_Enable">
+<option id="videoAlarm_lpr_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_lpr_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_lpr_less_Sensitivity"></a>
+<div id="videoAlarm_lpr_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_lpr_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_lpr_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_lpr_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_draw_osd_Enable_lable">显示车牌</label>
+<select class="ui-select" id="videoAlarm_lpr_osd_Enable">
+<option id="videoAlarm_lpr_osd_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_lpr_osd_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_play_voice_Enable_lable">语音播报</label>
+<select class="ui-select" id="videoAlarm_lpr_play_voice_Enable">
+<option id="videoAlarm_lpr_play_voice_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_lpr_play_voice_Enable_1" value="1">启用</option>
+</select>
+</div>
+</form>
+<form id="videoAlarm_lpr_showOutputAction" class="ui-form" style="display:none">
+<div id="videoAlarm_lpr_showIoOutputNew" style="display:none">
+<div id="videoAlarm_lpr_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoAlarm_lpr_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_lpr_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoAlarm_lpr_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_lpr_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoAlarm_lpr_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_lpr_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_lpr_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoAlarm_lpr_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+</form>
+<iframe name="post_frame_videoAlarm_lpr" id="post_frame_videoAlarm_lpr" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="alarm-video-right" id="videoAlarm_right_videoRegionAi" style="display:none">
+<form class="ui-form">
+<div id="videoAlarm_videoRegionAi_rule" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule_lable">规则</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_videoRegionAi_rule1" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_videoRegionAi_rule1_label" for="wifi_connect_status">规则1</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_videoRegionAi_rule2" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_videoRegionAi_rule2_label" for="wifi_connect_status">规则2</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_videoRegionAi_rule3" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_videoRegionAi_rule3_label" for="wifi_connect_status">规则3</label>
+</div>
+<div id="videoAlarm_videoRegionAi_show_rule1" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule1_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule1_Enable">
+<option id="videoAlarm_videoRegionAi_rule1_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_rule1_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule1_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule1_less_Sensitivity"></a>
+<div id="videoAlarm_videoRegionAi_rule1_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_videoRegionAi_rule1_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule1_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_videoRegionAi_rule1_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule1_mode_label">侦测模式</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule1_mode">
+<option id="videoAlarm_videoRegionAi_rule1_mode_0" value="0">区域逗留</option>
+<option id="videoAlarm_videoRegionAi_rule1_mode_1" value="1">进入区域</option>
+<option id="videoAlarm_videoRegionAi_rule1_mode_2" value="2">离开区域</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule1_stayseconds_label">逗留时间</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule1_stayseconds">
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_0" value="1">1</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_1" value="2">2</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_2" value="3">3</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_3" value="4">4</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_4" value="5">5</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_5" value="6">6</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_6" value="7">7</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_7" value="8">8</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_8" value="9">9</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_9" value="10">10</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_10" value="15">15</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_11" value="20">20</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_12" value="35">35</option>
+<option id="videoAlarm_videoRegionAi_rule1_stayseconds_13" value="30">30</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule1_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule1_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule1_motorVehicle_label" for="videoAlarm_videoRegionAi_rule1_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule1_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule1_nonMotorVehicle_label" for="videoAlarm_videoRegionAi_rule1_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule1_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_videoRegionAi_rule1_Pedestrian_label" for="videoAlarm_videoRegionAi_rule1_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_show_rule2" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule2_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule2_Enable">
+<option id="videoAlarm_videoRegionAi_rule2_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_rule2_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule2_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule2_less_Sensitivity"></a>
+<div id="videoAlarm_videoRegionAi_rule2_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_videoRegionAi_rule2_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule2_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_videoRegionAi_rule2_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule2_mode_label">侦测模式</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule2_mode">
+<option id="videoAlarm_videoRegionAi_rule2_mode_0" value="0">区域逗留</option>
+<option id="videoAlarm_videoRegionAi_rule2_mode_1" value="1">进入区域</option>
+<option id="videoAlarm_videoRegionAi_rule2_mode_2" value="2">离开区域</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule2_stayseconds_label">逗留时间</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule2_stayseconds">
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_0" value="1">1</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_1" value="2">2</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_2" value="3">3</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_3" value="4">4</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_4" value="5">5</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_5" value="6">6</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_6" value="7">7</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_7" value="8">8</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_8" value="9">9</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_9" value="10">10</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_10" value="15">15</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_11" value="20">20</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_12" value="35">35</option>
+<option id="videoAlarm_videoRegionAi_rule2_stayseconds_13" value="30">30</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule2_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule2_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule2_motorVehicle_label" for="videoAlarm_videoRegionAi_rule2_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule2_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule2_nonMotorVehicle_label" for="videoAlarm_videoRegionAi_rule2_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule2_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_videoRegionAi_rule2_Pedestrian_label" for="videoAlarm_videoRegionAi_rule2_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_show_rule3" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule3_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule3_Enable">
+<option id="videoAlarm_videoRegionAi_rule3_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_rule3_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule3_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule3_less_Sensitivity"></a>
+<div id="videoAlarm_videoRegionAi_rule3_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_videoRegionAi_rule3_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_videoRegionAi_rule3_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_videoRegionAi_rule3_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule3_mode_label">侦测模式</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule3_mode">
+<option id="videoAlarm_videoRegionAi_rule3_mode_0" value="0">区域逗留</option>
+<option id="videoAlarm_videoRegionAi_rule3_mode_1" value="1">进入区域</option>
+<option id="videoAlarm_videoRegionAi_rule3_mode_2" value="2">离开区域</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule3_stayseconds_label">逗留时间</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_rule3_stayseconds">
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_0" value="1">1</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_1" value="2">2</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_2" value="3">3</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_3" value="4">4</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_4" value="5">5</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_5" value="6">6</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_6" value="7">7</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_7" value="8">8</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_8" value="9">9</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_9" value="10">10</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_10" value="15">15</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_11" value="20">20</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_12" value="35">35</option>
+<option id="videoAlarm_videoRegionAi_rule3_stayseconds_13" value="30">30</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_rule3_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule3_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule3_motorVehicle_label" for="videoAlarm_videoRegionAi_rule3_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule3_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_videoRegionAi_rule3_nonMotorVehicle_label" for="videoAlarm_videoRegionAi_rule3_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_videoRegionAi_rule3_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_videoRegionAi_rule3_Pedestrian_label" for="videoAlarm_videoRegionAi_rule3_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<div class="fn-horizontal-line"></div>
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_region_draw_label">显示检测区域框</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_region_draw">
+<option id="videoAlarm_videoRegionAi_region_draw_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_region_draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_videoRegionAi_target_draw_div">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_target_draw_label">目标检测框</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_target_draw">
+<option id="videoAlarm_videoRegionAi_target_draw_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_target_draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_videoRegionAi_light_twinkle" style="display:none">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_light_twinkle_label">灯光闪烁</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_light_twinkle_enable">
+<option id="videoAlarm_videoRegionAi_EnableLight_twinkle_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_EnableLight_twinkle_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_videoRegionAi_showIoOutputNew" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div id="videoAlarm_videoRegionAi_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+<div id="videoAlarm_videoRegionAi_showAudioAction" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_AudioActionEnable_label">触发声音</label>
+<select class="ui-select" id="videoAlarm_videoRegionAi_AudioActionEnable">
+<option id="videoAlarm_videoRegionAi_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoAlarm_videoRegionAi_AudioActionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_videoRegionAi_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_AudioActionFile" class="ui-select">
+</select>
+</div>
+<a id="videoAlarm_videoRegionAi_AudioActionFileTest" class="ui-button fn-width80" href="javascript:;">试听</a>
+<a id="videoAlarm_videoRegionAi_AudioActionFileDelete" class="ui-button fn-width80" href="javascript:;">删除</a>
+</div>
+<audio id="videoAlarm_videoRegionAi_show_audio_play" controls style="display:none">
+<source id="videoAlarm_videoRegionAi_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoAlarm_videoRegionAi_AudioActionTimes" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="videoAlarm_videoRegionAi_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_videoAlarm_videoRegionAi" style="display:none">
+<form id="form_form_videoAlarm_videoRegionAi" class="ui-form" name="f_form_videoAlarm_videoRegionAi" action="/WebUploadFormFile" method="post" target="post_frame_videoAlarm_videoRegionAi" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_videoRegionAi_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoAlarm_videoRegionAi_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoAlarm_videoRegionAi_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoAlarm_videoRegionAi_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<iframe name="post_frame_videoAlarm_videoRegionAi" id="post_frame_videoAlarm_videoRegionAi" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="alarm-video-right" id="videoAlarm_right_VideoGate" style="display:none">
+<form class="ui-form">
+<div id="videoAlarm_VideoGate_rule" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule_lable">规则</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_VideoGate_rule1" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_VideoGate_rule1_label" for="wifi_connect_status">规则1</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_VideoGate_rule2" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_VideoGate_rule2_label" for="wifi_connect_status">规则2</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_VideoGate_rule3" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_VideoGate_rule3_label" for="wifi_connect_status">规则3</label>
+<div class="ui-checkbox fn-marr2">
+<input type="radio" id="videoAlarm_VideoGate_rule4" name="wifi_connect_status_name">
+</div>
+<label class="ui-label fn-width60" id="videoAlarm_VideoGate_rule4_label" for="wifi_connect_status">规则3</label>
+</div>
+<div id="videoAlarm_VideoGate_show_rule1" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule1_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule1_Enable">
+<option id="videoAlarm_VideoGate_rule1_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_rule1_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule1_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule1_less_Sensitivity"></a>
+<div id="videoAlarm_VideoGate_rule1_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_VideoGate_rule1_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule1_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_VideoGate_rule1_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule1_direction_label">方向</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule1_direction">
+<option id="videoAlarm_VideoGate_rule1_direction_0" value="0">A to B and B to A</option>
+<option id="videoAlarm_VideoGate_rule1_direction_1" value="1">A to B</option>
+<option id="videoAlarm_VideoGate_rule1_direction_2" value="2">B to A</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule1_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule1_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule1_motorVehicle_label" for="videoAlarm_VideoGate_rule1_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule1_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule1_nonMotorVehicle_label" for="videoAlarm_VideoGate_rule1_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule1_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_VideoGate_rule1_Pedestrian_label" for="videoAlarm_VideoGate_rule1_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_show_rule2" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule2_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule2_Enable">
+<option id="videoAlarm_VideoGate_rule2_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_rule2_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule2_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule2_less_Sensitivity"></a>
+<div id="videoAlarm_VideoGate_rule2_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_VideoGate_rule2_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule2_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_VideoGate_rule2_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule2_direction_label">方向</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule2_direction">
+<option id="videoAlarm_VideoGate_rule2_direction_0" value="0">A to B and B to A</option>
+<option id="videoAlarm_VideoGate_rule2_direction_1" value="1">A to B</option>
+<option id="videoAlarm_VideoGate_rule2_direction_2" value="2">B to A</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule2_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule2_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule2_motorVehicle_label" for="videoAlarm_VideoGate_rule2_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule2_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule2_nonMotorVehicle_label" for="videoAlarm_VideoGate_rule2_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule2_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_VideoGate_rule2_Pedestrian_label" for="videoAlarm_VideoGate_rule2_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_show_rule3" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule3_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule3_Enable">
+<option id="videoAlarm_VideoGate_rule3_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_rule3_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule3_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule3_less_Sensitivity"></a>
+<div id="videoAlarm_VideoGate_rule3_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_VideoGate_rule3_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule3_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_VideoGate_rule3_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule3_direction_label">方向</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule3_direction">
+<option id="videoAlarm_VideoGate_rule3_direction_0" value="0">A to B and B to A</option>
+<option id="videoAlarm_VideoGate_rule3_direction_1" value="1">A to B</option>
+<option id="videoAlarm_VideoGate_rule3_direction_2" value="2">B to A</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule3_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule3_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule3_motorVehicle_label" for="videoAlarm_VideoGate_rule3_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule3_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule3_nonMotorVehicle_label" for="videoAlarm_VideoGate_rule3_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule3_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_VideoGate_rule3_Pedestrian_label" for="videoAlarm_VideoGate_rule3_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_show_rule4" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule4_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule4_Enable">
+<option id="videoAlarm_VideoGate_rule4_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_rule4_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule4_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule4_less_Sensitivity"></a>
+<div id="videoAlarm_VideoGate_rule4_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_VideoGate_rule4_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_VideoGate_rule4_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_VideoGate_rule4_Sensitivity_title">100</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule4_direction_label">方向</label>
+<select class="ui-select" id="videoAlarm_VideoGate_rule4_direction">
+<option id="videoAlarm_VideoGate_rule4_direction_0" value="0">A to B and B to A</option>
+<option id="videoAlarm_VideoGate_rule4_direction_1" value="1">A to B</option>
+<option id="videoAlarm_VideoGate_rule4_direction_2" value="2">B to A</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_rule4_detect_target">检测目标</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule4_motorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule4_motorVehicle_label" for="videoAlarm_VideoGate_rule4_motorVehicle_Enable">机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule4_nonMotorVehicle_Enable">
+</div>
+<label class="ui-label fn-width120" id="videoAlarm_VideoGate_rule4_nonMotorVehicle_label" for="videoAlarm_VideoGate_rule4_nonMotorVehicle_Enable">非机动车</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="videoAlarm_VideoGate_rule4_Pedestrian_Enable">
+</div>
+<label class="ui-label fn-width100" id="videoAlarm_VideoGate_rule4_Pedestrian_label" for="videoAlarm_VideoGate_rule4_Pedestrian_Enable">行人</label>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<div class="fn-horizontal-line"></div>
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_region_draw_label">显示检测区域框</label>
+<select class="ui-select" id="videoAlarm_VideoGate_region_draw">
+<option id="videoAlarm_VideoGate_region_draw_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_region_draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_VideoGate_target_draw_div">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_target_draw_label">目标检测框</label>
+<select class="ui-select" id="videoAlarm_VideoGate_target_draw">
+<option id="videoAlarm_VideoGate_target_draw_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_target_draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" id="videoAlarm_VideoGate_light_twinkle" style="display:inline">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_light_twinkle_label">灯光闪烁</label>
+<select class="ui-select" id="videoAlarm_VideoGate_light_twinkle_enable">
+<option id="videoAlarm_VideoGate_light_twinkle_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_light_twinkle_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_Enable_label">状态</label>
+<select class="ui-select" id="videoAlarm_VideoGate_Enable">
+<option id="videoAlarm_VideoGate_Enable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left fn-marl0">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_VideoGate_less_Sensitivity"></a>
+<div id="videoAlarm_VideoGate_line_Sensitivity" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_VideoGate_icon_Sensitivity" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_VideoGate_add_Sensitivity"></a>
+<span class="ui-slider-text" id="videoAlarm_VideoGate_Sensitivity_title">100</span>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_showOutputAction" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div id="videoAlarm_VideoGate_showIoOutputOld">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_OutputEnable_label">告警输出</label>
+<select class="ui-select" id="videoAlarm_VideoGate_OutputEnable">
+<option id="videoAlarm_VideoGate_OutputEnable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_VideoGate_showOutputConfig" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_PortIndex_label">输出端口</label>
+<select class="ui-select" id="videoAlarm_VideoGate_PortIndex">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_OutputType_label">输出方式</label>
+<select class="ui-select" id="videoAlarm_VideoGate_OutputType">
+<option id="videoAlarm_VideoGate_NormalOpen_0" value="0">常开</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_Duration_label">告警时长</label>
+<div class="fn-left fn-width230">
+<input id="videoAlarm_VideoGate_Duration" class="ui-input fn-width140">
+<span class="ui-text">(0-60)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_showIoOutputNew" style="display:none">
+<div id="videoAlarm_VideoGate_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div id="videoAlarm_VideoGate_showAudioAction" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_AudioActionEnable_label">触发声音</label>
+<select class="ui-select" id="videoAlarm_VideoGate_AudioActionEnable">
+<option id="videoAlarm_VideoGate_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoAlarm_VideoGate_AudioActionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_VideoGate_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_AudioActionFile" class="ui-select">
+</select>
+</div>
+<a id="videoAlarm_VideoGate_AudioActionFileTest" class="ui-button" href="javascript:;">试听</a>
+<a id="videoAlarm_VideoGate_AudioActionFileDelete" class="ui-button" href="javascript:;">删除</a>
+</div>
+<audio id="videoAlarm_VideoGate_show_audio_play" controls style="display:none">
+<source id="videoAlarm_VideoGate_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoAlarm_VideoGate_AudioActionTimes" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="VideoGate_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_videoAlarm_VideoGate" style="display:none">
+<form id="form_form_videoAlarm_VideoGate" class="ui-form" name="f_form_videoAlarm_VideoGate" action="/WebUploadFormFile" method="post" target="post_frame_videoAlarm_VideoGate" enctype="multipart/form-data" style="display:none">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_VideoGate_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoAlarm_VideoGate_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoAlarm_VideoGate_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoAlarm_VideoGate_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<iframe name="post_frame_videoAlarm_VideoGate" id="post_frame_videoAlarm_VideoGate" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="alarm-video-right" id="videoAlarm_right_face" style="display:none">
+<form class="ui-form">
+<div class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20 fn-bold fn-width270" id="videoAlarm_face_DetectionSettings_label">人脸检测设置</label>
+</div>
+<div id="videoAlarm_Face_show_license_tip" class="ui-form-item fn-clear" style="display:none">
+<div><a id="videoAlarm_Face_license_tip" class="fn-color-purple fn-padl20" target="_blank" href="http://www.sstarai.com/payai">人脸检测算法未授权，请点击购买</a></div>
+<br>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_EnableDay_label">白天</label>
+<select class="ui-select" id="videoAlarm_face_EnableDay">
+<option id="videoAlarm_face_EnableDay_0" value="0">禁用</option>
+<option id="videoAlarm_face_EnableDay_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_EnableNight_label">夜晚</label>
+<select class="ui-select" id="videoAlarm_face_EnableNight">
+<option id="videoAlarm_face_EnableNight_0" value="0">禁用</option>
+<option id="videoAlarm_face_EnableNight_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_Draw_label">在视频画面画框</label>
+<select class="ui-select" id="videoAlarm_face_Draw">
+<option id="videoAlarm_face_Draw_0" value="0">禁用</option>
+<option id="videoAlarm_face_Draw_1" value="1">启用</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<div id="videoAlarm_face_show_singleSensitivity" style="display:inline">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_show_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_face_show_Sensitivity_less"></a>
+<div id="videoAlarm_face_show_Sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_face_show_Sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_face_show_Sensitivity_add"></a>
+<span class="ui-slider-text" id="videoAlarm_face_show_Sensitivity_title">100</span>
+</div>
+</div>
+</div>
+<div id="videoAlarm_face_show_advSensitivity" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_Threshold_label">阈值</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_face_Threshold_less"></a>
+<div id="videoAlarm_face_Threshold_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_face_Threshold_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_face_Threshold_add"></a>
+<span class="ui-slider-text" id="videoAlarm_face_Threshold_title">100</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoAlarm_face_Sensitivity_less"></a>
+<div id="videoAlarm_face_Sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoAlarm_face_Sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoAlarm_face_Sensitivity_add"></a>
+<span class="ui-slider-text" id="videoAlarm_face_Sensitivity_title">4</span>
+</div>
+</div>
+</div>
+<div id="videoAlarm_face_showAudioAction" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_AudioActionEnable_label">触发声音</label>
+<select class="ui-select" id="videoAlarm_face_AudioActionEnable">
+<option id="videoAlarm_face_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoAlarm_face_AudioActionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_face_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoAlarm_face_AudioActionFile" class="ui-select">
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140"></label>
+<div class="fn-left">
+<a id="videoAlarm_face_AudioActionFileTest" class="ui-button" href="javascript:;">试听</a>
+<a id="videoAlarm_face_AudioActionFileDelete" class="ui-button" href="javascript:;">删除</a>
+</div>
+</div>
+<audio id="videoAlarm_face_show_audio_play" controls style="display:none">
+<source id="videoAlarm_face_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoAlarm_face_AudioActionTimes" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="5">5</option>
+<option value="10">10</option>
+<option value="20">20</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="face_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_videoAlarm_face" style="display:none">
+<form id="form_form_videoAlarm_face" class="ui-form" name="f_form_videoAlarm_face" action="/WebUploadFormFile" method="post" target="post_frame_videoAlarm_face" enctype="multipart/form-data" style="display:none">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoAlarm_face_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoAlarm_face_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoAlarm_face_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<form id="videoAlarm_face_showOutputAction" class="ui-form" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div id="videoAlarm_face_showIoOutputOld">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_OutputEnable_label">告警输出</label>
+<select class="ui-select" id="videoAlarm_face_OutputEnable">
+<option id="videoAlarm_face_OutputEnable_0" value="0">禁用</option>
+<option id="videoAlarm_face_OutputEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoAlarm_face_showOutputConfig" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_PortIndex_label">输出端口</label>
+<select class="ui-select" id="videoAlarm_face_PortIndex">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_OutputType_label">输出方式</label>
+<select class="ui-select" id="videoAlarm_face_OutputType">
+<option id="videoAlarm_face_NormalOpen_0" value="0">常开</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_Duration_label">告警时长</label>
+<div class="fn-left fn-width230">
+<input id="videoAlarm_face_Duration" class="ui-input fn-width140">
+<span class="ui-text">(0-60)</span>
+</div>
+</div>
+</div>
+</div>
+<div id="videoAlarm_face_showIoOutputNew" style="display:none">
+<div id="videoAlarm_face_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoAlarm_face_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_face_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoAlarm_face_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_face_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoAlarm_face_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoAlarm_face_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoAlarm_face_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoAlarm_face_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+</form>
+<iframe name="post_frame_videoAlarm_face" id="post_frame_videoAlarm_face" style="display:none" mce_style="display:none;"></iframe>
+</div>
+</div>
+<div class="ui-container videoAlarm_tab_con fn-clearonly" id="videoAlarm_table_timeplan">
+<form class="ui-form fn-padt10">
+<div class="ui-timeplan" id="videoAlarm_table_timeplan_show">
+<div class="ui-timeplan-hour fn-clear">
+<ul>
+<li>0</li>
+<li>2</li>
+<li>4</li>
+<li>6</li>
+<li>8</li>
+<li>10</li>
+<li>12</li>
+<li>14</li>
+<li>16</li>
+<li>18</li>
+<li>20</li>
+<li>22</li>
+<li class="ui-timeplan-hour-lilast">24</li>
+</ul>
+<div class="ui-timeplan-hourbg"></div>
+</div>
+<div class="fn-clear">
+<div class="ui-timeplan-week">
+<ul>
+<li class="input_sunday">星期日</li>
+<li class="input_monday">星期一</li>
+<li class="input_tuesday">星期二</li>
+<li class="input_wendesday">星期三</li>
+<li class="input_thursday">星期四</li>
+<li class="input_friday">星期五</li>
+<li class="input_saturday">星期六</li>
+</ul>
+</div>
+<div class="schedule_canvas ui-timeplan-canvas fn-relative" id="videoAlarm_tab_alarm_canvas">
+<div class="general"></div>
+<div class="general"></div>
+<div class="general"></div>
+</div>
+<div class="ui-timeplan-button">
+<a id="videoAlarm_tmset0" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset1" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset2" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset3" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset4" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset5" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+<a id="videoAlarm_tmset6" class="ui-button-special fn-width68 input_setup" href="javascript:;">全选</a>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="videoAlarm_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="videoAlarm_refresh" class="ui-button" href="javascript:;"></a>
+<a id="videoAlarm_confirm" class="ui-button admin_button" href="javascript:;"></a>
+</div>
+<div class="ui-tip">
+<div class="ui-tip-container" id="videoAlarm_remark0">
+<span class="ui-tip-icon"></span>
+<label id="videoAlarm_remark0_label"></label>
+</div>
+</div>
+</form>
+</div>
+</div>

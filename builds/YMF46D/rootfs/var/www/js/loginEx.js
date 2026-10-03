@@ -1,0 +1,1 @@
+function doLogout(o){var r=new IPCLogin;void 0===o?Browser.ie&&Browser.version<=7?r.logout(!0):r.logout(!1):r.logout(o)}

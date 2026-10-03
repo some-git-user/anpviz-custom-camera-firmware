@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>IP Camera</title>
+<script src="commonNew.js?v=1.0.1.2" charset="utf-8"></script>
+<script src="../jsCore/BrowserWindow.js"></script>
+</head>
+<body bgcolor="#000000" style="background-color:#000;overflow:hidden" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0">
+<div id="IDPlayPict" style="height:300px;width:800px"></div>
+<input type="button" id="PlayRealVideo" value="PlayRealVideo" style="display:none">
+<input type="button" id="StopPlayReal" value="StopPlayReal" style="display:none">
+<input id="FeedbackPlayerNum" style="display:none">
+<input id="getPlayerNum" type="button" style="display:none">
+<input type="button" id="videoFullFill" value="videoFullFill" style="display:none">
+<input type="button" id="getVideoPlayerSize" value="getVideoPlayerSize" style="display:none">
+<input type="hidden" value="8091" id="idPTZPort">
+<input type="hidden" id="InitStreamType">
+<input type="hidden" id="InitRecordDisk">
+<input type="hidden" id="BufferTickChange" value="100">
+<input type="hidden" id="idCallBack">
+<input type="hidden" id="ctrl_version">
+<script>function PlayVideoStream(e){DisplayVideo("IDPlayPict",e,"")}document.getElementById("idPTZPort").value=""+g_ptz_port;var liveNum=0;function changeVideoPlayerSize(){try{var e=document.getElementById("IDPlayPict"),t=BrowserWindowSize(),l=document.getElementById("getVideoPlayerSize").value.split(",");2==l.length?(e.style.width=parseInt(l[0])+"px",e.style.height=parseInt(l[1])+"px"):(e.style.width=parseInt(t.w)+"px",e.style.height=parseInt(t.h)+"px"),setTimeout(function(){PlayVideoStream(liveNum)},500)}catch(e){}}document.getElementById("getPlayerNum").click(),document.getElementById("getVideoPlayerSize").click(),setTimeout(function(){var e=document.getElementById("FeedbackPlayerNum").value;liveNum="live_1"==e?1:0,setTimeout("changeVideoPlayerSize()",100)},100);var clickTimes=0;function clickVideoFullFill(){document.getElementById("videoFullFill").click();var e=document.getElementById("videoFullFill").value;"1"!=e&&"0"!=e&&clickTimes++<100&&setTimeout("clickVideoFullFill()",100)}</script>
+</body>
+</html>

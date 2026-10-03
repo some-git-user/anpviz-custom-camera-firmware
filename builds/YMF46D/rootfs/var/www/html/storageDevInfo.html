@@ -1,0 +1,203 @@
+<div id="page_storageDevInfo" class="page_config">
+<input id="storageDevInfoCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="storageDevInfo_tab" class="ui-tab-current">存储设备信息</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="storageDevInfo_help"></a>
+</li>
+</ul>
+</div>
+<div id="storageDev_tab_Info" class="ui-container">
+<form class="ui-form">
+<div id="storageDevInfo_1">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold" id="storageDevInfo_sd1_label">SD卡1</label>
+<div id="storageDevInfo_sd1_showControl" class="ui-button-box" style="display:inline-block">
+<a id="storageDevInfo_sd1_Mount" class="ui-button" href="javascript:;">挂载</a>
+<a id="storageDevInfo_sd1_Unmount" class="ui-button" href="javascript:;">卸载</a>
+<a id="storageDevInfo_sd1_Format" class="ui-button" href="javascript:;">格式化</a>
+</div>
+<div style="display:inline-block">
+<span id="storageDevInfo_sd1_showFormatting" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">正在格式化...</span>
+<span id="storageDevInfo_sd1_FormaWaitTime" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">0</span>
+<span id="storageDevInfo_sd1_FormaWaitSec" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">s</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_Status_label">设备状态</label>
+<span id="storageDevInfo_1_Status" class="ui-text">未挂载</span>
+</div>
+<div id="storageDevInfo_1_showInfo" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_TotalSize_label">总容量</label>
+<span id="storageDevInfo_1_TotalSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div id="storageDevInfo_1_showUsed">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedSize_label">已使用</label>
+<span id="storageDevInfo_1_UsedSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_FreeSize_label">未使用</label>
+<span id="storageDevInfo_1_FreeSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedPercentage_label">使用率</label>
+<span id="storageDevInfo_1_UsedPercentage" class="ui-text"></span>
+<span class="ui-text">%</span>
+</div>
+</div>
+</div>
+</div>
+<div id="storageDevInfo_2">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold" id="storageDevInfo_sd2_label">SD卡2</label>
+<div id="storageDevInfo_sd2_showControl" class="ui-button-box" style="display:inline-block">
+<a id="storageDevInfo_sd2_Mount" class="ui-button" href="javascript:;">挂载</a>
+<a id="storageDevInfo_sd2_Unmount" class="ui-button" href="javascript:;">卸载</a>
+<a id="storageDevInfo_sd2_Format" class="ui-button" href="javascript:;">格式化</a>
+</div>
+<div style="display:inline-block">
+<span id="storageDevInfo_sd2_showFormatting" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">正在格式化...</span>
+<span id="storageDevInfo_sd2_FormaWaitTime" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">0</span>
+<span id="storageDevInfo_sd2_FormaWaitSec" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">s</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_Status_label">设备状态</label>
+<span id="storageDevInfo_2_Status" class="ui-text">未挂载</span>
+</div>
+<div id="storageDevInfo_2_showInfo" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_TotalSize_label">总容量</label>
+<span id="storageDevInfo_2_TotalSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div id="storageDevInfo_2_showUsed">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedSize_label">已使用</label>
+<span id="storageDevInfo_2_UsedSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_FreeSize_label">未使用</label>
+<span id="storageDevInfo_2_FreeSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedPercentage_label">使用率</label>
+<span id="storageDevInfo_2_UsedPercentage" class="ui-text"></span>
+<span class="ui-text">%</span>
+</div>
+</div>
+</div>
+</div>
+<div id="storageDevInfo_3">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold" id="storageDevInfo_usb_label">USB存储设备</label>
+<div id="storageDevInfo_usb_showControl" class="ui-button-box" style="display:inline-block">
+<a id="storageDevInfo_usb_Mount" class="ui-button" href="javascript:;">挂载</a>
+<a id="storageDevInfo_usb_Unmount" class="ui-button" href="javascript:;">卸载</a>
+<a id="storageDevInfo_usb_Format" class="ui-button" href="javascript:;">格式化</a>
+</div>
+<div style="display:inline-block">
+<span id="storageDevInfo_usb_showFormatting" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">正在格式化...</span>
+<span id="storageDevInfo_usb_FormaWaitTime" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">0</span>
+<span id="storageDevInfo_usb_FormaWaitSec" class="ui-tip-yellow" style="margin-top:5px;line-height:5px;display:none">s</span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_Status_label">设备状态</label>
+<span id="storageDevInfo_3_Status" class="ui-text">未挂载</span>
+</div>
+<div id="storageDevInfo_3_showInfo" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_TotalSize_label">总容量</label>
+<span id="storageDevInfo_3_TotalSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div id="storageDevInfo_3_showUsed">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedSize_label">已使用</label>
+<span id="storageDevInfo_3_UsedSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_FreeSize_label">未使用</label>
+<span id="storageDevInfo_3_FreeSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedPercentage_label">使用率</label>
+<span id="storageDevInfo_3_UsedPercentage" class="ui-text"></span>
+<span class="ui-text">%</span>
+</div>
+</div>
+</div>
+</div>
+<div id="storageDevInfo_4">
+<div id="storageDevInfo_showNetworkStorage">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-bold fn-width200" id="storageDevInfo_network_label">网络存储设备</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_Status_label">设备状态</label>
+<span id="storageDevInfo_4_Status" class="ui-text">未挂载</span>
+</div>
+<div id="storageDevInfo_4_showInfo" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_TotalSize_label">总容量</label>
+<span id="storageDevInfo_4_TotalSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedSize_label">已使用</label>
+<span id="storageDevInfo_4_UsedSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_FreeSize_label">未使用</label>
+<span id="storageDevInfo_4_FreeSize" class="ui-text"></span>
+<span class="ui-text">MB</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" name="storageDevInfo_UsedPercentage_label">使用率</label>
+<span id="storageDevInfo_4_UsedPercentage" class="ui-text"></span>
+<span class="ui-text">%</span>
+</div>
+</div>
+</div>
+<div class="ui-tip fn-marl140 fn-padt10">
+<div class="ui-tip-container" id="storageDevInfo_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="storageDevInfo_remark_label">保存成功</label>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div id="storageDevFormat_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>格式化</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="storageDevFormat_dialog_prompt">确定格式化吗？</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="storageDevFormat_dialog_confirm">保存</a>
+<a class="ui-button" id="storageDevFormat_dialog_cancel">取消</a>
+</div>
+</div>
+</div>

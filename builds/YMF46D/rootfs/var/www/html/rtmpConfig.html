@@ -1,0 +1,88 @@
+<div id="page_rtmpConfig" class="page_config">
+<input id="RTMPCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="rtmp_set" class="ui-tab-current">RTMP</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_enable_label" for="rtmp_enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="rtmp_enable">
+</div>
+</div>
+<div id="show_rtmp_type" class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="rtmp_type_label">协议类型</label>
+<select class="ui-select fn-width204" id="rtmp_type">
+<option id="rtmp_type_0" value="0">标准</option>
+<option id="rtmp_type_1" value="1">兼容</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_streamno_label">码流</label>
+<select class="ui-select fn-width204" id="rtmp_streamno">
+<option id="rtmp_streamno_0" value="0">主码流</option>
+<option id="rtmp_streamno_1" value="1">子码流</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_server_address_label">服务器地址</label>
+<input name="textfield" id="rtmp_server_address" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="rtmp_server_address_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_server_port_label">端口</label>
+<input name="textfield" id="rtmp_server_port" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="rtmp_server_port_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_appname_label">应用名称</label>
+<input name="textfield" id="rtmp_appname" class="ui-input fn-width200" maxlength="64">
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="rtmp_streamid_label">流ID</label>
+<input name="textfield" id="rtmp_streamid" class="ui-input fn-width200" maxlength="256">
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="rtmp_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="rtmp_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="rtmp_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="rtmp_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="rtmp_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+<div class="fn-padt10 fn-padl40">
+<div id="rtmp_config_label_y_en" style="display:none">
+<div>There is an example to forward your video stream to YouTube-Live, do the following steps:</div>
+<div>1. The premise is that you registered at YouTube to use the live service.</div>
+<div>2. Live streaming has to be activated in your YouTube account <a class="fn-color-purple" target="_blank" href="https://support.google.com/youtube/topic/6136989?hl=en&ref_topic=2853712/">(Help)</a>.</div>
+<div>3. The URL to your live dashboard on YouTube is: <a class="fn-color-purple" target="_blank" href="https://www.youtube.com/live_dashboard">https://www.youtube.com/live_dashboard</a></div>
+<div>4. Find out your RTMP-URL and the uniquie streaming ID.</div>
+<div>rtmp://a.rtmp.youtube.com/live2/[your_channe/ID] will look like: rtmp://a.rtmp.youtube.com/live2/yourkey-1234.1yyz-4g41-1aq4-abcd</div>
+<div>5. Enable and save</div>
+<br>
+</div>
+<div id="rtmp_config_label_why">以上参数的含义是什么？例如RTMP推流URL如下，以字符 / 拆分可以得到对应的参数。</div>
+<div id="rtmp_config_label_url" class="fn-padl20">rtmp://xxx.xxx.xxx/live/4287d69ef405428c?wsSecret=5ba27f7bb727f1b8249d0e1404a398a8&wsTime=5acd71a</div>
+<div class="fn-padt5 fn-clearonly">
+<div class="fn-left">1)&nbsp;</div><div id="rtmp_config_label_hostname" class="fn-left fn-width120">服务器地址</div><div id="rtmp_config_label_hostname_value">xxx.xxx.xxx</div>
+</div>
+<div class="fn-padt5 fn-clearonly">
+<div class="fn-left">2)&nbsp;</div><div id="rtmp_config_label_port" class="fn-left fn-width120">端口号</div><div id="rtmp_config_label_port_value">缺省时默认是1935，如果xxx.xxx.xxx后面接着 '：数字'，该数字表示端口号</div>
+</div>
+<div class="fn-padt5 fn-clearonly">
+<div class="fn-left">3)&nbsp;</div><div id="rtmp_config_label_app" class="fn-left fn-width120">应用名称</div><div id="rtmp_config_label_app_value">live</div>
+</div>
+<div class="fn-padt5 fn-clearonly">
+<div class="fn-left">4)&nbsp;</div><div id="rtmp_config_label_streamid" class="fn-left fn-width120">流ID</div><div id="rtmp_config_label_streamid_value">4287d69ef405428c?wsSecret=5ba27f7bb727f1b8249d0e1404a398a8&wsTime=5acd71a</div>
+</div>
+</div>
+</div>
+</div>

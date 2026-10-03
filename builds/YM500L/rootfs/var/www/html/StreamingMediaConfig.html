@@ -1,0 +1,256 @@
+<div id="page_StreamingMediaConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="streaming_tab_title" class="ui-tab-current">流媒体</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20">WEB/ONVIF</label>
+</div>
+<div id="show_Streaming_WEB_Enable" class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_WEB_Enable_label" for="Streaming_WEB_Enable">WEB访问</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_WEB_Enable">
+</div>
+</div>
+<div id="show_Streaming_Onvif_Enable" class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_Onvif_Enable_label" for="Streaming_Onvif_Enable">Onvif协议</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_Onvif_Enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_Onvif_Encryption_label" for="Streaming_Onvif_Encryption">Onvif认证</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_Onvif_Encryption">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_Onvif_Port_label">Http/Onvif访问端口</label>
+<div class="fn-left">
+<input id="Streaming_Onvif_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_Onvif_Port_range">(80,1~65535)</span>
+</div>
+</div>
+<div id="showH5port" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="Streaming_html5_Port_label">Html5媒体访问端口</label>
+<div class="fn-left">
+<input id="Streaming_html5_Port" class="ui-input fn-width140">
+</div>
+</div>
+</form>
+<div id="show_Streaming_HTTPS" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl40 fn-padl20">HTTPS</label>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl40 fn-width180" id="Streaming_https_Port_label">Https访问端口</label>
+<div class="fn-left">
+<input id="Streaming_https_Port" class="ui-input fn-width140">
+</div>
+</div>
+<form id="form_form_streamMediaCertificate" class="ui-form" name="f_form_streamMediaCertificate" action="/WebCertificateUploadFile" method="post" target="post_frame_streamMediaCertificate" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="streamMediaCertificate_file_label">https证书</label>
+<div class="fn-left">
+<select id="streamMediaCertificate_file" class="ui-select">
+</select>
+</div>
+<a id="streamMediaCertificate_file_Delete" class="ui-button" href="javascript:;">删除</a>
+<a id="streamMediaCertificate_btn" class="ui-button" href="javascript:;">上传</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="streamMediaCertificate_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="streamMediaCertificate_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="post_frame_streamMediaCertificate" id="post_frame_streamMediaCertificate" style="display:none" mce_style="display:none;"></iframe>
+<form id="form_form_streamMediaKey" class="ui-form" name="f_form_streamMediaKey" action="/WebCertificateUploadFile" method="post" target="post_frame_streamMediaKey" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="streamMediaKey_file_label">https密钥</label>
+<div class="fn-left">
+<select id="streamMediaKey_file" class="ui-select">
+</select>
+</div>
+<a id="streamMediaKey_file_Delete" class="ui-button" href="javascript:;">删除</a>
+<a id="streamMediaKey_btn" class="ui-button" href="javascript:;">上传</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="streamMediaKey_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="streamMediaKey_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="post_frame_streamMediaKey" id="post_frame_streamMediaKey" style="display:none" mce_style="display:none;"></iframe>
+<form id="form_form_streamMediaKeyPassword" class="ui-form" name="f_form_streamMediaKeyPassword" action="/WebCertificateUploadFile" method="post" target="post_frame_streamMediaKeyPassword" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width180" id="streamMediaKeyPassword_file_label">https私钥密码</label>
+<div class="fn-left">
+<select id="streamMediaKeyPassword_file" class="ui-select">
+</select>
+</div>
+<a id="streamMediaKeyPassword_file_Delete" class="ui-button" href="javascript:;">删除</a>
+<a id="streamMediaKeyPassword_btn" class="ui-button" href="javascript:;">上传</a>
+</div>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="streamMediaKeyPassword_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<input type="submit" id="streamMediaKeyPassword_submit" value="submit" style="display:none">
+</div>
+</form>
+<iframe name="post_frame_streamMediaKeyPassword" id="post_frame_streamMediaKeyPassword" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<form class="ui-form">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label id="Streaming_Control_label" class="ui-label fn-padl20 fn-width250">Control</label>
+</div>
+<div id="show_Streaming_PTZ_Enable" class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_PTZ_Enable_label" for="Streaming_PTZ_Enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_PTZ_Enable">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_PTZ_Port_label">端口</label>
+<div class="fn-left">
+<input id="Streaming_PTZ_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_PTZ_Port_range">(8091,1~65535)</span>
+</div>
+</div>
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text fn-color-red" id="Streaming_Control_note"></span>
+</div>
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20">RTSP</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_Rtsp_Encryption_label" for="Streaming_Rtsp_Encryption">认证</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_Rtsp_Encryption">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_Rtsp_Port_label">端口</label>
+<div class="fn-left">
+<input id="Streaming_Rtsp_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_Rtsp_Port_range">(554,1~65535)</span>
+</div>
+</div>
+<div id="show_hik_div" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label id="hik_div_label" class="ui-label fn-padl20">HIK</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_HIK_Enable_label" for="Streaming_HIK_Enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_HIK_Enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_HIK_Encryption_label" for="Streaming_HIK_Encryption">认证</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_HIK_Encryption">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_HIK_Port_label">端口</label>
+<div class="fn-left">
+<input id="Streaming_HIK_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_HIK_Port_range">(8000,1~65535)</span>
+</div>
+</div>
+</div>
+<div id="show_multicast_div" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label id="multicast_div_label" class="ui-label fn-padl20">multicast</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_multicast_Enable_label" for="Streaming_multicast_Enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_multicast_Enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width124" id="Streaming_multicastIP_label">组播IP地址</label>
+<div class="ui-input-box">
+<input id="Streaming_multicastIP_0">
+<span>.</span>
+<input id="Streaming_multicastIP_1">
+<span>.</span>
+<input id="Streaming_multicastIP_2">
+<span>.</span>
+<input id="Streaming_multicastIP_3">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_main_multicast_Port_label">主码流组播端口</label>
+<div class="fn-left">
+<input id="Streaming_main_multicast_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_main_multicast_Port_range">(1~65535)</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_sub_multicast_Port_label">子码流组播端口</label>
+<div class="fn-left">
+<input id="Streaming_sub_multicast_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_sub_multicast_Port_range">(1~65535)</span>
+</div>
+</div>
+</div>
+<div id="show_dahua_div" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20">DAHUA</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_dahua_Enable_label" for="Streaming_dahua_Enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_dahua_Enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="Streaming_dahua_Encryption_label" for="Streaming_dahua_Encryption">认证</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="Streaming_dahua_Encryption">
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="Streaming_dahua_Port_label">端口</label>
+<div class="fn-left">
+<input id="Streaming_dahua_Port" class="ui-input fn-width140">
+<span class="ui-text" id="Streaming_dahua_Port_range">(37777,1~65535)</span>
+</div>
+</div>
+</div>
+<div>&nbsp;</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="Streaming_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="Streaming_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="Streaming_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="Streaming_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="Streaming_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

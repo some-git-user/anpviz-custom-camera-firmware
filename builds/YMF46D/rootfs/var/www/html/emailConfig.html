@@ -1,0 +1,86 @@
+<div id="page_emailConfig" class="page_config">
+<input id="EMAILCFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="smtp_set" class="ui-tab-current">邮件设置</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="smtp_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_server_address_label">SMTP服务器</label>
+<input name="textfield" id="smtp_server_address" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="smtp_server_address_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_server_port_label">端口</label>
+<input name="textfield" id="smtp_server_port" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="smtp_server_port_tip"></span>
+</div>
+<div id="show_smtp_server_ssl" class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="smtp_server_ssl_label">加密</label>
+<select class="ui-select fn-width204" id="smtp_server_ssl">
+<option id="smtp_server_ssl_0" value="0">禁用</option>
+<option id="smtp_server_ssl_1" value="1">SSL</option>
+<option id="smtp_server_ssl_2" value="2">StartTLS</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_username_label">用户名</label>
+<input name="textfield" id="smtp_username" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="smtp_username_tip"></span>
+<span class="ui-tip-red" id="smtp_username_tipred"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_password_label">密码</label>
+<input type="password" name="textfield" id="smtp_password" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="smtp_password_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_passwordConfirm_label">密码确认</label>
+<input type="password" name="textfield" id="smtp_passwordConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="smtp_passwordConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_sender_label">显示账号</label>
+<input name="textfield" id="smtp_sender" class="ui-input fn-width200" maxlength="256">
+<span class="ui-tip-red" id="smtp_sender_tip"></span>
+<span class="ui-text">(username@domain.com)</span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_subject_label">邮件主题</label>
+<input name="textfield" id="smtp_subject" class="ui-input fn-width200" maxlength="256">
+<span class="ui-tip-red" id="smtp_subject_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_recv_address_label">接收邮件地址</label>
+<input name="textfield" id="smtp_recv_address" class="ui-input fn-width200" maxlength="256">
+<span class="ui-tip-red" id="smtp_recv_address_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="smtp_cc_address_label">抄送邮件地址</label>
+<input name="textfield" id="smtp_cc_address" class="ui-input fn-width200" maxlength="256">
+<span class="ui-tip-red" id="smtp_cc_address_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<label class="ui-label fn-padl20 fn-width40">&nbsp;</label>
+<a id="smtp_test" class="ui-button" href="javascript:;">邮件测试</a>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="smtp_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="smtp_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="smtp_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="smtp_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="smtp_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

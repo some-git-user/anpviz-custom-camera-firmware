@@ -1,0 +1,11 @@
+#!/bin/sh
+export PATH=/sbin:/system/sbin:/system/bin:/vendor/bin:/ext/bin
+export LD_LIBRARY_PATH=/lib:/system/lib:/vendor/lib:/ext/lib
+export TERM=vt100
+export TERMINFO=/etc/terminfo
+export TERM=vt100
+export TERMINFO=/etc/terminfo
+export LD_LIBRARY_PATH="/mnt/app/app:/tmp/oem/app:/tmp:/lib:/usr/lib:/ext/lib:/usr/local/lib:/system/lib:/opt/ch:$LD_LIBRARY_PATH"
+export PATH="/config:$PATH"
+umask 000
+PS1='Anjoy# '

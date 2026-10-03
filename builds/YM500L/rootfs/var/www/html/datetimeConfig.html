@@ -1,0 +1,279 @@
+<div id="page_datetimeConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li class="datetime_tab_title ui-tab-current" data-for="date_time" id="datetime_tab_title_date_time">日期时间</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="datetime_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container datetime_tabs" id="datetime_tab_date_time">
+<form class="ui-form">
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="date_time_date_format_label">日期格式</label>
+<select id="date_time_date_format" class="ui-select">
+<option>Year-Month-Day</option>
+<option>Month-Day-Year</option>
+<option>Day-Month-Year</option>
+</select>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="date_time_time_format_label">时间格式</label>
+<select id="date_time_time_format" class="ui-select">
+<option>24-Hour Standard</option>
+<option>12-Hour Standard</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="date_time_UpdateMethod_label">更新方式</label>
+<select id="date_time_UpdateMethod" class="ui-select">
+<option id="date_time_UpdateMethod_NTP" value="NTP">使用NTP服务</option>
+<option id="date_time_UpdateMethod_manual" value="MANUAL">手动设置</option>
+<option id="date_time_UpdateMethod_P2P" value="P2P">P2P</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="date_time_time_zone_label">时区</label>
+<select id="date_time_time_zone" class="ui-select">
+<option value="720">GMT+00:00</option>
+<option value="780">GMT+01:00</option>
+<option value="840">GMT+02:00</option>
+<option value="900">GMT+03:00</option>
+<option value="930">GMT+03:30</option>
+<option value="960">GMT+04:00</option>
+<option value="990">GMT+04:30</option>
+<option value="1020">GMT+05:00</option>
+<option value="1050">GMT+05:30</option>
+<option value="1065">GMT+05:45</option>
+<option value="1080">GMT+06:00</option>
+<option value="1110">GMT+06:30</option>
+<option value="1140">GMT+07:00</option>
+<option value="1200">GMT+08:00</option>
+<option value="1260">GMT+09:00</option>
+<option value="1290">GMT+09:30</option>
+<option value="1320">GMT+10:00</option>
+<option value="1380">GMT+11:00</option>
+<option value="1440">GMT+12:00</option>
+<option value="1500">GMT+13:00</option>
+<option value="660">GMT-01:00</option>
+<option value="600">GMT-02:00</option>
+<option value="540">GMT-03:00</option>
+<option value="510">GMT-03:30</option>
+<option value="480">GMT-04:00</option>
+<option value="450">GMT-04:30</option>
+<option value="420">GMT-05:00</option>
+<option value="360">GMT-06:00</option>
+<option value="300">GMT-07:00</option>
+<option value="240">GMT-08:00</option>
+<option value="180">GMT-09:00</option>
+<option value="120">GMT-10:00</option>
+<option value="60">GMT-11:00</option>
+<option value="0">GMT-12:00</option>
+</select>
+</div>
+<div class="ui-form-item" id="date_time_showNTPServer">
+<label class="ui-label fn-padl20" id="date_time_NTP_server_label">NTP服务器</label>
+<select id="date_time_NTP_server_select" class="ui-select fn-height19">
+<option id="date_time_NTP_server_select1" value="pool.ntp.org">pool.ntp.org</option>
+<option id="date_time_NTP_server_select2" value="time.nist.gov">time.nist.gov</option>
+</select>
+<input name="textfield" maxlength="64" id="date_time_NTP_server" class="ui-input fn-width124 fn-height17" style="position:relative;margin-left:-150px;background:#fff;color:#000;line-height:17px;margin-top:4px;border:none">
+<span class="ui-tip-red" id="date_time_NTP_server_tip"></span>
+</div>
+<div class="ui-form-item" id="date_time_showNTPPort">
+<label class="ui-label fn-padl20" id="date_time_NTP_port_label">端口</label>
+<input name="textfield" id="date_time_NTP_port" class="ui-input fn-width80">
+<span class="ui-text">(1~65535)</span>
+</div>
+<div class="ui-form-item" id="date_time_showNTPUpdatePeriods">
+<label class="ui-label fn-padl20" id="date_time_NTP_update_periods_label">更新周期</label>
+<input name="textfield" id="date_time_NTP_update_periods" class="ui-input fn-width80">
+<span class="ui-text" id="date_time_NTP_update_periods_minute_label">分钟</span>
+<span class="ui-text">(1~16666)</span>
+</div>
+<div class="ui-form-item" id="date_time_showSystemTime">
+<label class="ui-label fn-padl20" id="date_time_system_time_label">系统时间</label>
+<li id="date_time_system_datetime">
+<div id="div_date_time_input_day" class="ui-input-box">
+<input id="date_time_system_date0" data-index="0" maxlength="4" onbeforepaste="pasteChk()" style="width:40px">
+<span>-</span>
+<input id="date_time_system_date1" data-index="1" maxlength="2" onbeforepaste="pasteChk()">
+<span>-</span>
+<input id="date_time_system_date2" data-index="2" maxlength="4" onbeforepaste="pasteChk()">
+</div>
+<div id="div_date_time_input_sec" class="ui-input-box">
+<input id="date_time_system_time0" data-index="3" maxlength="2" onbeforepaste="pasteChk()">
+<span>:</span>
+<input id="date_time_system_time1" data-index="4" maxlength="2" onbeforepaste="pasteChk()">
+<span>:</span>
+<input id="date_time_system_time2" data-index="5" maxlength="2" onbeforepaste="pasteChk()">
+</div>
+<select id="date_time_system_time_12_format" class="ui-select fn-width60" style="display:none">
+<option value="AM">AM</option>
+<option value="PM">PM</option>
+</select>
+<a id="date_time_synchronize_PC" class="ui-button fn-left fn-width68" href="javascript:;">同步PC</a>
+</li>
+</div>
+<div id="date_time_showDST">
+<div class="ui-form-item">
+<div class="ui-checkbox">
+<input id="date_time_DST_enable" type="checkbox">
+</div>
+<label class="ui-label" id="date_time_DST_enable_label" for="date_time_DST_enable">夏令时</label>
+</div>
+<div id="date_time_showDSTConfig">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="date_time_DST_begin_time_label">开始时间</label>
+<div class="fn-left">
+<select id="date_time_DST_begin_time_month" class="ui-select fn-width78">
+<option id="DST_begin_time_month_1" value="1">Jan</option>
+<option id="DST_begin_time_month_2" value="2">Feb</option>
+<option id="DST_begin_time_month_3" value="3">Mar</option>
+<option id="DST_begin_time_month_4" value="4">Apr</option>
+<option id="DST_begin_time_month_5" value="5">May</option>
+<option id="DST_begin_time_month_6" value="6">Jun</option>
+<option id="DST_begin_time_month_7" value="7">Jul</option>
+<option id="DST_begin_time_month_8" value="8">Aug</option>
+<option id="DST_begin_time_month_9" value="9">Sep</option>
+<option id="DST_begin_time_month_10" value="10">Oct</option>
+<option id="DST_begin_time_month_11" value="11">Nov</option>
+<option id="DST_begin_time_month_12" value="12">Dec</option>
+</select>
+<select id="date_time_DST_begin_time_sort" class="ui-select fn-width80">
+<option id="DST_begin_time_sort_0" value="1">1st</option>
+<option id="DST_begin_time_sort_1" value="2">2nd</option>
+<option id="DST_begin_time_sort_2" value="3">3rd</option>
+<option id="DST_begin_time_sort_3" value="4">4th</option>
+<option id="DST_begin_time_sort_4" value="5">LastWeek</option>
+</select>
+<select id="date_time_DST_begin_time_week" class="ui-select fn-width80">
+<option id="DST_begin_time_week_0" value="0">Sunday</option>
+<option id="DST_begin_time_week_1" value="1">Monday</option>
+<option id="DST_begin_time_week_2" value="2">Tuesday</option>
+<option id="DST_begin_time_week_3" value="3">Wednesday</option>
+<option id="DST_begin_time_week_4" value="4">Thursday</option>
+<option id="DST_begin_time_week_5" value="5">Friday</option>
+<option id="DST_begin_time_week_6" value="6">Saturday</option>
+</select>
+<select id="date_time_DST_begin_time_hour" class="ui-select fn-width78">
+<option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="date_time_DST_end_time_label">结束时间</label>
+<div class="fn-left">
+<select id="date_time_DST_end_time_month" class="ui-select fn-width78">
+<option id="DST_end_time_month_1" value="1">Jan</option>
+<option id="DST_end_time_month_2" value="2">Feb</option>
+<option id="DST_end_time_month_3" value="3">Mar</option>
+<option id="DST_end_time_month_4" value="4">Apr</option>
+<option id="DST_end_time_month_5" value="5">May</option>
+<option id="DST_end_time_month_6" value="6">Jun</option>
+<option id="DST_end_time_month_7" value="7">Jul</option>
+<option id="DST_end_time_month_8" value="8">Aug</option>
+<option id="DST_end_time_month_9" value="9">Sep</option>
+<option id="DST_end_time_month_10" value="10">Oct</option>
+<option id="DST_end_time_month_11" value="11">Nov</option>
+<option id="DST_end_time_month_12" value="12">Dec</option>
+</select>
+<select id="date_time_DST_end_time_sort" class="ui-select fn-width80">
+<option id="DST_end_time_sort_0" value="1">1st</option>
+<option id="DST_end_time_sort_1" value="2">2nd</option>
+<option id="DST_end_time_sort_2" value="3">3rd</option>
+<option id="DST_end_time_sort_3" value="4">4th</option>
+<option id="DST_end_time_sort_4" value="5">LastWeek</option>
+</select>
+<select id="date_time_DST_end_time_week" class="ui-select fn-width80">
+<option id="DST_end_time_week_0" value="0">Sunday</option>
+<option id="DST_end_time_week_1" value="1">Monday</option>
+<option id="DST_end_time_week_2" value="2">Tuesday</option>
+<option id="DST_end_time_week_3" value="3">Wednesday</option>
+<option id="DST_end_time_week_4" value="4">Thursday</option>
+<option id="DST_end_time_week_5" value="5">Friday</option>
+<option id="DST_end_time_week_6" value="6">Saturday</option>
+</select>
+<select id="date_time_DST_end_time_hour" class="ui-select fn-width78">
+<option value="0">00</option>
+<option value="1">01</option>
+<option value="2">02</option>
+<option value="3">03</option>
+<option value="4">04</option>
+<option value="5">05</option>
+<option value="6">06</option>
+<option value="7">07</option>
+<option value="8">08</option>
+<option value="9">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="date_time_DST_bias_label">偏移时间</label>
+<div class="fn-left">
+<select id="date_time_DST_bias" class="ui-select fn-width328">
+<option value="30">30</option>
+<option value="60">60</option>
+<option value="90">90</option>
+<option value="120">120</option>
+<option value="150">150</option>
+<option value="180">180</option>
+<option value="210">210</option>
+<option value="240">240</option>
+</select>
+<span id="date_time_DST_bias_min" class="ui-text">分钟</span>
+</div>
+</div>
+</div>
+</div>
+<div class="ui-button-box fn-padt10 fn-marl140">
+<a id="date_time_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="date_time_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="date_time_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="date_time_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="date_time_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+</form>
+</div>
+</div>

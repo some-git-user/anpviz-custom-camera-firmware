@@ -1,0 +1,164 @@
+<div id="page_UserConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="user" class="ui-tab-current">用户管理</li>
+<li class="ui-tab-help"><a href="javascript:;" id="user_help"></a></li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<ul class="ui-table-tab" style="display:none">
+<li id="user_tab_user" class="ui-table-tab-current">用户</li>
+<li id="user_tab_group">用户组</li>
+</ul>
+<div id="user_tab_user_wrap">
+<div class="ui-table">
+<div class="ui-table-header">
+<table>
+<tr>
+<th id="user_tab_user_number" class="fn-widp10">序号</th>
+<th id="user_tab_user_enable" class="fn-widp10">启用</th>
+<th id="user_tab_user_name" class="fn-widp15">用户名</th>
+<th id="user_tab_user_groupname" class="fn-widp15">组名</th>
+<th id="user_tab_user_memo" class="fn-widp30">备注</th>
+<th id="user_tab_user_modify" class="fn-widp10">修改</th>
+<th id="user_tab_user_delete">删除</th>
+</tr>
+</table>
+</div>
+<div id="user_tab_user_infolist" class="ui-table-container">
+</div>
+</div>
+<div class="ui-button-box fn-padt10">
+<a id="user_tab_user_adduser" class="ui-button" href="javascript:;">添加用户</a>
+</div>
+<div class="ui-tip">
+<div class="ui-tip-container" id="user_tab_user_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="user_tab_user_remark_label">保存成功</label>
+</div>
+</div>
+</div>
+</form>
+</div>
+<div id="user_deluser_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>删除用户</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content">
+<i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="user_deluser_title"></span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="user_deluser_confirm">保存</a>
+<a class="ui-button" id="user_deluser_cancel">取消</a>
+</div>
+</div>
+<div class="ui-dialog fn-width500" id="user_setuser_dialog">
+<div class="ui-dialog-title">
+<h1>修改用户</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-clear">
+<form>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_setuser_username_label">用户名</label>
+<label class="ui-label" id="user_setuser_username"></label>
+</div>
+<div class="ui-form-item">
+<div class="ui-checkbox"><input type="checkbox" id="user_setuser_checkpassword"></div>
+<label class="ui-label" for="user_setuser_checkpassword" id="user_setuser_checkpassword_label">修改密码</label>
+</div>
+<div class="ui-form-item" style="display:none" id="user_setuser_oldpassword_wrap">
+<label class="ui-label fn-padl20" id="user_setuser_oldpassword_label">旧密码</label>
+<div class="fn-left fn-width270">
+<input type="password" class="ui-input" id="user_setuser_oldpassword" maxlength="32" onpaste="return!1" oncontextmenu="return!1">
+<span class="ui-tip-red" id="user_setuser_oldpassword_tip"></span>
+</div>
+</div>
+<div class="ui-form-item" style="display:none" id="user_setuser_newpassword_wrap">
+<label class="ui-label fn-padl20" id="user_setuser_newpassword_label">新密码</label>
+<div class="fn-left fn-width270">
+<input type="password" class="ui-input" id="user_setuser_newpassword" maxlength="32" onpaste="return!1" oncontextmenu="return!1">
+<span class="ui-tip-red" id="user_setuser_newpassword_tip"></span>
+</div>
+</div>
+<div class="ui-form-item" style="display:none" id="user_setuser_confirmpassword_wrap">
+<label class="ui-label fn-padl20" id="user_setuser_confirmpassword_label">密码确认</label>
+<div class="fn-left fn-width270">
+<input type="password" class="ui-input" id="user_setuser_confirmpassword" maxlength="32" onpaste="return!1" oncontextmenu="return!1">
+<span class="ui-tip-red" id="user_setuser_confirmpassword_tip"></span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_setuser_group_label">组</label>
+<select class="ui-select" id="user_setuser_group">
+<option id="user_setuser_group_Administrator" value="Administrator"></option>
+<option id="user_setuser_group_Operator" value="Operator"></option>
+<option id="user_setuser_group_User" value="User"></option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_setuser_Description_label">描述</label>
+<span class="ui-text fn-width300" id="user_setuser_Description" style="white-space:pre-wrap"></span>
+</div>
+</form>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="user_setuser_confirm">保存</a>
+<a class="ui-button" id="user_setuser_cancel">取消</a>
+</div>
+</div>
+<div class="ui-dialog fn-width500" id="user_adduser_dialog">
+<div class="ui-dialog-title">
+<h1>添加用户</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-clear">
+<form>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_adduser_name_label">用户名</label>
+<div class="fn-left fn-width270">
+<input class="ui-input" id="user_adduser_name" maxlength="15">
+<span class="ui-tip-red" id="user_adduser_name_tip"></span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_adduser_password_label">密码</label>
+<div class="fn-left fn-width270">
+<input type="password" class="ui-input" id="user_adduser_password" maxlength="32" onpaste="return!1" oncontextmenu="return!1">
+<span class="ui-tip-red" id="user_adduser_password_tip"></span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_adduser_passwordconfirm_label">密码确认</label>
+<div class="fn-left fn-width270">
+<input type="password" class="ui-input" id="user_adduser_passwordconfirm" maxlength="32" onpaste="return!1" oncontextmenu="return!1">
+<span class="ui-tip-red" id="user_adduser_passwordconfirm_tip"></span>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_adduser_group">组</label>
+<select class="ui-select" id="user_adduser_group_list">
+<option id="user_adduser_group_Administrator" value="Administrator"></option>
+<option id="user_adduser_group_Operator" value="Operator"></option>
+<option id="user_adduser_group_User" value="User"></option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="user_adduser_Description_label">描述</label>
+<span class="ui-text fn-width300" id="user_adduser_Description" style="white-space:pre-wrap"></span>
+</div>
+</form>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="user_adduser_confirm">保存</a>
+<a class="ui-button" id="user_adduser_cancel">取消</a>
+</div>
+</div>
+</div>

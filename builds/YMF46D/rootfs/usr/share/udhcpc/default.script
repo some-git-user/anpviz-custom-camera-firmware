@@ -1,0 +1,79 @@
+#!/bin/sh
+# udhcpc script edited by Tim Riker <Tim@Rikers.org>
+
+export FOUND_GOOGLE_DNS=0
+RESOLV_CONF="/tmp/resolv.conf"
+export FILENAME_RESULT=/tmp/dhcp.result.$interface
+export FILENAME_RENEW_FLAG=/tmp/$interface.dhcp.renew.flag
+
+[ -n "$1" ] || { echo "Error: should be called from udhcpc"; exit 1; }
+
+NETMASK=""
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+BROADCAST="broadcast +"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+
+case "$1" in
+	deconfig)
+		echo "Setting IP address 0.0.0.0 on $interface"
+		ifconfig $interface 192.168.0.123
+		rm -rf $FILENAME_RENEW_FLAG
+		rm -rf $FILENAME_RESULT
+		;;
+
+	renew|bound)
+		echo "Setting IP address $ip on $interface"
+		ifconfig $interface $ip $NETMASK $BROADCAST
+
+		if [ -n "$router" ] ; then
+			echo "Deleting routers"
+			while route del default gw 0.0.0.0 dev $interface ; do
+				:
+			done
+
+			if [ $interface == "eth0" ];
+			then
+				export metric=2
+			else
+				export metric=1
+			fi				
+			for i in $router ; do
+				echo "Adding router $i"
+				route add default gw $i dev $interface metric $metric
+			done
+		fi
+
+		echo "Recreating $RESOLV_CONF"
+		echo -n > $RESOLV_CONF-$$
+		[ -n "$domain" ] && echo "search $domain" >> $RESOLV_CONF-$$
+		for i in $dns ; do
+			echo " Adding DNS server $i"
+			echo "nameserver $i" >> $RESOLV_CONF-$$
+			
+			if [ $i == "8.8.8.8" ];
+			then
+				export FOUND_GOOGLE_DNS=1	
+			fi				
+		done
+
+		if [ $FOUND_GOOGLE_DNS -eq 0 ];
+		then
+			echo "nameserver 8.8.8.8" >> $RESOLV_CONF-$$
+		fi	
+		
+		mv $RESOLV_CONF-$$ $RESOLV_CONF
+		
+		export TIMESTR=`cat  /proc/uptime | awk '{print $1}'`
+		echo "GETTIME=$TIMESTR" > $FILENAME_RESULT
+		echo "IPADDR=$ip" >> $FILENAME_RESULT
+		echo "NETMASK=$subnet" >> $FILENAME_RESULT
+		echo "BROADCAST=$broadcast" >> $FILENAME_RESULT
+		echo "router=$router" >> $FILENAME_RESULT
+		echo "DOMAIN=$domain" >> $FILENAME_RESULT
+		echo "DNS=$dns" >> $FILENAME_RESULT
+		
+		touch $FILENAME_RENEW_FLAG
+		;;
+esac
+
+exit 0

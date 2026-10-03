@@ -1,0 +1,37 @@
+<div id="page_versionConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="version" class="ui-tab-current">版本信息</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label id="version_kernel_label" class="ui-label fn-padl20">内核版本</label>
+<span id="version_kernel" class="ui-text"></span>
+</div>
+<div class="ui-form-item">
+<label id="version_fs_label" class="ui-label fn-padl20">文件系统版本</label>
+<span id="version_fs" class="ui-text"></span>
+</div>
+<div class="ui-form-item">
+<label id="version_web_label" class="ui-label fn-padl20">Web版本</label>
+<span id="version_web" class="ui-text">2020-07-02 10:35:32</span>
+</div>
+<div class="ui-form-item">
+<label id="version_sn_label" class="ui-label fn-padl20">序列号</label>
+<span id="version_sn" class="ui-text"></span>
+</div>
+<div class="ui-form-item">
+<label id="version_webconfig_label" class="ui-label fn-padl20">web插件版本</label>
+<span id="version_webconfig" class="ui-text fn-width160"></span>
+<p><a id="version_download_webconfig" class="ui-text fn-color-purple" style="cursor:pointer" var="http://www.icamra.com/download/WEBConfig.exe" onclick="openPluginDownloadWindow($(this))">下载Web插件</a></p>
+<span id="version_download_webconfig_span" class="ui-text fn-color-purple" style="display:none">下载Web插件</span>
+</div>
+<div class="ui-form-item" id="version_showNewWebconfigInfo" style="display:none">
+<span id="version_newWebconfigInfo" class="ui-text fn-color-red fn-padl20">当前安装的插件版本与系统版本不匹配</span>
+</div>
+<div id="version_webconfig_container"></div>
+</form>
+</div>
+</div>

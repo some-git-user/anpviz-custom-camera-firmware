@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>IP Camera</title>
+<script src="commonNew.js?v=1.0.1.2" charset="utf-8"></script>
+<script src="../jsCore/BrowserWindow.js"></script>
+</head>
+<body bgcolor="#000000" style="background-color:#000" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" style="overflow:hidden">
+<div id="IDPlayPict" style="height:300px;width:800px"></div>
+<input type="button" id="PlayRealVideo" value="PlayRealVideo" style="display:none">
+<input type="button" id="StopPlayReal" value="StopPlayReal" style="display:none">
+<input type="button" id="videoFullFill" value="videoFullFill" style="display:none">
+<input type="button" id="getVideoPlayerSize" value="getVideoPlayerSize" style="display:none">
+<input type="hidden" value="8091" id="idPTZPort">
+<input type="hidden" id="MotionDetection">
+<script>function PlayVideoStream(e){initVideo("IDPlayPict",e,"")}function changeVideoPlayerSize(){var e=document.getElementById("IDPlayPict"),t=BrowserWindowSize(),l=document.getElementById("getVideoPlayerSize").value.split(",");2==l.length?(e.style.width=parseInt(parseInt(l[0]))+"px",e.style.height=parseInt(parseInt(l[1]))+"px"):(e.style.width=parseInt(11*t.w/16)+"px",e.style.height=parseInt(284*t.h/489)+"px"),PlayVideoStream(1)}document.getElementById("idPTZPort").value=""+g_ptz_port,document.getElementById("getVideoPlayerSize").click(),setTimeout("changeVideoPlayerSize()",100);var clickTimes=0;function clickVideoFullFill(){document.getElementById("videoFullFill").click();var e=document.getElementById("videoFullFill").value;"1"!=e&&"0"!=e&&clickTimes++<100&&setTimeout("clickVideoFullFill()",100)}</script>
+</body>
+</html>

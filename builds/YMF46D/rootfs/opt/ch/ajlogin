@@ -1,0 +1,6 @@
+#!/bin/sh
+export PS1='[\w]## '
+
+source /etc/profile 
+/bin/getty -L ttyS0 115200 vt100
+

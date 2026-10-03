@@ -1,0 +1,163 @@
+<div id="page_videoCoveralarmConfig" class="page_config">
+<input id="videoCoveralarmConfig" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="videoCoverAlarm" class="videoCoverAlarm_tab_title ui-tab-current" data-for="videoCoverAlarm">视频遮挡告警</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="videoCoverAlarmConfig_help"></a>
+</li>
+</ul>
+</div>
+<div class="videoCoverAlarm_tab_con ui-container" id="Alarm_tab_videoCoverAlarm">
+<form class="ui-form">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_Enable_label">视频遮挡告警</label>
+<select class="ui-select" id="videoCoverAlarm_Enable">
+<option id="videoCoverAlarm_Enable_0" value="0">禁用</option>
+<option id="videoCoverAlarm_Enable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoCoverAlarm_showConfig">
+<div class="ui-form-item fn-clear">
+<div id="videoCoverAlarm_singleSensitivity">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_Sensitivity_label">灵敏度</label>
+<div class="ui-slider fn-left">
+<span class="ui-slider-icon-set-HLC fn-hide"></span>
+<a class="ui-slider-less fn-hide" href="javascript:;" id="videoCoverAlarm_Sensitivity_less"></a>
+<div id="videoCoverAlarm_Sensitivity_line" class="ui-slider-container fn-width120 fn-marl0">
+<div id="videoCoverAlarm_Sensitivity_icon" class="ui-slider-sax"></div>
+</div>
+<a class="ui-slider-more fn-hide" href="javascript:;" id="videoCoverAlarm_Sensitivity_add"></a>
+<span class="ui-slider-text" id="videoCoverAlarm_Sensitivity_title">100</span>
+</div>
+<div class="ui-form-item fn-padl20 fn-width240">
+<span class="ui-text" id="videoCoverAlarm_Sensitivity_note"></span>
+</div>
+</div>
+</div>
+<div class="ui-form-item" id="videoCoverAlarm_showBackgroundUpdatelTimeConfig">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_BackgroundUpdatelTime_label">背景帧更新时间</label>
+<div class="fn-left">
+<input class="ui-input" id="videoCoverAlarm_BackgroundUpdatelTime">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(S)</span>
+</div>
+</div>
+<div class="ui-form-item" id="videoCoverAlarm_showCoverTimeThresholdConfig">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_CoverTimeThreshold_label">遮挡时间阈值</label>
+<div class="fn-left">
+<input class="ui-input" id="videoCoverAlarm_CoverTimeThreshold">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(S)</span>
+</div>
+</div>
+<div id="videoCoverAlarm_showIoOutputNew" style="display:none">
+<div id="videoCoverAlarm_IoOutputNew_1_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_IoOutputNew_1_label">触发1</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_IoOutputNew_1" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoCoverAlarm_IoOutputNew_2_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_IoOutputNew_2_label">触发2</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_IoOutputNew_2" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoCoverAlarm_IoOutputNew_3_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_IoOutputNew_3_label">触发3</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_IoOutputNew_3" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+<div id="videoCoverAlarm_IoOutputNew_4_Config" style="display:none" class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_IoOutputNew_4_label">触发4</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_IoOutputNew_4" class="ui-select">
+<option name="o_disable" value="0">禁用</option>
+<option name="o_enable" value="1">启用</option>
+</select>
+</div>
+</div>
+</div>
+<div id="videoCoverAlarm_showAudioAction" style="display:none">
+<div class="fn-horizontal-line"></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_AudioActionEnable_label">触发声音</label>
+<select class="ui-select" id="videoCoverAlarm_AudioActionEnable">
+<option id="videoCoverAlarm_AudioActionEnable_0" value="0">禁用</option>
+<option id="videoCoverAlarm_AudioActionEnable_1" value="1">启用</option>
+</select>
+</div>
+<div id="videoCoverAlarm_showAudioActionConfig" style="display:none">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_AudioActionFile_label">声音文件</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_AudioActionFile" class="ui-select">
+</select>
+<a id="videoCoverAlarm_AudioActionFileTest" class="ui-button" href="javascript:;">试听</a>
+<a id="videoCoverAlarm_AudioActionFileDelete" class="ui-button" href="javascript:;">删除</a>
+</div>
+</div>
+<audio id="videoCoverAlarm_show_audio_play" controls style="display:none">
+<source id="videoCoverAlarm_audio_play" src="mp3/voice_You_are_being_monitored.mp3" type="audio/mpeg">
+</audio>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_AudioActionTimes_label">播放次数</label>
+<div class="fn-left">
+<select id="videoCoverAlarm_AudioActionTimes" class="ui-select">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_Minimum_interval_label">最小时间间隔</label>
+<div class="fn-left">
+<input class="ui-input fn-width80" id="videoCover_Minimum_interval">
+<span class="ui-text" name="t_sec_per">秒</span>
+<span class="ui-text">(1~60)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="f_form_videoCoverAlarm" style="display:none">
+<form id="form_form_videoCoverAlarm" class="ui-form" name="f_form_videoCoverAlarm" action="/WebUploadFormFile" method="post" target="post_frame_videoCoverAlarm" enctype="multipart/form-data">
+<div class="ui-form-item fn-relative">
+<label class="ui-label fn-padl20 fn-width140" id="videoCoverAlarm_upload_file_label">上传 MP3</label>
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="videoCoverAlarm_upload_file_audio" hidefocus="hidefocus">
+</div>
+</div>
+<a id="videoCoverAlarm_upload_file_btn" class="ui-button" href="javascript:;">上传</a>
+<input type="submit" id="videoCoverAlarm_upload_file_submit" value="submit" style="display:none">
+</div>
+</form>
+</div>
+<div class="ui-button-box fn-marl100 fn-padt10">
+<a id="videoCoverAlarm_tab_alarm_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="videoCoverAlarm_tab_alarm_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="videoCoverAlarm_tab_alarm_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl100">
+<div class="ui-tip-container" id="videoCoverAlarm_tab_alarm_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="videoCoverAlarm_tab_alarm_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+<iframe name="post_frame_videoCoverAlarm" id="post_frame_videoCoverAlarm" style="display:none" mce_style="display:none;"></iframe>
+</div>
+</div>

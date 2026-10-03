@@ -1,0 +1,127 @@
+<div id="page_gb28181Config" class="page_config">
+<input id="GB28181CFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="gb28181_set" class="ui-tab-current">GB28181</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_enable_label" for="gb28181_enable">启用</label>
+<div class="ui-checkbox">
+<input type="checkbox" id="gb28181_enable">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_version_label">协议版本</label>
+<select class="ui-select fn-width204" id="gb28181_version">
+<option id="gb28181_version_0" value="0">GB/T28181</option>
+</select>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_nstreams_label">码流</label>
+<select class="ui-select fn-width204" id="gb28181_nstreams">
+<option id="gb28181_nstreams_0" value="0">主码流</option>
+<option id="gb28181_nstreams_1" value="1">子码流</option>
+</select>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_nChannelNum_label">通道数量</label>
+<input name="textfield" id="gb28181_nChannelNum" class="ui-input fn-width200">
+<span class="ui-text"></span>
+<span class="ui-tip-red" id="gb28181_nChannelNum_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcId_label">SIP服务器ID</label>
+<input name="textfield" id="gb28181_hcId" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="gb28181_hcId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcIp_label">SIP服务器地址</label>
+<div class="ui-input-box fn-width195">
+<input id="gb28181_hcIp_address_0" class="ui-input-long">
+<span>.</span>
+<input id="gb28181_hcIp_address_1" class="ui-input-long">
+<span>.</span>
+<input id="gb28181_hcIp_address_2" class="ui-input-long">
+<span>.</span>
+<input id="gb28181_hcIp_address_3" class="ui-input-long">
+</div>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcName_label">SIP服务器名称</label>
+<input name="textfield" id="gb28181_hcName" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_hcName_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_hcPort_label">SIP服务器端口</label>
+<input name="textfield" id="gb28181_hcPort" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="gb28181_hcPort_tip"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_hcPwd_label">hcPwd</label>
+<input type="password" name="textfield" id="gb28181_hcPwd" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_hcPwd_tip"></span>
+</div>
+<div class="ui-form-item" style="display:none">
+<label class="ui-label fn-padl20" id="gb28181_hcPwdConfirm_label">hcPwd密码确认</label>
+<input type="password" name="textfield" id="gb28181_hcPwdConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_hcPwdConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPort_label">本地SIP端口</label>
+<input name="textfield" id="gb28181_lcPort" class="ui-input fn-width200">
+<span class="ui-text">(1~65535)</span>
+<span class="ui-tip-red" id="gb28181_lcPort_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcId_label">SIP用户认证ID</label>
+<input name="textfield" id="gb28181_lcId" class="ui-input fn-width200" maxlength="64">
+<span class="ui-tip-red" id="gb28181_lcId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcName_label">SIP用户名</label>
+<input name="textfield" id="gb28181_lcName" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_lcName_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPwd_label">SIP认证密码</label>
+<input type="password" name="textfield" id="gb28181_lcPwd" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_lcPwd_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_lcPwdConfirm_label">SIP认证密码确认</label>
+<input type="password" name="textfield" id="gb28181_lcPwdConfirm" class="ui-input fn-width200" maxlength="128" oncontextmenu="return!1">
+<span class="ui-tip-red" id="gb28181_lcPwdConfirm_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_camId_label">视频通道编码ID</label>
+<input name="textfield" id="gb28181_camId" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_camId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_alarmId_label">告警设备ID</label>
+<input name="textfield" id="gb28181_alarmId" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_alarmId_tip"></span>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl20" id="gb28181_Device_name_label">设备名称</label>
+<input name="textfield" id="gb28181_Device_name" class="ui-input fn-width200" maxlength="128">
+<span class="ui-tip-red" id="gb28181_Device_name_tip"></span>
+</div>
+<div class="ui-button-box fn-marl140 fn-padt10">
+<a id="gb28181_default" class="ui-button admin_button" href="javascript:;"></a>
+<a id="gb28181_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="gb28181_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl140">
+<div class="ui-tip-container" id="gb28181_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="gb28181_remark_label">保存成功</label>
+</div>
+</div>
+</form>
+</div>
+</div>

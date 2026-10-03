@@ -1,0 +1,350 @@
+<div id="page_encodeConfig" class="page_config">
+<input id="ENCODECFG" type="hidden">
+<div class="ui-tab">
+<ul>
+<li id="video_encode_tab" data-for="encode" class="video_tab_title ui-tab-current">主码流</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="video_help"></a>
+</li>
+</ul>
+</div>
+<div class="video_tab_con ui-container" id="video_tab_encode">
+<form class="ui-form fn-clear">
+<div class="ui-half-box">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="video_mainStream_label">主码流</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="camera_showStreamEnable0" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="camera_StreamEnable0_label">状态</label>
+<select class="ui-select" id="camera_StreamEnable0">
+<option id="camera_StreamEnable0_0" value="0">禁用</option>
+<option id="camera_StreamEnable0_1" value="1">启用</option>
+</select>
+</div>
+<div id="camera_showStreamInfo0">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_compress0_label">编码模式</label>
+<select class="ui-select" id="video_compression0">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_resolut0_label">分辨率</label>
+<select class="ui-select" id="video_resolution0"></select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_fps0_label">帧频（FPS）</label>
+<select class="ui-select" id="video_fps0"></select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitctrl0_label">码流控制</label>
+<select class="ui-select" id="video_bitctrl0">
+<option value="CBR">CBR</option>
+<option value="VBR">VBR</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_quality0_label">画质</label>
+<div class="fn-left fn-width230">
+<select class="ui-select" id="video_bitrate_sel0">
+<option id="video_bitrate_sel0_0" value="0">自定义</option>
+<option id="video_bitrate_sel0_1" value="1">更差</option>
+<option id="video_bitrate_sel0_2" value="2">较差</option>
+<option id="video_bitrate_sel0_3" value="3">优秀</option>
+<option id="video_bitrate_sel0_4" value="4">更优</option>
+<option id="video_bitrate_sel0_5" value="5">最优</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitrate0_label">码流</label>
+<div class="fn-left fn-width230">
+<div id="video_bitrate_input0">
+<input id="video_bitrate0" class="ui-input fn-width140">
+<span class="ui-text" id="video_bitrate0_range"></span>
+</div>
+</div>
+</div>
+<div id="video_customwrap0" class="ui-form-item fn-clear" style="display:none">
+<input id="video_custom0" class="ui-input fn-marl140 fn-width140">
+</div>
+<div class="ui-form-item fn-clear" id="video_showGop0">
+<label class="ui-label fn-padl20" id="video_gop0_label">帧间间隔</label>
+<div class="fn-left fn-width230">
+<input id="video_gop0" class="ui-input fn-width140">
+<span class="ui-text" id="video_gop0_range">(1~200)</span>
+</div>
+</div>
+<div id="show_QP_label_M" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_Custom_QP_label_M">自定义QP</label>
+<select class="ui-select" id="video_Custom_QP_M">
+<option id="video_Custom_QP_M_0" value="0">禁用</option>
+<option id="video_Custom_QP_M_1" value="1">启用</option>
+</select>
+</div>
+<div id="video_Custom_QP_M_Params" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_QP_Min_label_M">QP最小值</label>
+<select class="ui-select" id="video_QP_Min_M">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_QP_Max_M_label">QP最大值</label>
+<select class="ui-select" id="video_QP_Max_M">
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="video_subStream_con" class="ui-half-box fn-marl20">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="video_subStream_label">辅码流</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="camera_showStreamEnable1" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="camera_StreamEnable1_label">状态</label>
+<select class="ui-select" id="camera_StreamEnable1">
+<option id="camera_StreamEnable1_0" value="0">禁用</option>
+<option id="camera_StreamEnable1_1" value="1">启用</option>
+</select>
+</div>
+<div id="camera_showStreamInfo1">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_compress1_label">编码模式</label>
+<select class="ui-select" id="video_compression1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_resolut1_label">分辨率</label>
+<select class="ui-select" id="video_resolution1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_fps1_label">帧频（FPS）</label>
+<select class="ui-select" id="video_fps1">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitctrl1_label">码流控制</label>
+<select class="ui-select" id="video_bitctrl1">
+<option value="CBR">CBR</option>
+<option value="VBR">VBR</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_quality1_label">画质</label>
+<div class="fn-left fn-width230">
+<select class="ui-select" id="video_bitrate_sel1">
+<option id="video_bitrate_sel1_0" value="0">自定义</option>
+<option id="video_bitrate_sel1_1" value="1">更差</option>
+<option id="video_bitrate_sel1_2" value="2">较差</option>
+<option id="video_bitrate_sel1_3" value="3">优秀</option>
+<option id="video_bitrate_sel1_4" value="4">更优</option>
+<option id="video_bitrate_sel1_5" value="5">最优</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitrate1_label">码流</label>
+<div class="fn-left fn-width230">
+<div id="video_bitrate_input1">
+<input id="video_bitrate1" class="ui-input fn-width140">
+<span class="ui-text" id="video_bitrate1_range"></span>
+</div>
+</div>
+</div>
+<div class="ui-form-item" id="video_customwrap1" style="display:none">
+<input id="video_custom1" class="ui-input fn-marl140 fn-width140">
+</div>
+<div class="ui-form-item fn-clear" id="video_showGop1">
+<label class="ui-label fn-padl20" id="video_gop1_label">帧间间隔</label>
+<div class="fn-left fn-width230">
+<input id="video_gop1" class="ui-input fn-width140">
+<span class="ui-text" id="video_gop1_range">(1~200)</span>
+</div>
+</div>
+<div id="show_QP_label_S" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_Custom_QP_label_S">自定义QP</label>
+<select class="ui-select" id="video_Custom_QP_S">
+<option id="video_Custom_QP_S_0" value="0">禁用</option>
+<option id="video_Custom_QP_S_1" value="1">启用</option>
+</select>
+</div>
+<div id="video_Custom_QP_S_Params" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_QP_Min_label_S">QP最小值</label>
+<select class="ui-select" id="video_QP_Min_S">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_QP_Max_S_label">QP最大值</label>
+<select class="ui-select" id="video_QP_Max_S">
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+<form class="ui-form fn-clear">
+<div id="video_thirdStream_con" class="ui-half-box" style="display:none">
+<div class="ui-form-item fn-clear">
+<label class="ui-title" id="video_thirdStream_label">第三码流</label>
+</div>
+<div class="fn-blank" style="height:10px"></div>
+<div id="camera_showStreamEnable2" class="ui-form-item fn-clear" style="display:none">
+<label class="ui-label fn-padl20" id="camera_StreamEnable2_label">状态</label>
+<select class="ui-select" id="camera_StreamEnable2">
+<option id="camera_StreamEnable2_0" value="0">禁用</option>
+<option id="camera_StreamEnable2_1" value="1">启用</option>
+</select>
+</div>
+<div id="camera_showStreamInfo2">
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_compress2_label">编码模式</label>
+<select class="ui-select" id="video_compression2">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_resolut2_label">分辨率</label>
+<select class="ui-select" id="video_resolution2">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_fps2_label">帧频（FPS）</label>
+<select class="ui-select" id="video_fps2">
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitctrl2_label">码流控制</label>
+<select class="ui-select" id="video_bitctrl2">
+<option value="CBR">CBR</option>
+<option value="VBR">VBR</option>
+</select>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_quality2_label">画质</label>
+<div class="fn-left fn-width230">
+<select class="ui-select" id="video_bitrate_sel2">
+<option id="video_bitrate_sel2_0" value="0">自定义</option>
+<option id="video_bitrate_sel2_1" value="1">更差</option>
+<option id="video_bitrate_sel2_2" value="2">较差</option>
+<option id="video_bitrate_sel2_3" value="3">优秀</option>
+<option id="video_bitrate_sel2_4" value="4">更优</option>
+<option id="video_bitrate_sel2_5" value="5">最优</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20" id="video_bitrate2_label">码流</label>
+<div class="fn-left fn-width230">
+<div id="video_bitrate_input2">
+<input id="video_bitrate2" class="ui-input fn-width140">
+<span class="ui-text" id="video_bitrate2_range"></span>
+</div>
+</div>
+</div>
+<div class="ui-form-item" id="video_customwrap2" style="display:none">
+<input id="video_custom2" class="ui-input fn-marl140 fn-width140">
+</div>
+<div class="ui-form-item fn-clear" id="video_showGop2">
+<label class="ui-label fn-padl20" id="video_gop2_label">帧间间隔</label>
+<div class="fn-left fn-width230">
+<input id="video_gop2" class="ui-input fn-width140">
+<span class="ui-text" id="video_gop2_range">(1~200)</span>
+</div>
+</div>
+</div>
+</div>
+</form>
+<div id="showstitchingConfiguration">
+<div class="ui-button-bg"></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-width220 fn-bold" id="camera_stitchingConfiguration_label">双目拼接配置</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width160" id="camera_stitchingMode_label">双目拼接模式</label>
+<div class="fn-left fn-padl20" id="camera_stitchingMode_select">
+<select id="camera_stitchingMode" class="ui-select">
+<option id="camera_stitchAndCorrect" value="0">拼接并校正</option>
+<option id="camera_leftLensMode" value="1">左镜头模式</option>
+<option id="camera_rightLensMode" value="2">右镜头模式</option>
+<option id="camera_stitchNotCorrect" value="3">拼接不矫正</option>
+<option id="camera_dualStreamMode" value="4">双流模式</option>
+</select>
+</div>
+</div>
+<div class="ui-form-item" id="camera_optimumDistanceConfig">
+<label class="ui-label fn-padl40 fn-width160" id="camera_optimumDistance_label">遮挡时间阈值</label>
+<div class="fn-left fn-padl20">
+<input class="ui-input" id="camera_optimumDistance">
+<span class="ui-text" name="t_msec_per">毫秒</span>
+</div>
+</div>
+</div>
+<div id="showAdvanceEncode">
+<div class="ui-button-bg"></div>
+<div class="ui-form-item fn-clear">
+<label class="ui-label fn-padl20 fn-bold" id="camera_AdvanceEncode_label">高级编码参数设置</label>
+</div>
+<div class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width160" id="camera_AdvanceBaseProfile_label">BaseProfile</label>
+<div class="fn-left fn-padl20" id="camera_AdvanceBaseProfile_slct">
+<select id="camera_AdvanceBaseProfile" class="ui-select">
+<option id="AdvanceBaseProfile_Disable" value="0">Disable</option>
+<option id="AdvanceBaseProfile_Enable" value="1">Enable</option>
+<option id="AdvanceBaseProfile_Base" value="2">Base</option>
+</select>
+</div>
+</div>
+<div id="camera_showAdvanceWDRMode" class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width100" id="camera_AdvanceWDRMode_label">WDR模式</label>
+<div class="fn-left fn-padl20" id="camera_AdvanceWDRMode_slct">
+<select id="camera_AdvanceWDRMode" class="ui-select">
+<option id="AdvanceWDRMode_Disable" value="0">Disable</option>
+<option id="AdvanceWDRMode_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showAdvanceWDRValue" class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width100" id="camera_AdvanceWDRValue_label">WDR范围</label>
+<div class="fn-left fn-padl20" id="camera_AdvanceWDRValue_slct">
+<input id="camera_AdvanceWDRValue" class="ui-input fn-width140">
+<span class="ui-text">(0~255)</span>
+</div>
+</div>
+<div id="camera_showAdvanceDfrogFlag" class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width100" id="camera_AdvanceDfrogFlag_label">去雾开关</label>
+<div class="fn-left fn-padl20" id="camera_AdvanceDfrogFlag_slct">
+<select id="camera_AdvanceDfrogFlag" class="ui-select">
+<option id="AdvanceDfrogFlag_Disable" value="0">Disable</option>
+<option id="AdvanceDfrogFlag_Enable" value="1">Enable</option>
+</select>
+</div>
+</div>
+<div id="camera_showAdvanceDfrogValue" class="ui-form-item">
+<label class="ui-label fn-padl40 fn-width100" id="camera_AdvanceDfrogValue_label">去雾范围</label>
+<div class="fn-left fn-padl20" id="camera_AdvanceDfrogValue_slct">
+<input id="camera_AdvanceDfrogValue" class="ui-input fn-width140">
+<span class="ui-text">(0~255)</span>
+</div>
+</div>
+</div>
+<div class="ui-button-bg"></div>
+<div class="ui-button-box fn-marl160">
+<a id="video_encode_default" class="ui-button admin_button" href="javascript:;">恢复默认</a>
+<a id="video_encode_refresh" class="ui-button" href="javascript:;">刷新</a>
+<a id="video_encode_confirm" class="ui-button admin_button" href="javascript:;">确定</a>
+</div>
+<div class="ui-tip fn-marl160">
+<div class="ui-tip-container" id="video_remark0">
+<span class="ui-tip-icon"></span>
+<label id="video_remark0_label">保存成功</label>
+</div>
+</div>
+</div>
+</div>
+<iframe src="" name="osdImageFileImport" id="osdImageFileImport" style="display:none" mce_style="display:none;"></iframe>

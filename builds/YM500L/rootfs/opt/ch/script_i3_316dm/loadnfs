@@ -1,0 +1,13 @@
+#!/bin/sh
+
+EXT_KERNEL_MODULES_DIR=/ext/lib/modules
+
+###common  module
+## NFS
+insmod ${EXT_KERNEL_MODULES_DIR}/grace.ko
+insmod ${EXT_KERNEL_MODULES_DIR}/sunrpc.ko
+insmod ${EXT_KERNEL_MODULES_DIR}/lockd.ko
+insmod ${EXT_KERNEL_MODULES_DIR}/nfs.ko
+insmod ${EXT_KERNEL_MODULES_DIR}/nfsv2.ko
+
+insmod ${EXT_KERNEL_MODULES_DIR}/ms_notify.ko

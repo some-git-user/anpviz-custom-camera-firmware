@@ -1,31 +1,71 @@
-# MC500L Firmware — Web UI repack workflow
+# ANJOY888 camera firmware — multi-camera repack workflow
 
-Tooling to modify the web UI of the **ANJOY888** dashcam firmware
-(`firmware_MC500L_V0_AF-RTMP-H5_V3.2.1.2_...bin`, MStar I3 / Linux)
-and repack it into a flashable `.bin`.
+Tooling to modify the web UI / rootfs of **ANJOY888** container dashcam
+firmware (SStar / MStar Linux) and repack it into a flashable `.bin`, with
+each supported camera kept clearly separated in the repo.
+
+## Supported cameras
+
+| Slug | Device name | Stock firmware(s) |
+|------|-------------|-------------------|
+| `YM500L` | `MC500L_V0_AF-RTMP-H5_V3.2.1.2_Y_EN_YM500L_V0` | 3.2.1.2 (2023) |
+| `YMF46D` | `MCF46D_V4_AF-RTMP-A-H5_V3.4.5.2_Y_EN_YMF46D_V4_...` | 3.4.3.2, 3.4.5.2 (2025) |
+
+The slug is derived automatically from the image header (`device_name` @ `0x128`),
+so a working tree is always named after the camera the firmware actually targets —
+never guessed from the filename.
+
+## Repository layout
+
+```
+stock/<CAM>/       pristine vendor .bin images        (TRACKED — already xz-compressed)
+builds/<CAM>/      editable working tree            (TRACKED — this is where edits live)
+    rootfs/            unpacked root filesystem
+    header.bin         header + encrypted kernel, kept verbatim for repack
+    build.info         per-camera params (slug, version, rootfs_off, squashfs block size)
+out/               packed flashable images          (IGNORED — reproducible via pack.sh)
+tools/             unpack/repack + helper scripts   (TRACKED)
+extract.sh         unpack any .bin -> builds/<slug>/
+pack.sh            pack builds/<slug>/ -> out/<slug>_<name>.bin
+```
 
 ## Quick start
 
 ```bash
-./extract.sh                 # unpack into ./work/
-# edit the web UI in  work/rootfs/var/www/
-./pack.sh                    # build ./firmware_custom.bin
+# Unpack a firmware image; the slug is read from the header automatically.
+./extract.sh stock/YMF46D/firmware_YMF46D_V3.4.5.2_stock.bin
+#   -> builds/YMF46D/rootfs/   (edit the web UI here: var/www/)
+
+# Build a flashable image.
+./pack.sh YMF46D https10
+#   -> out/YMF46D_https10.bin
 ```
 
-Optional arguments:
+`extract.sh` refuses to overwrite an existing `builds/<slug>/rootfs` (your edits
+live there). Use `--force` to replace it with a fresh extraction, or `--as SLUG`
+to override the auto-detected slug. Compressed inputs (`.xz`, `.gz`, `.zst`) are
+decompressed transparently.
 
-```bash
-./extract.sh <input.bin> <workdir>     # defaults: original .bin, ./work
-./pack.sh   <workdir> <output.bin>     # defaults: ./work, ./firmware_custom.bin
-```
+`pack.sh` regenerates a fresh self-signed TLS cert and a recovery-telnet password
+on every build; that secret material is gitignored and never committed (see
+`pack.sh` env overrides: `HTTPS_PASS`, `HTTPS_CN`, `HTTPS_DAYS`, `RECOVERY_PASS`).
 
-The web UI lives in **`work/rootfs/var/www/`** (`index.html`, `js/`, `css/`,
-`html/*Config.html`, `lib/`, images). Edit those files and repack.
+The web UI lives in **`builds/<CAM>/rootfs/var/www/`** (`index.html`, `js/`,
+`css/`, `html/*Config.html`, `lib/`, images).
+
+## Adding a new camera
+
+1. Drop the vendor `.bin` into `stock/<CAM>/` with a normalised name
+   (`firmware_<CAM>_V<version>_stock.bin`).
+2. `./extract.sh stock/<CAM>/firmware_<CAM>_V<version>_stock.bin`
+3. Edit `builds/<CAM>/rootfs/`, then `./pack.sh <CAM> <name>`.
 
 ## Requirements
 
-- `squashfs-tools` (`unsquashfs`, `mksquashfs`) — squashfs 4.0, XZ, 128 KiB blocks
+- `squashfs-tools` (`unsquashfs`, `mksquashfs`) — squashfs 4.0, XZ
+  (block size is auto-detected per camera: YM500L = 128 KiB, YMF46D = 256 KiB)
 - Python 3
+- `openssl` (for the TLS cert / password hashing in `pack.sh`)
 
 ## How the container works
 

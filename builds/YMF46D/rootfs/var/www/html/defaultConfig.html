@@ -1,0 +1,75 @@
+<div id="page_defaultConfig" class="page_config">
+<div class="ui-tab">
+<ul>
+<li id="default" class="ui-tab-current">出厂默认配置</li>
+<li class="ui-tab-help">
+<a href="javascript:;" id="default_help"></a>
+</li>
+</ul>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="fn-left fn-padl20">
+<div class="ui-checkbox"><input type="checkbox" id="Reserved_network_50"></div>
+<label class="ui-label-net" id="Reserved_network_1" for="Reserved_network_50">保留网络配置</label>
+</div>
+<div id="show_export_configuration" class="ui-button-box fn-padt10 fn-marl20">
+<a id="export_configuration" class="ui-button fn-width200" href="javascript:;">导出配置</a>
+</div>
+</form>
+</div>
+<div id="f_form_defaultConfig" style="display:inline">
+<form id="form_form_defaultConfig" class="ui-form" name="f_form_defaultConfig" action="/WebUploadConfig" method="post" target="post_frame_defaultConfig" enctype="multipart/form-data">
+<div class="fn-left fn-relative">
+<div class="ui-file fn-opacity">
+<input type="file" class="ui-file-box fn-opacity" name="oem_mp3" id="defaultConfig_upload_config" hidefocus="hidefocus">
+</div>
+</div>
+<div id="show_upload_configuration" class="ui-button-box fn-padt10 fn-marl20">
+<a id="upload_configuration" class="ui-button fn-width200" href="javascript:;">导入配置</a>
+</div>
+<input type="submit" id="defaultConfig_upload_file_submit" value="submit" style="display:none">
+</form>
+<iframe name="post_frame_defaultConfig" id="post_frame_defaultConfig" style="display:none" mce_style="display:none;"></iframe>
+</div>
+<div class="ui-container">
+<form class="ui-form">
+<div class="ui-button-box fn-padt10 fn-marl20">
+<a id="default_recovery" class="ui-button fn-width200" href="javascript:;">恢复默认</a>
+</div>
+<div id="show_default_recovery_tip" style="display:none">
+<div class="ui-form-item fn-padl20">
+<span class="ui-text" id="default_recovery_tip1"></span>
+</div>
+</div>
+<div class="fn-padl20 fn-padt10" id="default_showWait" style="display:none">
+<span id="default_rebooting">正在重启，请稍等...</span>
+<span id="default_waitTime">0</span>
+<span id="default_waitSec">s</span>
+</div>
+<div class="ui-tip fn-marl20">
+<div class="ui-tip-container" id="default_remark" style="display:none">
+<span class="ui-tip-icon"></span>
+<label id="default_remark_label">恢复默认配置成功！</label>
+</div>
+</div>
+</form>
+</div>
+<div id="default_dialog" class="ui-dialog">
+<div class="ui-dialog-title">
+<h1>恢复默认</h1>
+<a class="ui-dialog-icon"></a>
+</div>
+<div class="ui-dialog-content fn-pad10">
+<div class="ui-autobox">
+<div class="ui-autobox-content"><i class="ui-dialog-surebox-icon"></i>
+<span class="ui-dialog-surebox-text" id="default_dialog_prompt">确定恢复默认配置吗？</span>
+</div>
+</div>
+</div>
+<div class="ui-button-box">
+<a class="ui-button" id="default_dialog_confirm">保存</a>
+<a class="ui-button" id="default_dialog_cancel">取消</a>
+</div>
+</div>
+</div>
