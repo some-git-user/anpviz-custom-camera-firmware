@@ -2,7 +2,7 @@
 <div class="ui-tab">
 <ul>
 <li id="tcpip" class="tcpip_tab_title ui-tab-current" data-for="tcpip">TCP/IP</li>
-<li id="tcpip_Port" class="tcpip_tab_title" data-for="Port" style="display:none">Port</li>
+<li id="tcpip_Port" class="tcpip_tab_title" data-for="Port">Port</li>
 <li class="ui-tab-help">
 <a href="javascript:;" id="tcpip_help"></a>
 </li>
@@ -165,6 +165,13 @@
 <div class="fn-left">
 <input id="AccessPort_WEB" class="ui-input fn-width140">
 <span class="ui-text" id="AccessPort_WEB_range">(80,1000~65535)</span>
+</div>
+</div>
+<div class="ui-form-item fn-clear" id="telnet_row">
+<label class="ui-label fn-padl20" id="AccessPort_TELNET_label">Telnet</label>
+<div class="fn-left">
+<input type="checkbox" id="AccessPort_TELNET" class="ui-checkbox" style="vertical-align:middle">
+<span class="ui-text" id="AccessPort_TELNET_hint" style="margin-left:6px">(remote debug shell &mdash; applies within ~5s of saving)</span>
 </div>
 </div>
 <div class="ui-button-box fn-marl140 fn-padt10">
