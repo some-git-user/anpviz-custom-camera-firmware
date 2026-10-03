@@ -39,7 +39,6 @@ CUSTOM_TAG="${CUSTOM_TAG:-}"
 [ -d "$BUILD/rootfs" ] || { echo "no build tree: $BUILD/rootfs (run ./extract.sh first)"; exit 1; }
 [ -f "$BUILD/header.bin" ] || { echo "missing $BUILD/header.bin (run ./extract.sh first)"; exit 1; }
 
-if [ -n "$NAME" ]; then OUT="out/${SLUG}_${NAME}.bin"; else OUT="out/${SLUG}.bin"; fi
 mkdir -p out
 
 # --- generate a fresh self-signed TLS cert/key/passphrase into the rootfs ---
