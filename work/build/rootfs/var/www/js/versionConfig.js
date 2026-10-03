@@ -75,16 +75,20 @@
 		for(var i=0;i<FIELDS.length;i++){
 			var label=FIELDS[i][0], key=FIELDS[i][1];
 			if(key==="_diag"){
-				rows+='<div style="display:table-row"><span style="display:table-cell;padding:6px 0 2px;color:#333;font-weight:bold;border-top:1px solid #ddd;margin-top:6px">'+esc(label)+'</span></div>';
+				rows+='<div style="display:table-row"><span style="display:table-cell;padding:6px 0 2px;color:#222;font-weight:bold;border-top:1px solid #ccc;margin-top:6px">'+esc(label)+'</span></div>';
 				continue;
 			}
 			var v=d[key];
 			if(key==="uptime"&&v) v=fmtUptime(v);
 			if(v===undefined||v===null||v==="") v="n/a";
-			var dim=(v==="n/a"||v==="not mounted")?' style="color:#aaa"':'';
+			// The diagnostics box has a LIGHT background (#fafafa) while the rest of
+			// the dark UI uses light text. Set explicit dark colors so values are
+			// readable; dim the placeholders. (Single style attr -- the old code
+			// emitted two, so the color was silently ignored.)
+			var vcol=(v==="n/a"||v==="not mounted")?"#999":"#111";
 			rows+='<div style="display:table-row">'
-				+'<span style="display:table-cell;padding:1px 12px 1px 0;color:#666;white-space:nowrap">'+esc(label)+'</span>'
-				+'<span'+dim+' style="display:table-cell;white-space:pre-wrap;word-break:break-all">'+esc(v)+'</span>'
+				+'<span style="display:table-cell;padding:1px 12px 1px 0;color:#444;white-space:nowrap">'+esc(label)+'</span>'
+				+'<span style="display:table-cell;white-space:pre-wrap;word-break:break-all;color:'+vcol+'">'+esc(v)+'</span>'
 				+'</div>';
 		}
 		grid.innerHTML=rows;

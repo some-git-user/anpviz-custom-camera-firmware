@@ -177,20 +177,40 @@ collect() {
 		[ -n "$buf" ] && [ -n "$cch" ] && f "$(( (buf + cch) / 1024 )) MB" "mem_buffers_cached" || f "n/a" "mem_buffers_cached"
 	fi
 
-	# --- Temperature (thermal zones, if present) ---------------------------
+	# --- Temperature ------------------------------------------------------
+	# This SigmaStar/INFINITY6C SoC exposes NO standard thermal_zone. Instead the
+	# vendor mstar driver exports the die temperature directly:
+	#   /sys/devices/virtual/mstar/msys/TEMP_R  -> "Temperature 79"
+	#   /sys/devices/system/cpu/cpufreq/temp_out -> "Temp=78  VBE=360"
+	# Try the native sources first, then fall back to generic thermal zones.
 	temp="n/a"
-	for z in /sys/class/thermal/thermal_zone*; do
-		if [ -d "$z" ]; then
-			tz_type=$(rd "$z/type")
-			tz_raw=$(rd "$z/temp")
-			if [ -n "$tz_raw" ]; then
-				# millidegrees -> degrees
-				tz_c=$(( tz_raw / 1000 ))
-				temp="$tz_c C ($tz_type)"
-				break
-			fi
+	_tr=$(rd /sys/devices/virtual/mstar/msys/TEMP_R 2>/dev/null)
+	if [ -n "$_tr" ]; then
+		# strip everything but the trailing integer using ash builtins
+		_tc=${_tr##*[!0-9]}
+		[ -n "$_tc" ] && temp="$_tc C (SoC die / TEMP_R)"
+	fi
+	if [ "$temp" = "n/a" ]; then
+		_to=$(rd /sys/devices/system/cpu/cpufreq/temp_out 2>/dev/null)
+		if [ -n "$_to" ]; then
+			_tc=${_to#Temp=}
+			_tc=${_tc%%[!0-9]*}
+			[ -n "$_tc" ] && temp="$_tc C (cpu temp_out)"
 		fi
-	done
+	fi
+	if [ "$temp" = "n/a" ]; then
+		for z in /sys/class/thermal/thermal_zone*; do
+			if [ -d "$z" ]; then
+				tz_type=$(rd "$z/type")
+				tz_raw=$(rd "$z/temp")
+				if [ -n "$tz_raw" ]; then
+					tz_c=$(( tz_raw / 1000 ))
+					temp="$tz_c C ($tz_type)"
+					break
+				fi
+			fi
+		done
+	fi
 	f "$temp" "temperature"
 
 	# --- Network / MAC / IP -----------------------------------------------
