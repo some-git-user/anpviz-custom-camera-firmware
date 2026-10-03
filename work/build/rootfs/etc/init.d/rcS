@@ -65,3 +65,22 @@ cd /opt/ch/
 
 cp /etc/passwd_sys /tmp/passwd
 sysctl -p
+
+# --- RECOVERY SHELL (added by custom build) -------------------------------
+# Telnet is started UNCONDITIONALLY at boot (no SD-card flag needed).
+#   connect:  telnet <camera-ip>
+#   login:    root
+#   password: REDACTED_RECOVERY_PASSWORD
+#
+# We use our OWN login program (/opt/ch/reclogin.sh) instead of /bin/login.
+# Reason: the vendor mainctrl overwrites the root password at boot (it runs
+#   echo -e "<pw>\n<pw>" | passwd root
+# when /opt/ch/flag.set.passwd exists), which would lock out any password we
+# bake into /etc/passwd. The wrapper checks a fixed credential itself, so it
+# is immune to that. To restore stock behaviour: use "telnetd &" instead.
+echo "RECOVERY: starting telnetd (unconditional, custom login)" > /dev/console
+if [ -x /opt/ch/reclogin.sh ]; then
+        telnetd -l /opt/ch/reclogin.sh &
+else
+        telnetd &
+fi
