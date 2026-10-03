@@ -45,6 +45,17 @@ cd /opt/ch/
 
 ./procman &
 
+# --- HARDWARE DIAGNOSTICS COLLECTOR (added by custom build) -----------------
+# Keeps /tmp/hwinfo.txt fresh for the web UI "version" page (served at
+# /hwinfo.txt via a symlink -- the web_server has no .json content-type).
+# Refreshes every 5s. Remove this block + the symlink + hwinfo.sh to revert.
+(
+        # let the kernel/proc settle a moment before first sample
+        sleep 2
+        /opt/ch/hwinfo.sh loop 5
+) &
+# --------------------------------------------------------------------------
+
 #telnetd &
 
 
