@@ -94,7 +94,11 @@ BASE_VER="$(sed -n 's/^version=//p' "$BUILD/build.info" 2>/dev/null | head -1)"
 if [ -n "$CUSTOM_TAG" ]; then
     TAG="$CUSTOM_TAG"
 else
-    N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9')"
+    # `|| true` is REQUIRED here. Under `set -o pipefail`, a camera that has
+    # never been custom-built has no custom_build file, so `cat` exits 1 and the
+    # whole pipeline aborts the script -- silently breaking pack for any fresh
+    # tree (this is exactly how YM500L's pack was dying).
+    N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9' || true)"
     [ -n "$N" ] || N=0
     N=$((N + 1))
     echo "$N" > "$BUILD/custom_build"
@@ -119,27 +123,60 @@ OUT="out/${SLUG}_${NAME}.bin"
 # The shim (opt/ch/nagios_authd.so) is cross-compiled from
 # tools/nagios_shim/nagios_authd.c. Rebuild it here on every pack so we never
 # ship a stale .so after editing the C source. Override the toolchain with
-# TC_PREFIX=... ; skip entirely by removing the .c source.
+# TC_PREFIX=...
+#
+# OPT-IN PER CAMERA. The shim is NOT portable across our targets: it assumes the
+# vendor libcgibin_curl.so CGI ABI (http_cgi_find / http_cgi_handle, 3 args,
+# calloc(102400) out buffer) AND uClibc. YM500L is a different platform --
+# glibc (libc.so.6 / ld-linux-armhf.so.3) and has no libcgibin_curl.so at all,
+# so a shim built for YMF46D would be dead weight there (and could not resolve
+# its symbols).
+#
+# So we only build it when THIS build tree is actually wired for it, detected by
+# rcS referencing nagios_authd. To port the feature to another camera you must
+# first port the shim (verify that platform's CGI ABI + libc) and add the
+# LD_PRELOAD block to its rcS -- then pack.sh picks it up automatically.
 SHIM_SRC="tools/nagios_shim/nagios_authd.c"
 SHIM_DEST="$BUILD/rootfs/opt/ch/nagios_authd.so"
+RC_S="$BUILD/rootfs/etc/init.d/rcS"
 TC_PREFIX="${TC_PREFIX:-/home/user/toolchains/armv7-eabihf--uclibc--stable-2024.05-1/bin/arm-buildroot-linux-uclibcgnueabihf}"
-if [ -f "$SHIM_SRC" ]; then
-    if [ -x "${TC_PREFIX}-gcc" ]; then
-        echo "Cross-compiling Nagios shim: $SHIM_SRC -> $SHIM_DEST"
-        "${TC_PREFIX}-gcc" -O2 -fPIC -shared -o "$SHIM_DEST" "$SHIM_SRC" \
-            || { echo "ERROR: shim compile failed -- refusing to pack a stale .so" >&2; exit 1; }
-        chmod 755 "$SHIM_DEST"
-        echo "  exports: $(${TC_PREFIX}-nm -D --defined-only "$SHIM_DEST" | awk '$2=="T"{printf "%s ", $3}')"
-    elif [ -f "$SHIM_DEST" ]; then
-        echo "WARNING: toolchain not found (${TC_PREFIX}-gcc)." >&2
+
+if [ ! -f "$RC_S" ] || ! grep -q 'nagios_authd' "$RC_S"; then
+    echo "Nagios shim: not wired into this tree's rcS -- skipping (opt-in)."
+    echo "           (see tools/nagios_shim/nagios_authd.c before porting to $SLUG)"
+elif [ ! -f "$SHIM_SRC" ]; then
+    if [ -f "$SHIM_DEST" ]; then
+        echo "WARNING: rcS wants the shim but $SHIM_SRC is missing." >&2
         echo "         Packing the EXISTING $SHIM_DEST unchanged -- it may be" >&2
-        echo "         STALE relative to $SHIM_SRC." >&2
-        echo "         Set TC_PREFIX=... to rebuild. Continuing." >&2
+        echo "         STALE. Continuing." >&2
     else
-        echo "WARNING: $SHIM_SRC present but no toolchain AND no prebuilt shim." >&2
+        echo "WARNING: rcS wants the shim but neither source nor prebuilt .so exists." >&2
         echo "         rcS's [ -f ] guard makes this a harmless no-op: the" >&2
-        echo "         authenticated /cgi-bin/nagios route will be absent." >&2
+        echo "         authenticated /cgi-bin/nagios route will simply be absent." >&2
     fi
+elif [ ! -x "${TC_PREFIX}-gcc" ]; then
+    echo "ERROR: rcS requires the Nagios shim but the toolchain is missing:" >&2
+    echo "       ${TC_PREFIX}-gcc" >&2
+    echo "       Refusing to pack -- shipping a stale/absent shim would leave" >&2
+    echo "       the tree in an inconsistent state." >&2
+    echo "       Set TC_PREFIX=/path/to/arm-linux-gnueabihf-triple to build." >&2
+    exit 1
+else
+    # Guard against an ABI mismatch: this toolchain targets uClibc. If the rootfs
+    # is glibc-based the shim would not load, so fail loudly instead of booting
+    # a web_server that silently cannot preload.
+    if [ -e "$BUILD/rootfs/lib/libc.so.6" ] && [ ! -e "$BUILD/rootfs/lib/libc.so.0" ]; then
+        echo "ERROR: $SLUG rootfs looks glibc-based (libc.so.6, no libc.so.0)." >&2
+        echo "       The Nagios shim in tools/nagios_shim/ is built for uClibc" >&2
+        echo "       1.0.31 and will NOT load here. Port it first (see the note" >&2
+        echo "       above) or remove the nagios_authd lines from rcS." >&2
+        exit 1
+    fi
+    echo "Cross-compiling Nagios shim: $SHIM_SRC -> $SHIM_DEST"
+    "${TC_PREFIX}-gcc" -O2 -fPIC -shared -o "$SHIM_DEST" "$SHIM_SRC" \
+        || { echo "ERROR: shim compile failed -- refusing to pack a stale .so" >&2; exit 1; }
+    chmod 755 "$SHIM_DEST"
+    echo "  exports: $(${TC_PREFIX}-nm -D --defined-only "$SHIM_DEST" | awk '$2=="T"{printf "%s ", $3}')"
 fi
 
 # --- normalise executable bits on shell scripts -----------------------------
