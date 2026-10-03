@@ -1,0 +1,2 @@
+This file makes /opt/ch/telnetd_ctl.sh start telnetd at boot.
+Remove it (and rebuild) to make telnet purely config-driven.
