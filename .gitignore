@@ -64,3 +64,4 @@ __pycache__/
 tools/nagios_shim/*.so
 tools/nagios_shim/authprobe_dyn
 tools/nagios_shim/authprobe_static
+tools/.reclogin_pass.*

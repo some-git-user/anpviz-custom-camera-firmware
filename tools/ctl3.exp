@@ -1,24 +1,37 @@
 #!/usr/bin/expect -f
-# usage: ctl3.exp "<command to run on device>"
+# usage: ctl3.exp "<command to run on device>" [host]
+#        RECLOGIN_PASS=... ctl3.exp "uname -a" 192.0.2.11
 # Runs one command over the recovery telnet login, waits for a trailing sentinel,
 # and prints everything captured.
+#
+# Host defaults to the YMF46D (.109). Pass it explicitly for other cameras --
+# e.g. 192.0.2.11 is the YM500L. Password resolution is unchanged:
+# RECLOGIN_PASS env wins, else the .reclogin_pass file next to this script.
 set timeout 40
 set cmd [lindex $argv 0]
+set host [expr {[llength $argv] > 1 ? [lindex $argv 1] : "192.0.2.10"}]
 set mark "ZZDONEZZ"
-# Recovery password: from env RECLOGIN_PASS, else the file .reclogin_pass next to
-# this script (gitignored), else fail. Never hardcode it here.
+# Recovery password: from env RECLOGIN_PASS, else a per-host file
+# .reclogin_pass.<host> next to this script, else the shared .reclogin_pass,
+# else fail. Never hardcode it here. The per-host file lets us keep a distinct
+# password per camera, since pack.sh regenerates one per build.
+set dir [file dirname [info script]]
 if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {
     set pass $env(RECLOGIN_PASS)
-} elseif {[file exists [file dirname [info script]]/.reclogin_pass]} {
-    set fh [open [file dirname [info script]]/.reclogin_pass r]
+} elseif {[file exists "$dir/.reclogin_pass.$host"]} {
+    set fh [open "$dir/.reclogin_pass.$host" r]
+    set pass [string trim [gets $fh]]
+    close $fh
+} elseif {[file exists "$dir/.reclogin_pass"]} {
+    set fh [open "$dir/.reclogin_pass" r]
     set pass [string trim [gets $fh]]
     close $fh
 } else {
-    puts "No recovery password: set RECLOGIN_PASS env or create .reclogin_pass next to this script"
+    puts "No recovery password: set RECLOGIN_PASS env or create .reclogin_pass[.$host] next to this script"
     exit 1
 }
 log_user 1
-spawn telnet 192.0.2.10 23
+spawn telnet $host 23
 expect {
     -re "(?i)login" { send "root\r" }
     timeout { puts "TIMEOUT_login"; exit 1 }
