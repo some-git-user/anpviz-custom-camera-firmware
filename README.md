@@ -159,13 +159,59 @@ So use the hash to confirm **reproducibility of your own builds**, not to
 match the vendor's original. The device checks the header CRC and sizes, not
 a whole-file SHA-256.
 
+## Monitoring (Nagios)
+
+Custom builds expose a redacted telemetry feed for monitoring:
+
+```
+https://<cam>/nagios.txt     ->  JSON, refreshed every 10s by /opt/ch/nagios.sh
+```
+
+Check it with the bundled plugin:
+
+```bash
+tools/check_anjoy_nagios.py --host 192.0.2.10 \
+    --state-file /var/tmp/check_anjoy_109.json \
+    --stale 90 --warn-temp 75 --crit-temp 85
+# OK - heartbeat 41->42 | temperature=71;75;85;0;100 cpu=46;85;95;0;100 ...
+```
+
+Two things about this feed are non-obvious and worth knowing:
+
+**It is redacted.** `hwinfo.txt` (the web UI diagnostics panel) carries
+reconnaissance-grade fields — MAC, IP addresses, gateway, `PATH`, the process
+list, and which busybox applets are missing. That is fine for an operator
+viewing their own page. `nagios.txt` deliberately omits all of it and keeps only
+health metrics, because it is polled continuously by a machine and may be logged
+or cached upstream.
+
+**The HTTP status code is useless here.** The vendor `web_server` returns
+`HTTP 200` for a *missing* `.txt` file (`Content-Length: 0`), and its f404
+handler also returns 200. A naive `check_http` would report OK forever after the
+on-device generator died. Liveness is therefore derived from a **heartbeat
+counter and `boot_id` inside the payload**, with the plugin keeping server-side
+state. Do not replace this plugin with `check_http`.
+
+The feed is unauthenticated — the vendor static handler has no auth at all, and
+this cannot be changed from the outside. Phase 2 (see `todo.md`) adds a real
+authenticated `/cgi-bin/nagios` route via an `LD_PRELOAD` shim gated by the
+vendor's own `cgi_is_valid_uid_or_username`, so a dedicated `nagios` user
+created in the manage-user UI controls access.
+
 ## Files
 
 - `extract.sh` — unpack the firmware
 - `pack.sh` — repack the firmware
+- `todo.md` — open work: the unauthenticated-CGI security audit, and Nagios phase 2
 - `tools/anjoy.py` — the unpack/repack engine (layout, CRC, squashfs params)
 - `tools/inspect.py` — dump/inspect the container layout
 - `tools/dis.py` — capstone helper used to reverse `libtools.so`
+- `tools/disfunc.py` — disassemble one function by symbol, resolving literal-pool
+  strings and PLT call targets (ARM + Thumb)
+- `tools/cgi_routes.py` — dump the vendor `/cgi-bin/` route table (65 routes)
+- `tools/check_anjoy_nagios.py` — Nagios plugin for the `nagios.txt` feed
+- `tools/ctl3.exp` — run one command on the device over recovery telnet
+- `tools/hwdebug.exp` — scripted device diagnostics
 
 ## Caveats
 

@@ -18,14 +18,57 @@
 # contained in 3.4.5.2-custom1. The old labels are kept in parentheses below
 # only so earlier notes and commit messages remain traceable.
 
-[3.4.5.2-custom1] 2026-10-03  ** CURRENT **
+[3.4.5.2-custom2] 2026-10-03  ** CURRENT **
+  Adds the Nagios monitoring feed on top of everything in custom1.
+  Built as: out/YMF46D_3.4.5.2-custom2.bin
+
+  -----------------------------------------------------------------------
+  Individual changes, newest first:
+  -----------------------------------------------------------------------
+
+  * Nagios monitoring feed (phase 1: unauthenticated but redacted)
+    - New generator /opt/ch/nagios.sh writes /tmp/nagios.txt every 10s,
+      symlinked into the web root as /var/www/nagios.txt, so it is readable
+      at http(s)://<cam>/nagios.txt. Launched from rcS in its own background
+      subshell, deliberately STANDALONE from hwinfo.sh: if one generator
+      fails, the other keeps the web UI diagnostics panel working.
+    - REDACTED versus hwinfo.txt. Dropped: mac, ip_addrs, default_route,
+      path, top_processes, cmd_probe, soc_id, machine, cpuinfo, kernel,
+      arch, usb_devices and the storage device paths. Those are
+      reconnaissance-grade fields and none of them are needed to decide
+      whether the camera is healthy. hwinfo.txt is left unchanged for the UI.
+    - Fields kept: boot_id, uptime_seconds, generated_epoch, generated_utc,
+      heartbeat, schema, temperature_c, cpu_used_pct, loadavg_1,
+      mem_total_kb, mem_avail_kb, mem_used_pct, nand_used_pct,
+      nand_avail_kb, process_count, web_server_running, watchdog_running.
+      Numeric fields are emitted as JSON numbers, not strings.
+    - HEARTBEAT IS MANDATORY, not cosmetic. The vendor static handler returns
+      HTTP 200 for a MISSING .txt file (Content-Length: 0) and its f404
+      handler also returns 200, so the HTTP status code cannot tell you the
+      generator died. A monotonic heartbeat counter plus boot_id inside the
+      payload is the only reliable liveness signal. Written via atomic mv so
+      a reader never sees a half-written file.
+    - Host-side plugin tools/check_anjoy_nagios.py turns the feed into Nagios
+      exit codes with perfdata. It keeps server-side state (last heartbeat and
+      boot_id) and reports: heartbeat advanced = alive; unchanged past
+      --stale = CRITICAL generator dead; boot_id changed = rebooted. Also
+      thresholds temp/cpu/mem/nand and goes CRITICAL if web_server or
+      watchdogd are not running. Verified against the live device payload,
+      including the empty-body trap, non-JSON bodies, threshold trips,
+      stuck heartbeat, reboot detection and an unreachable host.
+    - Phase 2 (NOT yet built): a real authenticated /cgi-bin/nagios route via
+      an LD_PRELOAD shim interposing http_cgi_find, gated by the vendor's
+      cgi_is_valid_uid_or_username so a dedicated nagios user created in the
+      manage-user UI controls access. See todo.md.
+
+[3.4.5.2-custom1] 2026-10-03
   Cumulative custom build on stock v3.4.5.2. Contains, in the order developed:
   TLS restore, hardware diagnostics panel, recovery shell, web-controlled
   telnet (with the enforcement fix), and the custom version-tagging scheme.
   Built as: out/YMF46D_3.4.5.2-custom1.bin
 
   -----------------------------------------------------------------------
-  Individual changes, newest first:
+  Individual changes:
   -----------------------------------------------------------------------
 
   * Custom version tagging (replaces the old HTTPS<N> labels)

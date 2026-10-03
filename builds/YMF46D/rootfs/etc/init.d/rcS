@@ -56,6 +56,20 @@ cd /opt/ch/
 ) &
 # --------------------------------------------------------------------------
 
+# --- NAGIOS MONITORING FEED (added by custom build) -----------------------
+# Keeps /tmp/nagios.txt fresh for https://<cam>/nagios.txt (symlinked in the
+# web root). Redacted, machine-readable telemetry with a mandatory heartbeat --
+# see the header of /opt/ch/nagios.sh for why the heartbeat is required.
+# Standalone from hwinfo.sh so one failing does not take the other down.
+# Remove this block + the symlink + nagios.sh to revert.
+(
+	sleep 3
+	if [ -f /opt/ch/nagios.sh ]; then
+		sh /opt/ch/nagios.sh loop 10
+	fi
+) &
+# --------------------------------------------------------------------------
+
 #telnetd &
 
 cp /etc/passwd_sys /tmp/passwd
