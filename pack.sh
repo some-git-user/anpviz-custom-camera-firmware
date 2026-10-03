@@ -82,6 +82,16 @@ if command -v openssl >/dev/null 2>&1; then
     fi
 fi
 
+# --- normalise executable bits on shell scripts -----------------------------
+# squashfs preserves unix modes, so a script that lost its exec bit in the tree
+# (or in git) boots non-executable. That already broke the web-controlled
+# telnet toggle once: rcS tested `[ -x /opt/ch/telnetd_ctl.sh ]`, the test
+# failed, and the fallback left telnet open unconditionally. Cheap insurance:
+# make every shell script in the tree executable before packing.
+echo "Normalising exec bits on shell scripts..."
+find "$BUILD/rootfs" -type f -name '*.sh' -exec chmod 755 {} +
+[ -f "$BUILD/rootfs/etc/init.d/rcS" ] && chmod 755 "$BUILD/rootfs/etc/init.d/rcS"
+
 echo "Packing $BUILD/rootfs -> $OUT ..."
 python3 tools/anjoy.py repack "$BUILD/rootfs" "$BUILD/header.bin" "$OUT"
 

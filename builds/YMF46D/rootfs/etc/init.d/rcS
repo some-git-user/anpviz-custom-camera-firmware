@@ -76,11 +76,13 @@ sysctl -p
 # is immune to that.
 # To force telnet ON at boot regardless of config: `touch /tmp/telnet.force`
 # (or set enable_tst="1"). To restore stock behaviour: use "telnetd &".
+#
+# NOTE: invoked via `sh` and tested with `-f` (not `-x`) on purpose. An earlier
+# build used `[ -x ... ]` + direct exec; the file shipped without the exec bit,
+# the test failed, and the fallback below left telnet OPEN UNCONDITIONALLY --
+# i.e. the web toggle silently did nothing. `sh script` never needs the exec bit.
+# The block is also FAIL-CLOSED: if the daemon is missing, telnet stays off.
 echo "RECOVERY: starting web-controlled telnetd daemon" > /dev/console
-if [ -x /opt/ch/telnetd_ctl.sh ]; then
-        /opt/ch/telnetd_ctl.sh 5 &
-elif [ -x /opt/ch/reclogin.sh ]; then
-        telnetd -l /opt/ch/reclogin.sh &
-else
-        telnetd &
+if [ -f /opt/ch/telnetd_ctl.sh ]; then
+        ( sh /opt/ch/telnetd_ctl.sh 5 >/tmp/telnetd_ctl.log 2>&1 & )
 fi
