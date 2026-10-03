@@ -50,18 +50,13 @@ cd /opt/ch/
 # /hwinfo.txt via a symlink -- the web_server has no .json content-type).
 # Refreshes every 5s. Remove this block + the symlink + hwinfo.sh to revert.
 (
-        # let the kernel/proc settle a moment before first sample
-        sleep 2
-        /opt/ch/hwinfo.sh loop 5
+	# let the kernel/proc settle a moment before first sample
+	sleep 2
+	/opt/ch/hwinfo.sh loop 5
 ) &
 # --------------------------------------------------------------------------
 
 #telnetd &
-
-
-
-
-
 
 cp /etc/passwd_sys /tmp/passwd
 sysctl -p
@@ -71,7 +66,7 @@ sysctl -p
 # persisted config field <StreamAccess enable_tst="N"> in /mnt/nand/config.xml
 # and starts/stops telnetd accordingly (default: DISABLED).
 #   Enable:  Configuration -> Network -> Port -> Telnet -> Confirm
-#   Login:   root  /  (see reclogin.sh)   (via /opt/ch/reclogin.sh)
+#   Login:   root  /  REDACTED_RECOVERY_PASSWORD   (via /opt/ch/reclogin.sh)
 # Login uses our OWN login program instead of /bin/login because the vendor
 # mainctrl overwrites the root password at boot (it runs
 #   echo -e "<pw>\n<pw>" | passwd root
