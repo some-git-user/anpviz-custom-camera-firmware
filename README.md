@@ -23,6 +23,7 @@ builds/<CAM>/      editable working tree            (TRACKED — this is where e
     rootfs/            unpacked root filesystem
     header.bin         header + encrypted kernel, kept verbatim for repack
     build.info         per-camera params (slug, version, rootfs_off, squashfs block size)
+    CHANGELOG.txt      what we changed vs stock, newest first (kept up to date by hand)
 out/               packed flashable images          (IGNORED — reproducible via pack.sh)
 tools/             unpack/repack + helper scripts   (TRACKED)
 extract.sh         unpack any .bin -> builds/<slug>/
@@ -58,7 +59,12 @@ The web UI lives in **`builds/<CAM>/rootfs/var/www/`** (`index.html`, `js/`,
 1. Drop the vendor `.bin` into `stock/<CAM>/` with a normalised name
    (`firmware_<CAM>_V<version>_stock.bin`).
 2. `./extract.sh stock/<CAM>/firmware_<CAM>_V<version>_stock.bin`
-3. Edit `builds/<CAM>/rootfs/`, then `./pack.sh <CAM> <name>`.
+3. Create `builds/<CAM>/CHANGELOG.txt` documenting the stock baseline.
+4. Edit `builds/<CAM>/rootfs/`, then `./pack.sh <CAM> <name>`.
+
+Keep `CHANGELOG.txt` current: every change made to a build tree after the stock
+extract gets an entry (newest first) with what changed, why, and how it was
+verified. `git log` has the diffs; the changelog has the reasoning.
 
 ## Requirements
 

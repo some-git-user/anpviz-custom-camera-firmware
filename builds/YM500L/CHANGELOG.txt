@@ -1,0 +1,22 @@
+# Changelog — YM500L custom firmware
+#
+# Baseline: stock firmware_YM500L_V3.2.1.2_stock.bin
+#           device_name = MC500L_V0_AF-RTMP-H5_V3.2.1.2_Y_EN_YM500L_V0
+#           squashfs block size 131072, rootfs_off 0x1d1228
+#
+# Every entry below is a change made to builds/YM500L/rootfs/ AFTER extracting
+# the stock image above. Newest first. See `git log` for the full diffs.
+
+[none yet] 2026-10-03
+  - Tree seeded from pristine stock v3.2.1.2 during the multi-camera repo
+    reorganisation. No modifications made yet.
+  - Round-trip verified: extract -> pack reproduces a valid image
+    (rootfs 9,113,600 B < 9,355,264 ceiling, header CRC + rootfs CRC OK).
+
+  NOTE: the YMF46D feature work (TLS port, hwinfo diagnostics, recovery
+  shell, web-controlled telnet) has NOT been ported here. The two cameras
+  differ: different kernel/rootfs layout, different squashfs block size, and
+  the TLS story depends on which vendor build shipped a TLS-capable
+  web_server. Port features deliberately, one at a time, and record each here.
+
+--- end of changes since stock v3.2.1.2 ---
