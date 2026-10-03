@@ -66,7 +66,8 @@ sysctl -p
 # persisted config field <StreamAccess enable_tst="N"> in /mnt/nand/config.xml
 # and starts/stops telnetd accordingly (default: DISABLED).
 #   Enable:  Configuration -> Network -> Port -> Telnet -> Confirm
-#   Login:   root  /  REDACTED_RECOVERY_PASSWORD   (via /opt/ch/reclogin.sh)
+#   Login:   root  /  (recovery password printed by ./pack.sh, stored in
+#            /opt/ch/reclogin.pass -- not kept in git)
 # Login uses our OWN login program instead of /bin/login because the vendor
 # mainctrl overwrites the root password at boot (it runs
 #   echo -e "<pw>\n<pw>" | passwd root

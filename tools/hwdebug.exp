@@ -9,7 +9,18 @@
 
 set timeout 25
 set host [expr {[llength $argv] >= 1 ? [lindex $argv 0] : "192.0.2.10"}]
-set pass "REDACTED_RECOVERY_PASSWORD"
+# Recovery password: from env RECLOGIN_PASS, else the file .reclogin_pass next to
+# this script (gitignored), else fail. Never hardcode it here.
+if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {
+    set pass $env(RECLOGIN_PASS)
+} elseif {[file exists [file dirname [info script]]/.reclogin_pass]} {
+    set fh [open [file dirname [info script]]/.reclogin_pass r]
+    set pass [string trim [gets $fh]]
+    close $fh
+} else {
+    puts "No recovery password: set RECLOGIN_PASS env or create .reclogin_pass next to this script"
+    exit 1
+}
 
 log_user 1
 spawn telnet $host 23

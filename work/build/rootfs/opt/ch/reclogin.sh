@@ -11,15 +11,34 @@
 #   echo -e "<pw>\n<pw>" | passwd root
 # when /opt/ch/flag.set.passwd is present).
 #
-# Recovery credentials:
-#     login: root
-#     password: REDACTED_RECOVERY_PASSWORD
+# The password is NOT hardcoded here. It is read from a separate file that is
+# generated at repack time by pack.sh and is NOT committed to git:
+#     /opt/ch/reclogin.pass     (single line: the recovery password)
+# Override the file location with RECLOGIN_PASS_FILE=... .
 #
-# To change: edit USER / PASS below. To disable: remove the telnetd line in rcS.
+# Recovery login is always: root
+# Recovery password: see the value printed by ./pack.sh (or RECOVERY_PASS env).
+#
+# To disable telnet entirely: remove the telnetd line in rcS (or leave
+# enable_tst=0 so the web-controlled daemon never starts it).
 # ---------------------------------------------------------------------------
 
 USER=root
-PASS='REDACTED_RECOVERY_PASSWORD'
+PASS_FILE="${RECLOGIN_PASS_FILE:-/opt/ch/reclogin.pass}"
+
+if [ -r "$PASS_FILE" ]; then
+        # first line of the file is the password; strip trailing CR/LF
+        IFS= read -r PASS < "$PASS_FILE" 2>/dev/null
+        PASS=${PASS%$'\r'}
+else
+        PASS=""
+fi
+
+# No password configured -> refuse login (fail closed).
+if [ -z "$PASS" ]; then
+        printf 'Recovery login unavailable (no password file).\r\n'
+        exit 1
+fi
 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
 export PATH
