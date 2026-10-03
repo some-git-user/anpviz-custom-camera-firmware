@@ -25,7 +25,7 @@ if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {
 log_user 1
 spawn telnet $host 23
 
-# HTTPS8 uses a custom login wrapper (reclogin.sh) whose prompts are
+# The custom firmware uses a custom login wrapper (reclogin.sh) whose prompts are
 #   "Recovery login (root): " and "Password: "
 # Older builds used the stock "login:" / "Password:". Match both.
 expect {

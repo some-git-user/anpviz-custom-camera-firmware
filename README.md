@@ -27,7 +27,7 @@ builds/<CAM>/      editable working tree            (TRACKED — this is where e
 out/               packed flashable images          (IGNORED — reproducible via pack.sh)
 tools/             unpack/repack + helper scripts   (TRACKED)
 extract.sh         unpack any .bin -> builds/<slug>/
-pack.sh            pack builds/<slug>/ -> out/<slug>_<name>.bin
+pack.sh            pack builds/<slug>/ -> out/<slug>_<tag>.bin
 ```
 
 ## Quick start
@@ -37,10 +37,29 @@ pack.sh            pack builds/<slug>/ -> out/<slug>_<name>.bin
 ./extract.sh stock/YMF46D/firmware_YMF46D_V3.4.5.2_stock.bin
 #   -> builds/YMF46D/rootfs/   (edit the web UI here: var/www/)
 
-# Build a flashable image.
-./pack.sh YMF46D https10
-#   -> out/YMF46D_https10.bin
+# Build a flashable image. The build tag auto-increments (see "Version scheme").
+./pack.sh YMF46D
+#   -> out/YMF46D_3.4.5.2-custom1.bin
+# Or give the output file an explicit name:
+./pack.sh YMF46D mytest
+#   -> out/YMF46D_mytest.bin
 ```
+
+## Version scheme
+
+Custom builds are tagged `<stock version>-custom<N>` — e.g. `V3.4.5.2-custom1`.
+The base version is read from `builds/<slug>/build.info`, so the tag always
+follows the stock firmware the tree is actually based on. `N` auto-increments on
+every `./pack.sh` run from `builds/<slug>/custom_build`.
+
+The tag is stamped into the rootfs at build time:
+- `etc/filesys.ver` — keeps the vendor prefix (`_Y_EN-RTMP-H5_L`) and replaces
+  only the version token and build date.
+- `var/www/CUSTOM_BUILD.txt` — human-readable build identity, served by the web UI.
+
+Pin an exact tag with `CUSTOM_TAG=3.4.5.2-custom7 ./pack.sh YMF46D` (skips the
+auto-increment). Earlier development builds used `HTTPS2`..`HTTPS11` labels; that
+scheme is retired — see each camera's `CHANGELOG.txt` for the mapping.
 
 `extract.sh` refuses to overwrite an existing `builds/<slug>/rootfs` (your edits
 live there). Use `--force` to replace it with a fresh extraction, or `--as SLUG`

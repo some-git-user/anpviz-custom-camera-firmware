@@ -25,13 +25,16 @@ cd "$(dirname "$0")"
 SLUG="${1:-}"
 NAME="${2:-}"
 
-[ -n "$SLUG" ] || { echo "usage: ./pack.sh <slug> [name]   (e.g. ./pack.sh YMF46D https10)"; echo; echo "Available build trees:"; ls -1 builds/ 2>/dev/null || echo "  (none)"; exit 1; }
+[ -n "$SLUG" ] || { echo "usage: ./pack.sh <slug> [name]   (e.g. ./pack.sh YMF46D custom1)"; echo; echo "Available build trees:"; ls -1 builds/ 2>/dev/null || echo "  (none)"; exit 1; }
 
 BUILD="builds/$SLUG"
 HTTPS_PASS="${HTTPS_PASS:-homecam}"
 HTTPS_CN="${HTTPS_CN:-homecamera.lan}"
 HTTPS_DAYS="${HTTPS_DAYS:-3650}"
 RECOVERY_PASS="${RECOVERY_PASS:-}"
+# Custom build tag. Leave unset to auto-increment "<stock version>-custom<N>";
+# set it to pin an exact tag (e.g. CUSTOM_TAG=3.4.5.2-custom7).
+CUSTOM_TAG="${CUSTOM_TAG:-}"
 
 [ -d "$BUILD/rootfs" ] || { echo "no build tree: $BUILD/rootfs (run ./extract.sh first)"; exit 1; }
 [ -f "$BUILD/header.bin" ] || { echo "missing $BUILD/header.bin (run ./extract.sh first)"; exit 1; }
@@ -81,6 +84,37 @@ if command -v openssl >/dev/null 2>&1; then
         printf 'root:%s:0:0:root:/root:/bin/sh\n' "$HASH" > "$BUILD/rootfs/etc/passwd_sys"
     fi
 fi
+
+# --- stamp the custom build version into the rootfs -------------------------
+# Build identity scheme:  <stock version>-custom<N>   e.g. V3.4.5.2-custom1
+# The base version comes from build.info (recorded at extract time), so the tag
+# follows the stock firmware we are actually based on. N auto-increments per
+# build from builds/<slug>/custom_build. Override with CUSTOM_TAG=... to pin it.
+BASE_VER="$(sed -n 's/^version=//p' "$BUILD/build.info" 2>/dev/null | head -1)"
+[ -n "$BASE_VER" ] || BASE_VER="0.0.0"
+if [ -n "$CUSTOM_TAG" ]; then
+    TAG="$CUSTOM_TAG"
+else
+    N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9')"
+    [ -n "$N" ] || N=0
+    N=$((N + 1))
+    echo "$N" > "$BUILD/custom_build"
+    TAG="${BASE_VER}-custom${N}"
+fi
+BUILD_DATE="$(date '+%Y-%m-%d %H:%M:%S')"
+# Preserve the vendor's own prefix (e.g. "_Y_EN-RTMP-H5_L") and only replace the
+# version token + build date, so we never drift the model string by accident.
+PREFIX=""
+if [ -f "$BUILD/rootfs/etc/filesys.ver" ]; then
+    PREFIX="$(sed -n 's/^\( *[^V]*\)V.*/\1/p' "$BUILD/rootfs/etc/filesys.ver" | head -1)"
+fi
+[ -n "$PREFIX" ] || PREFIX="_Y_EN-RTMP-H5_L "
+printf '%sV%s build %s \n' "$PREFIX" "$TAG" "$BUILD_DATE" > "$BUILD/rootfs/etc/filesys.ver"
+printf 'custom build %s (%s) at %s\n' "$TAG" "$SLUG" "$BUILD_DATE" > "$BUILD/rootfs/var/www/CUSTOM_BUILD.txt"
+echo "Build tag: V$TAG   (counter -> $(cat "$BUILD/custom_build" 2>/dev/null))"
+# Default the output filename to the build tag when no explicit name was given.
+[ -n "$NAME" ] || NAME="${TAG}"
+OUT="out/${SLUG}_${NAME}.bin"
 
 # --- normalise executable bits on shell scripts -----------------------------
 # squashfs preserves unix modes, so a script that lost its exec bit in the tree

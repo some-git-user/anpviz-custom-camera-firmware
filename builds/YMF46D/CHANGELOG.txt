@@ -4,108 +4,135 @@
 #           device_name = MCF46D_V4_AF-RTMP-A-H5_V3.4.5.2_Y_EN_YMF46D_V4_MCF46D_V1_MCF46D_V4
 #           squashfs block size 262144, rootfs_off 0x1ee0d8
 #
+# Version scheme: <stock version>-custom<N>   e.g. V3.4.5.2-custom1
+#   The base version comes from build.info, so the tag follows the stock
+#   firmware we are actually based on. N auto-increments per ./pack.sh run
+#   from builds/YMF46D/custom_build (pin it with CUSTOM_TAG=...).
+#   Stamped into etc/filesys.ver and var/www/CUSTOM_BUILD.txt at build time.
+#
 # Every entry below is a change made to builds/YMF46D/rootfs/ AFTER extracting
 # the stock image above. Newest first. See `git log` for the full diffs.
+#
+# NOTE: during development these changes were built under intermediate labels
+# "HTTPS2" .. "HTTPS11". Those labels are retired; all of that work is now
+# contained in 3.4.5.2-custom1. The old labels are kept in parentheses below
+# only so earlier notes and commit messages remain traceable.
 
-[HTTPS11] 2026-10-03  ** FIX — web telnet toggle was never enforced **
-  - Symptom: telnet disabled in the web UI (enable_tst="0") but port 23 was
-    still reachable.
-  - Root cause: opt/ch/telnetd_ctl.sh was committed mode 100644 (not
-    executable). rcS gated the daemon on `[ -x ... ]`, the test failed, and
-    control fell through to the unconditional `telnetd -l reclogin.sh`
-    fallback. The daemon never ran, so nothing enforced enable_tst.
-  - opt/ch/telnetd_ctl.sh: mode 100644 -> 100755.
-  - etc/init.d/rcS: launch via `sh /opt/ch/telnetd_ctl.sh` and test with `-f`
-    so a lost exec bit can never silently disable the toggle again. The block is
-    now FAIL-CLOSED — the unconditional telnetd fallbacks are removed, so if
-    the daemon is missing, telnet stays OFF instead of wide open.
-  - pack.sh: chmod 755 every *.sh (and rcS) before packing. squashfs preserves
-    unix modes, so this prevents the whole class of "shipped non-executable".
-  - Verified live: enable_tst=0 -> port 23 CLOSED (stable over 20s);
-    enable_tst=1 -> port 23 OPEN within ~5s.
+[3.4.5.2-custom1] 2026-10-03  ** CURRENT **
+  Cumulative custom build on stock v3.4.5.2. Contains, in the order developed:
+  TLS restore, hardware diagnostics panel, recovery shell, web-controlled
+  telnet (with the enforcement fix), and the custom version-tagging scheme.
+  Built as: out/YMF46D_3.4.5.2-custom1.bin
 
-[HTTPS10] 2026-10-03  First build from the multi-camera repo layout
-  - No functional change vs HTTPS9; contents identical.
-  - Built from builds/YMF46D/ (rootfs + header.bin + build.info) via
-    `./pack.sh YMF46D <name>` -> out/YMF46D_<name>.bin.
-  - Version markers bumped: etc/filesys.ver, var/www/HTTPS_BUILD.txt.
+  -----------------------------------------------------------------------
+  Individual changes, newest first:
+  -----------------------------------------------------------------------
 
-[HTTPS9] 2026-10-03  Diagnostics temperature + UI colour fixes
-  - opt/ch/hwinfo.sh: temperature was always n/a. This SoC has NO
-    /sys/class/thermal zone. Now reads the native SStar nodes:
-      /sys/devices/virtual/mstar/msys/TEMP_R      -> "Temperature 79"  [primary]
-      /sys/devices/system/cpu/cpufreq/temp_out    -> "Temp=78  VBE=360" [fallback]
-    Parsed with ash builtins only. Also populated usb_devices (lsusb),
-    sensor (gc4653_MIPI) and top_processes.
-  - var/www/js/versionConfig.js: diagnostic values were invisible (light text
-    on the light #fafafa box, plus a duplicate style attribute bug). Values now
-    render #111, n/a values #999, labels #444.
-  - NOTE: `grep -ri` on /proc/mi_modules SEGFAULTS on this box — avoided.
+  * Custom version tagging (replaces the old HTTPS<N> labels)
+    - Build identity is now <stock version>-custom<N>, derived from
+      build.info's version field and auto-incremented per build.
+    - etc/filesys.ver keeps the vendor prefix (_Y_EN-RTMP-H5_L); only the
+      version token and build date are replaced. The earlier builds had
+      drifted the prefix to "_Y_EN-RTMP-A-H5_L"; restored to the stock string.
+    - var/www/HTTPS_BUILD.txt renamed to var/www/CUSTOM_BUILD.txt.
+    - pack.sh: CUSTOM_TAG env pins an exact tag; the default output filename
+      is derived from the tag (out/<slug>_<tag>.bin).
 
-[HTTPS8-followup] 2026-10-03  Web-controlled telnet
-  - opt/ch/telnetd_ctl.sh (NEW): polls enable_tst in /mnt/nand/config.xml
-    every N seconds (default 5) and starts/stops telnetd accordingly.
-    `trap '' HUP` so it survives session teardown.
-    telnetd_pids() MUST `grep -v _ctl` or the daemon matches/kills ITSELF.
-    Manual override: `touch /tmp/telnet.force` forces telnet ON.
-  - Piggyback field: enable_tst. Parsed by libtools.so, consumed by NO feature,
-    exposed in NO UI, defaults to 0 in config.default.mcf46d.xml, and survives
-    the setMediaStreamConfig round-trip. Custom XML attributes are DROPPED by
-    the server's fixed-struct serializer, so a spare known field is required.
-  - var/www/html/networkConfig.html: un-hid the Port tab (removed
-    display:none on li#tcpip_Port); added the Telnet checkbox (#AccessPort_TELNET)
-    with label and hint.
-  - var/www/js/networkConfig.js: populate the checkbox from enable_tst on
-    refresh, and setAttribute("enable_tst", ...) before serialising on confirm.
-  - etc/init.d/rcS: start the daemon instead of unconditional telnetd.
+  * FIX — web telnet toggle was never enforced (developed as: HTTPS11)
+    - Symptom: telnet disabled in the web UI (enable_tst="0") but port 23
+      was still reachable.
+    - Root cause: opt/ch/telnetd_ctl.sh was committed mode 100644 (not
+      executable). rcS gated the daemon on `[ -x ... ]`, the test failed, and
+      control fell through to the `elif [ -x /opt/ch/reclogin.sh ]` fallback,
+      which starts telnetd UNCONDITIONALLY. The daemon never ran, so nothing
+      enforced enable_tst.
+    - opt/ch/telnetd_ctl.sh: mode 100644 -> 100755.
+    - etc/init.d/rcS: launch via `sh /opt/ch/telnetd_ctl.sh` and test with
+      `-f`, so a lost exec bit can never silently disable the toggle again.
+      The block is now FAIL-CLOSED — the unconditional telnetd fallbacks are
+      removed, so if the daemon is missing, telnet stays OFF.
+    - pack.sh: chmod 755 every *.sh (and rcS) before packing. squashfs
+      preserves unix modes, so this prevents the whole class of bug.
+    - Verified live: enable_tst=0 -> port 23 CLOSED (stable over 20s);
+      enable_tst=1 -> port 23 OPEN within ~5s.
 
-[HTTPS8] 2026-10-03  Recovery shell that survives the vendor password overwrite
-  - opt/ch/reclogin.sh (NEW): custom telnet login program (`telnetd -l`).
-    Checks fixed credentials itself, then `exec /bin/sh -l`. Bypasses
-    /etc/passwd entirely, so it is immune to the vendor mainctrl overwrite
-    (mainctrl runs `echo -e "<pw>\n<pw>" | passwd root` at boot when
-    /opt/ch/flag.set.passwd exists, which defeats any baked-in hash).
-  - Password is NOT hardcoded: read from /opt/ch/reclogin.pass
-    (override with RECLOGIN_PASS_FILE). Fails closed if the file is missing/empty.
-  - etc/passwd_sys: regenerated hash (best-effort; reclogin.sh is the real gate).
-  - pack.sh generates the password at build time (RECOVERY_PASS env, else random)
-    and prints it. Never committed to git.
+  * Diagnostics temperature source + UI colour fixes (developed as: HTTPS9)
+    - opt/ch/hwinfo.sh: temperature was always n/a. This SoC has NO
+      /sys/class/thermal zone. Now reads the native SStar nodes:
+        /sys/devices/virtual/mstar/msys/TEMP_R    -> "Temperature 79"   [primary]
+        /sys/devices/system/cpu/cpufreq/temp_out  -> "Temp=78  VBE=360" [fallback]
+      Parsed with ash builtins only. Also populated usb_devices (lsusb),
+      sensor (gc4653_MIPI) and top_processes.
+    - var/www/js/versionConfig.js: diagnostic values were invisible (light
+      text on the light #fafafa box, plus a duplicate style attribute bug).
+      Values now render #111, n/a values #999, labels #444.
+    - NOTE: `grep -ri` on /proc/mi_modules SEGFAULTS on this box — avoided.
 
-[HTTPS7] 2026-10-03  hwinfo: builtin-only sanitiser
-  - opt/ch/hwinfo.sh: the value sanitiser f() piped everything through tr/sed.
-    Those applets are NOT compiled into this busybox (symlink -> "applet not
-    found", rc 127), so in the boot background subshell the pipeline returned
-    empty and EVERY field became "n/a" — even $$ and $PATH.
-  - Rewrote f() with pure shell builtins (${v//$'\r'/} etc). Added rd(), trim(),
-    manual hex2dec/hexip (dash-safe).
-  - Added self-diagnostic fields: pid, path, date_probe, uname_probe, busybox,
-    cmd_probe (which applets resolve). JS FIELDS map updated to match.
+  * Web-controlled telnet (developed as: HTTPS9 feature work)
+    - opt/ch/telnetd_ctl.sh (NEW): polls enable_tst in /mnt/nand/config.xml
+      every N seconds (default 5) and starts/stops telnetd accordingly.
+      `trap '' HUP` so it survives session teardown.
+      telnetd_pids() MUST `grep -v _ctl` or the daemon matches/kills ITSELF.
+      Manual override: `touch /tmp/telnet.force` forces telnet ON.
+    - Piggyback field: enable_tst. Parsed by libtools.so, consumed by NO
+      feature, exposed in NO UI, defaults to 0 in config.default.mcf46d.xml,
+      and survives the setMediaStreamConfig round-trip. Custom XML attributes
+      are DROPPED by the server's fixed-struct serializer, so a spare known
+      field is required.
+    - var/www/html/networkConfig.html: un-hid the Port tab (removed
+      display:none on li#tcpip_Port); added the Telnet checkbox
+      (#AccessPort_TELNET) with label and hint.
+    - var/www/js/networkConfig.js: populate the checkbox from enable_tst on
+      refresh, and setAttribute("enable_tst", ...) before serialising on confirm.
+    - etc/init.d/rcS: start the daemon instead of unconditional telnetd.
 
-[HTTPS4-6] 2026-10-03  Hardware Diagnostics panel
-  - opt/ch/hwinfo.sh (NEW): telemetry collector -> /tmp/hwinfo.txt (JSON,
-    ~37 keys: SoC/machine, cpu, mem, net, MTD, storage, USB, sensor,
-    processes). Run as `hwinfo.sh loop 5` from rcS.
-  - var/www/hwinfo.txt: symlink to /tmp/hwinfo.txt.
-    CRITICAL: the web_server static extension map is ONLY
-    .gif .htm .jpeg .png .svg .txt (+.ini). There is NO .json — an unknown
-    extension hits the f404 handler which returns HTTP 200 + HTML, so the JS
-    onFailure never fires. Hence .txt.
-  - var/www/html/versionConfig.html + js/versionConfig.js: added the
-    "Hardware Diagnostics" section with a refresh button.
-  - etc/init.d/rcS: launch the collector in the background after ./procman.
+  * Recovery shell that survives the vendor password overwrite (developed as: HTTPS8)
+    - opt/ch/reclogin.sh (NEW): custom telnet login program (`telnetd -l`).
+      Checks fixed credentials itself, then `exec /bin/sh -l`. Bypasses
+      /etc/passwd entirely, so it is immune to the vendor mainctrl overwrite
+      (mainctrl runs `echo -e "<pw>\n<pw>" | passwd root` at boot when
+      /opt/ch/flag.set.passwd exists, which defeats any baked-in hash).
+    - Password is NOT hardcoded: read from /opt/ch/reclogin.pass
+      (override with RECLOGIN_PASS_FILE). Fails closed if the file is missing/empty.
+    - etc/passwd_sys: regenerated hash (best-effort; reclogin.sh is the real gate).
+    - pack.sh generates the password at build time (RECOVERY_PASS env, else
+      random) and prints it. Never committed to git.
 
-[HTTPS3] 2026-10-03  HTTPS/TLS restored
-  - The vendor built v3.4.5.2 gSOAP WITHOUT OpenSSL (0 SSL_* symbols; string
-    "OpenSSL not installed: recompile with -DWITH_OPENSSL"). v3.4.3.2 had a
-    full static OpenSSL 1.0.2l TLS server. Same arch (ARM EABI5, uClibc), so
-    the binary pair is a drop-in.
-  - opt/ch/web_server: v3.4.3.2 TLS-capable binary (3,083,460 B, 54 SSL_* syms).
-  - opt/ch/libcgibin_curl.so: matching CGI lib (name kept so web_server resolves it).
-  - opt/ch/libcgibin.so: removed (v3.4.5.2 non-TLS CGI lib, superseded).
-  - opt/ch/flag.https: added (enables the TLS listener + UI section).
-  - Removed for size headroom: opt/ch/zbarscan (956K, unused),
-    opt/ch/unicode_16x16-ko.font (411K), ...ko.font.codecmap (137K).
-  - pack.sh now mints a fresh self-signed cert per build (HTTPS_CN /
-    HTTPS_PASS / HTTPS_DAYS). Key material is gitignored.
+  * hwinfo: builtin-only sanitiser (developed as: HTTPS7)
+    - opt/ch/hwinfo.sh: the value sanitiser f() piped everything through
+      tr/sed. Those applets are NOT compiled into this busybox (symlink ->
+      "applet not found", rc 127), so in the boot background subshell the
+      pipeline returned empty and EVERY field became "n/a" — even $$ and $PATH.
+    - Rewrote f() with pure shell builtins (${v//$'\r'/} etc). Added rd(),
+      trim(), manual hex2dec/hexip (dash-safe).
+    - Added self-diagnostic fields: pid, path, date_probe, uname_probe,
+      busybox, cmd_probe (which applets resolve). JS FIELDS map updated.
+
+  * Hardware Diagnostics panel (developed as: HTTPS4-6)
+    - opt/ch/hwinfo.sh (NEW): telemetry collector -> /tmp/hwinfo.txt (JSON,
+      ~37 keys: SoC/machine, cpu, mem, net, MTD, storage, USB, sensor,
+      processes). Run as `hwinfo.sh loop 5` from rcS.
+    - var/www/hwinfo.txt: symlink to /tmp/hwinfo.txt.
+      CRITICAL: the web_server static extension map is ONLY
+      .gif .htm .jpeg .png .svg .txt (+.ini). There is NO .json — an unknown
+      extension hits the f404 handler which returns HTTP 200 + HTML, so the
+      JS onFailure never fires. Hence .txt.
+    - var/www/html/versionConfig.html + js/versionConfig.js: added the
+      "Hardware Diagnostics" section with a refresh button.
+    - etc/init.d/rcS: launch the collector in the background after ./procman.
+
+  * HTTPS/TLS restored (developed as: HTTPS3)
+    - The vendor built v3.4.5.2 gSOAP WITHOUT OpenSSL (0 SSL_* symbols; string
+      "OpenSSL not installed: recompile with -DWITH_OPENSSL"). v3.4.3.2 had a
+      full static OpenSSL 1.0.2l TLS server. Same arch (ARM EABI5, uClibc),
+      so the binary pair is a drop-in.
+    - opt/ch/web_server: v3.4.3.2 TLS-capable binary (3,083,460 B, 54 SSL_* syms).
+    - opt/ch/libcgibin_curl.so: matching CGI lib (name kept so web_server resolves it).
+    - opt/ch/libcgibin.so: removed (v3.4.5.2 non-TLS CGI lib, superseded).
+    - opt/ch/flag.https: added (enables the TLS listener + UI section).
+    - Removed for size headroom: opt/ch/zbarscan (956K, unused),
+      opt/ch/unicode_16x16-ko.font (411K), ...ko.font.codecmap (137K).
+    - pack.sh mints a fresh self-signed cert per build (HTTPS_CN /
+      HTTPS_PASS / HTTPS_DAYS). Key material is gitignored.
 
 --- end of changes since stock v3.4.5.2 ---
