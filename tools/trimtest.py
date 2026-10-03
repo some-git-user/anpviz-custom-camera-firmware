@@ -2,7 +2,7 @@
 """Measure squashfs size for trim variants (data-only, no binary removal)."""
 import os, re, shutil, subprocess, sys
 
-SRC = "work/build/rootfs"
+SRC = os.environ.get("ROOTFS", "builds/YMF46D/rootfs")
 STOCK = 8962048
 LIM = 0x900000  # 9 MiB guess at rootfs partition
 EPOCH = "1673337341"

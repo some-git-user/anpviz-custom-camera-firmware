@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Find ARM PC-relative (ADR/ADD/LDR literal) references to a target address,
 then disassemble the containing region."""
-import sys, struct
+import sys, os, struct
 from capstone import *
 
-PATH = "/home/user/development/firmware/work/build/rootfs/opt/ch/mainctrl"
+PATH = os.environ.get("TARGET", "/home/user/development/firmware/builds/YMF46D/rootfs/opt/ch/mainctrl")
 data = open(PATH, "rb").read()
 
 # R E segment: file 0x000000 -> vaddr 0x00010000, size 0x80060

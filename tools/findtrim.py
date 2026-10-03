@@ -3,7 +3,7 @@
 updater's 'size bigger than' gate cannot reject it."""
 import os, re, shutil, subprocess
 
-SRC = "work/build/rootfs"
+SRC = os.environ.get("ROOTFS", "builds/YMF46D/rootfs")
 STOCK = 8962048
 EPOCH = "1673337341"
 
