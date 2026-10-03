@@ -165,9 +165,18 @@ runs stock `procman` (harmless no-op).
 
 ## 4. Deferred / nice-to-have
 
-- [ ] Flash `out/YMF46D_3.4.5.2-custom3.bin` and re-verify the authenticated
-      route survives a cold boot (persistence is proven by construction + the
-      manual preload test, not yet by a flashed reboot).
+- [x] **FLASH-VERIFIED (cold boot, custom3) — ALL GREEN.** Device rebooted on
+      `custom3`; the boot-spawned `web_server` has `nagios_authd.so` mapped
+      (3 segments) and `procman`'s environ carries `LD_PRELOAD`. Auth matrix
+      over **both HTTP and HTTPS**: no-creds 403, wrong-pass 403, unknown-user
+      403, correct-creds 200 + live JSON feed (real generator: heartbeat
+      advancing, temp/mem/nand populated). `getinfo` passthrough 200. Audit
+      log `/tmp/nagios_auth.log` shows the correct verdicts. The Nagios plugin
+      returns OK with full perfdata and detects heartbeat advance. Persistence
+      via `rcS` confirmed working from flash.
+      NOTE: `pack.sh` regenerates `reclogin.pass` each build — after flashing,
+      copy `builds/YMF46D/rootfs/opt/ch/reclogin.pass` to `tools/.reclogin_pass`
+      so `tools/ctl3.exp` can log in.
 - [ ] Create a dedicated low-privilege `nagios` account in the web UI rather
       than reusing `camera`; scope it read-only if the UI allows.
 - [ ] Port the Nagios endpoint to `YM500L` (different squashfs block size,

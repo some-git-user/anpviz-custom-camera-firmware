@@ -18,13 +18,42 @@
 # contained in 3.4.5.2-custom1. The old labels are kept in parentheses below
 # only so earlier notes and commit messages remain traceable.
 
-[3.4.5.2-custom2] 2026-10-03  ** CURRENT **
-  Adds the Nagios monitoring feed on top of everything in custom1.
-  Built as: out/YMF46D_3.4.5.2-custom2.bin
+[3.4.5.2-custom3] 2026-10-04  ** CURRENT **
+  Adds the AUTHENTICATED /cgi-bin/nagios route (phase 2) on top of custom2.
+  Built as: out/YMF46D_3.4.5.2-custom3.bin
+  rootfs 8,978,432 B (ceiling 9,355,264 B). FLASH-VERIFIED cold boot.
 
   -----------------------------------------------------------------------
   Individual changes, newest first:
   -----------------------------------------------------------------------
+
+  * Authenticated /cgi-bin/nagios via LD_PRELOAD shim (phase 2)
+    - New /opt/ch/nagios_authd.so interposes the vendor CGI dispatcher
+      (libcgibin_curl.so): http_cgi_find claims the route (it is not in the
+      vendor table) and http_cgi_handle serves it. Every other route is
+      forwarded to the real functions unchanged, so the shim is inert for
+      the rest of the stack.
+    - Reuses the device's own "manage user" account DB. Request:
+        GET /cgi-bin/nagios?nagios_user=<u>&nagios_pass=<p>
+      Creds are read with the vendor cgi_get_value, URL-decoded by the shim
+      (cgi_get_value does NOT decode), then the stored plaintext is fetched
+      via the vendor's own MsgUserGetPassword and constant-time compared.
+      No vendor crypto is reimplemented.
+    - Serves /tmp/nagios.txt (the phase-1 redacted feed) into the caller's
+      102400-byte out buffer. FAIL CLOSED on: missing helper, null outbuf,
+      missing/unknown/bad creds, unreadable feed. Audit trail ->
+      /tmp/nagios_auth.log (client IP + verdict only, never the credential).
+    - Persistence: rcS sets LD_PRELOAD on the procman line only. procman
+      uses execve(__environ) so it propagates to the web_server it spawns
+      and its respawn children. Guarded by [ -f ] so a missing .so is a
+      harmless no-op and the stock stack still boots.
+    - Verified on device over HTTP and HTTPS: no-creds 403, wrong-pass 403,
+      unknown-user 403, correct-creds 200 + live JSON feed; getinfo
+      passthrough 200. Nagios plugin check_anjoy_nagios.py --user/--pass
+      returns OK with full perfdata and detects heartbeat advance.
+    - Source: tools/nagios_shim/nagios_authd.c ; build with
+      tools/nagios_shim/build_shim.sh . See repo memory anjoy-cgi-shim.md
+      for the verified ABI and gotchas.
 
   * Nagios monitoring feed (phase 1: unauthenticated but redacted)
     - New generator /opt/ch/nagios.sh writes /tmp/nagios.txt every 10s,
