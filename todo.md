@@ -241,8 +241,29 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
       volume at `/mnt/mmc0` (not somewhere else) and that `df` reports real vfat
       numbers. Slot probe order `mmc0`/`mmc1`/`usb` is inferred from `hwinfo.sh`
       and the mount dirs, not observed with a card present.
-- [ ] Port the Nagios endpoint to `YM500L` (different squashfs block size,
-      different TLS story — nothing ports automatically).
+- [ ] **YM500L port** (`MC500L` / `YM500L-NM223N` @ `192.0.2.11`).
+      Different platform: **glibc** (not uClibc), MSC313E SoC, squashfs block
+      131072, 339-applet busybox. HTTPS is already native (vendor cert).
+      - [x] **Telnet recovery shell ported** (commit `c101f6e`) — access-first.
+            This model's UI has NO Telnet checkbox, so a persistent
+            `/opt/ch/telnet.force_boot` marker is baked in; telnet starts ON at
+            boot. Built `out/YM500L_3.2.1.2-custom1.bin`, CRC-verified, +4 KB.
+            **NOT YET FLASHED.**
+      - [ ] **FLASH IT** to gain a shell. Then copy
+            `builds/YM500L/rootfs/opt/ch/reclogin.pass` ->
+            `tools/.reclogin_pass.113` and use
+            `tools/ctl3.exp "<cmd>" 192.0.2.11`.
+      - [ ] Probe the **temperature sensor** path — MSC313E, so
+            `/sys/devices/virtual/mstar/msys/TEMP_R` may not exist.
+            Try `thermal_zone0`, `temp_out`, `msys/*` before porting nagios.sh.
+      - [ ] Confirm `/mnt/nand/config.xml` is the live config and that
+            `enable_tst` round-trips (it is referenced by libtools.so/mainctrl).
+      - [ ] Port `nagios.sh` (incl. `rec_storage_*`) + `hwinfo.sh` with the
+            YM500L-correct paths, once the two items above are known.
+      - [ ] **Nagios AUTH cannot port as-is**: `web_server` here is glibc AND
+            stripped (32 dynamic exports; no `http_cgi_find`/`http_cgi_handle`/
+            `MsgUserGetPassword`). The LD_PRELOAD shim has nothing to interpose.
+            Options: unauthenticated redacted LAN feed, or a separate auth task.
 - [ ] Push branch to a remote (blocked: no SSH key configured).
 - [ ] Audit whether `/cgi-bin/getuid` rate-limits failed attempts.
 - [ ] Consider whether `hwinfo.txt` should also be redacted (it currently leaks
