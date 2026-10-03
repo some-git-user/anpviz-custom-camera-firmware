@@ -1,1 +1,1 @@
-HTTPS-RECOVERY-BUILD-9 (telnet + reclogin + hwinfo temp/usb/sensor/proc fix)
+HTTPS-RECOVERY-BUILD-10 (multi-cam repo layout; telnet toggle + reclogin + hwinfo temp/usb/sensor/proc fix)
