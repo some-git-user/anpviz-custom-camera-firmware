@@ -71,6 +71,10 @@ PASS_ASSIGN = re.compile(
 )
 PASS_ASSIGN_OK = ("reclogin", "RECLOGIN", "yourpassword", "s3cret", "<",
                  "password here", "passphrase here", "help=",
+                 # Redaction markers left by the history scrub. A line reading
+                 # PASS='REDACTED_RECOVERY_PASSWORD' is sanitized history, not
+                 # a live secret -- flagging it would make the gate cry wolf.
+                 "REDACTED",
                  # Shell config knobs are not hardcoded secrets: a value built
                  # from ${VAR:-default}, $(cmd), or ${VAR%...} is dynamic. The
                  # whole point of those forms is that nothing is baked in.
@@ -163,7 +167,7 @@ def check_staged(needles):
     ).splitlines()
     for f in names:
         try:
-            data = subprocess.check_output(["git", "show", f":{f}"], text=True)
+            data = git_blob_bytes(f":{f}")
         except subprocess.CalledProcessError:
             continue
         hits += scan_text(f"(staged) {f}", data, needles, vendor=f in VENDOR_OK)
@@ -191,12 +195,23 @@ def check_history(needles):
                 continue
             seen.add(sha)
             try:
-                data = subprocess.check_output(["git", "cat-file", "blob", sha], text=True)
+                data = git_blob_bytes(sha)
             except subprocess.CalledProcessError:
                 continue
             hits += scan_text(f"{path} [{rev[:8]}]", data, needles,
                              vendor=path in VENDOR_OK)
     return hits
+
+
+def git_blob_bytes(rev_spec):
+    """Fetch a blob as bytes and decode lossily.
+
+    Firmware blobs are full of non-UTF-8 bytes, so text mode is unusable -- it
+    raises UnicodeDecodeError. Decoding with errors='ignore' is safe here: NUL
+    bytes survive UTF-8 decoding, so is_binary() still identifies binaries.
+    """
+    raw = subprocess.check_output(["git", "cat-file", "blob", rev_spec])
+    return raw.decode("utf-8", errors="ignore")
 
 
 def main():
