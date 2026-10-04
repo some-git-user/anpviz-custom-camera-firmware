@@ -1,13 +1,12 @@
-# TODO
+# TODO — firmware security + monitoring findings
 
-Findings verified on the YMF46D bench unit (custom1) on 2026-10-03.
-Everything below was measured, not assumed.
+Findings verified on the bench units. Everything below was measured, not assumed.
 
 ---
 
 ## 1. SECURITY AUDIT — unauthenticated CGI surface
 
-**Priority: HIGH. Independent of the Nagios work; should be done regardless.**
+**Priority: HIGH.**
 
 The vendor `web_server` (gSOAP 2.8 + `libcgibin_curl.so`) exposes **65 CGI routes**
 under `/cgi-bin/`. The CGI layer has **no framework-level authentication** — each
@@ -62,6 +61,10 @@ resolves its string references — look for a `cgi_is_valid_uid_or_username` cal
 it validates against the manage-user DB and returns `password error` on failure.
 Check whether it rate-limits; if not, it enables offline-style password guessing.
 
+- [ ] Audit whether `/cgi-bin/getuid` rate-limits failed attempts.
+- [ ] Work the priority table above and record results in
+      `tools/cgi_audit_results.md`.
+
 ---
 
 ## 2. Static file handler — known bad behaviours (documented, not fixable)
@@ -84,14 +87,17 @@ Verified, and relevant to anything we serve:
   not match `EncryptPwd` in `/mnt/nand/config.xml`). We cannot verify a password
   in a shell script — only the vendor binaries can.
 
-**HTTPS works for static content** with our own cert (`CN=homecamera.lan`, valid to
-2036), so transport crypto is free for any approach.
+**HTTPS works for static content** with our own cert (`CN=homecamera.lan`), so
+transport crypto is free for any approach.
+
+- [ ] Consider whether `hwinfo.txt` should also be redacted (it currently leaks
+      the same recon fields to the whole LAN).
 
 ---
 
-## 3. Nagios endpoint — plan C (both phases)
+## 3. Nagios endpoint — design
 
-### Phase 1 — static `/nagios.txt` (do now, zero risk)
+### Phase 1 — static `/nagios.txt`
 
 Same pattern as `hwinfo.txt`: a generator writes `/tmp/nagios.txt`, symlinked to
 `/var/www/nagios.txt`. No new binaries, no toolchain, no injected code.
@@ -105,10 +111,10 @@ Requirements:
 - Nagios plugin parses the JSON and **fails on staleness**, not on HTTP code.
 - Unauthenticated — acceptable only because it is redacted and LAN-scoped.
 
-### Phase 2 — `/cgi-bin/nagios` via LD_PRELOAD shim — DONE
+### Phase 2 — `/cgi-bin/nagios` via LD_PRELOAD shim
 
-Shipped as `tools/nagios_shim/nagios_authd.c` -> `builds/YMF46D/rootfs/opt/ch/nagios_authd.so`,
-preloaded in `rcS` on the `procman` line only. Build with `tools/nagios_shim/build_shim.sh`.
+Shipped as `tools/nagios_shim/nagios_authd.c` -> `opt/ch/nagios_authd.so`,
+preloaded in `rcS` on the `procman` line only.
 
 **Verified ABI** (empirically, not static guess) — `http_cgi_bin` calls:
 ```
@@ -137,8 +143,8 @@ GET /cgi-bin/nagios?nagios_user=<u>&nagios_pass=<p>
 request-context object not available at this layer, and its `username` param
 substring-collides with `cgi_is_valid_uid_or_username` (order-sensitive).
 
-**Verified on device** (YMF46D): no-creds 403, wrong-pass 403,
-unknown-user 403, correct-creds 200+feed, control `getinfo` 200 (passthrough
+**Auth matrix** (verified over both HTTP and HTTPS): no-creds 403, wrong-pass 403,
+unknown-user 403, correct-creds 200 + feed, control `getinfo` 200 (passthrough
 intact). Audit trail in `/tmp/nagios_auth.log` (client IP + verdict, no creds).
 **FAIL CLOSED** on: missing auth helper, null outbuf, missing creds, unknown
 user, bad pass, unreadable feed.
@@ -152,17 +158,14 @@ runs stock `procman` (harmless no-op).
 
 **Gotchas recorded**:
 - `cgi_get_value` does NOT urldecode — the shim must, or a password containing
-  a `%xx` sequence never matches. (Verified with a password whose literal form
-  differs from its URL-encoded form; the credential itself is not recorded here.)
+  a `%xx` sequence never matches.
 - The CGI route is served `Content-Type: text/xml` even though the body is
   JSON; the Nagios plugin parses JSON regardless of declared type.
 - `procman` feeds the hardware watchdog — `killall procman` can trip a reboot.
-  Test by starting a second `procman` with the preload, or flash and reboot.
+  Test by starting a second `procman` with the preload, not by killing the
+  running one.
 
-**Packed image**: `out/YMF46D_3.4.5.2-custom3.bin`, rootfs 8,978,432 B
-(ceiling 9,355,264). Verified `nagios_authd.so` + `rcS` preload inside.
-
-### Phase 3 — recording-volume (SD card) metric, feed schema 2 — DONE (pending build)
+### Phase 3 — recording-volume (SD card) metric, feed schema 2
 
 **The gap**: schema 1's only disk metric was `nand_used_pct` / `nand_avail_kb` --
 that is the **1 MB jffs2 config partition**, not the disk your video goes to.
@@ -198,136 +201,66 @@ mounted but df unreadable        -> UNKNOWN
 field absent (schema < 2)        -> UNKNOWN
 ```
 
-**Verified on device** (YMF46D):
+**Verified on device**:
 - absent -> `present:0 slot:none nulls`; checker CRITICAL, and OK with
   `--ignore-no-card`
 - present -> bind-mounted the jffs2 partition onto `/mnt/mmc0` to get real `df`
-  numbers (total 1024 / used 260 / avail 764 / 25%); checker reported
-  `rec_storage(mmc0) only 764 KB free` = WARNING, proving the absolute-headroom
-  path E2E through the authenticated CGI route.
+  numbers; checker reported the low-headroom WARNING, proving the absolute-free
+  path end to end through the authenticated CGI route.
 - tmpfs quirk: this busybox reports **0 blocks for tmpfs**. The checker treats a
   zero/absent total as *unreadable* (UNKNOWN), not "0 KB free" -- avoids a false
   alarm on any pseudo-fs.
-- schema-1 fail-safe: pointed the new checker at the still-flashed custom3 device
-  and it correctly returned `rec_storage state unknown (generator schema <2?)`
-  instead of silently passing.
+- schema-1 fail-safe: the checker returns `rec_storage state unknown
+  (generator schema <2?)` instead of silently passing.
 - 14 fixture combinations (6 payload shapes x default/`--ignore-no-card`) all
   return the expected exit codes.
 
-**Note**: `/opt` is squashfs (read-only) at runtime, so testing required running
-the generator from `/tmp`. The change ships via `pack.sh` like everything else.
+**Note**: `/opt` is squashfs (read-only) at runtime, so testing requires running
+the generator from `/tmp`.
 
 ---
 
-## 4. Deferred / nice-to-have
+## 4. Platform findings + open questions
 
-- [x] **FLASH-VERIFIED (cold boot, custom3) — ALL GREEN.** Device rebooted on
-      `custom3`; the boot-spawned `web_server` has `nagios_authd.so` mapped
-      (3 segments) and `procman`'s environ carries `LD_PRELOAD`. Auth matrix
-      over **both HTTP and HTTPS**: no-creds 403, wrong-pass 403, unknown-user
-      403, correct-creds 200 + live JSON feed (real generator: heartbeat
-      advancing, temp/mem/nand populated). `getinfo` passthrough 200. Audit
-      log `/tmp/nagios_auth.log` shows the correct verdicts. The Nagios plugin
-      returns OK with full perfdata and detects heartbeat advance. Persistence
-      via `rcS` confirmed working from flash.
-      NOTE: `pack.sh` regenerates `reclogin.pass` each build — after flashing,
-      copy `builds/YMF46D/rootfs/opt/ch/reclogin.pass` to `tools/.reclogin_pass`
-      so `tools/ctl3.exp` can log in.
+### Nagios access control
 - [ ] Create a dedicated low-privilege `nagios` account in the web UI rather
       than reusing `camera`; scope it read-only if the UI allows.
-- [ ] **Build + flash `custom4`** so the schema-2 recording-volume fields actually
-      ship. Until then the checker reports `rec_storage state unknown` against the
-      live device (correct fail-safe, but the metric is not yet in the field).
+- [ ] **YM500L: Nagios AUTH cannot port as-is.** `web_server` here is glibc AND
+      stripped (487 FUNC exports but no CGI dispatch hooks —
+      no `http_cgi_find`/`http_cgi_handle`/`MsgUserGetPassword`). The
+      LD_PRELOAD shim has nothing to interpose. **Gating the world-readable feed
+      is not possible on this model.** Options are an unauthenticated redacted
+      LAN feed, or a separate auth task.
+
+### Recording volume
 - [ ] With a **real SD card** inserted, confirm the vendor mounts the recording
       volume at `/mnt/mmc0` (not somewhere else) and that `df` reports real vfat
       numbers. Slot probe order `mmc0`/`mmc1`/`usb` is inferred from `hwinfo.sh`
       and the mount dirs, not observed with a card present.
-- [x] **YM500L port** (`MC500L` / `YM500L-NM223N`).
-      Different platform: **glibc** (not uClibc), INFINITY3 MSC000A-S04A, kernel
-      3.18.30, squashfs block 131072, HTTPS native (vendor cert).
-      - [x] **Telnet recovery shell ported** (commit `c101f6e`) — access-first.
-            No Telnet checkbox in this model's UI, so a persistent
-            `/opt/ch/telnet.force_boot` marker is baked into the squashfs.
-            **FLASHED and verified live.**
-      - [x] **Temperature sensor found**: the ONLY path is
-            `/sys/devices/system/cpu/cpufreq/temp_out` (format `Temp=NN`).
-            `TEMP_R` / `thermal_zone0` do NOT exist on this SoC.
-      - [x] **hwinfo.sh + nagios.sh ported** and running from flash; both feeds
-            live on `.113`, Hardware Diagnostics panel browser-validated (38 rows).
-      - [x] **Device nodes need the `/dev/block/` prefix**: `/dev/block/mtdblock2`
-            (squashfs @ `/system`), `mtdblock4` (`/mnt/nand` jffs2),
-            `mtdblock5` (`/tmp/oem`). Bare `/dev/mtd*` does not exist.
-      - [x] **busybox reality corrected**: the tree ships 339 symlinks but the
-            runtime binary has only ~110 applets. **MISSING: `head`, `tr`,
-            `uniq`, `stat`, `readlink`, `mountpoint`, `nc`.** Use
-            `busybox awk 'NR<=N'` instead of `head -N`.
-      - [x] **`ps -o comm` is NOT supported** on this busybox — it exits
-            `ps: invalid option -- 'o'`, which silently blanked `top_processes`
-            to `n/a` on every sample. Fixed to read `/proc/<pid>/comm`, which is
-            portable to YMF46D too (applied to both trees).
-      - [x] **Telnet checkbox ported to the Service Ports page** (custom7).
-            YM500L has no YMF46D-style "Port" tab Telnet box, but it DOES have
-            a richer **Network -> Service Ports** page (`StreamingMediaConfig`)
-            with WEB/Onvif/RTSP/HIK/Dahua toggles. Added a Telnet checkbox
-            there driving the same spare `enable_tst` attribute.
-            **Backend verified live before building:**
-              * `/getMediaStreamConfig` returns `enable_tst`
-              * `/setMediaStreamConfig` persists it
-              * a normal Service Ports **Save PRESERVES it** — the page only
-                `setAttribute()`s fields it knows about, so an attribute it
-                never touches survives the read-modify-write. This was the real
-                risk; it is not a problem.
-              * end-to-end: checked the box -> `enable_tst` went `0` -> `1` on disk.
-            3 JS edits (refresh read / confirm write / default read), each
-            unit-tested in-page against a synthetic element + attribute holder.
-      - [x] **`telnet.force_boot` REMOVED** — telnet is now **opt-in**, off by
-            default. This is strictly better than custom6, which ran an
-            always-open telnet listener on the LAN with no way to disable it
-            short of reflashing. Escape hatch still coded:
-            `touch builds/YM500L/rootfs/opt/ch/telnet.force_boot && ./pack.sh YM500L`.
-      - [ ] **FLASH `out/YM500L_3.2.1.2-custom9.bin`** — sha256
-            `489448d9b5ef397927d5f49d4970bb1de698e4bca3dc96d77b577b666125988c`,
-            rootfs 9,109,504 B = 139 x 64 KiB (proven geometry),
-            recovery login `root / <see tools/.reclogin_pass.<ip>, gitignored>`.
-            Supersedes the earlier `custom7`/`custom8` scratch builds: same
-            content, correct auto-incremented tag. **No password sync needed**
-            -- the recovery password is now stable per camera, so the running
-            custom6 and custom9 share the same password (kept in the gitignored
-            per-camera file, never committed).
-            ⚠ **After flashing, telnet :23 will be CLOSED.** Enable it from
-            Network -> Service Ports -> Telnet (applies within ~5 s). If you
-            get locked out of the web UI first, there is no shell -- the recovery
-            login lives *behind* telnet. Check the box while you can still log in.
-            (Not a brick risk: serial console on ttyS0 115200 and stock reflash
-            both remain available.)
-      - [x] **FLASHED `custom6` and verified** (2026-10-04). Device reports
-            `V3.2.1.2-custom6 build 2026-10-04 14:29:08`. rootfs 9,109,504 B =
-            exactly 139 x 64 KiB (erase-aligned, under the 9,113,600 stock size)
-            — same proven geometry as `custom3_pad64k`, and it flashed cleanly.
-            `top_processes` now reports real data in the panel (38 rows, zero
-            `n/a`). Pass file updated to match the running build.
-      - [ ] **YMF46D: optional, not urgent.** The `/proc/<pid>/comm` fix is
-            committed in `builds/YMF46D/rootfs/opt/ch/hwinfo.sh` but the running
-            `.109` (custom3) predates it. It does NOT need reflashing for
-            correctness — `.109`'s busybox supports `ps -o comm`, so the old
-            form already worked there. Confirmed live: `.109` reports
-            `3xurdma_tx_thread; 2xsleep; 2xsh; ...`. Pick it up on the next
-            YMF46D build for tree consistency only.
-      - [ ] **Nagios AUTH cannot port as-is**: `web_server` here is glibc AND
-            stripped (487 FUNC exports but no CGI dispatch hooks —
-            no `http_cgi_find`/`http_cgi_handle`/`MsgUserGetPassword`). The
-            LD_PRELOAD shim has nothing to interpose. Investigated: **gating the
-            world-readable feed is not possible on this model.** Options are an
-            unauthenticated redacted LAN feed, or a separate auth task.
-      - [ ] **This unit runs genuinely hot: ~89-90 C at idle.** Confirmed after
-            killing all test load — NOT an artifact of my own test processes.
-            Remaining CPU is vendor `media_server` (~40% of one core). Worth
-            watching; `temp_out` may be uncalibrated, so treat as a trend.
-      - [ ] `default_route` reports the gateway as **the device's own address**
-            rather than a real upstream gateway. Verified against
-            `/proc/net/route` — this is a **vendor quirk, not a parsing bug**.
-            YMF46D reports a real gateway instead. Do not "fix".
-- [ ] Push branch to a remote (blocked: no SSH key configured).
-- [ ] Audit whether `/cgi-bin/getuid` rate-limits failed attempts.
-- [ ] Consider whether `hwinfo.txt` should also be redacted (it currently leaks
-      the same recon fields to the whole LAN).
+
+### YM500L platform (glibc, INFINITY3 MSC000A-S04A, kernel 3.18.30)
+- **Temperature sensor**: the ONLY path is
+  `/sys/devices/system/cpu/cpufreq/temp_out` (format `Temp=NN`).
+  `TEMP_R` / `thermal_zone0` do NOT exist on this SoC.
+- **Device nodes need the `/dev/block/` prefix**: `/dev/block/mtdblock2`
+  (squashfs @ `/system`), `mtdblock4` (`/mnt/nand` jffs2), `mtdblock5`
+  (`/tmp/oem`). Bare `/dev/mtd*` does not exist.
+- **busybox reality**: the tree ships 339 symlinks but the runtime binary has
+  only ~110 applets. **MISSING: `head`, `tr`, `uniq`, `stat`, `readlink`,
+  `mountpoint`, `nc`.** Use `busybox awk 'NR<=N'` instead of `head -N`.
+- **`ps -o comm` is NOT supported** — it exits `ps: invalid option -- 'o'`,
+  which silently blanks `top_processes` to `n/a`. Read `/proc/<pid>/comm`
+  instead; portable to YMF46D too.
+- **Telnet recovery shell** is opt-in via the Service Ports -> Telnet checkbox,
+  which drives the spare `enable_tst` attribute. The checkbox lives on the
+  `StreamingMediaConfig` (Service Ports) page, not a "Port" tab.
+  `/setMediaStreamConfig` persists `enable_tst` and a normal Save preserves it
+  (the page only `setAttribute()`s fields it knows about).
+- [ ] **This unit runs genuinely hot: ~89-90 C at idle.** Confirmed after
+      killing all test load — not an artifact of test processes. Remaining CPU
+      is vendor `media_server` (~40% of one core). `temp_out` may be
+      uncalibrated, so treat as a trend.
+- [ ] `default_route` reports the gateway as **the device's own address** rather
+      than a real upstream gateway. Verified against `/proc/net/route` — this is
+      a **vendor quirk, not a parsing bug**. YMF46D reports a real gateway
+      instead. Do not "fix".

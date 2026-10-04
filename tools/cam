@@ -1,80 +1,54 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------
-# cam -- resolve a camera/staging address from tools/cameras.conf
+# cam -- get a camera address, asking if it was not supplied.
 #
-#   ./tools/cam ym500l            -> 192.0.2.11  (whatever your conf says)
-#   ./tools/cam YM500L            -> same (slug matching is case-insensitive)
-#   ./tools/cam default           -> the conf's `default=` target
-#   ./tools/cam staging           -> the staging HTTP server
+#   ./tools/cam 192.0.2.11   -> echoed straight back
+#   ./tools/cam                     -> prompts:  camera IP: _
 #
-# Resolution order (first hit wins):
-#   1. CAM_<KEY> environment variable   (e.g. CAM_YM500L=192.0.2.11)
-#   2. tools/cameras.conf               (your local, gitignored file)
-#   3. tools/cameras.conf.example       (placeholders -- will not really work)
+# For non-interactive use (cron, Nagios, CI) set CAM_IP=1.2.3.4 so nothing
+# blocks waiting on a terminal.
 #
-# Exits non-zero with a clear message if the key is unknown, so callers fail loud
-# rather than silently dialling a stale hardcoded address.
+# Other scripts source this for the function:
 #
-# WHY THIS EXISTS: the repo used to hardcode our bench IPs (192.168.111.x) in
-# every script. This is a public repo, so addresses now live only in the
-# gitignored cameras.conf and this resolver.
+#   . "$(dirname "$0")/cam"
+#   HOST="$(cam_host "${1:-}" "camera IP")" || exit 1
+#
+# The prompt goes to stderr so stdout stays cleanly pipeable.
 # ---------------------------------------------------------------------------
 set -u
 
-here="$(cd "$(dirname "$0")" && pwd)"
-
-conf_lookup() {
-    local key="$1" file="$2" val
-    [ -r "$file" ] || return 1
-    # last matching key wins; strip inline comments and surrounding whitespace
-    val="$(sed -n "s/^[[:space:]]*${key}[[:space:]]*=[[:space:]]*\([^#[:space:]]*\).*/\1/p" "$file" | tail -1)"
-    [ -n "$val" ] || return 1
-    printf '%s\n' "$val"
+# An IPv4 dotted quad, or a plain hostname.
+is_host() {
+    printf '%s' "$1" | grep -Eq '^([0-9]{1,3}(\.[0-9]{1,3}){3}|[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+)$'
 }
 
-resolve() {
-    local key="$1" envvar
-    key="$(printf '%s' "$key" | tr '[:upper:]' '[:lower:]')"
-    envvar="CAM_$(printf '%s' "$key" | tr 'a-z.-' 'A-Z__')"
-    # 1. env override
-    if [ -n "${!envvar:-}" ]; then
-        printf '%s\n' "${!envvar}"
-        return 0
-    fi
-    # 2. local conf, 3. example placeholders
-    for f in "$here/cameras.conf" "$here/cameras.conf.example"; do
-        if conf_lookup "$key" "$f" >/dev/null 2>&1; then
-            conf_lookup "$key" "$f"
-            return 0
+# cam_host [address] [prompt-text]
+cam_host() {
+    local arg="${1:-${CAM_IP:-}}" prompt="${2:-camera IP}" reply
+
+    if [ -z "$arg" ]; then
+        if [ ! -t 0 ]; then
+            echo "cam: no camera address given." >&2
+            echo "     pass it as an argument, or set CAM_IP=1.2.3.4" >&2
+            return 1
         fi
-    done
-    return 1
+        printf '%s: ' "$prompt" >&2
+        IFS= read -r reply || { echo "cam: no address entered." >&2; return 1; }
+        arg="${reply//[[:space:]]/}"
+    fi
+
+    if [ -z "$arg" ]; then
+        echo "cam: no camera address given." >&2
+        return 1
+    fi
+    if ! is_host "$arg"; then
+        echo "cam: '$arg' is not an IPv4 address or hostname." >&2
+        return 1
+    fi
+    printf '%s\n' "$arg"
 }
 
-key="${1:-default}"
-
-# An IPv4 literal passes straight through, so callers can use this uniformly for
-# both "ym500l" and "192.0.2.11" without pre-checking which form they were given.
-if printf '%s' "$key" | grep -Eq '^[0-9]{1,3}(\.[0-9]{1,3}){3}$'; then
-    printf '%s\n' "$key"
-    exit 0
+# Run directly (not sourced)?
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    cam_host "${1:-}" "${2:-camera IP}" || exit 1
 fi
-key="$(printf '%s' "$key" | tr '[:upper:]' '[:lower:]')"
-
-# `default` is a pointer to another key: resolve it once.
-if [ "$key" = "default" ]; then
-    target="$(resolve default)" || {
-        echo "cam: no 'default=' in $here/cameras.conf" >&2
-        exit 1
-    }
-    key="$(printf '%s' "$target" | tr '[:upper:]' '[:lower:]')"
-fi
-
-if ! ip="$(resolve "$key")" || [ -z "$ip" ]; then
-    echo "cam: unknown camera key '$1'." >&2
-    echo "     Add it to $here/cameras.conf (see cameras.conf.example)" >&2
-    echo "     or override on the command line: CAM_${key^^}=192.0.2.11" >&2
-    exit 1
-fi
-
-printf '%s\n' "$ip"

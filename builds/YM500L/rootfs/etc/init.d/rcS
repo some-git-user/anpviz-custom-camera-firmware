@@ -169,15 +169,10 @@ source /etc/profile
 
 #telnetd &
 
-# --- RECOVERY SHELL (ported from YMF46D custom build) ---------------------
+# --- RECOVERY SHELL -------------------------------------------------------
 # Web-controlled telnet daemon. Polls <StreamAccess enable_tst="N"> in
-# /mnt/nand/config.xml and starts/stops telnetd accordingly.
-#
-# YM500L DIFFERENCE: this model's web UI has NO Telnet checkbox, so the UI
-# can never flip enable_tst. To guarantee a recovery shell we bake a
-# persistent marker /opt/ch/telnet.force_boot into the image, which the
-# daemon honours (see enabled() in telnetd_ctl.sh). Telnet therefore starts
-# ON at boot for this build.
+# /mnt/nand/config.xml and starts/stops telnetd accordingly. Telnet is
+# opt-in via the Service Ports -> Telnet checkbox; it is OFF unless enabled.
 #
 # Login:  root / (recovery password printed by ./pack.sh, stored in
 #         /opt/ch/reclogin.pass -- not kept in git).
@@ -186,12 +181,12 @@ source /etc/profile
 # /opt/ch/flag.set.passwd exists (it does on this model), which would
 # lock out any password baked into /etc/passwd.
 #
-# To DISABLE telnet on this build: delete /opt/ch/telnet.force_boot and
-# rebuild. To force it on a running box: `touch /tmp/telnet.force`.
+# Force telnet on a locked-out box: `touch /tmp/telnet.force`. Build-time
+# always-on escape hatch: `touch builds/YM500L/rootfs/opt/ch/telnet.force_boot`.
 #
 # Invoked via `sh` + tested with `-f` (not `-x`) on purpose -- the exec bit
-# is unreliable across git/squashfs and an earlier build shipped a toggle
-# that silently no-op'd. FAIL-CLOSED: if the daemon is missing, nothing runs.
+# is unreliable across git/squashfs. FAIL-CLOSED: if the daemon is missing,
+# nothing runs.
 echo "RECOVERY: starting web-controlled telnetd daemon" > /dev/console
 if [ -f /opt/ch/telnetd_ctl.sh ]; then
 	( sh /opt/ch/telnetd_ctl.sh 5 >/tmp/telnetd_ctl.log 2>&1 & )

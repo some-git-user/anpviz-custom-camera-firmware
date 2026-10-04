@@ -139,15 +139,10 @@ collect() {
 	# comparable and neither are the readings:
 	#   YMF46D (INFINITY6C, msys/TEMP_R)     ~74 C at normal vendor load.
 	#   YM500L (INFINITY3, cpufreq/temp_out) ~88-89 C at rest, 93-96 C when warm.
-	# The YM500L sensor is NOT saturated -- it tracks real thermal state, just
-	# with a slow time constant. Measured 2026-10-04: 93-96 C shortly after
-	# flashing and while running CPU-burner tests, then settling back to a stable
-	# 88-89 C after the device was left alone for a while. An earlier note here
-	# claiming the sensor was "pinned at its ceiling / unresponsive" was WRONG --
-	# it was taken while the chassis was still hot from flashing + burners.
-	# What keeps it hot is that the vendor media pipeline never idles: media_server
-	# holds ~45% CPU and ~0% idle was observed even with no client connected, so
-	# the SoC sits near the top of its normal band permanently.
+	# The YM500L sensor tracks real thermal state with a slow time constant, so it
+	# stays hot for a while after load. What keeps it hot is that the vendor media
+	# pipeline never idles: media_server holds ~45% CPU even with no client
+	# connected, so the SoC sits near the top of its normal band permanently.
 	# Consequence: the single default pair shipped here (warn 75 / crit 85) is
 	# right for YMF46D but puts YM500L in CRITICAL at its NORMAL RESTING state.
 	# Set thresholds PER HOST in Nagios (--warn-temp/--crit-temp, e.g. 92/97 for

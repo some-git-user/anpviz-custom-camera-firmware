@@ -3,7 +3,7 @@
 # Repack an edited build tree into a flashable ANJOY888 firmware image.
 #
 #   usage: ./pack.sh <slug> [name]
-#          ./pack.sh YMF46D https10
+#          ./pack.sh YMF46D custom1
 #          ./pack.sh YM500L
 #
 # Reads  builds/<slug>/rootfs  +  builds/<slug>/header.bin
@@ -18,8 +18,9 @@
 #   HTTPS_CN     TLS cert CN                     (default: homecamera.lan)
 #   HTTPS_DAYS   TLS cert validity in days       (default: 3650)
 #   RECOVERY_PASS  recovery telnet root password (default: random, printed)
-#   CAM_IP       camera IP for syncing tools/.reclogin_pass.<ip> for ctl3.exp
-#                (default: build.info cam_ip, else tools/cameras.conf by slug)
+#   CAM_IP       camera IP, used to name the recovery-password store.
+#                If unset and run from a terminal you are asked for it.
+#                Non-interactive with no CAM_IP uses the shared store.
 # ---------------------------------------------------------------------------
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -67,38 +68,34 @@ fi
 # reclogin.sh reads /opt/ch/reclogin.pass at login time. The file is gitignored,
 # so the password never lands in the repo.
 #
-# WHY STABLE: this used to be a fresh random password on EVERY build. That single
-# design choice created a recurring chore and a confusing failure mode -- after
-# each pack you had to remember
-#     cp builds/<cam>/rootfs/opt/ch/reclogin.pass tools/.reclogin_pass.<ip>
-# and forgetting it produced a bare "Login incorrect" that looked like a broken
-# image rather than a stale secret. It bit us repeatedly.
-#
-# Now the per-camera file tools/.reclogin_pass.<ip> is the SOURCE OF TRUTH:
+# The per-camera file tools/.reclogin_pass.<ip> is the source of truth:
 #   * exists  -> REUSE it. Build 100 times, the password never changes, so
 #                telnet keeps working whether or not you have flashed yet.
 #   * missing -> generate one and PERSIST it there, so it is stable from then on.
 #   * RECOVERY_PASS=... -> force a new password and overwrite the file (rotate).
-# The flashed image and tools/ can never disagree, so there is nothing to sync.
-cam_host_for() {
-    # Resolve the camera's address through tools/cameras.conf (gitignored) rather
-    # than hardcoding it -- this is a public repo. The slug matches the conf key
-    # case-insensitively, so YM500L -> ym500l=. Empty if unresolvable, which is
-    # handled by the warning below.
-    local cam="tools/cam"   # pack.sh already cd'd to the repo root (see top)
-    [ -x "$cam" ] || return 0
-    "$cam" "$1" 2>/dev/null || true
-}
-CAM_IP="${CAM_IP:-$(sed -n 's/^cam_ip=//p' "$BUILD/build.info" 2>/dev/null | head -1)}"
-[ -n "$CAM_IP" ] || CAM_IP="$(cam_host_for "$SLUG")"
+# The flashed image and tools/ read the same file, so they never disagree.
+#
+# The address is only here to NAME the password store, so two cameras do not
+# share a file. Building itself does not need one. So:
+#   CAM_IP=... ./pack.sh ...   -> used directly
+#   run from a terminal        -> you are asked once
+#   non-interactive, no IP   -> fall back to the single shared store
+#                              tools/.reclogin_pass (ctl3.exp reads that too),
+#                              so CI/cron builds still work.
+CAM_IP="${CAM_IP:-}"
+if [ -z "$CAM_IP" ] && [ -t 0 ]; then
+    printf 'camera IP for the recovery-password store (blank = shared store): ' >&2
+    IFS= read -r CAM_IP || CAM_IP=""
+    CAM_IP="${CAM_IP//[[:space:]]/}"
+fi
 PASS_STORE=""
 if [ -n "$CAM_IP" ]; then
     PASS_STORE="tools/.reclogin_pass.$CAM_IP"
 else
-    echo "WARNING: no camera IP known for slug '$SLUG'." >&2
-    echo "         Set CAM_IP=1.2.3.4 or add cam_ip= to $BUILD/build.info so the" >&2
-    echo "         recovery password is stored per-camera (otherwise it is random" >&2
-    echo "         per build and you must pass RECLOGIN_PASS to ctl3.exp)." >&2
+    # No address: use the single shared store. ctl3.exp falls back to this same
+    # file when it has no per-host file, so the two always agree.
+    PASS_STORE="tools/.reclogin_pass"
+    echo "  no camera IP -- using the shared store $PASS_STORE" >&2
 fi
 
 if [ -n "$RECOVERY_PASS" ]; then
@@ -143,23 +140,18 @@ fi
 # build from builds/<slug>/custom_build. Override with CUSTOM_TAG=... to pin it.
 BASE_VER="$(sed -n 's/^version=//p' "$BUILD/build.info" 2>/dev/null | head -1)"
 [ -n "$BASE_VER" ] || BASE_VER="0.0.0"
-# Read the current counter once. `|| true` is REQUIRED here: under
-# `set -o pipefail`, a camera that has never been custom-built has no
-# custom_build file, so `cat` exits 1 and the whole pipeline aborts the script
-# -- silently breaking pack for any fresh tree (this is exactly how YM500L's
-# pack was dying).
+# `|| true` is REQUIRED: under `set -o pipefail`, a camera that has never been
+# custom-built has no custom_build file, so `cat` exits 1 and would abort the
+# whole pipeline on a fresh tree.
 CUR_N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9' || true)"
 [ -n "$CUR_N" ] || CUR_N=0
 
 if [ -n "$CUSTOM_TAG" ]; then
     TAG="$CUSTOM_TAG"
-    # A pinned tag must STILL advance the counter. Without this the counter
-    # drifts behind reality: we pinned custom7 and custom8 while the counter
-    # sat at 6, so the next UNPINNED build computed N=7 and produced the tag
-    # "...-custom7" for a completely different image -- two distinct builds
-    # claiming one version string, which is exactly the wrong thing to have
-    # when deciding what is actually flashed on a camera.
-    # Bump to at least the pinned number so auto-increment resumes above it.
+    # A pinned tag must STILL advance the counter, otherwise it drifts behind
+    # reality and the next UNPINNED build reuses a number already handed out --
+    # two distinct images claiming one version string. Bump the counter to at
+    # least the pinned number so auto-increment resumes above it.
     PINNED_N="$(printf '%s' "$CUSTOM_TAG" | sed -n 's/.*custom\([0-9][0-9]*\).*/\1/p')"
     if [ -n "$PINNED_N" ] && [ "$PINNED_N" -gt "$CUR_N" ]; then
         echo "$PINNED_N" > "$BUILD/custom_build"
@@ -247,10 +239,9 @@ fi
 
 # --- normalise executable bits on shell scripts -----------------------------
 # squashfs preserves unix modes, so a script that lost its exec bit in the tree
-# (or in git) boots non-executable. That already broke the web-controlled
-# telnet toggle once: rcS tested `[ -x /opt/ch/telnetd_ctl.sh ]`, the test
-# failed, and the fallback left telnet open unconditionally. Cheap insurance:
-# make every shell script in the tree executable before packing.
+# (or in git) boots non-executable -- which would silently break any rcS guard
+# like `[ -x /opt/ch/telnetd_ctl.sh ]`. Make every shell script in the tree
+# executable before packing.
 echo "Normalising exec bits on shell scripts..."
 find "$BUILD/rootfs" -type f -name '*.sh' -exec chmod 755 {} +
 [ -f "$BUILD/rootfs/etc/init.d/rcS" ] && chmod 755 "$BUILD/rootfs/etc/init.d/rcS"

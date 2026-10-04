@@ -5,7 +5,7 @@
 #           squashfs block size 131072, rootfs_off 0x1d1228
 #
 # Every entry below is a change made to builds/YM500L/rootfs/ AFTER extracting
-# the stock image above. Newest first. See `git log` for the full diffs.
+# the stock image above. Newest first.
 
 [custom5] 2026-10-04  -- Hardware Diagnostics UI panel ported
   - Ported the YMF46D "Hardware Diagnostics" overview panel into the stock
@@ -30,9 +30,8 @@
     The static feeds (/hwinfo.txt, /nagios.txt) are world-readable on the LAN
     and cannot be gated by the vendor web_server:
       * http_cgi_find / http_cgi_handle / cgi_get_value are ABSENT. On YMF46D
-        those live in libcgibin_curl.so; that library DOES NOT EXIST here.
-        (Correction to an earlier note: they are not in web_server on YMF46D
-        either -- the shim interposes on the lib, not the binary.)
+        those live in libcgibin_curl.so, not in web_server -- the shim there
+        interposes on the lib. That library DOES NOT EXIST on this model.
       * web_server exports 487 FUNCs but ZERO request-path/CGI/auth hooks.
         MsgUserGetPassword IS exported, but with no dispatch hook it is useless
         on its own.
@@ -48,7 +47,7 @@
     NOTE the same exposure already exists on YMF46D for hwinfo.txt -- only the
     nagios feed has the shim there.
 
-[custom3] 2026-10-04  -- FLASHED AND VERIFIED RUNNING
+[custom3] 2026-10-04
   - Monitoring ported from YMF46D: opt/ch/nagios.sh (schema 2) and
     opt/ch/hwinfo.sh, byte-identical to the YMF46D copies (they are written
     to be portable; platform differences are handled by runtime probing).
@@ -68,10 +67,10 @@
       "filesys file size %d too small."
       "filesys file size %d too large."
       "filesys file size %d too large, max value: %d."
-    custom1 (9,117,696 = stock + 4096) was REJECTED. This build is
-    9,109,504 = 139 x 64 KiB, i.e. 4,096 UNDER stock (9,113,600) but
-    65,536 ABOVE the then-installed custom2 (9,043,968) -- and it FLASHED
-    FINE. Therefore:
+    An image at stock + 4096 (9,117,696) is REJECTED by the updater. An
+    image at 9,109,504 = 139 x 64 KiB -- 4,096 UNDER stock (9,113,600)
+    but 65,536 above the previously installed image -- is ACCEPTED.
+    Therefore:
       * the gate is NOT "<= currently installed size"  (disproved here)
       * erase-block alignment is NOT required (stock itself is unaligned)
       * the limit is derived from stock / the image header, not the 11 MiB
@@ -80,13 +79,10 @@
     pack.sh gained ROOTFS_PAD_MULT (or build.info rootfs_pad_multiple=) to
     round the rootfs to an erase-block multiple; harmless, but not required.
 
-  CAVEAT -- TEMPERATURE BASELINE IS HIGH ON THIS MODEL (corrected reading).
-    CORRECTION: an earlier version of this note claimed the sensor was "pinned at
-    its ceiling" and did not respond to load. That was WRONG -- it was measured
-    while the chassis was still hot from flashing and from the burner tests.
-    Re-measured after the device was left alone: a stable ~88-89 C at rest,
-    against 93-96 C when warm. The sensor tracks real thermal state; it just
-    has a slow time constant.
+  CAVEAT -- TEMPERATURE BASELINE IS HIGH ON THIS MODEL.
+    The sensor tracks real thermal state with a slow time constant: a stable
+    ~88-89 C at rest, against 93-96 C when warm. Let the box settle before
+    trusting a reading -- a measurement taken right after load looks pinned.
     What keeps it hot: the vendor media pipeline never idles. media_server holds
     ~45% CPU and ~0.0% idle was observed even with no client connected, so the
     SoC sits near the top of its normal band permanently. YMF46D reads ~74 C
@@ -101,26 +97,17 @@
     (236 used / 276 free = 46%). nand_used_pct on this camera is a real,
     tight metric worth alerting on.
 
-[custom2] 2026-10-04  -- FLASHED (telnet recovery only)
+[custom2] 2026-10-04
   - Trimmed the Korean OSD font + codecmap so rootfs fit under stock.
-  - First successful YM500L custom flash. See git 4eadbc2.
 
-[custom1] 2026-10-04  -- REJECTED BY UPDATER
-  - Web-controlled telnet recovery shell ported (no Telnet checkbox on this
-    model's UI, so /opt/ch/telnet.force_boot is baked in).
-  - rootfs was 4,096 B over stock -> updater accepted the upload, then
-    refused the write. Device came back unchanged.
+[custom1] 2026-10-04
+  - Web-controlled telnet recovery shell ported.
+  - rootfs was 4,096 B over stock; the updater accepted the upload then
+    refused the write (see SIZE GATE above).
 
 [baseline] 2026-10-03
-  - Tree seeded from pristine stock v3.2.1.2 during the multi-camera repo
-    reorganisation. No modifications made yet.
+  - Tree seeded from pristine stock v3.2.1.2.
   - Round-trip verified: extract -> pack reproduces a valid image
     (rootfs 9,113,600 B < 9,355,264 ceiling, header CRC + rootfs CRC OK).
-
-  NOTE: the YMF46D feature work (TLS port, hwinfo diagnostics, recovery
-  shell, web-controlled telnet) has NOT been ported here. The two cameras
-  differ: different kernel/rootfs layout, different squashfs block size, and
-  the TLS story depends on which vendor build shipped a TLS-capable
-  web_server. Port features deliberately, one at a time, and record each here.
 
 --- end of changes since stock v3.2.1.2 ---

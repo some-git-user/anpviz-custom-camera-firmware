@@ -9,8 +9,8 @@
 # by the server's fixed-struct serializer).
 #
 # We piggyback on the spare field enable_tst (parsed by libtools.so but consumed
-# by NO feature and exposed in NO UI -- verified). The web UI "Telnet" checkbox
-# sets enable_tst="1"/"0". This daemon polls that value and starts/stops telnetd.
+# by no vendor feature). The web UI "Telnet" checkbox sets enable_tst="1"/"0";
+# this daemon polls that value and starts/stops telnetd.
 #
 # Login is handled by /opt/ch/reclogin.sh (fixed creds, immune to the vendor
 # mainctrl password overwrite). See rcS.
@@ -30,25 +30,21 @@ trap '' HUP
 # Read the enable_tst value from the persisted config. Pure-shell, no tr/cut
 # (those applets are not compiled into this busybox).
 #
-# YM500L NOTE: this model has no Telnet checkbox on the old "Port" tab like the
-# YMF46D, but it DOES have a richer "Service Ports" page (StreamingMediaConfig)
-# which we extended with a Telnet checkbox writing the same spare enable_tst attr.
-# Verified live on .113: /setMediaStreamConfig persists enable_tst, AND a normal
-# Service Ports Save PRESERVES it -- the page only setAttribute()s fields it knows
-# about, so an attribute it never touches still survives the read-modify-write.
+# YM500L NOTE: the checkbox lives on the "Service Ports" page
+# (StreamingMediaConfig), not the old "Port" tab. /setMediaStreamConfig persists
+# enable_tst, and a normal Service Ports Save preserves it -- the page only
+# setAttribute()s fields it knows about, so an attribute it never touches still
+# survives the read-modify-write.
 #
-# HISTORY: before that checkbox existed we shipped a PERSISTENT override
-# (/opt/ch/telnet.force_boot, baked into the squashfs) so telnet was always-on,
-# purely to bootstrap shell access on a model with no UI control. That marker is
-# REMOVED as of custom7: telnet is now opt-in from the UI, matching YMF46D, and
-# we no longer run an always-open telnet listener on the LAN.
-# To restore always-on behaviour:
+# Telnet is opt-in from the UI, matching YMF46D -- there is no always-open
+# listener by default. A build-time escape hatch exists for bootstrapping a box
+# you have locked out:
 #   touch builds/YM500L/rootfs/opt/ch/telnet.force_boot && ./pack.sh YM500L
 enabled() {
 	# Manual override: `touch /tmp/telnet.force` forces telnet ON regardless
 	# of the persisted config (useful if you ever lock yourself out via the UI).
 	[ -e /tmp/telnet.force ] && return 0
-	# Build-time always-on escape hatch (see header). Absent by default now.
+	# Build-time always-on escape hatch (see header). Absent by default.
 	[ -e /opt/ch/telnet.force_boot ] && return 0
 	[ -r "$CFG" ] || return 1
 	# find the enable_tst="N" attribute and extract N

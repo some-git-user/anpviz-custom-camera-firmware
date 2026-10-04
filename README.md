@@ -32,43 +32,88 @@ pack.sh            pack builds/<slug>/ -> out/<slug>_<tag>.bin
 
 ## First-time setup (per clone)
 
-This repo deliberately contains **no** camera addresses, passwords, or MACs.
-Those live in gitignored files that you create locally. Two steps:
+One step:
 
 ```bash
-# 1. Tell the tools where your cameras are.
-cp tools/cameras.conf.example tools/cameras.conf
-$EDITOR tools/cameras.conf        # set your real addresses
-
-# 2. Install the pre-push PII gate.
-./tools/install_hooks.sh
+./tools/install_hooks.sh      # install the pre-push PII gate
 ```
 
-Everything that needs a host goes through `tools/cam`, which resolves
-`CAM_<KEY>` env → `tools/cameras.conf` → the example template:
+## Talking to a camera
+
+Every network tool takes the camera the same way — argument, `CAM_IP`, or it
+asks you:
 
 ```bash
-tools/cam ym500l          # -> your YM500L address
-tools/cam default         # -> whatever `default=` names
-tools/cam 192.0.2.99     # an IPv4 literal passes straight through
+./tools/ctl3.exp "uname -a" 192.0.2.11   # explicit
+./tools/ctl3.exp "uname -a"                    # prompts: camera IP: _
+CAM_IP=192.0.2.11 ./tools/ctl3.exp "uname -a"
 ```
 
-So the tools take either a key or an address and never need a hardcoded one:
+### `ctl3.exp` — run one command over the recovery shell
 
 ```bash
-./tools/ctl3.exp "uname -a" ym500l
-./tools/verify_flash.sh ymf46d
-./tools/hwdebug.exp
+./tools/ctl3.exp "cat /proc/mtd" 192.0.2.11
+./tools/ctl3.exp "free; df" 192.0.2.11
+./tools/ctl3.exp "grep . /tmp/hwinfo.txt" 192.0.2.11
 ```
 
-Recovery passwords are likewise per-camera and gitignored
-(`tools/.reclogin_pass.<ip>`), generated once by `pack.sh` and reused, so
-there is nothing to sync between a build and the tools.
+Password comes from `RECLOGIN_PASS`, else `tools/.reclogin_pass.<ip>`, else the
+shared `tools/.reclogin_pass`. Telnet must be enabled on the device (Network →
+Service Ports → Telnet).
 
-### Keeping personal data out of a public repo
+### `hwdebug.exp` — full diagnostic battery
 
-`tools/pii_check.py` is the gate, and the `pre-push` hook runs it
-automatically:
+```bash
+./tools/hwdebug.exp 192.0.2.11
+```
+
+Needs the SD-card recovery shell: drop an empty `telnet.enable` on the SD card
+and power-cycle.
+
+### `verify_flash.sh` — did my flash actually land?
+
+```bash
+./tools/verify_flash.sh 192.0.2.11
+```
+
+The vendor web server returns HTTP 200 with a Welcome page for *missing* files,
+so the status code alone is worthless — the canary's contents are what decide.
+Exits 0 custom, 1 stock, 2 unclear.
+
+### `check_anjoy_nagios.py` — monitoring plugin
+
+Runs from cron/Nagios, so it never prompts. Give it `--host` or `CAM_IP`:
+
+```bash
+tools/check_anjoy_nagios.py --host 192.0.2.10 --insecure \
+    --user nagios --password '...' \
+    --state-file /var/tmp/check_anjoy_cam.json \
+    --stale 90 --warn-temp 75 --crit-temp 85
+```
+
+### `pack.sh` — the build
+
+Building is entirely offline. The IP here only *names* the recovery-password
+file, so two cameras do not share one; press enter to skip it:
+
+```bash
+./pack.sh YMF46D                       # asks for an IP; enter = shared store
+CAM_IP=192.0.2.10 ./pack.sh YMF46D   # no prompt
+```
+
+The password is generated once per camera and reused, so there is nothing to
+sync between a build and the tools.
+
+**YM500L has a size gate.** The vendor updater rejects an image whose rootfs is
+larger than stock, so keep `rootfs_size <= 9,113,600`. `ROOTFS_PAD_MULT=65536`
+rounds the rootfs to a 64 KiB multiple (139 × 64 KiB = 9,109,504), which is
+harmless and matches the geometry known to flash, but alignment itself is not
+required — stock is unaligned. See `builds/YM500L/CHANGELOG.txt` for how that
+was established.
+
+## Keeping personal data out of a public repo
+
+`tools/pii_check.py` is the gate, and the `pre-push` hook runs it automatically:
 
 ```bash
 python3 tools/pii_check.py            # tracked files
@@ -113,8 +158,7 @@ The tag is stamped into the rootfs at build time:
 - `var/www/CUSTOM_BUILD.txt` — human-readable build identity, served by the web UI.
 
 Pin an exact tag with `CUSTOM_TAG=3.4.5.2-custom7 ./pack.sh YMF46D` (skips the
-auto-increment). Earlier development builds used `HTTPS2`..`HTTPS11` labels; that
-scheme is retired — see each camera's `CHANGELOG.txt` for the mapping.
+auto-increment).
 
 `extract.sh` refuses to overwrite an existing `builds/<slug>/rootfs` (your edits
 live there). Use `--force` to replace it with a fresh extraction, or `--as SLUG`
@@ -225,7 +269,7 @@ https://<cam>/nagios.txt     ->  JSON, refreshed every 10s by /opt/ch/nagios.sh
 Check it with the bundled plugin:
 
 ```bash
-tools/check_anjoy_nagios.py --host "$(tools/cam ymf46d)" \
+tools/check_anjoy_nagios.py --host 192.0.2.10 \
     --state-file /var/tmp/check_anjoy_cam.json \
     --stale 90 --warn-temp 75 --crit-temp 85
 # OK - heartbeat 41->42 | temperature=71;75;85;0;100 cpu=46;85;95;0;100 ...
@@ -267,6 +311,12 @@ created in the manage-user UI controls access.
 - `tools/check_anjoy_nagios.py` — Nagios plugin for the `nagios.txt` feed
 - `tools/ctl3.exp` — run one command on the device over recovery telnet
 - `tools/hwdebug.exp` — scripted device diagnostics
+- `tools/verify_flash.sh` — confirm a custom rootfs actually landed
+- `tools/cam` — get a camera address (argument, `$CAM_IP`, or prompt)
+- `tools/camhost.tcl` — the same, for the expect scripts
+- `tools/pii_check.py` — the PII gate (worktree / `--staged` / `--history`)
+- `tools/install_hooks.sh` — symlink `tools/hooks/*` into `.git/hooks`
+- `tools/hooks/pre-push` — runs `pii_check.py` before anything is pushed
 
 ## Caveats
 

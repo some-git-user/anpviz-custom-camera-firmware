@@ -66,13 +66,10 @@ tools/nagios_shim/authprobe_dyn
 tools/nagios_shim/authprobe_static
 tools/.reclogin_pass.*
 
-# --- Local camera addresses (NEVER commit) ---------------------------------
-# Real LAN addresses live only here. tools/cam (and everything that calls it)
-# resolves hosts from this file; tools/cameras.conf.example is the tracked
-# template and uses RFC5737 TEST-NET addresses.
-# Note: this pattern does NOT match cameras.conf.example (gitignore matches
-# whole path components, not string prefixes), so the template stays tracked.
-tools/cameras.conf
+# --- Local secrets (NEVER commit) ----------------------------------------
+# There is no address config file. Camera addresses are passed on the command
+# line or via CAM_IP at runtime, so nothing LAN-specific is stored here.
+# The only local state is the recovery-password store, keyed by camera IP.
 
 # PII gate's private needle list (real IPs/MACs/passwords). Never commit.
 tools/.pii_needles

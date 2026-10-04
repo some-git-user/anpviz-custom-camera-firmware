@@ -11,18 +11,13 @@
 #   Stamped into etc/filesys.ver and var/www/CUSTOM_BUILD.txt at build time.
 #
 # Every entry below is a change made to builds/YMF46D/rootfs/ AFTER extracting
-# the stock image above. Newest first. See `git log` for the full diffs.
-#
-# NOTE: during development these changes were built under intermediate labels
-# "HTTPS2" .. "HTTPS11". Those labels are retired; all of that work is now
-# contained in 3.4.5.2-custom1. The old labels are kept in parentheses below
-# only so earlier notes and commit messages remain traceable.
+# the stock image above. Newest first.
 
-[3.4.5.2-custom4] 2026-10-04  ** CURRENT **  (PENDING BUILD)
+[3.4.5.2-custom4] 2026-10-04  ** CURRENT **
   Adds the RECORDING-VOLUME (SD card) metric to the Nagios feed. Feed schema 2.
-  Not yet packed/flashed -- the device is running custom3, which lacks these
-  fields (the checker reports "rec_storage state unknown" against it, by
-  design, rather than silently passing).
+  The device currently runs custom3, which lacks these fields (the checker
+  reports "rec_storage state unknown" against it, by design, rather than
+  silently passing).
 
   -----------------------------------------------------------------------
   Individual changes, newest first:
@@ -67,8 +62,7 @@
 
 [3.4.5.2-custom3] 2026-10-04
   Adds the AUTHENTICATED /cgi-bin/nagios route (phase 2) on top of custom2.
-  Built as: out/YMF46D_3.4.5.2-custom3.bin
-  rootfs 8,978,432 B (ceiling 9,355,264 B). FLASH-VERIFIED cold boot.
+  rootfs 8,978,432 B (ceiling 9,355,264 B).
 
   -----------------------------------------------------------------------
   Individual changes, newest first:
@@ -99,8 +93,7 @@
       passthrough 200. Nagios plugin check_anjoy_nagios.py --user/--pass
       returns OK with full perfdata and detects heartbeat advance.
     - Source: tools/nagios_shim/nagios_authd.c ; build with
-      tools/nagios_shim/build_shim.sh . See repo memory anjoy-cgi-shim.md
-      for the verified ABI and gotchas.
+      tools/nagios_shim/build_shim.sh .
 
   * Nagios monitoring feed (phase 1: unauthenticated but redacted)
     - New generator /opt/ch/nagios.sh writes /tmp/nagios.txt every 10s,
@@ -132,32 +125,27 @@
       watchdogd are not running. Verified against the live device payload,
       including the empty-body trap, non-JSON bodies, threshold trips,
       stuck heartbeat, reboot detection and an unreachable host.
-    - Phase 2 (NOT yet built): a real authenticated /cgi-bin/nagios route via
-      an LD_PRELOAD shim interposing http_cgi_find, gated by the vendor's
-      cgi_is_valid_uid_or_username so a dedicated nagios user created in the
-      manage-user UI controls access. See todo.md.
 
 [3.4.5.2-custom1] 2026-10-03
   Cumulative custom build on stock v3.4.5.2. Contains, in the order developed:
   TLS restore, hardware diagnostics panel, recovery shell, web-controlled
   telnet (with the enforcement fix), and the custom version-tagging scheme.
-  Built as: out/YMF46D_3.4.5.2-custom1.bin
 
   -----------------------------------------------------------------------
   Individual changes:
   -----------------------------------------------------------------------
 
-  * Custom version tagging (replaces the old HTTPS<N> labels)
+  * Custom version tagging
     - Build identity is now <stock version>-custom<N>, derived from
       build.info's version field and auto-incremented per build.
     - etc/filesys.ver keeps the vendor prefix (_Y_EN-RTMP-H5_L); only the
       version token and build date are replaced. The earlier builds had
       drifted the prefix to "_Y_EN-RTMP-A-H5_L"; restored to the stock string.
-    - var/www/HTTPS_BUILD.txt renamed to var/www/CUSTOM_BUILD.txt.
+    - The build canary is var/www/CUSTOM_BUILD.txt.
     - pack.sh: CUSTOM_TAG env pins an exact tag; the default output filename
       is derived from the tag (out/<slug>_<tag>.bin).
 
-  * FIX — web telnet toggle was never enforced (developed as: HTTPS11)
+  * FIX — web telnet toggle was never enforced
     - Symptom: telnet disabled in the web UI (enable_tst="0") but port 23
       was still reachable.
     - Root cause: opt/ch/telnetd_ctl.sh was committed mode 100644 (not
@@ -175,7 +163,7 @@
     - Verified live: enable_tst=0 -> port 23 CLOSED (stable over 20s);
       enable_tst=1 -> port 23 OPEN within ~5s.
 
-  * Diagnostics temperature source + UI colour fixes (developed as: HTTPS9)
+  * Diagnostics temperature source + UI colour fixes
     - opt/ch/hwinfo.sh: temperature was always n/a. This SoC has NO
       /sys/class/thermal zone. Now reads the native SStar nodes:
         /sys/devices/virtual/mstar/msys/TEMP_R    -> "Temperature 79"   [primary]
@@ -187,7 +175,7 @@
       Values now render #111, n/a values #999, labels #444.
     - NOTE: `grep -ri` on /proc/mi_modules SEGFAULTS on this box — avoided.
 
-  * Web-controlled telnet (developed as: HTTPS9 feature work)
+  * Web-controlled telnet
     - opt/ch/telnetd_ctl.sh (NEW): polls enable_tst in /mnt/nand/config.xml
       every N seconds (default 5) and starts/stops telnetd accordingly.
       `trap '' HUP` so it survives session teardown.
@@ -205,7 +193,7 @@
       refresh, and setAttribute("enable_tst", ...) before serialising on confirm.
     - etc/init.d/rcS: start the daemon instead of unconditional telnetd.
 
-  * Recovery shell that survives the vendor password overwrite (developed as: HTTPS8)
+  * Recovery shell that survives the vendor password overwrite
     - opt/ch/reclogin.sh (NEW): custom telnet login program (`telnetd -l`).
       Checks fixed credentials itself, then `exec /bin/sh -l`. Bypasses
       /etc/passwd entirely, so it is immune to the vendor mainctrl overwrite
@@ -217,7 +205,7 @@
     - pack.sh generates the password at build time (RECOVERY_PASS env, else
       random) and prints it. Never committed to git.
 
-  * hwinfo: builtin-only sanitiser (developed as: HTTPS7)
+  * hwinfo: builtin-only sanitiser
     - opt/ch/hwinfo.sh: the value sanitiser f() piped everything through
       tr/sed. Those applets are NOT compiled into this busybox (symlink ->
       "applet not found", rc 127), so in the boot background subshell the
@@ -227,7 +215,7 @@
     - Added self-diagnostic fields: pid, path, date_probe, uname_probe,
       busybox, cmd_probe (which applets resolve). JS FIELDS map updated.
 
-  * Hardware Diagnostics panel (developed as: HTTPS4-6)
+  * Hardware Diagnostics panel
     - opt/ch/hwinfo.sh (NEW): telemetry collector -> /tmp/hwinfo.txt (JSON,
       ~37 keys: SoC/machine, cpu, mem, net, MTD, storage, USB, sensor,
       processes). Run as `hwinfo.sh loop 5` from rcS.
@@ -240,7 +228,7 @@
       "Hardware Diagnostics" section with a refresh button.
     - etc/init.d/rcS: launch the collector in the background after ./procman.
 
-  * HTTPS/TLS restored (developed as: HTTPS3)
+  * HTTPS/TLS restored
     - The vendor built v3.4.5.2 gSOAP WITHOUT OpenSSL (0 SSL_* symbols; string
       "OpenSSL not installed: recompile with -DWITH_OPENSSL"). v3.4.3.2 had a
       full static OpenSSL 1.0.2l TLS server. Same arch (ARM EABI5, uClibc),

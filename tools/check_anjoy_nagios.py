@@ -19,8 +19,8 @@ recording the last heartbeat and boot_id we saw, and compare.
   heartbeat unchanged, > window -> CRITICAL (generator dead)
   boot_id changed               -> device rebooted (report, and it's OK)
 
-Host addresses are never hardcoded here -- supply your own, or resolve one from
-the gitignored tools/cameras.conf with tools/cam (e.g. `$(tools/cam ymf46d)`).
+Pass the camera with --host or CAM_IP. This runs from cron/Nagios, so it never
+prompts -- without an address it fails loudly instead of hanging.
 
 Usage:
   # static feed (no auth):
@@ -33,7 +33,7 @@ Usage:
       --warn-rec 90 --crit-rec 97
 
   # authenticated CGI route (recommended; reuses a web 'manage user' account):
-  check_anjoy_nagios.py --host "$(tools/cam ymf46d)" --insecure \
+  check_anjoy_nagios.py --host 192.0.2.10 --insecure \
       --user nagios --password 's3cret' \
       --state-file /var/tmp/check_anjoy_cam.json
 
@@ -77,7 +77,11 @@ STATUS_NAME = {OK: "OK", WARNING: "WARNING", CRITICAL: "CRITICAL", UNKNOWN: "UNK
 
 def parse_args():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("--host", required=True, help="camera address")
+    # --host is optional only because CAM_IP is an accepted alternative; exactly
+    # one of the two must be present (validated after parsing). Never prompts --
+    # this runs under Nagios, where a prompt would hang the check.
+    p.add_argument("--host", default=os.environ.get("CAM_IP") or None,
+                   help="camera address (falls back to $CAM_IP)")
     p.add_argument("--port", type=int, default=None)
     p.add_argument("--path", default="/nagios.txt")
     p.add_argument("--no-tls", action="store_true",
@@ -114,7 +118,12 @@ def parse_args():
                         "Omit to poll the static /nagios.txt feed instead.")
     p.add_argument("--password", default=None,
                    help="nagios_pass credential (pairs with --user)")
-    return p.parse_args()
+    args = p.parse_args()
+    # Exactly one of --host / $CAM_IP must be present. Fail loudly rather than
+    # prompting: this runs under Nagios, where a prompt would hang the check.
+    if not args.host:
+        p.error("no camera address: pass --host <ip> or set CAM_IP")
+    return args
 
 
 def fetch(args):
