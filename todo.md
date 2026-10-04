@@ -270,12 +270,13 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
             — same proven geometry as `custom3_pad64k`, and it flashed cleanly.
             `top_processes` now reports real data in the panel (38 rows, zero
             `n/a`). Pass file updated to match the running build.
-      - [ ] **YMF46D still needs a rebuild+flash** to pick up the same
-            `top_processes` fix. It is committed in
-            `builds/YMF46D/rootfs/opt/ch/hwinfo.sh` but the running `.109`
-            build predates it. (Verified harmless there — `.109`'s busybox does
-            support `ps -o comm`, so the old form worked; the new
-            `/proc/<pid>/comm` form was tested live and gives the same result.)
+      - [ ] **YMF46D: optional, not urgent.** The `/proc/<pid>/comm` fix is
+            committed in `builds/YMF46D/rootfs/opt/ch/hwinfo.sh` but the running
+            `.109` (custom3) predates it. It does NOT need reflashing for
+            correctness — `.109`'s busybox supports `ps -o comm`, so the old
+            form already worked there. Confirmed live: `.109` reports
+            `3xurdma_tx_thread; 2xsleep; 2xsh; ...`. Pick it up on the next
+            YMF46D build for tree consistency only.
       - [ ] **Nagios AUTH cannot port as-is**: `web_server` here is glibc AND
             stripped (487 FUNC exports but no CGI dispatch hooks —
             no `http_cgi_find`/`http_cgi_handle`/`MsgUserGetPassword`). The
