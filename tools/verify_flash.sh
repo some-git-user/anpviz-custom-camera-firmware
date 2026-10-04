@@ -25,11 +25,20 @@ else
 fi
 printf "  %s\n" "$c1"
 
-# 2. telnet must be open (our rcS opens it via telnet.force_boot)
+# 2. telnet port state -- INFORMATIONAL ONLY, not a pass/fail signal.
+#
+# Before custom7 this check hard-FAILED on a closed :23, because our rcS forced
+# telnet on via a baked-in /opt/ch/telnet.force_boot marker. That marker is now
+# REMOVED: telnet is opt-in via Network -> Service Ports -> Telnet (the spare
+# enable_tst attribute), so a CLOSED :23 is the expected default on a healthy
+# build and says nothing about whether the rootfs landed.
+# Enable it with: the UI checkbox, or `touch /tmp/telnet.force` from an
+# existing shell, or rebuild with
+# `touch builds/<cam>/rootfs/opt/ch/telnet.force_boot`.
 if timeout 3 bash -c "echo > /dev/tcp/$HOST/23" 2>/dev/null; then
-    c2="OK    telnet :23 OPEN (our rcS ran)"
+    c2="INFO  telnet :23 OPEN (checkbox on, or force marker present)"
 else
-    c2="FAIL  telnet :23 CLOSED (our rcS did not run)"
+    c2="INFO  telnet :23 closed (default -- enable via Service Ports -> Telnet)"
 fi
 printf "  %s\n" "$c2"
 

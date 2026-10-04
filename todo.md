@@ -264,6 +264,34 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
             `ps: invalid option -- 'o'`, which silently blanked `top_processes`
             to `n/a` on every sample. Fixed to read `/proc/<pid>/comm`, which is
             portable to YMF46D too (applied to both trees).
+      - [x] **Telnet checkbox ported to the Service Ports page** (custom7).
+            YM500L has no YMF46D-style "Port" tab Telnet box, but it DOES have
+            a richer **Network -> Service Ports** page (`StreamingMediaConfig`)
+            with WEB/Onvif/RTSP/HIK/Dahua toggles. Added a Telnet checkbox
+            there driving the same spare `enable_tst` attribute.
+            **Backend verified live before building:**
+              * `/getMediaStreamConfig` returns `enable_tst`
+              * `/setMediaStreamConfig` persists it
+              * a normal Service Ports **Save PRESERVES it** — the page only
+                `setAttribute()`s fields it knows about, so an attribute it
+                never touches survives the read-modify-write. This was the real
+                risk; it is not a problem.
+              * end-to-end: checked the box -> `enable_tst` went `0` -> `1` on disk.
+            3 JS edits (refresh read / confirm write / default read), each
+            unit-tested in-page against a synthetic element + attribute holder.
+      - [x] **`telnet.force_boot` REMOVED** — telnet is now **opt-in**, off by
+            default. This is strictly better than custom6, which ran an
+            always-open telnet listener on the LAN with no way to disable it
+            short of reflashing. Escape hatch still coded:
+            `touch builds/YM500L/rootfs/opt/ch/telnet.force_boot && ./pack.sh YM500L`.
+      - [ ] **FLASH `out/YM500L_custom7.bin`** — sha256
+            `89b87b370e5a75f92182d61f40679be77e80cde98c86e3f8be617ae6de274bef`,
+            rootfs 9,109,504 B = 139 x 64 KiB (same proven geometry),
+            recovery login `root / REDACTED_RECOVERY_PASSWORD`.
+            ⚠ **After flashing, telnet :23 will be CLOSED.** Enable it from
+            Network -> Service Ports -> Telnet (applies within ~5 s). If you
+            get locked out of the web UI first, there is no shell — the recovery
+            login lives *behind* telnet. Check the box while you can still log in.
       - [x] **FLASHED `custom6` and verified** (2026-10-04). Device reports
             `V3.2.1.2-custom6 build 2026-10-04 14:29:08`. rootfs 9,109,504 B =
             exactly 139 x 64 KiB (erase-aligned, under the 9,113,600 stock size)
