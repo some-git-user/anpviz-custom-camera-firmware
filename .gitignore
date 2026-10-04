@@ -71,5 +71,11 @@ tools/.reclogin_pass.*
 # line or via CAM_IP at runtime, so nothing LAN-specific is stored here.
 # The only local state is the recovery-password store, keyed by camera IP.
 
+# etc/passwd_sys holds an md5-crypt hash of the recovery password. pack.sh
+# regenerates it into the image every build (rcS copies it to /tmp/passwd for
+# the serial-console login fallback), but it must never be committed: md5-crypt
+# is crackable, so a committed copy leaks the live password. Untracked here.
+builds/*/rootfs/etc/passwd_sys
+
 # PII gate's private needle list (real IPs/MACs/passwords). Never commit.
 tools/.pii_needles

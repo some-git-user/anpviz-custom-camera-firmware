@@ -201,7 +201,9 @@
       /opt/ch/flag.set.passwd exists, which defeats any baked-in hash).
     - Password is NOT hardcoded: read from /opt/ch/reclogin.pass
       (override with RECLOGIN_PASS_FILE). Fails closed if the file is missing/empty.
-    - etc/passwd_sys: regenerated hash (best-effort; reclogin.sh is the real gate).
+    - etc/passwd_sys: regenerated hash each build (best-effort; reclogin.sh is
+      the real gate). Gitignored -- md5-crypt is crackable, so it must not be
+      committed even though rcS copies it to /tmp/passwd at boot.
     - pack.sh generates the password at build time (RECOVERY_PASS env, else
       random) and prints it. Never committed to git.
 

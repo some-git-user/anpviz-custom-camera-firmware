@@ -125,7 +125,10 @@ if [ -n "$PASS_STORE" ]; then
     echo "  stored -> $PASS_STORE (ctl3.exp reads this; stable across builds)"
 fi
 
-# keep etc/passwd_sys consistent (best-effort; reclogin.sh is the real gate)
+# Keep etc/passwd_sys consistent (best-effort; reclogin.sh is the real gate).
+# rcS copies it to /tmp/passwd for the serial-console login fallback. It holds
+# an md5-crypt of the recovery password, so it is gitignored -- generated into
+# the image every build but never committed.
 if command -v openssl >/dev/null 2>&1; then
     HASH="$(openssl passwd -1 "$REC_PASS" 2>/dev/null || true)"
     if [ -n "$HASH" ]; then
