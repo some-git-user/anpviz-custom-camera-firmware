@@ -16,16 +16,26 @@ set mark "ZZDONEZZ"
 # else fail. Never hardcode it here. The per-host file lets us keep a distinct
 # password per camera, since pack.sh regenerates one per build.
 set dir [file dirname [info script]]
+# Track WHERE the password came from so a failed login can name the culprit.
+# pack.sh regenerates the recovery password on every build and syncs it to
+# .reclogin_pass.<host>, so that file always describes the MOST RECENT build --
+# which is not necessarily what the camera is booting right now. Before that
+# sync existed, a forgotten `cp` produced a bare "Login incorrect" that looked
+# like a broken image instead of a stale secret.
+set pass_src ""
 if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {
     set pass $env(RECLOGIN_PASS)
+    set pass_src "RECLOGIN_PASS env"
 } elseif {[file exists "$dir/.reclogin_pass.$host"]} {
     set fh [open "$dir/.reclogin_pass.$host" r]
     set pass [string trim [gets $fh]]
     close $fh
+    set pass_src ".reclogin_pass.$host"
 } elseif {[file exists "$dir/.reclogin_pass"]} {
     set fh [open "$dir/.reclogin_pass" r]
     set pass [string trim [gets $fh]]
     close $fh
+    set pass_src ".reclogin_pass (shared, not host-specific)"
 } else {
     puts "No recovery password: set RECLOGIN_PASS env or create .reclogin_pass[.$host] next to this script"
     exit 1
@@ -42,7 +52,19 @@ expect {
 }
 expect {
     -re "(?i)Login OK|#" { }
-    timeout { puts "TIMEOUT_shell"; exit 1 }
+    -re "(?i)Login incorrect" {
+        # Name the source: almost always means the password is stale, i.e. this
+        # file was written for a build that is not the one currently running.
+        puts "\nLOGIN_FAILED (password rejected for $host)"
+        puts "  password source: $pass_src"
+        puts "  That file is rewritten by ./pack.sh on every build, so it"
+        puts "  describes the LAST build you packed -- not necessarily the one"
+        puts "  this camera is booting. If you have not flashed it yet, use the"
+        puts "  password pack.sh printed for the RUNNING build, or override:"
+        puts "      RECLOGIN_PASS=<pw> ctl3.exp \"cmd\" $host"
+        exit 2
+    }
+    timeout { puts "TIMEOUT_shell (no shell prompt; telnet may be disabled -- enable via Service Ports -> Telnet)"; exit 1 }
 }
 # send command followed by a unique end marker on its own line
 send "$cmd; echo $mark\r"

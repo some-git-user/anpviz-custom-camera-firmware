@@ -284,14 +284,20 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
             always-open telnet listener on the LAN with no way to disable it
             short of reflashing. Escape hatch still coded:
             `touch builds/YM500L/rootfs/opt/ch/telnet.force_boot && ./pack.sh YM500L`.
-      - [ ] **FLASH `out/YM500L_custom7.bin`** — sha256
-            `89b87b370e5a75f92182d61f40679be77e80cde98c86e3f8be617ae6de274bef`,
-            rootfs 9,109,504 B = 139 x 64 KiB (same proven geometry),
+      - [ ] **FLASH `out/YM500L_3.2.1.2-custom9.bin`** — sha256
+            `489448d9b5ef397927d5f49d4970bb1de698e4bca3dc96d77b577b666125988c`,
+            rootfs 9,109,504 B = 139 x 64 KiB (proven geometry),
             recovery login `root / REDACTED_RECOVERY_PASSWORD`.
+            Supersedes the earlier `custom7`/`custom8` scratch builds: same
+            content, correct auto-incremented tag. **No password sync needed**
+            -- the recovery password is now stable per camera, so the running
+            custom6 and custom9 share `REDACTED_RECOVERY_PASSWORD`.
             ⚠ **After flashing, telnet :23 will be CLOSED.** Enable it from
             Network -> Service Ports -> Telnet (applies within ~5 s). If you
-            get locked out of the web UI first, there is no shell — the recovery
+            get locked out of the web UI first, there is no shell -- the recovery
             login lives *behind* telnet. Check the box while you can still log in.
+            (Not a brick risk: serial console on ttyS0 115200 and stock reflash
+            both remain available.)
       - [x] **FLASHED `custom6` and verified** (2026-10-04). Device reports
             `V3.2.1.2-custom6 build 2026-10-04 14:29:08`. rootfs 9,109,504 B =
             exactly 139 x 64 KiB (erase-aligned, under the 9,113,600 stock size)

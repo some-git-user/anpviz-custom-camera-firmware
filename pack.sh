@@ -18,6 +18,8 @@
 #   HTTPS_CN     TLS cert CN                     (default: homecamera.lan)
 #   HTTPS_DAYS   TLS cert validity in days       (default: 3650)
 #   RECOVERY_PASS  recovery telnet root password (default: random, printed)
+#   CAM_IP       camera IP for syncing tools/.reclogin_pass.<ip> for ctl3.exp
+#                (default: build.info cam_ip, else a built-in per-slug table)
 # ---------------------------------------------------------------------------
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -61,21 +63,69 @@ else
     echo "         HTTPS will not work unless https.{crt,key,pwd} are present." >&2
 fi
 
-# --- generate the recovery telnet password file into the rootfs ------------
+# --- recovery telnet password: STABLE PER CAMERA ---------------------------
 # reclogin.sh reads /opt/ch/reclogin.pass at login time. The file is gitignored,
-# so the password never lands in the repo. Set RECOVERY_PASS=... to pick your own.
+# so the password never lands in the repo.
+#
+# WHY STABLE: this used to be a fresh random password on EVERY build. That single
+# design choice created a recurring chore and a confusing failure mode -- after
+# each pack you had to remember
+#     cp builds/<cam>/rootfs/opt/ch/reclogin.pass tools/.reclogin_pass.<ip>
+# and forgetting it produced a bare "Login incorrect" that looked like a broken
+# image rather than a stale secret. It bit us repeatedly.
+#
+# Now the per-camera file tools/.reclogin_pass.<ip> is the SOURCE OF TRUTH:
+#   * exists  -> REUSE it. Build 100 times, the password never changes, so
+#                telnet keeps working whether or not you have flashed yet.
+#   * missing -> generate one and PERSIST it there, so it is stable from then on.
+#   * RECOVERY_PASS=... -> force a new password and overwrite the file (rotate).
+# The flashed image and tools/ can never disagree, so there is nothing to sync.
+cam_host_for() {
+    case "$1" in
+        YM500L) echo "192.0.2.11" ;;
+        YMF46D) echo "192.0.2.10" ;;
+        *)      echo "" ;;
+    esac
+}
+CAM_IP="${CAM_IP:-$(sed -n 's/^cam_ip=//p' "$BUILD/build.info" 2>/dev/null | head -1)}"
+[ -n "$CAM_IP" ] || CAM_IP="$(cam_host_for "$SLUG")"
+PASS_STORE=""
+if [ -n "$CAM_IP" ]; then
+    PASS_STORE="tools/.reclogin_pass.$CAM_IP"
+else
+    echo "WARNING: no camera IP known for slug '$SLUG'." >&2
+    echo "         Set CAM_IP=1.2.3.4 or add cam_ip= to $BUILD/build.info so the" >&2
+    echo "         recovery password is stored per-camera (otherwise it is random" >&2
+    echo "         per build and you must pass RECLOGIN_PASS to ctl3.exp)." >&2
+fi
+
 if [ -n "$RECOVERY_PASS" ]; then
+    # Explicit rotation.
     REC_PASS="$RECOVERY_PASS"
-    echo "Recovery telnet password: (from RECOVERY_PASS env)"
+    echo "Recovery telnet password: (forced via RECOVERY_PASS -- rotating)"
+elif [ -n "$PASS_STORE" ] && [ -s "$PASS_STORE" ]; then
+    # Stable path: reuse the camera's existing password.
+    IFS= read -r REC_PASS < "$PASS_STORE"
+    REC_PASS="${REC_PASS%$'\r'}"
+    echo "Recovery telnet password: (reused $PASS_STORE -- stable for $CAM_IP)"
 else
     REC_PASS="$(tr -dc 'A-Za-z0-9' </dev/urandom 2>/dev/null | head -c 12)$(date +%s | tail -c 5)"
     if [ -z "$REC_PASS" ]; then
         REC_PASS="rec$(openssl rand -hex 8 2>/dev/null || echo changeme)"
     fi
-    echo "Recovery telnet password: $REC_PASS"
+    echo "Recovery telnet password: $REC_PASS (new; persisted for this camera)"
 fi
+[ -n "$REC_PASS" ] || { echo "ERROR: empty recovery password" >&2; exit 1; }
+
 printf '%s\n' "$REC_PASS" > "$CERT_DIR/reclogin.pass"
 chmod 600 "$CERT_DIR/reclogin.pass"
+# Persist as the per-camera source of truth so the next build reuses it.
+if [ -n "$PASS_STORE" ]; then
+    printf '%s\n' "$REC_PASS" > "$PASS_STORE"
+    chmod 600 "$PASS_STORE"
+    echo "  stored -> $PASS_STORE (ctl3.exp reads this; stable across builds)"
+fi
+
 # keep etc/passwd_sys consistent (best-effort; reclogin.sh is the real gate)
 if command -v openssl >/dev/null 2>&1; then
     HASH="$(openssl passwd -1 "$REC_PASS" 2>/dev/null || true)"
@@ -91,16 +141,30 @@ fi
 # build from builds/<slug>/custom_build. Override with CUSTOM_TAG=... to pin it.
 BASE_VER="$(sed -n 's/^version=//p' "$BUILD/build.info" 2>/dev/null | head -1)"
 [ -n "$BASE_VER" ] || BASE_VER="0.0.0"
+# Read the current counter once. `|| true` is REQUIRED here: under
+# `set -o pipefail`, a camera that has never been custom-built has no
+# custom_build file, so `cat` exits 1 and the whole pipeline aborts the script
+# -- silently breaking pack for any fresh tree (this is exactly how YM500L's
+# pack was dying).
+CUR_N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9' || true)"
+[ -n "$CUR_N" ] || CUR_N=0
+
 if [ -n "$CUSTOM_TAG" ]; then
     TAG="$CUSTOM_TAG"
+    # A pinned tag must STILL advance the counter. Without this the counter
+    # drifts behind reality: we pinned custom7 and custom8 while the counter
+    # sat at 6, so the next UNPINNED build computed N=7 and produced the tag
+    # "...-custom7" for a completely different image -- two distinct builds
+    # claiming one version string, which is exactly the wrong thing to have
+    # when deciding what is actually flashed on a camera.
+    # Bump to at least the pinned number so auto-increment resumes above it.
+    PINNED_N="$(printf '%s' "$CUSTOM_TAG" | sed -n 's/.*custom\([0-9][0-9]*\).*/\1/p')"
+    if [ -n "$PINNED_N" ] && [ "$PINNED_N" -gt "$CUR_N" ]; then
+        echo "$PINNED_N" > "$BUILD/custom_build"
+        CUR_N="$PINNED_N"
+    fi
 else
-    # `|| true` is REQUIRED here. Under `set -o pipefail`, a camera that has
-    # never been custom-built has no custom_build file, so `cat` exits 1 and the
-    # whole pipeline aborts the script -- silently breaking pack for any fresh
-    # tree (this is exactly how YM500L's pack was dying).
-    N="$(cat "$BUILD/custom_build" 2>/dev/null | tr -dc '0-9' || true)"
-    [ -n "$N" ] || N=0
-    N=$((N + 1))
+    N=$((CUR_N + 1))
     echo "$N" > "$BUILD/custom_build"
     TAG="${BASE_VER}-custom${N}"
 fi
