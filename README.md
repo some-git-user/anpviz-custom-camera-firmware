@@ -30,6 +30,61 @@ extract.sh         unpack any .bin -> builds/<slug>/
 pack.sh            pack builds/<slug>/ -> out/<slug>_<tag>.bin
 ```
 
+## First-time setup (per clone)
+
+This repo deliberately contains **no** camera addresses, passwords, or MACs.
+Those live in gitignored files that you create locally. Two steps:
+
+```bash
+# 1. Tell the tools where your cameras are.
+cp tools/cameras.conf.example tools/cameras.conf
+$EDITOR tools/cameras.conf        # set your real addresses
+
+# 2. Install the pre-push PII gate.
+./tools/install_hooks.sh
+```
+
+Everything that needs a host goes through `tools/cam`, which resolves
+`CAM_<KEY>` env → `tools/cameras.conf` → the example template:
+
+```bash
+tools/cam ym500l          # -> your YM500L address
+tools/cam default         # -> whatever `default=` names
+tools/cam 192.0.2.99     # an IPv4 literal passes straight through
+```
+
+So the tools take either a key or an address and never need a hardcoded one:
+
+```bash
+./tools/ctl3.exp "uname -a" ym500l
+./tools/verify_flash.sh ymf46d
+./tools/hwdebug.exp
+```
+
+Recovery passwords are likewise per-camera and gitignored
+(`tools/.reclogin_pass.<ip>`), generated once by `pack.sh` and reused, so
+there is nothing to sync between a build and the tools.
+
+### Keeping personal data out of a public repo
+
+`tools/pii_check.py` is the gate, and the `pre-push` hook runs it
+automatically:
+
+```bash
+python3 tools/pii_check.py            # tracked files
+python3 tools/pii_check.py --staged   # what you are about to commit
+python3 tools/pii_check.py --history  # every revision (slow, thorough)
+```
+
+It detects by **shape** — RFC1918 addresses outside doc space, non-allowlisted
+emails, password-looking assignments — plus exact matches on anything listed in
+`tools/.pii_needles` (gitignored, holds your real values). Vendor factory
+defaults are whitelisted: `mainctrl` and friends ship the same fixed LAN
+addressing on every unit the vendor ever built, so that is the firmware under
+study, not your network.
+
+Bypass deliberately with `git push --no-verify`.
+
 ## Quick start
 
 ```bash

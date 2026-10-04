@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# pre-push hook -- run the PII gate before anything leaves this repo.
+#
+# Install (once, per clone):
+#     ./tools/install_hooks.sh
+#
+# Bypass deliberately, only if you have verified the push yourself:
+#     git push --no-verify
+set -euo pipefail
+
+here="$(cd "$(dirname "$0")" && pwd)"
+repo="$(cd "$here/../.." && pwd)"   # tools/hooks/ -> repo root
+cd "$repo"
+
+echo "pre-push: running pii_check against tracked files and full history"
+
+# The worktree check is fast; run it first so the common case fails immediately.
+if ! python3 tools/pii_check.py; then
+    echo
+    echo "pre-push: BLOCKED -- personal information in tracked files."
+    echo "          Fix it, or bypass with: git push --no-verify"
+    exit 1
+fi
+
+# The history check is the one that matters for a public repo, but it walks
+# every blob, so it takes longer. Skip it when the fast check already passed
+# AND the caller opted out via PII_SKIP_HISTORY=1.
+if [ "${PII_SKIP_HISTORY:-0}" = "1" ]; then
+    echo "pre-push: skipping --history check (PII_SKIP_HISTORY=1)"
+else
+    if ! python3 tools/pii_check.py --history; then
+        echo
+        echo "pre-push: BLOCKED -- personal information somewhere in history."
+        echo "          A rewrite is needed; see tools/pii_check.py docstring."
+        echo "          Bypass with: git push --no-verify"
+        exit 1
+    fi
+fi
+
+echo "pre-push: clean, proceeding."
