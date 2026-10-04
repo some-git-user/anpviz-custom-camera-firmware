@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 # verify_flash.sh -- did a custom rootfs actually land on a camera?
 #
-#   ./tools/verify_flash.sh                 # defaults to YM500L .113
-#   ./tools/verify_flash.sh 192.0.2.10
+#   ./tools/verify_flash.sh                 # cameras.conf `default`
+#   ./tools/verify_flash.sh ym500l        # or a camera key
+#   ./tools/verify_flash.sh 192.0.2.11    # or an explicit address
+#
+# Hosts resolve through tools/cameras.conf (gitignored); nothing is hardcoded.
 #
 # The vendor web server returns HTTP 200 with the Welcome page for MISSING
 # files, so the HTTP status code is worthless. We check three independent
 # signals instead, and only trust the canary content.
 set -u
-HOST="${1:-192.0.2.11}"
+here="$(cd "$(dirname "$0")" && pwd)"
+HOST="$("$here/cam" "${1:-default}")" || exit 1
 CANARY="custom build"
 
 echo "verifying $HOST"

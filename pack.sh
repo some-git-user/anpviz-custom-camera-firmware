@@ -19,7 +19,7 @@
 #   HTTPS_DAYS   TLS cert validity in days       (default: 3650)
 #   RECOVERY_PASS  recovery telnet root password (default: random, printed)
 #   CAM_IP       camera IP for syncing tools/.reclogin_pass.<ip> for ctl3.exp
-#                (default: build.info cam_ip, else a built-in per-slug table)
+#                (default: build.info cam_ip, else tools/cameras.conf by slug)
 # ---------------------------------------------------------------------------
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -81,11 +81,13 @@ fi
 #   * RECOVERY_PASS=... -> force a new password and overwrite the file (rotate).
 # The flashed image and tools/ can never disagree, so there is nothing to sync.
 cam_host_for() {
-    case "$1" in
-        YM500L) echo "192.0.2.11" ;;
-        YMF46D) echo "192.0.2.10" ;;
-        *)      echo "" ;;
-    esac
+    # Resolve the camera's address through tools/cameras.conf (gitignored) rather
+    # than hardcoding it -- this is a public repo. The slug matches the conf key
+    # case-insensitively, so YM500L -> ym500l=. Empty if unresolvable, which is
+    # handled by the warning below.
+    local cam="tools/cam"   # pack.sh already cd'd to the repo root (see top)
+    [ -x "$cam" ] || return 0
+    "$cam" "$1" 2>/dev/null || true
 }
 CAM_IP="${CAM_IP:-$(sed -n 's/^cam_ip=//p' "$BUILD/build.info" 2>/dev/null | head -1)}"
 [ -n "$CAM_IP" ] || CAM_IP="$(cam_host_for "$SLUG")"

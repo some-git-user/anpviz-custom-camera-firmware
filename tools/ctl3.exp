@@ -1,15 +1,24 @@
 #!/usr/bin/expect -f
-# usage: ctl3.exp "<command to run on device>" [host]
-#        RECLOGIN_PASS=... ctl3.exp "uname -a" 192.0.2.11
+# usage: ctl3.exp "<command to run on device>" [host-or-key]
+#        RECLOGIN_PASS=... ctl3.exp "uname -a" ym500l
+#        ./tools/ctl3.exp "uname -a"              ;# uses cameras.conf default
+#
 # Runs one command over the recovery telnet login, waits for a trailing sentinel,
 # and prints everything captured.
 #
-# Host defaults to the YMF46D (.109). Pass it explicitly for other cameras --
-# e.g. 192.0.2.11 is the YM500L. Password resolution is unchanged:
-# RECLOGIN_PASS env wins, else the .reclogin_pass file next to this script.
+# The host argument is either an IPv4 literal or a camera KEY (ym500l, ymf46d,
+# staging, default) resolved through tools/cameras.conf -- see camhost.tcl.
+# Addresses are NOT hardcoded here: this is a public repo, so your LAN addresses
+# live only in the gitignored tools/cameras.conf.
+#   cp tools/cameras.conf.example tools/cameras.conf   # then edit it
+#
+# Password resolution: RECLOGIN_PASS env wins, else the per-host
+# .reclogin_pass.<host> file next to this script.
 set timeout 40
 set cmd [lindex $argv 0]
-set host [expr {[llength $argv] > 1 ? [lindex $argv 1] : "192.0.2.10"}]
+source [file join [file dirname [info script]] camhost.tcl]
+# argv[0] is the command, so the host (if any) is argv[1].
+set host [cam_host [lrange $argv 1 end]]
 set mark "ZZDONEZZ"
 # Recovery password: from env RECLOGIN_PASS, else a per-host file
 # .reclogin_pass.<host> next to this script, else the shared .reclogin_pass,

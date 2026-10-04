@@ -170,8 +170,8 @@ https://<cam>/nagios.txt     ->  JSON, refreshed every 10s by /opt/ch/nagios.sh
 Check it with the bundled plugin:
 
 ```bash
-tools/check_anjoy_nagios.py --host 192.0.2.10 \
-    --state-file /var/tmp/check_anjoy_109.json \
+tools/check_anjoy_nagios.py --host "$(tools/cam ymf46d)" \
+    --state-file /var/tmp/check_anjoy_cam.json \
     --stale 90 --warn-temp 75 --crit-temp 85
 # OK - heartbeat 41->42 | temperature=71;75;85;0;100 cpu=46;85;95;0;100 ...
 ```

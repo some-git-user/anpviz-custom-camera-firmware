@@ -1,6 +1,10 @@
 #!/usr/bin/expect -f
 # hwdebug.exp -- connect to the camera recovery shell and run a diagnostic battery.
-# Usage: expect hwdebug.exp [host]   (default 192.0.2.10)
+# Usage: expect hwdebug.exp [host-or-key]   (default: cameras.conf `default`)
+#        expect hwdebug.exp ymf46d
+#
+# The host is either an IPv4 literal or a camera KEY resolved through
+# tools/cameras.conf (gitignored) -- see camhost.tcl. No addresses are hardcoded.
 #
 # Requires the recovery shell to be enabled first:
 #   1. put an empty file named  telnet.enable  in the root of the SD card
@@ -8,7 +12,8 @@
 #   3. run this script
 
 set timeout 25
-set host [expr {[llength $argv] >= 1 ? [lindex $argv 0] : "192.0.2.10"}]
+source [file join [file dirname [info script]] camhost.tcl]
+set host [cam_host $argv]
 # Recovery password: from env RECLOGIN_PASS, else the file .reclogin_pass next to
 # this script (gitignored), else fail. Never hardcode it here.
 if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {

@@ -19,10 +19,13 @@ recording the last heartbeat and boot_id we saw, and compare.
   heartbeat unchanged, > window -> CRITICAL (generator dead)
   boot_id changed               -> device rebooted (report, and it's OK)
 
+Host addresses are never hardcoded here -- supply your own, or resolve one from
+the gitignored tools/cameras.conf with tools/cam (e.g. `$(tools/cam ymf46d)`).
+
 Usage:
   # static feed (no auth):
-  check_anjoy_nagios.py --host 192.0.2.10 --no-tls \
-      --state-file /var/tmp/check_anjoy_109.json \
+  check_anjoy_nagios.py --host <cam-ip> --no-tls \
+      --state-file /var/tmp/check_anjoy_cam.json \
       --stale 90 --warn-temp 75 --crit-temp 85 \
       --warn-cpu 85 --crit-cpu 95 \
       --warn-mem 85 --crit-mem 95 \
@@ -30,9 +33,9 @@ Usage:
       --warn-rec 90 --crit-rec 97
 
   # authenticated CGI route (recommended; reuses a web 'manage user' account):
-  check_anjoy_nagios.py --host 192.0.2.10 --insecure \
+  check_anjoy_nagios.py --host "$(tools/cam ymf46d)" --insecure \
       --user nagios --password 's3cret' \
-      --state-file /var/tmp/check_anjoy_109.json
+      --state-file /var/tmp/check_anjoy_cam.json
 
   With --user set, the default path becomes /cgi-bin/nagios and the creds are
   sent as nagios_user / nagios_pass query params. Use HTTPS so the credential

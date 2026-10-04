@@ -1,6 +1,6 @@
 # TODO
 
-Findings verified on device `192.0.2.10` (YMF46D, custom1) on 2026-10-03.
+Findings verified on the YMF46D bench unit (custom1) on 2026-10-03.
 Everything below was measured, not assumed.
 
 ---
@@ -19,7 +19,7 @@ Confirmed open with **zero credentials**:
 ```
 GET /cgi-bin/getinfo?type=1
   -> 200  <info model="MCF46D" oem_model="YMF46D_IR_5MP"
-           mac_address="REDACTED_MAC"/>
+           mac_address="<unit MAC, redacted>"/>
 ```
 
 That is the hardware MAC and the OEM model string, handed out to anything on the LAN.
@@ -137,7 +137,7 @@ GET /cgi-bin/nagios?nagios_user=<u>&nagios_pass=<p>
 request-context object not available at this layer, and its `username` param
 substring-collides with `cgi_is_valid_uid_or_username` (order-sensitive).
 
-**Verified on device** (192.0.2.10): no-creds 403, wrong-pass 403,
+**Verified on device** (YMF46D): no-creds 403, wrong-pass 403,
 unknown-user 403, correct-creds 200+feed, control `getinfo` 200 (passthrough
 intact). Audit trail in `/tmp/nagios_auth.log` (client IP + verdict, no creds).
 **FAIL CLOSED** on: missing auth helper, null outbuf, missing creds, unknown
@@ -151,8 +151,9 @@ so it is inert everywhere else. If the `.so` is missing the `[ -f ]` guard
 runs stock `procman` (harmless no-op).
 
 **Gotchas recorded**:
-- `cgi_get_value` does NOT urldecode — the shim must, or a password with `%xx`
-  never matches. Verified `REDACTED_WEB_PASSWORD` -> `REDACTED_WEB_PASSWORD`.
+- `cgi_get_value` does NOT urldecode — the shim must, or a password containing
+  a `%xx` sequence never matches. (Verified with a password whose literal form
+  differs from its URL-encoded form; the credential itself is not recorded here.)
 - The CGI route is served `Content-Type: text/xml` even though the body is
   JSON; the Nagios plugin parses JSON regardless of declared type.
 - `procman` feeds the hardware watchdog — `killall procman` can trip a reboot.
@@ -197,7 +198,7 @@ mounted but df unreadable        -> UNKNOWN
 field absent (schema < 2)        -> UNKNOWN
 ```
 
-**Verified on device** (192.0.2.10):
+**Verified on device** (YMF46D):
 - absent -> `present:0 slot:none nulls`; checker CRITICAL, and OK with
   `--ignore-no-card`
 - present -> bind-mounted the jffs2 partition onto `/mnt/mmc0` to get real `df`
@@ -241,7 +242,7 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
       volume at `/mnt/mmc0` (not somewhere else) and that `df` reports real vfat
       numbers. Slot probe order `mmc0`/`mmc1`/`usb` is inferred from `hwinfo.sh`
       and the mount dirs, not observed with a card present.
-- [x] **YM500L port** (`MC500L` / `YM500L-NM223N` @ `192.0.2.11`).
+- [x] **YM500L port** (`MC500L` / `YM500L-NM223N`).
       Different platform: **glibc** (not uClibc), INFINITY3 MSC000A-S04A, kernel
       3.18.30, squashfs block 131072, HTTPS native (vendor cert).
       - [x] **Telnet recovery shell ported** (commit `c101f6e`) — access-first.
@@ -287,11 +288,12 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
       - [ ] **FLASH `out/YM500L_3.2.1.2-custom9.bin`** — sha256
             `489448d9b5ef397927d5f49d4970bb1de698e4bca3dc96d77b577b666125988c`,
             rootfs 9,109,504 B = 139 x 64 KiB (proven geometry),
-            recovery login `root / REDACTED_RECOVERY_PASSWORD`.
+            recovery login `root / <see tools/.reclogin_pass.<ip>, gitignored>`.
             Supersedes the earlier `custom7`/`custom8` scratch builds: same
             content, correct auto-incremented tag. **No password sync needed**
             -- the recovery password is now stable per camera, so the running
-            custom6 and custom9 share `REDACTED_RECOVERY_PASSWORD`.
+            custom6 and custom9 share the same password (kept in the gitignored
+            per-camera file, never committed).
             ⚠ **After flashing, telnet :23 will be CLOSED.** Enable it from
             Network -> Service Ports -> Telnet (applies within ~5 s). If you
             get locked out of the web UI first, there is no shell -- the recovery
@@ -321,9 +323,10 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
             killing all test load — NOT an artifact of my own test processes.
             Remaining CPU is vendor `media_server` (~40% of one core). Worth
             watching; `temp_out` may be uncalibrated, so treat as a trend.
-      - [ ] `default_route` reports `gw=192.0.2.11` (the device's own IP).
-            Verified against `/proc/net/route` — this is a **vendor quirk, not a
-            parsing bug**. YMF46D reports a real gateway (`.1`). Do not "fix".
+      - [ ] `default_route` reports the gateway as **the device's own address**
+            rather than a real upstream gateway. Verified against
+            `/proc/net/route` — this is a **vendor quirk, not a parsing bug**.
+            YMF46D reports a real gateway instead. Do not "fix".
 - [ ] Push branch to a remote (blocked: no SSH key configured).
 - [ ] Audit whether `/cgi-bin/getuid` rate-limits failed attempts.
 - [ ] Consider whether `hwinfo.txt` should also be redacted (it currently leaks

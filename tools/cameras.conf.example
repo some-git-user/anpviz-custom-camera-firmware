@@ -1,0 +1,31 @@
+# cameras.conf.example -- copy to tools/cameras.conf and fill in your own values.
+#
+#   cp tools/cameras.conf.example tools/cameras.conf
+#
+# tools/cameras.conf is GITIGNORED. The repo never contains a real LAN address;
+# every tool resolves hosts from this file, falling back to the placeholders here
+# if the file is missing.
+#
+# Format: key=value, one per line. '#' starts a comment.
+#
+# Add one line per camera, keyed by the build slug (lowercased).
+
+# Keys are looked up by build slug (case-insensitive), so a fresh clone resolves
+# the same keys the build trees use. The addresses below are RFC5737 TEST-NET
+# (192.0.2.0/24) -- documentation space guaranteed not to route, so nothing
+# here can accidentally connect to a real device.
+#
+# Change them to your actual camera addresses.
+
+# Camera A -- YMF46D (INFINITY6C, uClibc)
+ymf46d=192.0.2.10
+
+# Camera B -- YM500L (INFINITY3, glibc)
+ym500l=192.0.2.11
+
+# Staging HTTP server (whatever runs `python3 -m http.server 8098`)
+staging=192.0.2.2
+
+# Default camera used when a tool is called with no host argument.
+# Must name one of the keys above.
+default=ymf46d

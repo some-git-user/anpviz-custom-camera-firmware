@@ -55,7 +55,7 @@
   - rcS: two independent collector subshells added after the telnet block,
     writing /tmp/nagios.txt (10s) and /tmp/hwinfo.txt (5s). Served through
     var/www/{nagios,hwinfo}.txt symlinks -> /tmp.
-  - Verified live over HTTPS on 192.0.2.11:
+  - Verified live over HTTPS on the YM500L bench unit:
       nagios.txt  schema=2, heartbeat advancing, watchdog_running=1,
                   web_server_running=1, nand 46% used / 276 KB free
       hwinfo.txt  37 fields, top_processes populated
