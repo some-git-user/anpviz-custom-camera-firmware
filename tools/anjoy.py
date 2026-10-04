@@ -229,6 +229,48 @@ def repack(rootfs_dir, header_bin, out_bin, rootfs_off=None):
 
     # pad rootfs to 0x1000
     padded = ((len(sq) + ROOTFS_ALIGN - 1) // ROOTFS_ALIGN) * ROOTFS_ALIGN
+
+    # Optional: round the rootfs up to a whole number of flash ERASE BLOCKS.
+    #
+    # Why: on YM500L the vendor OTA updater silently REFUSED an image whose
+    # rootfs_size was 4 KiB larger than stock (custom1 = 9117696, i.e. not a
+    # multiple of the 64 KiB erase size), while an image that landed exactly on
+    # a 64 KiB boundary (custom2 = 9043968 = 138 * 65536) flashed fine. Stock
+    # itself is NOT 64K-aligned (9113600 = 139.0625 * 64K) because it is
+    # written by the factory programmer, not by the OTA path -- so the OTA
+    # updater's own alignment/length check is the plausible gate.
+    #
+    # We cannot prove which rule the updater applies (size-vs-installed, or
+    # erase-alignment, or both), so padding to a 64 KiB multiple satisfies BOTH
+    # candidate gates at once, as long as the result stays <= the stock size.
+    #
+    # Read from build.info as `rootfs_pad_multiple=<bytes>` (0/absent = off).
+    # The padding is ZERO bytes appended after the squashfs, and the rootfs CRC
+    # below is computed over the PADDED bytes, which is exactly the vendor's
+    # convention (header@0x228 == crc32(rootfs including padding)), so this
+    # does not disturb the checksum. The squashfs superblock's own `bytes_used`
+    # still marks the true end of the filesystem, so the kernel mounts the same
+    # squashfs and simply ignores the trailing zeros.
+    pad_mult = 0
+    if os.path.exists(build_info):
+        with open(build_info) as _f:
+            for _line in _f:
+                if _line.startswith("rootfs_pad_multiple="):
+                    try:
+                        pad_mult = int(_line.split("=", 1)[1].strip())
+                    except ValueError:
+                        pad_mult = 0
+    _env_mult = os.environ.get("ROOTFS_PAD_MULT", "").strip()
+    if _env_mult:
+        try:
+            pad_mult = int(_env_mult)
+        except ValueError:
+            pass
+    if pad_mult and pad_mult >= ROOTFS_ALIGN and (pad_mult & (pad_mult - 1)) == 0:
+        padded = ((padded + pad_mult - 1) // pad_mult) * pad_mult
+        print("rootfs pad multiple: %d -> padded size %#x (%d x erase blocks)"
+              % (pad_mult, padded, padded // pad_mult))
+
     sq = sq + b"\x00" * (padded - len(sq))
 
     # original kernel+gap = header .. rootfs_off  (kept verbatim)

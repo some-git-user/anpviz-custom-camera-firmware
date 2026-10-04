@@ -133,6 +133,26 @@ collect() {
 	# --- temperature ------------------------------------------------------
 	# INFINITY6C has no standard thermal_zone; the vendor mstar driver exports
 	# the die temperature directly. Bare integer so Nagios can threshold it.
+	#
+	# !! CALIBRATION IS PER-PLATFORM -- DO NOT "FIX" THRESHOLDS HERE !!
+	# This script is shared byte-for-byte between cameras, but the sensors are NOT
+	# comparable and neither are the readings:
+	#   YMF46D (INFINITY6C, msys/TEMP_R)     ~74 C at normal vendor load.
+	#   YM500L (INFINITY3, cpufreq/temp_out) ~88-89 C at rest, 93-96 C when warm.
+	# The YM500L sensor is NOT saturated -- it tracks real thermal state, just
+	# with a slow time constant. Measured 2026-10-04: 93-96 C shortly after
+	# flashing and while running CPU-burner tests, then settling back to a stable
+	# 88-89 C after the device was left alone for a while. An earlier note here
+	# claiming the sensor was "pinned at its ceiling / unresponsive" was WRONG --
+	# it was taken while the chassis was still hot from flashing + burners.
+	# What keeps it hot is that the vendor media pipeline never idles: media_server
+	# holds ~45% CPU and ~0% idle was observed even with no client connected, so
+	# the SoC sits near the top of its normal band permanently.
+	# Consequence: the single default pair shipped here (warn 75 / crit 85) is
+	# right for YMF46D but puts YM500L in CRITICAL at its NORMAL RESTING state.
+	# Set thresholds PER HOST in Nagios (--warn-temp/--crit-temp, e.g. 92/97 for
+	# YM500L). Do NOT raise the default in this script -- that would blind
+	# YMF46D to real overheating.
 	temp=""
 	_tr=$(rd /sys/devices/virtual/mstar/msys/TEMP_R 2>/dev/null)
 	[ -n "$_tr" ] && temp=$(digits "${_tr##*[!0-9]}")
@@ -268,10 +288,22 @@ _df=$(df -k /mnt/nand 2>/dev/null | busybox awk 'NR==2 {print $4" "$5}')
 	else
 		_web=0
 	fi
-	if ps 2>/dev/null | grep -q '[w]atchdogd'; then
-		_wd=1
-	else
-		_wd=0
+
+	# Watchdog: do NOT just grep for a process name -- the two cameras differ:
+	#   YMF46D  -> userspace-style kernel thread named [watchdogd]
+	#   YM500L  -> per-CPU kernel thread [watchdog/0], NO watchdogd at all
+	# A name match would false-negative on YM500L. What actually matters is
+	# whether /dev/watchdog is HELD OPEN by a process, i.e. someone armed it
+	# and is petting it (YMF46D: mainctrl; YM500L: main). fuser is not
+	# available on YMF46D, so scan /proc/*/fd with plain ls instead.
+	_wd=0
+	if [ -e /dev/watchdog ]; then
+		for _p in /proc/[0-9]*; do
+			if ls -l "$_p/fd" 2>/dev/null | grep -q watchdog; then
+				_wd=1
+				break
+			fi
+		done
 	fi
 	n "$_web" "web_server_running"
 	n "$_wd" "watchdog_running"

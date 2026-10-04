@@ -7,7 +7,111 @@
 # Every entry below is a change made to builds/YM500L/rootfs/ AFTER extracting
 # the stock image above. Newest first. See `git log` for the full diffs.
 
-[none yet] 2026-10-03
+[custom5] 2026-10-04  -- Hardware Diagnostics UI panel ported
+  - Ported the YMF46D "Hardware Diagnostics" overview panel into the stock
+    Version Info page. Two files touched:
+      var/www/html/versionConfig.html  + the hwinfo_section div block
+      var/www/js/versionConfig.js      + the "Hardware Diagnostics" IIFE,
+                                       copied BYTE-IDENTICAL from YMF46D
+    Cost: ~2.3 KB compressed. rootfs 9,056,256 = 57,344 under the stock limit.
+  - The IIFE is deliberately non-invasive: it monkey-patches
+    Page.versionConfig.render inside try/catch and wires #hwinfo_refresh, so a
+    failure degrades to an error box in the panel and never breaks the page.
+  - Field coverage verified against the LIVE YM500L feed: 38/38 fields present,
+    0 unpopulated. No field mapping needed -- hwinfo.sh is the same portable
+    script on both cameras and resolves platform differences at runtime
+    (machine=INFINITY3 MSC000A-S04A, soc_family=I3, kernel=3.18.30,
+    temperature via cpufreq/temp_out).
+  - Port recipe, for the next camera: YMF46D's versionConfig.js line 1 is stock,
+    so lines 2..end are purely our addition. Append those bytes to the target's
+    single-line file. Verified byte-identical after.
+
+  FEED AUTH GATING -- INVESTIGATED, NOT POSSIBLE ON THIS MODEL.
+    The static feeds (/hwinfo.txt, /nagios.txt) are world-readable on the LAN
+    and cannot be gated by the vendor web_server:
+      * http_cgi_find / http_cgi_handle / cgi_get_value are ABSENT. On YMF46D
+        those live in libcgibin_curl.so; that library DOES NOT EXIST here.
+        (Correction to an earlier note: they are not in web_server on YMF46D
+        either -- the shim interposes on the lib, not the binary.)
+      * web_server exports 487 FUNCs but ZERO request-path/CGI/auth hooks.
+        MsgUserGetPassword IS exported, but with no dispatch hook it is useless
+        on its own.
+      * Every Authorization / WWW-Authenticate string in web_server belongs to
+        ONVIF / RTSP / TLS, not static-file auth.
+      * No iptables on the device. No busybox httpd applet.
+      * Empirically: /, /index.html, /hwinfo.txt, /nagios.txt and
+        /CUSTOM_BUILD.txt all return 200 with no www-authenticate header.
+        Missing files ALSO return 200 (the Welcome-page masquerade), so the
+        status code proves nothing on this server.
+    Remaining options if we ever want this gated: run our own authenticated
+    server on a free port, or enforce it at the router. Both are real work.
+    NOTE the same exposure already exists on YMF46D for hwinfo.txt -- only the
+    nagios feed has the shim there.
+
+[custom3] 2026-10-04  -- FLASHED AND VERIFIED RUNNING
+  - Monitoring ported from YMF46D: opt/ch/nagios.sh (schema 2) and
+    opt/ch/hwinfo.sh, byte-identical to the YMF46D copies (they are written
+    to be portable; platform differences are handled by runtime probing).
+  - rcS: two independent collector subshells added after the telnet block,
+    writing /tmp/nagios.txt (10s) and /tmp/hwinfo.txt (5s). Served through
+    var/www/{nagios,hwinfo}.txt symlinks -> /tmp.
+  - Verified live over HTTPS on 192.0.2.11:
+      nagios.txt  schema=2, heartbeat advancing, watchdog_running=1,
+                  web_server_running=1, nand 46% used / 276 KB free
+      hwinfo.txt  37 fields, top_processes populated
+    No script leaks (3 procs), logs empty, no "applet not found".
+  - Temp source on this platform is /sys/devices/system/cpu/cpufreq/temp_out
+    (the 2nd fallback in nagios.sh). No thermal_zone0, no msys/TEMP_R.
+
+  SIZE GATE — RESOLVED (this build settles it).
+    The vendor updater's check lives in mainctrl:
+      "filesys file size %d too small."
+      "filesys file size %d too large."
+      "filesys file size %d too large, max value: %d."
+    custom1 (9,117,696 = stock + 4096) was REJECTED. This build is
+    9,109,504 = 139 x 64 KiB, i.e. 4,096 UNDER stock (9,113,600) but
+    65,536 ABOVE the then-installed custom2 (9,043,968) -- and it FLASHED
+    FINE. Therefore:
+      * the gate is NOT "<= currently installed size"  (disproved here)
+      * erase-block alignment is NOT required (stock itself is unaligned)
+      * the limit is derived from stock / the image header, not the 11 MiB
+        mtd2 partition (which would allow far more)
+    Practical rule for future YM500L builds: keep rootfs_size <= 9,113,600.
+    pack.sh gained ROOTFS_PAD_MULT (or build.info rootfs_pad_multiple=) to
+    round the rootfs to an erase-block multiple; harmless, but not required.
+
+  CAVEAT -- TEMPERATURE BASELINE IS HIGH ON THIS MODEL (corrected reading).
+    CORRECTION: an earlier version of this note claimed the sensor was "pinned at
+    its ceiling" and did not respond to load. That was WRONG -- it was measured
+    while the chassis was still hot from flashing and from the burner tests.
+    Re-measured after the device was left alone: a stable ~88-89 C at rest,
+    against 93-96 C when warm. The sensor tracks real thermal state; it just
+    has a slow time constant.
+    What keeps it hot: the vendor media pipeline never idles. media_server holds
+    ~45% CPU and ~0.0% idle was observed even with no client connected, so the
+    SoC sits near the top of its normal band permanently. YMF46D reads ~74 C
+    at comparable load (~15 C lower, different SoC).
+    Because nagios.sh is shared and ships ONE default threshold pair
+    (warn 75 / crit 85), YM500L reports CRITICAL at its NORMAL RESTING state.
+    FIX IN NAGIOS, NOT IN THE SCRIPT: set --warn-temp 92 --crit-temp 97 for
+    this host. Do not raise the script default -- that would blind YMF46D.
+    LESSON: let these boxes settle before trusting a thermal measurement.
+
+  NOTE -- nand is small: /dev/block/mtdblock4 jffs2, 512 KB total
+    (236 used / 276 free = 46%). nand_used_pct on this camera is a real,
+    tight metric worth alerting on.
+
+[custom2] 2026-10-04  -- FLASHED (telnet recovery only)
+  - Trimmed the Korean OSD font + codecmap so rootfs fit under stock.
+  - First successful YM500L custom flash. See git 4eadbc2.
+
+[custom1] 2026-10-04  -- REJECTED BY UPDATER
+  - Web-controlled telnet recovery shell ported (no Telnet checkbox on this
+    model's UI, so /opt/ch/telnet.force_boot is baked in).
+  - rootfs was 4,096 B over stock -> updater accepted the upload, then
+    refused the write. Device came back unchanged.
+
+[baseline] 2026-10-03
   - Tree seeded from pristine stock v3.2.1.2 during the multi-camera repo
     reorganisation. No modifications made yet.
   - Round-trip verified: extract -> pack reproduces a valid image

@@ -198,6 +198,37 @@ if [ -f /opt/ch/telnetd_ctl.sh ]; then
 fi
 # ------------------------------------------------------------------------
 
+# --- HARDWARE DIAGNOSTICS + NAGIOS FEED (ported from YMF46D) -------------
+# Two independent collectors, each in its own subshell so one crashing does
+# not take the other down. Both write to /tmp (tmpfs) and are served through
+# symlinks in the web root:
+#   /tmp/hwinfo.txt  ->  https://<cam>/hwinfo.txt
+#   /tmp/nagios.txt  ->  https://<cam>/nagios.txt
+# The nagios feed carries a mandatory heartbeat because this web server
+# returns HTTP 200 (with the Welcome page) for MISSING files, so the status
+# code alone cannot prove the generator is alive.
+#
+# NOTE ON THIS PLATFORM: the root is an initramfs (root=/dev/ram) and the
+# squashfs we flash mounts read-only at /system, with /opt/ch -> /system/opt/ch
+# symlinked. /tmp is tmpfs, so generated files land in RAM and are regenerated
+# every boot -- which is exactly what we want.
+#
+# Invoked via `sh` + `-f` test (exec bit unreliable). FAIL-CLOSED: if a
+# script is missing, that collector simply does not run.
+(
+	sleep 2
+	if [ -f /opt/ch/hwinfo.sh ]; then
+		sh /opt/ch/hwinfo.sh loop 5 >/tmp/hwinfo.log 2>&1
+	fi
+) &
+(
+	sleep 3
+	if [ -f /opt/ch/nagios.sh ]; then
+		sh /opt/ch/nagios.sh loop 10 >/tmp/nagios.log 2>&1
+	fi
+) &
+# ------------------------------------------------------------------------
+
 /system/bin/sh
 
 

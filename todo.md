@@ -241,29 +241,47 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
       volume at `/mnt/mmc0` (not somewhere else) and that `df` reports real vfat
       numbers. Slot probe order `mmc0`/`mmc1`/`usb` is inferred from `hwinfo.sh`
       and the mount dirs, not observed with a card present.
-- [ ] **YM500L port** (`MC500L` / `YM500L-NM223N` @ `192.0.2.11`).
-      Different platform: **glibc** (not uClibc), MSC313E SoC, squashfs block
-      131072, 339-applet busybox. HTTPS is already native (vendor cert).
+- [x] **YM500L port** (`MC500L` / `YM500L-NM223N` @ `192.0.2.11`).
+      Different platform: **glibc** (not uClibc), INFINITY3 MSC000A-S04A, kernel
+      3.18.30, squashfs block 131072, HTTPS native (vendor cert).
       - [x] **Telnet recovery shell ported** (commit `c101f6e`) — access-first.
-            This model's UI has NO Telnet checkbox, so a persistent
-            `/opt/ch/telnet.force_boot` marker is baked in; telnet starts ON at
-            boot. Built `out/YM500L_3.2.1.2-custom1.bin`, CRC-verified, +4 KB.
-            **NOT YET FLASHED.**
-      - [ ] **FLASH IT** to gain a shell. Then copy
-            `builds/YM500L/rootfs/opt/ch/reclogin.pass` ->
-            `tools/.reclogin_pass.113` and use
-            `tools/ctl3.exp "<cmd>" 192.0.2.11`.
-      - [ ] Probe the **temperature sensor** path — MSC313E, so
-            `/sys/devices/virtual/mstar/msys/TEMP_R` may not exist.
-            Try `thermal_zone0`, `temp_out`, `msys/*` before porting nagios.sh.
-      - [ ] Confirm `/mnt/nand/config.xml` is the live config and that
-            `enable_tst` round-trips (it is referenced by libtools.so/mainctrl).
-      - [ ] Port `nagios.sh` (incl. `rec_storage_*`) + `hwinfo.sh` with the
-            YM500L-correct paths, once the two items above are known.
+            No Telnet checkbox in this model's UI, so a persistent
+            `/opt/ch/telnet.force_boot` marker is baked into the squashfs.
+            **FLASHED and verified live.**
+      - [x] **Temperature sensor found**: the ONLY path is
+            `/sys/devices/system/cpu/cpufreq/temp_out` (format `Temp=NN`).
+            `TEMP_R` / `thermal_zone0` do NOT exist on this SoC.
+      - [x] **hwinfo.sh + nagios.sh ported** and running from flash; both feeds
+            live on `.113`, Hardware Diagnostics panel browser-validated (38 rows).
+      - [x] **Device nodes need the `/dev/block/` prefix**: `/dev/block/mtdblock2`
+            (squashfs @ `/system`), `mtdblock4` (`/mnt/nand` jffs2),
+            `mtdblock5` (`/tmp/oem`). Bare `/dev/mtd*` does not exist.
+      - [x] **busybox reality corrected**: the tree ships 339 symlinks but the
+            runtime binary has only ~110 applets. **MISSING: `head`, `tr`,
+            `uniq`, `stat`, `readlink`, `mountpoint`, `nc`.** Use
+            `busybox awk 'NR<=N'` instead of `head -N`.
+      - [x] **`ps -o comm` is NOT supported** on this busybox — it exits
+            `ps: invalid option -- 'o'`, which silently blanked `top_processes`
+            to `n/a` on every sample. Fixed to read `/proc/<pid>/comm`, which is
+            portable to YMF46D too (applied to both trees).
+      - [ ] **FLASH `out/YM500L_custom6.bin`** to pick up the `top_processes` fix.
+            rootfs 9,109,504 B = exactly 139 x 64 KiB (erase-aligned, under the
+            9,113,600 stock size) — same proven geometry as `custom3_pad64k`.
+            After flashing: copy `builds/YM500L/rootfs/opt/ch/reclogin.pass` ->
+            `tools/.reclogin_pass.192.0.2.11`.
       - [ ] **Nagios AUTH cannot port as-is**: `web_server` here is glibc AND
-            stripped (32 dynamic exports; no `http_cgi_find`/`http_cgi_handle`/
-            `MsgUserGetPassword`). The LD_PRELOAD shim has nothing to interpose.
-            Options: unauthenticated redacted LAN feed, or a separate auth task.
+            stripped (487 FUNC exports but no CGI dispatch hooks —
+            no `http_cgi_find`/`http_cgi_handle`/`MsgUserGetPassword`). The
+            LD_PRELOAD shim has nothing to interpose. Investigated: **gating the
+            world-readable feed is not possible on this model.** Options are an
+            unauthenticated redacted LAN feed, or a separate auth task.
+      - [ ] **This unit runs genuinely hot: ~89-90 C at idle.** Confirmed after
+            killing all test load — NOT an artifact of my own test processes.
+            Remaining CPU is vendor `media_server` (~40% of one core). Worth
+            watching; `temp_out` may be uncalibrated, so treat as a trend.
+      - [ ] `default_route` reports `gw=192.0.2.11` (the device's own IP).
+            Verified against `/proc/net/route` — this is a **vendor quirk, not a
+            parsing bug**. YMF46D reports a real gateway (`.1`). Do not "fix".
 - [ ] Push branch to a remote (blocked: no SSH key configured).
 - [ ] Audit whether `/cgi-bin/getuid` rate-limits failed attempts.
 - [ ] Consider whether `hwinfo.txt` should also be redacted (it currently leaks

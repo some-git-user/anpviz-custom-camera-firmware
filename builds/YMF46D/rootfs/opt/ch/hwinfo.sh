@@ -267,9 +267,17 @@ collect() {
 	f "$sensor" "sensor"
 
 	# --- Running processes (most common by name) --------------------------
-	# uniq is NOT compiled into this busybox -> count with awk (tab-delimited
-	# so names containing spaces survive), sort by count desc, format.
-	f "$(ps -o comm 2>/dev/null | busybox awk '{c[$0]++} END{for(k in c) printf "%d\t%s\n", c[k], k}' 2>/dev/null | sort -rn 2>/dev/null | head -8 | busybox awk -F'\t' '{printf "%dx%s; ", $1, $2}')" "top_processes"
+	# Process names come from /proc/<pid>/comm, NOT `ps -o comm`: the YM500L
+	# runtime busybox does not implement ps's -o option at all (it exits with
+	# "ps: invalid option -- 'o'"), so the ps form made this field fall back
+	# to "n/a" on every sample. /proc/<pid>/comm is a plain file read and
+	# behaves identically on both cameras, so it is the portable choice.
+	# uniq is NOT compiled into either busybox -> count with awk, tab-delimited
+	# so names survive, then sort by count desc. The top-N cut uses
+	# `busybox awk 'NR<=8'` rather than `head -8`: the YM500L runtime busybox
+	# does not include the head applet either (only ~110 applets are built in,
+	# despite the tree shipping 339 symlinks).
+	f "$(for d in /proc/[0-9]*; do [ -r "$d/comm" ] && cat "$d/comm" 2>/dev/null; done | busybox awk '{c[$0]++} END{for(k in c) printf "%d\t%s\n", c[k], k}' 2>/dev/null | sort -rn 2>/dev/null | busybox awk 'NR<=8' | busybox awk -F'\t' '{printf "%dx%s; ", $1, $2}')" "top_processes"
 	f "$(ps 2>/dev/null | busybox awk 'END{print NR-1}')" "process_count"
 
 	printf '}\n' >> "$TMP"

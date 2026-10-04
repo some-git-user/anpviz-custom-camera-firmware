@@ -1,1 +1,126 @@
 !function(){var e=Page.versionConfig={init:function(){has_hide_download_webconfig?$("version_download_webconfig").style.display="none":$("version_download_webconfig").style.display="",e.translate(),e.render()},translate:function(){$("version").set("text",tl("w_Edition Info")),$("version_kernel_label").set("text",tl("w_kernelVersion")),$("version_fs_label").set("text",tl("w_fsVersion")),$("version_web_label").set("text",tl("Web Version")),$("version_sn_label").set("text",tl("w_Serialnumber")),$("version_webconfig_label").set("text",tl("w_verWebconfig")),$("version_download_webconfig").set("text",tl("w_downloadWebconfig")),$("version_download_webconfig_span").set("text",tl("w_downloadWebconfig_CD")),hasWebConfigInCD?($("version_newWebconfigInfo").set("text",tl("w_newWebconfigInfo_CD")),$("version_download_webconfig").style.display="none",$("version_download_webconfig_span").style.display=""):$("version_newWebconfigInfo").set("text",tl("w_newWebconfigInfo"))},render:function(){var s="",e='<?xml version="1.0"?><soap:Envelope xmlns:soap="http://www.w3.org/2001/12/soap-envelope"><soap:Header>\t<userid>'+g_des_userid+"</userid>\t<passwd>"+g_des_passwd+"</passwd></soap:Header><soap:Body></soap:Body></soap:Envelope>";sendRequest(e,function(e){var n=xmlLoadText(e),o=[];try{if(n&&(o=n.getElementsByTagName("WEBSITE")),!o.length)return;0!=(s=o[0].getAttribute("website_name4")+"").length&&$("version_download_webconfig").setAttribute("href","http://"+s)}catch(t){}},!0,"/getTestWebSiteConfigMsg",function(){});e='<?xml version="1.0"?><soap:Envelope xmlns:soap="http://www.w3.org/2001/12/soap-envelope"><soap:Header>\t<userid>'+g_des_userid+"</userid>\t<passwd>"+g_des_passwd+"</passwd></soap:Header><soap:Body></soap:Body></soap:Envelope>";if(sendRequest(e,function(e){var n=xmlLoadText(e),o=[];try{if(n&&n.documentElement&&(o=n.documentElement.getElementsByTagName("VersionInfo")),!o.length)return;if($("version_kernel").innerHTML=o[0].getAttribute("kernelVersion"),$("version_fs").innerHTML=o[0].getAttribute("fsVersion"),n&&n.documentElement&&(o=n.documentElement.getElementsByTagName("SerialNumber")),!o.length)return;$("version_sn").innerHTML=o[0].getAttribute("serialNumber")}catch(t){}},!0,"/getSystemVersionInfo",function(){}),$("version_showNewWebconfigInfo").style.display="none",""!=g_curWebconfigVersion){version_webconfig.innerHTML=g_curWebconfigVersion;var n=g_curWebconfigVersion.split(".");if(4<=n.length){n=256*(256*(256*parseInt(n[0])+parseInt(n[1]))+parseInt(n[2]))+parseInt(n[3]);var o=g_WebConfigVersion.split(".");if(4<=o.length){n<(o=256*(256*(256*parseInt(o[0])+parseInt(o[1]))+parseInt(o[2]))+parseInt(o[3]))&&($("version_showNewWebconfigInfo").style.display="")}}}else version_webconfig.innerHTML=tl("w_noVerWebconfig");$("version_webconfig_container").style.display="none"},bind:function(){}}}();
+/* ===== Hardware Diagnostics (added by custom HTTPS build) =================== */
+(function(){
+	var FIELDS=[
+		["SoC / machine","machine"],
+		["SoC id","soc_id"],
+		["SoC family","soc_family"],
+		["CPU info","cpuinfo"],
+		["Kernel","kernel"],
+		["Arch","arch"],
+		["CPU cores","cpu_cores"],
+		["CPU usage","cpu_usage"],
+		["CPU jiffies","cpu_jiffies"],
+		["Load avg","loadavg"],
+		["Uptime","uptime"],
+		["Mem total","mem_total"],
+		["Mem free","mem_free"],
+		["Mem avail","mem_avail"],
+		["Mem used","mem_used_pct"],
+		["Buffers+cache","mem_buffers_cached"],
+		["Temperature","temperature"],
+		["MAC","mac"],
+		["IP addrs","ip_addrs"],
+		["Default route","default_route"],
+		["MTD devices","mtd_devices"],
+		["RootFS","rootfs_dev"],
+		["NAND mount","nand_mount"],
+		["SD /mnt/mmc0","storage_mmc0"],
+		["SD /mnt/mmc1","storage_mmc1"],
+		["USB /mnt/usb","storage_usb"],
+		["USB devices","usb_devices"],
+		["Sensor","sensor"],
+		["Processes","process_count"],
+		["Top processes","top_processes"],
+		["Sampled","generated"],
+		["-- diagnostics --","_diag"],
+		["pid","pid"],
+		["PATH","path"],
+		["date probe","date_probe"],
+		["uname probe","uname_probe"],
+		["busybox","busybox"],
+		["cmd probe","cmd_probe"]
+	];
+	function esc(s){
+		return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+	}
+	function fmtUptime(raw){
+		// "17099.06 119878.26" -> "4h 44m 59s"
+		var p=String(raw||"").split(" ");
+		var t=parseFloat(p[0]);
+		if(isNaN(t))return raw||"n/a";
+		var d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),s=Math.floor(t%60);
+		var out="";
+		if(d)out+=d+"d ";
+		if(d||h)out+=h+"h ";
+		if(d||h||m)out+=m+"m ";
+		out+=s+"s";
+		return out;
+	}
+	function parse(t){
+		try{ if(window.JSON&&JSON.parse)return JSON.parse(t); }catch(e){}
+		try{ if(window.JSON&&JSON.decode)return JSON.decode(t); }catch(e){}
+		return null;
+	}
+	function render(txt){
+		var grid=$("hwinfo_grid"); if(!grid)return;
+		var d=parse(txt);
+		if(!d){
+			var raw=String(txt==null?"(empty)":txt).replace(/</g,"&lt;");
+			if(raw.length>400)raw=raw.substring(0,400)+"\u2026";
+			grid.innerHTML='<span style="color:#c00">No valid data \u2014 hwinfo.sh may not be running.<br/>Raw response:</span><pre style="color:#666;margin:4px 0;white-space:pre-wrap;word-break:break-all">'+raw+'</pre>';
+			return;
+		}
+		var rows="";
+		for(var i=0;i<FIELDS.length;i++){
+			var label=FIELDS[i][0], key=FIELDS[i][1];
+			if(key==="_diag"){
+				rows+='<div style="display:table-row"><span style="display:table-cell;padding:6px 0 2px;color:#222;font-weight:bold;border-top:1px solid #ccc;margin-top:6px">'+esc(label)+'</span></div>';
+				continue;
+			}
+			var v=d[key];
+			if(key==="uptime"&&v) v=fmtUptime(v);
+			if(v===undefined||v===null||v==="") v="n/a";
+			// The diagnostics box has a LIGHT background (#fafafa) while the rest of
+			// the dark UI uses light text. Set explicit dark colors so values are
+			// readable; dim the placeholders. (Single style attr -- the old code
+			// emitted two, so the color was silently ignored.)
+			var vcol=(v==="n/a"||v==="not mounted")?"#999":"#111";
+			rows+='<div style="display:table-row">'
+				+'<span style="display:table-cell;padding:1px 12px 1px 0;color:#444;white-space:nowrap">'+esc(label)+'</span>'
+				+'<span style="display:table-cell;white-space:pre-wrap;word-break:break-all;color:'+vcol+'">'+esc(v)+'</span>'
+				+'</div>';
+		}
+		grid.innerHTML=rows;
+		var st=$("hwinfo_status");
+		if(st) st.innerHTML="updated "+esc(d.generated||"");
+	}
+	function load(){
+		var st=$("hwinfo_status");
+		if(st) st.innerHTML="refreshing&hellip;";
+		try{
+			new Request({url:"/hwinfo.txt?_="+(new Date().getTime()), async:true,
+				onSuccess:function(t){ render(t); },
+				onFailure:function(x){ var g=$("hwinfo_grid"); if(g)g.innerHTML='<span style="color:#c00">fetch failed: HTTP '+(x&&x.status)+' '+esc(x&&x.statusText||'')+'</span>'; }
+			}).get();
+		}catch(e){
+			var g=$("hwinfo_grid"); if(g)g.innerHTML='<span style="color:#c00">request error: '+esc(e)+'</span>';
+		}
+	}
+	window.hwinfoRefresh=load;
+	// hook the page: after the stock render, pull hardware info
+	try{
+		if(window.Page&&Page.versionConfig&&Page.versionConfig.render){
+			var _orig=Page.versionConfig.render;
+			Page.versionConfig.render=function(){
+				try{_orig.apply(this,arguments);}catch(e){}
+				load();
+			};
+		}
+	}catch(e){}
+	// wire the refresh link once DOM ids exist
+	try{
+		var btn=$("hwinfo_refresh");
+		if(btn&&!btn.__hw){ btn.__hw=1; btn.addEvent("click",load); }
+	}catch(e){}
+})();
