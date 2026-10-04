@@ -264,11 +264,18 @@ the generator from `/tmp`. The change ships via `pack.sh` like everything else.
             `ps: invalid option -- 'o'`, which silently blanked `top_processes`
             to `n/a` on every sample. Fixed to read `/proc/<pid>/comm`, which is
             portable to YMF46D too (applied to both trees).
-      - [ ] **FLASH `out/YM500L_custom6.bin`** to pick up the `top_processes` fix.
-            rootfs 9,109,504 B = exactly 139 x 64 KiB (erase-aligned, under the
-            9,113,600 stock size) — same proven geometry as `custom3_pad64k`.
-            After flashing: copy `builds/YM500L/rootfs/opt/ch/reclogin.pass` ->
-            `tools/.reclogin_pass.192.0.2.11`.
+      - [x] **FLASHED `custom6` and verified** (2026-10-04). Device reports
+            `V3.2.1.2-custom6 build 2026-10-04 14:29:08`. rootfs 9,109,504 B =
+            exactly 139 x 64 KiB (erase-aligned, under the 9,113,600 stock size)
+            — same proven geometry as `custom3_pad64k`, and it flashed cleanly.
+            `top_processes` now reports real data in the panel (38 rows, zero
+            `n/a`). Pass file updated to match the running build.
+      - [ ] **YMF46D still needs a rebuild+flash** to pick up the same
+            `top_processes` fix. It is committed in
+            `builds/YMF46D/rootfs/opt/ch/hwinfo.sh` but the running `.109`
+            build predates it. (Verified harmless there — `.109`'s busybox does
+            support `ps -o comm`, so the old form worked; the new
+            `/proc/<pid>/comm` form was tested live and gives the same result.)
       - [ ] **Nagios AUTH cannot port as-is**: `web_server` here is glibc AND
             stripped (487 FUNC exports but no CGI dispatch hooks —
             no `http_cgi_find`/`http_cgi_handle`/`MsgUserGetPassword`). The
