@@ -53,8 +53,22 @@ cd /opt/ch/
 # so it is inert for all other processes. Fail-closed: if the .so is missing,
 # the preload is a harmless no-op and the stock stack runs.
 # See tools/nagios_shim/nagios_authd.c and repo memory anjoy-cgi-shim.md.
-if [ -f /opt/ch/nagios_authd.so ]; then
-	LD_PRELOAD=/opt/ch/nagios_authd.so ./procman &
+#
+# A SECOND shim, login_watch.so, is a DETECTION-only counter for two
+# unauthenticated endpoints live on this model:
+#   /cgi-bin/getuid  credential oracle  (CVE-2026-100298)
+#   /setUserConfig   admin password reset (CVE-2026-100296)
+# It counts events to /tmp (tmpfs) and NEVER blocks, so the owner can never be
+# locked out. nagios.sh schema 3 turns the logs into *_5m rates; Nagios alerts
+# on a burst. This is the uClibc build (tools/cve_shim/login_watch_ymf46d.c);
+# the glibc YM500L shim cannot load here.
+NA_PRELOAD=/opt/ch/nagios_authd.so
+LW_PRELOAD=/opt/ch/login_watch.so
+LD_PRELOAD_LIST=""
+[ -f "$NA_PRELOAD" ] && LD_PRELOAD_LIST="$NA_PRELOAD"
+[ -f "$LW_PRELOAD" ] && LD_PRELOAD_LIST="${LD_PRELOAD_LIST:+$LD_PRELOAD_LIST:}$LW_PRELOAD"
+if [ -n "$LD_PRELOAD_LIST" ]; then
+	LD_PRELOAD="$LD_PRELOAD_LIST" ./procman &
 else
 	./procman &
 fi

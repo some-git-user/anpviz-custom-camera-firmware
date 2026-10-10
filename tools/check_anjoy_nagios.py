@@ -117,6 +117,13 @@ def parse_args():
                    help="login attempts in the last 5 min that warns")
     p.add_argument("--crit-login", type=float, default=60.0,
                    help="login attempts in the last 5 min that is critical")
+    # Password-reset rate (CVE-2026-100296 /setUserConfig abuse). A legitimate
+    # owner changes their password rarely, so ANY reset in the window is worth
+    # a look; a repeat is critical. Default warn=1, crit=2.
+    p.add_argument("--warn-pwreset", type=float, default=1.0,
+                   help="password resets in the last 5 min that warns")
+    p.add_argument("--crit-pwreset", type=float, default=2.0,
+                   help="password resets in the last 5 min that is critical")
     p.add_argument("--insecure", action="store_true",
                    help="do not verify the TLS certificate (self-signed camera cert)")
     p.add_argument("--user", default=None,
@@ -350,6 +357,24 @@ def main():
             msgs.append("login attempts %d/5min >= %s (possible brute force)" % (
                 int(_login),
                 int(args.crit_login if s == CRITICAL else args.warn_login)))
+        bump(s)
+    # --- PASSWORD-RESET RATE (CVE-2026-100296 abuse) ----------------------
+    # pwreset_5m counts /setUserConfig calls in the trailing 5 min, written by
+    # the login_watch.so shim. Absent (schema <3 or shim not loaded) -> note
+    # only. A reset is rare in normal use, so warn on the first one.
+    _pwreset = num(data, "pwreset_5m")
+    if _pwreset is None:
+        msgs.append("pwreset rate unknown (schema <3 or login_watch not loaded)")
+    else:
+        perf.append("pwreset_5m=%d;%s;%s;0;" % (
+            int(_pwreset),
+            "" if args.warn_pwreset is None else int(args.warn_pwreset),
+            "" if args.crit_pwreset is None else int(args.crit_pwreset)))
+        s = threshold(_pwreset, args.warn_pwreset, args.crit_pwreset)
+        if s in (WARNING, CRITICAL):
+            msgs.append("password reset(s) %d/5min >= %s (possible account takeover)" % (
+                int(_pwreset),
+                int(args.crit_pwreset if s == CRITICAL else args.warn_pwreset)))
         bump(s)
 
     for key, label, warn, crit, unit in checks:

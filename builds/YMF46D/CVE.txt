@@ -1,0 +1,74 @@
+# CVE status — YMF46D custom firmware
+#
+# Sources (where these CVEs were published / researched):
+#   2024 set (gwillgues / willgu.es) — Anpviz V3.2.2.2 and lower:
+#     https://willgu.es/pages/anpviz-ip-camera-vuln.html
+#   2026 set (CISA ICSA-26-272-05, CERT/CC VU#725190, researcher Andrew Lee)
+#   — "Anjvision YSSD-RTMP-H5", all marked no_fix_planned:
+#     https://www.cisa.gov/news-events/ics-advisories/icsa-26-272-05
+#     https://github.com/andylee77/anjvision-cve-2026
+#
+# ---------------------------------------------------------------------------
+# THIS MODEL IS NOT THE YM500L. Do not assume the YM500L mitigations apply.
+#   * libc is uClibc (lib/libc.so.0 -> libuClibc-1.0.31.so), NOT glibc.
+#     tools/cve_shim/cve_deny.so and login_watch.so are glibc-only and will
+#     NOT load here (they forward to _IO_fopen/_IO_popen/__libc_system, which
+#     uClibc does not export). A uClibc-specific shim is required first.
+#   * The HTTP routes are served by opt/ch/libcgibin_curl.so (the CGI lib),
+#     not by web_server. web_server is non-PIE but STRIPPED (no Build ID), so
+#     the Build-ID guard used on YM500L cannot key on it; a shim here would
+#     gate on libcgibin_curl.so instead.
+#   * Findings below are from static inspection of builds/YMF46D/rootfs PLUS a
+#     live probe of the running camera (443 open, 80 closed, 3702 closed,
+#     9999 closed, 23 open = web-controlled telnet, currently enabled).
+# ---------------------------------------------------------------------------
+#
+# STATUS PER CVE (live-verified on .109 where marked)
+#
+# NOT EXPLOITABLE ON THIS BUILD (no action needed)
+#   CVE-2024-35341  config exfil  GET /config.xml, /ConfigFile.ini -> 404
+#   CVE-2024-35343  /playback/<path> file read -> returns "Not Found" HTML,
+#                   no file bytes (handler does not read arbitrary paths here)
+#   CVE-2024-35342   unauth /settings/* writes -> POST returns "passwordError"
+#                   (auth-gated). The HTTP 200 is a trap: the body rejects the
+#                   write without credentials. Not an unauth write on this model.
+#   CVE-2026-100291 unauth ONVIF mgmt -> port 3702 CLOSED live (enable_onvif
+#                   is set in config.default but the listener is not up)
+#   CVE-2026-100292 dbg_server cmd injection -> port 9999 CLOSED, not running
+#   CVE-2026-100297  connect_check SSRF -> NOT a real SSRF. Live: addr=<ip> on
+#                   the same L2 returns status=1, a remote/other-subnet addr
+#                   returns status=0, and a TCP listener on the probed host saw
+#                   NO inbound connection. It is an ARP/L2 reachability probe,
+#                   not a TCP connect, so it cannot reach arbitrary hosts/ports.
+#
+# DETECTED (built in custom5; not preventable) -- login_watch.so (uClibc build)
+#   Interposes MsgUserGetPassword + MsgSetUserConfig in libtools.so via dlsym
+#   (RTLD_NEXT; uClibc's libc.so.0 exports dlsym, unlike the glibc YM500L).
+#   Counts events to /tmp (tmpfs); nagios.sh schema 3 exposes login_attempts_5m
+#   and pwreset_5m; the Nagios checker alerts on a burst. Never blocks, so the
+#   owner cannot be locked out. tools/cve_shim/login_watch_ymf46d.c.
+#   CVE-2026-100298  unauth /cgi-bin/getuid credential oracle. Live: answers
+#                   with no WWW-Authenticate and parses the username.
+#   CVE-2026-100296  empty POST /setUserConfig resets the admin password.
+#                   Route PRESENT here (absent on YM500L). Counted via
+#                   MsgSetUserConfig; a reset is rare, so the checker warns on
+#                   the first one in the window.
+#
+# PRESENT — ACCEPTED (out of scope for a shim; needs vendor)
+#   CVE-2024-35344   hardcoded AES key in libtools.so (StringEncrypt /
+#                   aes_encrypt / aes_decrypt present). Same as YM500L.
+#   CVE-2026-100293  firmware update verified by MD5 only, no signature.
+#   CVE-2026-100294  hardcoded cloud credentials: opt/ch/dev_bind IS present
+#                   on this model (absent on YM500L) and embeds the icamra
+#                   cloud endpoint (device.icamra.com) + accessToken/productKey
+#                   flow. Not removable without losing the vendor cloud app.
+#   CVE-2026-100295  undocumented debug interface.
+#   CVE-2026-100299  weak md5crypt ($1$) root hash in etc/passwd_sys, serial
+#                   getty only. Mitigated by a strong recovery password.
+#
+# ---------------------------------------------------------------------------
+# NET: custom5 adds DETECTION for the two live-and-dangerous items
+# (CVE-2026-100296 password reset, CVE-2026-100298 getuid oracle) via a
+# uClibc login_watch.so. Nothing is actively BLOCKED on this model -- the
+# glibc cve_deny.so does not port, and a uClibc file-read shim is not built.
+# ---------------------------------------------------------------------------

@@ -202,11 +202,13 @@ SHIM_DEST="$BUILD/rootfs/opt/ch/nagios_authd.so"
 RC_S="$BUILD/rootfs/etc/init.d/rcS"
 TC_PREFIX="${TC_PREFIX:-/home/user/toolchains/armv7-eabihf--uclibc--stable-2024.05-1/bin/arm-buildroot-linux-uclibcgnueabihf}"
 
-# Detect the ACTUAL LD_PRELOAD statement, not a mere mention of the name.
+# Detect the ACTUAL preload assignment, not a mere mention of the name.
 # The leading [^#] keeps a comment (even one that names this shim while
 # explaining a DIFFERENT shim) from tripping this check. A bare substring
 # grep did exactly that and failed the pack for an unrelated reason.
-if [ ! -f "$RC_S" ] || ! grep -q '^[[:space:]]*LD_PRELOAD=[^[:space:]]*nagios_authd' "$RC_S"; then
+# Matches either the direct `LD_PRELOAD=...nagios_authd` form or the chained
+# `NA_PRELOAD=...nagios_authd` assignment used where multiple shims are wired.
+if [ ! -f "$RC_S" ] || ! grep -qE '^[[:space:]]*(LD_PRELOAD|NA_PRELOAD)=[^[:space:]]*nagios_authd' "$RC_S"; then
     echo "Nagios shim: not wired into this tree's rcS -- skipping (opt-in)."
     echo "           (see tools/nagios_shim/nagios_authd.c before porting to $SLUG)"
 elif [ ! -f "$SHIM_SRC" ]; then
@@ -366,41 +368,89 @@ else
 fi
 
 # --- rebuild the login-attempt counter shim -------------------------------
-# login_watch.so (opt/ch/login_watch.so) is DETECTION-only: it counts
-# /cgi-bin/getuid login attempts (the unauth credential oracle,
-# CVE-2026-100298) by appending one epoch second per attempt to
-# /tmp/login_attempts.log. nagios.sh schema 3 turns that into
-# login_attempts_5m. It never blocks, so it cannot lock out the owner.
+# login_watch.so (opt/ch/login_watch.so) is DETECTION-only. It counts
+# unauthenticated login/reset attempts by appending one epoch second per event
+# to /tmp (tmpfs). nagios.sh schema 3 turns those into *_5m rates. It never
+# blocks, so it cannot lock out the owner.
 #
-# It interposes MsgUserGetPassword, resolved from libtools.so at a fixed file
-# offset (0x3f69c) via /proc/self/maps. That offset is build-specific, so we
-# reuse the SAME web_server Build-ID guard as the CVE shim: if the vendor
-# rebuilds, the offset is stale and we refuse to pack.
-LW_SRC="tools/cve_shim/login_watch.c"
+# There are TWO libc variants, because the two cameras differ:
+#   glibc (YM500L):  tools/cve_shim/login_watch.c
+#       Interposes MsgUserGetPassword only. dlsym is UNUSABLE there (the
+#       toolchain mis-binds it to a libc.so.6 that has none), so the real fn
+#       is resolved from /proc/self/maps at a fixed libtools offset -> needs
+#       the web_server Build-ID guard and forbids any dl* reference.
+#   uClibc (YMF46D): tools/cve_shim/login_watch_ymf46d.c
+#       libc.so.0 DOES export dlsym, so we resolve via RTLD_NEXT -- no fixed
+#       offsets, no Build-ID dependency (this web_server is stripped anyway).
+#       Counts MsgUserGetPassword (getuid oracle, CVE-2026-100298) AND
+#       MsgSetUserConfig (password reset, CVE-2026-100296).
 LW_DEST="$BUILD/rootfs/opt/ch/login_watch.so"
 
 if [ ! -f "$RC_S" ] || ! grep -q '^[[:space:]]*LW_PRELOAD=[^[:space:]]*login_watch' "$RC_S"; then
     echo "login_watch shim: not wired into this tree's rcS -- skipping (opt-in)."
-elif [ ! -f "$LW_SRC" ]; then
-    if [ -f "$LW_DEST" ]; then
-        echo "WARNING: rcS wants login_watch but $LW_SRC is missing." >&2
-        echo "         Packing the EXISTING $LW_DEST unchanged -- it may be STALE." >&2
+elif [ -e "$BUILD/rootfs/lib/libc.so.0" ]; then
+    # ---- uClibc variant (YMF46D) ----
+    LW_SRC="tools/cve_shim/login_watch_ymf46d.c"
+    if [ ! -f "$LW_SRC" ]; then
+        if [ -f "$LW_DEST" ]; then
+            echo "WARNING: rcS wants login_watch but $LW_SRC is missing." >&2
+            echo "         Packing the EXISTING $LW_DEST unchanged -- it may be STALE." >&2
+        else
+            echo "WARNING: rcS wants login_watch but neither source nor .so exists." >&2
+            echo "         rcS's [ -f ] guard makes this a harmless no-op." >&2
+        fi
+    elif [ ! -x "${TC_PREFIX}-gcc" ]; then
+        echo "ERROR: rcS requires login_watch but the uClibc toolchain is missing." >&2
+        exit 1
     else
-        echo "WARNING: rcS wants login_watch but neither source nor .so exists." >&2
-        echo "         rcS's [ -f ] guard makes this a harmless no-op." >&2
+        # Guard: the two interposed symbols must exist in this libtools.so.
+        # If the vendor renamed/moved them, dlsym returns NULL at runtime and
+        # the shim fails loud -- but catch it here instead of on the device.
+        # Capture nm output first: under `set -o pipefail`, piping straight
+        # into `grep -q` makes nm die with SIGPIPE (grep exits on first match),
+        # which pipefail reports as a pipeline failure -- a false negative.
+        LT_SYMS="$("${TC_PREFIX}-nm" -D --defined-only "$BUILD/rootfs/opt/ch/libtools.so" 2>/dev/null || true)"
+        for sym in MsgUserGetPassword MsgSetUserConfig; do
+            case "$LT_SYMS" in
+                *" T $sym"*) : ;;
+                *)
+                    echo "ERROR: libtools.so does not export $sym -- the uClibc" >&2
+                    echo "       login_watch shim cannot interpose it. Refusing." >&2
+                    exit 1 ;;
+            esac
+        done
+        echo "Cross-compiling login_watch shim (uClibc): $LW_SRC -> $LW_DEST"
+        "${TC_PREFIX}-gcc" -O2 -fno-stack-protector -fPIC -shared \
+            -o "$LW_DEST" "$LW_SRC" -ldl \
+            || { echo "ERROR: login_watch compile failed -- refusing to pack a stale .so" >&2; exit 1; }
+        chmod 755 "$LW_DEST"
+        LW_EXP="$("${TC_PREFIX}-nm" -D --defined-only "$LW_DEST" || true)"
+        for sym in MsgUserGetPassword MsgSetUserConfig; do
+            case "$LW_EXP" in
+                *" T $sym"*) : ;;
+                *) echo "ERROR: login_watch does not export $sym -- refusing." >&2; exit 1 ;;
+            esac
+        done
+        echo "  login_watch exports: $(echo "$LW_EXP" | awk '$2=="T"{printf "%s ", $3}')"
     fi
 else
+    # ---- glibc variant (YM500L) ----
+    LW_SRC="tools/cve_shim/login_watch.c"
+    if [ ! -f "$LW_SRC" ]; then
+        if [ -f "$LW_DEST" ]; then
+            echo "WARNING: rcS wants login_watch but $LW_SRC is missing." >&2
+            echo "         Packing the EXISTING $LW_DEST unchanged -- it may be STALE." >&2
+        else
+            echo "WARNING: rcS wants login_watch but neither source nor .so exists." >&2
+            echo "         rcS's [ -f ] guard makes this a harmless no-op." >&2
+        fi
+    else
     LW_CC="${GLIBC_TC:-/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-linux}-gcc"
     if [ ! -x "$LW_CC" ]; then
         LW_CC="/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-buildroot-linux-gnueabihf-gcc"
     fi
     if [ ! -x "$LW_CC" ]; then
         echo "ERROR: rcS requires login_watch but no glibc cross compiler was found." >&2
-        exit 1
-    fi
-    # glibc-only (same ABI reason as the CVE shim).
-    if [ -e "$BUILD/rootfs/lib/libc.so.0" ]; then
-        echo "ERROR: $SLUG rootfs looks uClibc-based; login_watch is glibc-only." >&2
         exit 1
     fi
     # Build-ID guard: login_watch's libtools offset belongs to this web_server.
@@ -429,6 +479,7 @@ else
         exit 1
     fi
     echo "  login_watch exports: $("${LW_CC%-gcc}-nm" -D --defined-only "$LW_DEST" | awk '$2=="T"{printf "%s ", $3}')"
+    fi
 fi
 
 # --- normalise executable bits on shell scripts -----------------------------

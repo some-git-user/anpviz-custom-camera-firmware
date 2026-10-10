@@ -41,7 +41,12 @@ TMP=/tmp/.nagios.$$.tmp
 STATE=/tmp/.nagios.state
 # schema 2: added the recording-storage (SD/USB) block. Schema 1 had no disk
 # metric at all beyond the 1 MB jffs2 config partition.
-SCHEMA=2
+# schema 3: added login_attempts_5m and pwreset_5m -- brute-force / abuse
+# signals for the two unauthenticated endpoints on this model:
+#   /cgi-bin/getuid  credential oracle   (CVE-2026-100298)
+#   /setUserConfig   admin password reset (CVE-2026-100296)
+# Both counted from /tmp logs written by the login_watch.so LD_PRELOAD shim.
+SCHEMA=3
 
 # The background subshell launched from rcS may not inherit an interactive PATH.
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
@@ -302,6 +307,34 @@ _df=$(df -k /mnt/nand 2>/dev/null | busybox awk 'NR==2 {print $4" "$5}')
 	fi
 	n "$_web" "web_server_running"
 	n "$_wd" "watchdog_running"
+
+	# --- login-attempt + password-reset rates (abuse signals) ---------------
+	# /tmp/login_attempts.log and /tmp/pwreset.log are one epoch second per
+	# event, appended by login_watch.so. Count events in the last 300 s. An
+	# absent file (shim not loaded) -> null, so the checker can tell "no shim"
+	# from "shim, zero events". These are GLOBAL counts: the endpoints expose
+	# no client IP at any interposable layer, so per-source attribution is not
+	# possible. Detection only -- the shim never blocks, so the owner cannot be
+	# locked out.
+	_login=""
+	if [ -r /tmp/login_attempts.log ]; then
+		_cut=$(( _now - 300 ))
+		_login=$(busybox awk -v c="$_cut" '
+			$1+0 >= c { n++ }
+			END { print n+0 }' /tmp/login_attempts.log 2>/dev/null)
+		_login=$(digits "$_login")
+	fi
+	n "$_login" "login_attempts_5m"
+
+	_pwreset=""
+	if [ -r /tmp/pwreset.log ]; then
+		_cut=$(( _now - 300 ))
+		_pwreset=$(busybox awk -v c="$_cut" '
+			$1+0 >= c { n++ }
+			END { print n+0 }' /tmp/pwreset.log 2>/dev/null)
+		_pwreset=$(digits "$_pwreset")
+	fi
+	n "$_pwreset" "pwreset_5m"
 
 	printf '}\n' >> "$TMP"
 
