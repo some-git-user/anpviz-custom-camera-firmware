@@ -110,6 +110,13 @@ def parse_args():
     p.add_argument("--ignore-no-card", action="store_true",
                    help="do not alert when no recording volume is mounted "
                         "(default: a dashcam with no card is CRITICAL)")
+    # Login-attempt rate (brute-force signal for the unauth getuid oracle).
+    # A normal owner browsing the UI generates a low, steady rate; a burst is
+    # the signal. Thresholds are attempts in the trailing 5-minute window.
+    p.add_argument("--warn-login", type=float, default=20.0,
+                   help="login attempts in the last 5 min that warns")
+    p.add_argument("--crit-login", type=float, default=60.0,
+                   help="login attempts in the last 5 min that is critical")
     p.add_argument("--insecure", action="store_true",
                    help="do not verify the TLS certificate (self-signed camera cert)")
     p.add_argument("--user", default=None,
@@ -323,6 +330,28 @@ def main():
                     _rec_slot, int(_rec_avail)))
                 s = WARNING
             bump(s)
+    # --- LOGIN-ATTEMPT RATE (brute-force signal) -------------------------
+    # login_attempts_5m counts getuid login attempts in the trailing 5 min,
+    # written by the login_watch.so shim. Absent (schema <3 or shim not
+    # loaded) -> informational UNKNOWN so a missing detector is visible, but
+    # only bump UNKNOWN if the operator explicitly enabled the check by
+    # lowering thresholds; with defaults we just note it. A burst above
+    # --warn-login/--crit-login is the alert.
+    _login = num(data, "login_attempts_5m")
+    if _login is None:
+        msgs.append("login rate unknown (schema <3 or login_watch not loaded)")
+    else:
+        perf.append("login_attempts_5m=%d;%s;%s;0;" % (
+            int(_login),
+            "" if args.warn_login is None else int(args.warn_login),
+            "" if args.crit_login is None else int(args.crit_login)))
+        s = threshold(_login, args.warn_login, args.crit_login)
+        if s in (WARNING, CRITICAL):
+            msgs.append("login attempts %d/5min >= %s (possible brute force)" % (
+                int(_login),
+                int(args.crit_login if s == CRITICAL else args.warn_login)))
+        bump(s)
+
     for key, label, warn, crit, unit in checks:
         v = num(data, key)
         s = threshold(v, warn, crit)

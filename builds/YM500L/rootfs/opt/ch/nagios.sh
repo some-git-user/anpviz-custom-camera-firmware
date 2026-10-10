@@ -41,7 +41,10 @@ TMP=/tmp/.nagios.$$.tmp
 STATE=/tmp/.nagios.state
 # schema 2: added the recording-storage (SD/USB) block. Schema 1 had no disk
 # metric at all beyond the 1 MB jffs2 config partition.
-SCHEMA=2
+# schema 3: added login_attempts_5m -- a brute-force signal for the unauth
+# /cgi-bin/getuid credential oracle (CVE-2026-100298). Counted from
+# /tmp/login_attempts.log written by the login_watch.so LD_PRELOAD shim.
+SCHEMA=3
 
 # The background subshell launched from rcS may not inherit an interactive PATH.
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
@@ -302,6 +305,23 @@ _df=$(df -k /mnt/nand 2>/dev/null | busybox awk 'NR==2 {print $4" "$5}')
 	fi
 	n "$_web" "web_server_running"
 	n "$_wd" "watchdog_running"
+
+	# --- login-attempt rate (brute-force signal) --------------------------
+	# /tmp/login_attempts.log is one epoch second per getuid login attempt,
+	# appended by login_watch.so. Count attempts in the last 300 s. Absent
+	# file (shim not loaded) -> null, so the checker can tell "no shim" from
+	# "shim, zero attempts". This is a GLOBAL count: the oracle exposes no
+	# client IP at any interposable layer, so per-source attribution is not
+	# possible (see getuid-oracle-ym500l.md).
+	_login=""
+	if [ -r /tmp/login_attempts.log ]; then
+		_cut=$(( _now - 300 ))
+		_login=$(busybox awk -v c="$_cut" '
+			$1+0 >= c { n++ }
+			END { print n+0 }' /tmp/login_attempts.log 2>/dev/null)
+		_login=$(digits "$_login")
+	fi
+	n "$_login" "login_attempts_5m"
 
 	printf '}\n' >> "$TMP"
 

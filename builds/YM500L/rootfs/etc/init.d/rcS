@@ -165,7 +165,44 @@ ln -s /tmp/resolv.conf "$PUB_ROOTFS"/data/resolv.conf
 cd /opt/ch/
 source /etc/profile 
 
-./procman &
+# --- CVE MITIGATION SHIM -------------------------------------------------
+# LD_PRELOAD interposition that closes two unauthenticated file-read CVEs in
+# the vendor web_server, without vendor source:
+#   CVE-2024-35343  GET /playback/<path>     -> arbitrary file read
+#   CVE-2024-35341  GET /config.xml|/ConfigFile.ini -> config exfiltration
+#
+# Applied to procman so it propagates to web_server AND to every respawn of
+# it, the same way the monitoring shim is loaded on the other camera.
+#
+# The shim gates on the CALLER's return address, not just the path. That is
+# not paranoia: the vendor code reads /etc/passwd nine times during a normal
+# login, so a path-only deny-list logs the user out of their own camera. Only
+# the specific vulnerable handler call sites are denied; everything else is
+# passed straight through.
+#
+# FAIL-CLOSED: if a .so is missing it is simply not preloaded. pack.sh rebuilds
+# each on every pack and REFUSES to pack if the web_server Build ID does not
+# match the shim's hard-coded offsets, so a vendor rebuild cannot silently ship
+# a shim that protects nothing.
+#
+# A SECOND shim, login_watch.so, is a DETECTION-only counter for the unauth
+# /cgi-bin/getuid credential oracle (CVE-2026-100298). It cannot be rate-limited
+# safely (no client IP / no success-failure signal at any interposable layer),
+# so instead it appends one timestamp per login attempt to /tmp/login_attempts.log
+# (tmpfs, RAM, resets on reboot). nagios.sh schema 3 counts the last 5 minutes
+# and the Nagios checker alerts on a burst. It never blocks, so the owner can
+# never be locked out.
+CVE_PRELOAD=/opt/ch/cve_deny.so
+LW_PRELOAD=/opt/ch/login_watch.so
+LD_PRELOAD_LIST=""
+[ -f "$CVE_PRELOAD" ] && LD_PRELOAD_LIST="$CVE_PRELOAD"
+[ -f "$LW_PRELOAD" ] && LD_PRELOAD_LIST="${LD_PRELOAD_LIST:+$LD_PRELOAD_LIST:}$LW_PRELOAD"
+if [ -n "$LD_PRELOAD_LIST" ]; then
+	LD_PRELOAD="$LD_PRELOAD_LIST" ./procman &
+else
+	./procman &
+fi
+# -----------------------------------------------------------------------
 
 #telnetd &
 

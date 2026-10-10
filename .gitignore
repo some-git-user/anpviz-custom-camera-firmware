@@ -66,6 +66,14 @@ tools/nagios_shim/authprobe_dyn
 tools/nagios_shim/authprobe_static
 tools/.reclogin_pass.*
 
+# --- CVE shim build intermediates --------------------------------------
+# Same rule as the Nagios shim: the .so that SHIPS lives under
+# builds/<cam>/rootfs/opt/ch/ and is tracked, because pack.sh reads the
+# rootfs tree directly. Everything under tools/cve_shim/ is reproducible
+# from the .c/.h sources, so compiled artifacts there are not committed.
+tools/cve_shim/*.so
+tools/cve_shim/test_deny
+
 # --- Local secrets (NEVER commit) ----------------------------------------
 # There is no address config file. Camera addresses are passed on the command
 # line or via CAM_IP at runtime, so nothing LAN-specific is stored here.

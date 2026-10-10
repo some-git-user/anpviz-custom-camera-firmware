@@ -202,7 +202,11 @@ SHIM_DEST="$BUILD/rootfs/opt/ch/nagios_authd.so"
 RC_S="$BUILD/rootfs/etc/init.d/rcS"
 TC_PREFIX="${TC_PREFIX:-/home/user/toolchains/armv7-eabihf--uclibc--stable-2024.05-1/bin/arm-buildroot-linux-uclibcgnueabihf}"
 
-if [ ! -f "$RC_S" ] || ! grep -q 'nagios_authd' "$RC_S"; then
+# Detect the ACTUAL LD_PRELOAD statement, not a mere mention of the name.
+# The leading [^#] keeps a comment (even one that names this shim while
+# explaining a DIFFERENT shim) from tripping this check. A bare substring
+# grep did exactly that and failed the pack for an unrelated reason.
+if [ ! -f "$RC_S" ] || ! grep -q '^[[:space:]]*LD_PRELOAD=[^[:space:]]*nagios_authd' "$RC_S"; then
     echo "Nagios shim: not wired into this tree's rcS -- skipping (opt-in)."
     echo "           (see tools/nagios_shim/nagios_authd.c before porting to $SLUG)"
 elif [ ! -f "$SHIM_SRC" ]; then
@@ -238,6 +242,193 @@ else
         || { echo "ERROR: shim compile failed -- refusing to pack a stale .so" >&2; exit 1; }
     chmod 755 "$SHIM_DEST"
     echo "  exports: $(${TC_PREFIX}-nm -D --defined-only "$SHIM_DEST" | awk '$2=="T"{printf "%s ", $3}')"
+fi
+
+# --- rebuild the CVE mitigation shim --------------------------------------
+# cve_deny.so (opt/ch/cve_deny.so) interposes fopen/open/popen in web_server
+# to close CVE-2024-35343 (/playback/<path> arbitrary file read) and
+# CVE-2024-35341 (/config.xml download) without vendor source.
+#
+# It gates on the CALLER's return address, not just the path, because the
+# vendor code legitimately reads /etc/passwd during normal login. The
+# addresses it keys on are ABSOLUTE -- web_server is non-PIE -- so they are
+# only valid for one specific vendor binary. We therefore verify the target's
+# GNU Build ID before shipping: if the vendor ever rebuilds web_server, the
+# offsets are stale and we must refuse to pack rather than ship a shim that
+# silently protects nothing.
+#
+# OPT-IN PER CAMERA, same shape as the Nagios shim: detected by rcS naming it.
+SHIM_SRC="tools/cve_shim/cve_deny_v2.c"
+SHIM_DEST="$BUILD/rootfs/opt/ch/cve_deny.so"
+CVE_TEST_SRC="tools/cve_shim/test_deny.c"
+# Build ID of the web_server these offsets were derived from, verified against
+# both stock and the current tree (md5 088b5a4101bd1a9385dca52a703c775c).
+CVE_WEB_SERVER_BUILD_ID="dde0ea728d826aa040c7afeb442f7a34f642e352"
+# This shim targets GLIBC. The Nagios shim above targets uClibc. Different
+# libc, different internal aliases -- they are not interchangeable.
+GLIBC_TC="${GLIBC_TC:-/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-linux}"
+
+# Same rule as above: match the assignment statement, not the name in prose.
+if [ ! -f "$RC_S" ] || ! grep -q '^[[:space:]]*CVE_PRELOAD=[^[:space:]]*cve_deny' "$RC_S"; then
+    echo "CVE shim: not wired into this tree's rcS -- skipping (opt-in)."
+elif [ ! -f "$SHIM_SRC" ]; then
+    if [ -f "$SHIM_DEST" ]; then
+        echo "WARNING: rcS wants the CVE shim but $SHIM_SRC is missing." >&2
+        echo "         Packing the EXISTING $SHIM_DEST unchanged -- it may be STALE." >&2
+    else
+        echo "WARNING: rcS wants the CVE shim but neither source nor .so exists." >&2
+        echo "         rcS's [ -f ] guard makes this a harmless no-op." >&2
+    fi
+else
+    # Resolve the glibc cross compiler. The Bootlin tarball ships both a short
+    # `arm-linux-*` and a long `arm-buildroot-linux-gnueabihf-*` prefix.
+    CVE_CC="${GLIBC_TC}-gcc"
+    if [ ! -x "$CVE_CC" ]; then
+        CVE_CC="/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-buildroot-linux-gnueabihf-gcc"
+    fi
+    if [ ! -x "$CVE_CC" ]; then
+        echo "ERROR: rcS requires the CVE shim but no glibc cross compiler was found." >&2
+        echo "       Set GLIBC_TC=/path/to/arm-linux-gnueabihf-triple to build it." >&2
+        exit 1
+    fi
+
+    # ABI GUARD (inverse of the Nagios one): this shim forwards to glibc's
+    # _IO_fopen/_IO_popen/__libc_system, which do not exist on uClibc.
+    if [ -e "$BUILD/rootfs/lib/libc.so.0" ]; then
+        echo "ERROR: $SLUG rootfs looks uClibc-based (libc.so.0 present)." >&2
+        echo "       tools/cve_shim forwards to glibc-only symbols and will" >&2
+        echo "       NOT load here. Do not enable it on this camera." >&2
+        exit 1
+    fi
+    if [ ! -e "$BUILD/rootfs/lib/libc.so.6" ]; then
+        echo "ERROR: $SLUG rootfs has no libc.so.6 -- cannot verify glibc." >&2
+        exit 1
+    fi
+
+    # BUILD-ID GUARD. The deny rules are absolute addresses in a non-PIE
+    # binary. If web_server is not the binary these were derived from, the
+    # shim gates on the wrong functions: it would load fine, look active,
+    # and protect nothing. Refuse instead.
+    ACTUAL_ID="$("${CVE_CC%-gcc}-readelf" -n "$BUILD/rootfs/opt/ch/web_server" 2>/dev/null \
+                | awk '/Build ID:/{print $3}')"
+    if [ -z "$ACTUAL_ID" ]; then
+        echo "ERROR: cannot read the Build ID of $BUILD/rootfs/opt/ch/web_server." >&2
+        echo "       The CVE shim's offsets cannot be validated. Refusing to pack." >&2
+        exit 1
+    fi
+    if [ "$ACTUAL_ID" != "$CVE_WEB_SERVER_BUILD_ID" ]; then
+        echo "ERROR: web_server Build ID does not match the CVE shim's offsets." >&2
+        echo "       expected: $CVE_WEB_SERVER_BUILD_ID" >&2
+        echo "       actual:   $ACTUAL_ID" >&2
+        echo "       The shim's hard-coded handler addresses (0x501a5 / 0x500ef /" >&2
+        echo "       0x500ab) belong to a different build. Shipping it would look" >&2
+        echo "       protective while blocking nothing. Re-derive them with" >&2
+        echo "       tools/cve_shim/cve_log.c against this binary first." >&2
+        exit 1
+    fi
+
+    # Run the host-side decision-table test before shipping. This is what
+    # catches the failure mode that bit us once already: a comparison written
+    # so that GCC proved the whole deny path dead, producing a .so that
+    # compiled, loaded, exported the right symbols and denied NOTHING.
+    if [ -f "$CVE_TEST_SRC" ]; then
+        echo "Running CVE shim decision tests..."
+        if cc -O1 -o /tmp/cve_test_deny "$CVE_TEST_SRC" 2>/tmp/cve_test_err.txt \
+           && /tmp/cve_test_deny >/tmp/cve_test_out.txt 2>&1; then
+            echo "  $(tail -1 /tmp/cve_test_out.txt)"
+        else
+            echo "ERROR: CVE shim decision tests FAILED -- refusing to pack." >&2
+            tail -20 /tmp/cve_test_out.txt >&2 || true
+            exit 1
+        fi
+    fi
+
+    echo "Cross-compiling CVE shim: $SHIM_SRC -> $SHIM_DEST"
+    # -fno-stack-protector: the device libc has __stack_chk_fail but NOT
+    # __stack_chk_guard, so a protected shim fails to load.
+    "$CVE_CC" -O2 -fno-stack-protector -fPIC -shared \
+        -o "$SHIM_DEST" "$SHIM_SRC" \
+        || { echo "ERROR: CVE shim compile failed -- refusing to pack a stale .so" >&2; exit 1; }
+    chmod 755 "$SHIM_DEST"
+
+    # Post-build sanity: the deny path must have SURVIVED compilation. If the
+    # compiler folded it away we would ship a no-op. realpath() is only
+    # referenced from inside the deny path, so its presence in the dynamic
+    # symbol table is a direct proof the logic is live.
+    if ! "${CVE_CC%-gcc}-nm" -D "$SHIM_DEST" | grep -q 'realpath'; then
+        echo "ERROR: compiled CVE shim does not reference realpath -- the deny" >&2
+        echo "       path was optimised away. This is the dead-code failure mode." >&2
+        echo "       Refusing to ship a shim that protects nothing." >&2
+        exit 1
+    fi
+    echo "  exports: $("${CVE_CC%-gcc}-nm" -D --defined-only "$SHIM_DEST" | awk '$2=="T"{printf "%s ", $3}')"
+    echo "  deny-list entries: $(grep -c '^    "/' tools/cve_shim/deny_logic.h)"
+fi
+
+# --- rebuild the login-attempt counter shim -------------------------------
+# login_watch.so (opt/ch/login_watch.so) is DETECTION-only: it counts
+# /cgi-bin/getuid login attempts (the unauth credential oracle,
+# CVE-2026-100298) by appending one epoch second per attempt to
+# /tmp/login_attempts.log. nagios.sh schema 3 turns that into
+# login_attempts_5m. It never blocks, so it cannot lock out the owner.
+#
+# It interposes MsgUserGetPassword, resolved from libtools.so at a fixed file
+# offset (0x3f69c) via /proc/self/maps. That offset is build-specific, so we
+# reuse the SAME web_server Build-ID guard as the CVE shim: if the vendor
+# rebuilds, the offset is stale and we refuse to pack.
+LW_SRC="tools/cve_shim/login_watch.c"
+LW_DEST="$BUILD/rootfs/opt/ch/login_watch.so"
+
+if [ ! -f "$RC_S" ] || ! grep -q '^[[:space:]]*LW_PRELOAD=[^[:space:]]*login_watch' "$RC_S"; then
+    echo "login_watch shim: not wired into this tree's rcS -- skipping (opt-in)."
+elif [ ! -f "$LW_SRC" ]; then
+    if [ -f "$LW_DEST" ]; then
+        echo "WARNING: rcS wants login_watch but $LW_SRC is missing." >&2
+        echo "         Packing the EXISTING $LW_DEST unchanged -- it may be STALE." >&2
+    else
+        echo "WARNING: rcS wants login_watch but neither source nor .so exists." >&2
+        echo "         rcS's [ -f ] guard makes this a harmless no-op." >&2
+    fi
+else
+    LW_CC="${GLIBC_TC:-/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-linux}-gcc"
+    if [ ! -x "$LW_CC" ]; then
+        LW_CC="/home/user/toolchains/armv7-eabihf--glibc--stable-2024.05-1/bin/arm-buildroot-linux-gnueabihf-gcc"
+    fi
+    if [ ! -x "$LW_CC" ]; then
+        echo "ERROR: rcS requires login_watch but no glibc cross compiler was found." >&2
+        exit 1
+    fi
+    # glibc-only (same ABI reason as the CVE shim).
+    if [ -e "$BUILD/rootfs/lib/libc.so.0" ]; then
+        echo "ERROR: $SLUG rootfs looks uClibc-based; login_watch is glibc-only." >&2
+        exit 1
+    fi
+    # Build-ID guard: login_watch's libtools offset belongs to this web_server.
+    LW_ACTUAL_ID="$("${LW_CC%-gcc}-readelf" -n "$BUILD/rootfs/opt/ch/web_server" 2>/dev/null \
+                    | awk '/Build ID:/{print $3}')"
+    if [ "$LW_ACTUAL_ID" != "$CVE_WEB_SERVER_BUILD_ID" ]; then
+        echo "ERROR: web_server Build ID does not match login_watch's offset." >&2
+        echo "       expected: $CVE_WEB_SERVER_BUILD_ID" >&2
+        echo "       actual:   $LW_ACTUAL_ID" >&2
+        echo "       Re-derive MsgUserGetPassword's offset in login_watch.c first." >&2
+        exit 1
+    fi
+    echo "Cross-compiling login_watch shim: $LW_SRC -> $LW_DEST"
+    "$LW_CC" -O2 -fno-stack-protector -fPIC -shared \
+        -o "$LW_DEST" "$LW_SRC" \
+        || { echo "ERROR: login_watch compile failed -- refusing to pack a stale .so" >&2; exit 1; }
+    chmod 755 "$LW_DEST"
+    # Post-build sanity: it must export exactly MsgUserGetPassword and pull in
+    # nothing but syscall (no dlsym -- device libc.so.6 has none).
+    if ! "${LW_CC%-gcc}-nm" -D --defined-only "$LW_DEST" | grep -q ' T MsgUserGetPassword'; then
+        echo "ERROR: login_watch does not export MsgUserGetPassword -- refusing." >&2
+        exit 1
+    fi
+    if "${LW_CC%-gcc}-nm" -D --undefined-only "$LW_DEST" | grep -qE 'dlsym|dlvsym|dlopen'; then
+        echo "ERROR: login_watch references dl* -- it will fail to load on device." >&2
+        exit 1
+    fi
+    echo "  login_watch exports: $("${LW_CC%-gcc}-nm" -D --defined-only "$LW_DEST" | awk '$2=="T"{printf "%s ", $3}')"
 fi
 
 # --- normalise executable bits on shell scripts -----------------------------

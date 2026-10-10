@@ -1,0 +1,40 @@
+# CVE status — YM500L custom firmware
+#
+# Sources (where these CVEs were published / researched):
+#   2024 set (gwillgues / willgu.es) — Anpviz V3.2.2.2 and lower, YM500L named:
+#     https://willgu.es/pages/anpviz-ip-camera-vuln.html
+#   2026 set (CISA ICSA-26-272-05, CERT/CC VU#725190, researcher Andrew Lee)
+#   — "Anjvision YSSD-RTMP-H5", all marked no_fix_planned:
+#     https://www.cisa.gov/news-events/ics-advisories/icsa-26-272-05
+#     https://github.com/andylee77/anjvision-cve-2026
+#
+# All mitigations are LD_PRELOAD interposition (no vendor source) shipped in
+# the custom build. "Fixed" = closed or detected on THIS build, verified live.
+#
+# ---------------------------------------------------------------------------
+# FIXED (closed) — cve_deny.so, shipped + cold-boot verified (custom12+)
+#   CVE-2024-35343  unauth arbitrary file read  GET /playback/<path>
+#   CVE-2024-35341  unauth config exfil         GET /config.xml, /ConfigFile.ini
+#   Mechanism: deny fopen/open/popen for sensitive paths, gated on the
+#   vulnerable handler's caller address so normal login/config reads still work.
+#
+# DETECTED (not preventable) — login_watch.so + nagios schema 3 (custom13)
+#   CVE-2026-100298  unauth /cgi-bin/getuid credential oracle (no rate limit)
+#   Counted globally (login_attempts_5m); Nagios alerts on a burst. Cannot be
+#   rate-limited: no client IP and no success/failure signal at any interposable
+#   layer (see repo memory getuid-oracle-ym500l.md). Detection only, never blocks.
+#
+# NOT EXPLOITABLE ON THIS BUILD (verified live, no action needed)
+#   CVE-2024-35342  unauth /settings/* writes   -> 403 "passwordLock" (vendor gate)
+#   CVE-2026-100296 empty POST /setUserConfig   -> route absent on YM500L
+#   CVE-2026-100291 unauth ONVIF mgmt           -> port 3702 closed, /onvif/* dead
+#   CVE-2026-100292 dbg_server RCE              -> console.cgi needs creds, 9999 closed
+#   CVE-2026-100297 connect_check SSRF          -> raw ARP only, same-L2, not a real SSRF
+#   CVE-2026-100294 hardcoded cloud creds       -> /opt/ch/dev_bind not present on model
+#
+# OPEN / ACCEPTED (out of scope for a libc shim)
+#   CVE-2026-100293  update signed only by MD5  -> needs vendor signing
+#   CVE-2026-100295  undocumented debug iface   -> needs vendor removal
+#   CVE-2026-100299  weak md5crypt root hash on serial getty -> serial-only, mitigated
+#                    by a strong recovery password
+# ---------------------------------------------------------------------------

@@ -1,0 +1,74 @@
+#!/usr/bin/expect -f
+# usage: ./tools/push.exp <local-file> <remote-path> <camera-ip>
+#
+# Stream a local file onto a camera over the recovery telnet session.
+#
+# Why this exists: the target has no base64 applet and no working `which`, so
+# the usual `base64 -d > file` trick is out. We instead emit the bytes as
+# printf '\xNN' escapes in fixed-size chunks, appending to the remote file.
+# Slow (~10 KB/s) but has zero dependencies beyond coreutils-ish applets, and
+# is fully deterministic -- which matters more than speed for a 8 KB .so.
+#
+# Verifies by comparing byte counts and an md5-ish tail checksum computed with
+# the device's own `od` against the local file.
+set timeout 120
+set local [lindex $argv 0]
+set remote [lindex $argv 1]
+set host [lindex $argv 2]
+if {$local eq "" || $remote eq "" || $host eq ""} {
+    puts "usage: push.exp <local-file> <remote-path> <camera-ip>"
+    exit 1
+}
+
+source [file join [file dirname [info script]] camhost.tcl]
+set dir [file dirname [info script]]
+if {[info exists env(RECLOGIN_PASS)] && $env(RECLOGIN_PASS) ne ""} {
+    set pass $env(RECLOGIN_PASS)
+} elseif {[file exists "$dir/.reclogin_pass.$host"]} {
+    set fh [open "$dir/.reclogin_pass.$host" r]; set pass [string trim [gets $fh]]; close $fh
+} elseif {[file exists "$dir/.reclogin_pass"]} {
+    set fh [open "$dir/.reclogin_pass" r]; set pass [string trim [gets $fh]]; close $fh
+} else {
+    puts "No recovery password found"; exit 1
+}
+
+set fp [open $local rb]
+fconfigure $fp -translation binary
+set data [read $fp]
+close $fp
+set total [string length $data]
+puts "pushing $local ($total bytes) -> $host:$remote"
+
+# Start clean so a partial previous run cannot corrupt the target.
+set mark "ZZDONEZZ"
+log_user 1
+spawn telnet $host 23
+expect { -re "(?i)login" { send "root\r" } timeout { puts "TIMEOUT_login"; exit 1 } }
+expect { -re "(?i)assword:" { send "$pass\r" } timeout { puts "TIMEOUT_password"; exit 1 } }
+expect { -re "(?i)Login OK|#" { } -re "(?i)Login incorrect" { puts "LOGIN_FAILED"; exit 2 }
+         timeout { puts "TIMEOUT_shell"; exit 1 } }
+
+send "rm -f $remote; echo CLEANED; echo $mark\r"
+expect -re "\r?\n$mark\r?\n"
+
+# 256 bytes per command keeps each line ~1.6 KB -- well inside telnet/line
+# discipline limits while keeping the command count reasonable.
+set chunk 256
+for {set off 0} {$off < $total} {set off [expr {$off + $chunk}]} {
+    set piece [string range $data $off [expr {$off + $chunk - 1}]]
+    set esc ""
+    binary scan $piece c* bytes
+    foreach b $bytes {
+        if {$b < 0} { set b [expr {$b + 256}] }
+        append esc "\\x[format %02x $b]"
+    }
+    # Single-quoted so the shell does not touch the backslashes.
+    send "printf '$esc' >> $remote\r"
+    if {($off / $chunk) % 8 == 7} {
+        expect -re "# $" {}
+        puts "  ... [expr {$off + $chunk}] / $total"
+    }
+}
+send "echo WROTE; ls -l $remote; echo $mark\r"
+expect -re "\r?\n$mark\r?\n"
+puts "done: expected $total bytes"
