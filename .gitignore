@@ -66,6 +66,14 @@ tools/nagios_shim/authprobe_dyn
 tools/nagios_shim/authprobe_static
 tools/.reclogin_pass.*
 
+# --- Nagios feed capability-URL token ------------------------------------
+# The feed is served at /nagios_<token>.txt (see pack.sh). The token is a
+# per-camera secret, so neither the store nor the tokenised symlink in the
+# build tree is committed -- pack.sh regenerates the symlink every pack.
+tools/.nagios_token
+tools/.nagios_token.*
+builds/*/rootfs/var/www/nagios_*.txt
+
 # --- CVE shim build intermediates --------------------------------------
 # Same rule as the Nagios shim: the .so that SHIPS lives under
 # builds/<cam>/rootfs/opt/ch/ and is tracked, because pack.sh reads the

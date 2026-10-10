@@ -41,6 +41,13 @@ Usage:
   sent as nagios_user / nagios_pass query params. Use HTTPS so the credential
   is encrypted on the wire.
 
+  # capability-URL feed (YM500L: no CGI dispatcher, so the feed is served at an
+  # unguessable path instead of an authenticated route):
+  check_anjoy_nagios.py --host 192.0.2.11 --insecure \
+      --path /nagios_<token>.txt --state-file /var/tmp/check_anjoy_cam.json
+  The token is generated per camera by pack.sh and stored in
+  tools/.nagios_token.<ip> (gitignored). Pass it as --path.
+
 RECORDING VOLUME (SD card)
 --------------------------
 `nand` is the 1 MB jffs2 CONFIG partition, not the disk your video goes to.
@@ -124,6 +131,13 @@ def parse_args():
                    help="password resets in the last 5 min that warns")
     p.add_argument("--crit-pwreset", type=float, default=2.0,
                    help="password resets in the last 5 min that is critical")
+    # Telnet recovery-login rate. Recovery telnet is off by default (SD-flag
+    # gated), so any attempt in the window is worth a look; a burst means
+    # someone is guessing at the recovery password. Counts success AND failure.
+    p.add_argument("--warn-telnet", type=float, default=1.0,
+                   help="telnet recovery logins in the last 5 min that warns")
+    p.add_argument("--crit-telnet", type=float, default=3.0,
+                   help="telnet recovery logins in the last 5 min that is critical")
     p.add_argument("--insecure", action="store_true",
                    help="do not verify the TLS certificate (self-signed camera cert)")
     p.add_argument("--user", default=None,
@@ -375,6 +389,25 @@ def main():
             msgs.append("password reset(s) %d/5min >= %s (possible account takeover)" % (
                 int(_pwreset),
                 int(args.crit_pwreset if s == CRITICAL else args.warn_pwreset)))
+        bump(s)
+    # --- TELNET RECOVERY-LOGIN RATE --------------------------------------
+    # telnet_attempts_5m counts recovery (telnet) login attempts in the trailing
+    # 5 min, written by reclogin.sh. That path bypasses web_server entirely, so
+    # login_watch.so never sees it. Absent (schema <4 or reclogin not used) ->
+    # note only. Telnet is off by default, so warn on the first attempt.
+    _telnet = num(data, "telnet_attempts_5m")
+    if _telnet is None:
+        msgs.append("telnet rate unknown (schema <4 or reclogin not used)")
+    else:
+        perf.append("telnet_attempts_5m=%d;%s;%s;0;" % (
+            int(_telnet),
+            "" if args.warn_telnet is None else int(args.warn_telnet),
+            "" if args.crit_telnet is None else int(args.crit_telnet)))
+        s = threshold(_telnet, args.warn_telnet, args.crit_telnet)
+        if s in (WARNING, CRITICAL):
+            msgs.append("telnet recovery logins %d/5min >= %s (recovery access)" % (
+                int(_telnet),
+                int(args.crit_telnet if s == CRITICAL else args.warn_telnet)))
         bump(s)
 
     for key, label, warn, crit, unit in checks:

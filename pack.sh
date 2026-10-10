@@ -136,6 +136,58 @@ if command -v openssl >/dev/null 2>&1; then
     fi
 fi
 
+# --- nagios feed: close the unauthenticated static path --------------------
+# The telemetry feed is written to /tmp/nagios.txt and was served by the web
+# server's STATIC handler at the guessable /nagios.txt with NO auth -- anyone
+# on the LAN could read it. We always remove that guessable path.
+#
+# How the feed is then reached depends on the camera:
+#   * YMF46D has an authenticated /cgi-bin/nagios route (nagios_authd.so hooks
+#     the libcgibin_curl.so dispatcher). That is the real per-request auth, so
+#     we just delete nagios.txt and leave the auth route as the only path.
+#   * YM500L has NO such dispatcher (stripped gSOAP; the static handler opens
+#     files via raw syscalls -- see repo memory ym500l-nagios-auth-re.md), so
+#     there is no LD_PRELOAD point for per-request auth. The only zero-RE way
+#     to stop unauthenticated reads is an unguessable capability URL: serve the
+#     feed ONLY at /nagios_<token>.txt. The poller passes --path /nagios_<tok>.txt.
+#     This is a shared secret, not login auth, but it closes the open-read hole.
+#
+# The token is a stable per-camera secret (same store pattern as the recovery
+# password) so the poller config never drifts. NAGIOS_TOKEN=... forces rotation.
+WWW="$BUILD/rootfs/var/www"
+rm -f "$WWW/nagios.txt"
+
+if grep -qE '^[[:space:]]*(LD_PRELOAD|NA_PRELOAD)=[^[:space:]]*nagios_authd' "$BUILD/rootfs/etc/init.d/rcS" 2>/dev/null; then
+    echo "Nagios feed: authenticated /cgi-bin/nagios route present; removed open nagios.txt."
+else
+    NAGIOS_TOKEN="${NAGIOS_TOKEN:-}"
+    TOK_STORE=""
+    if [ -n "$CAM_IP" ]; then
+        TOK_STORE="tools/.nagios_token.$CAM_IP"
+    else
+        TOK_STORE="tools/.nagios_token"
+    fi
+    if [ -n "$NAGIOS_TOKEN" ]; then
+        echo "Nagios feed token: (forced via NAGIOS_TOKEN -- rotating)"
+    elif [ -s "$TOK_STORE" ]; then
+        IFS= read -r NAGIOS_TOKEN < "$TOK_STORE"
+        NAGIOS_TOKEN="${NAGIOS_TOKEN%$'\r'}"
+        echo "Nagios feed token: (reused $TOK_STORE -- stable for $CAM_IP)"
+    else
+        # openssl rand avoids the `tr </dev/urandom | head` SIGPIPE that would
+        # abort under `set -o pipefail` (head exits, tr dies on the write).
+        # No constant fallback: a known token would defeat the capability URL.
+        # If rand fails we fall through to the empty check below and abort.
+        NAGIOS_TOKEN="$(openssl rand -hex 16 2>/dev/null || true)"
+        echo "Nagios feed token: $NAGIOS_TOKEN (new; persisted for this camera)"
+    fi
+    [ -n "$NAGIOS_TOKEN" ] || { echo "ERROR: empty nagios token" >&2; exit 1; }
+    printf '%s\n' "$NAGIOS_TOKEN" > "$TOK_STORE"
+    chmod 600 "$TOK_STORE"
+    ln -sf /tmp/nagios.txt "$WWW/nagios_${NAGIOS_TOKEN}.txt"
+    echo "  feed URL: https://<cam>/nagios_${NAGIOS_TOKEN}.txt  (poller: --path this)"
+fi
+
 # --- stamp the custom build version into the rootfs -------------------------
 # Build identity scheme:  <stock version>-custom<N>   e.g. V3.4.5.2-custom1
 # The base version comes from build.info (recorded at extract time), so the tag

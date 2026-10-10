@@ -7,6 +7,29 @@
 # Every entry below is a change made to builds/YM500L/rootfs/ AFTER extracting
 # the stock image above. Newest first.
 
+[custom14] 2026-10-10  -- Nagios feed moved to an unguessable path
+  - PROBLEM: the telemetry feed was served at the guessable static path
+    /nagios.txt with NO authentication -- anyone on the LAN could read it.
+  - YM500L cannot get the YMF46D-style authenticated /cgi-bin/nagios route:
+    its web_server is a stripped gSOAP binary with no CGI dispatcher, and the
+    static-file handler opens files via RAW SYSCALLS (verified with the
+    cve_log observer: /nagios.txt never appears in the libc open log). There
+    is no LD_PRELOAD interposition point that sees the request URI. Adding
+    real per-request auth would require binary-patching the vendor web_server.
+  - FIX (zero-RE): serve the feed ONLY at /nagios_<token>.txt and delete the
+    guessable nagios.txt. The token is a stable per-camera secret (same store
+    pattern as the recovery password: tools/.nagios_token.<ip>, gitignored).
+    pack.sh generates the tokenised symlink every pack; the open nagios.txt is
+    removed from the tree. The Nagios poller passes --path /nagios_<token>.txt.
+  - This is a capability URL (shared secret), not login auth -- but it closes
+    the unauthenticated-read hole. See repo memory ym500l-nagios-auth-re.md.
+  - Also: telnet recovery-login attempts are now counted. reclogin.sh appends
+    one epoch second per attempt (success OR failure) to /tmp/telnet_attempts.log;
+    nagios.sh feed schema 4 turns it into telnet_attempts_5m. This path bypasses
+    web_server entirely, so login_watch.so cannot see it -- the counter lives in
+    the script. Checker: --warn-telnet (default 1) / --crit-telnet (default 3);
+    telnet is off by default so any attempt is notable. Detection only.
+
 [custom5] 2026-10-04  -- Hardware Diagnostics UI panel ported
   - Ported the YMF46D "Hardware Diagnostics" overview panel into the stock
     Version Info page. Two files touched:

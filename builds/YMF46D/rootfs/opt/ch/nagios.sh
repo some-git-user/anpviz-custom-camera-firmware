@@ -46,7 +46,9 @@ STATE=/tmp/.nagios.state
 #   /cgi-bin/getuid  credential oracle   (CVE-2026-100298)
 #   /setUserConfig   admin password reset (CVE-2026-100296)
 # Both counted from /tmp logs written by the login_watch.so LD_PRELOAD shim.
-SCHEMA=3
+# schema 4: added telnet_attempts_5m -- recovery (telnet) login attempts, counted
+# from /tmp/telnet_attempts.log written by reclogin.sh (a path the shim can't see).
+SCHEMA=4
 
 # The background subshell launched from rcS may not inherit an interactive PATH.
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
@@ -335,6 +337,20 @@ _df=$(df -k /mnt/nand 2>/dev/null | busybox awk 'NR==2 {print $4" "$5}')
 		_pwreset=$(digits "$_pwreset")
 	fi
 	n "$_pwreset" "pwreset_5m"
+
+	# --- telnet recovery-login rate ---------------------------------------
+	# /tmp/telnet_attempts.log is one epoch second per recovery (telnet) login
+	# attempt, appended by reclogin.sh. That path never touches web_server, so
+	# login_watch.so cannot see it. Absent file -> null. Detection only.
+	_telnet=""
+	if [ -r /tmp/telnet_attempts.log ]; then
+		_cut=$(( _now - 300 ))
+		_telnet=$(busybox awk -v c="$_cut" '
+			$1+0 >= c { n++ }
+			END { print n+0 }' /tmp/telnet_attempts.log 2>/dev/null)
+		_telnet=$(digits "$_telnet")
+	fi
+	n "$_telnet" "telnet_attempts_5m"
 
 	printf '}\n' >> "$TMP"
 

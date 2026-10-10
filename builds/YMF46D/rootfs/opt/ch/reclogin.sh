@@ -56,6 +56,12 @@ read pass
 stty echo 2>/dev/null
 printf '\r\n'
 
+# Count this attempt (success OR failure) for brute-force detection.
+# /tmp is tmpfs; nagios.sh schema 4 turns this into telnet_attempts_5m. This
+# is the telnet path, which does NOT go through web_server's MsgUserGetPassword,
+# so login_watch.so cannot see it -- the counter has to live here instead.
+date +%s >> /tmp/telnet_attempts.log 2>/dev/null
+
 if [ "$login" = "$USER" ] && [ "$pass" = "$PASS" ]; then
 	printf 'Login OK\r\n'
 	# give a proper interactive shell on the telnet socket

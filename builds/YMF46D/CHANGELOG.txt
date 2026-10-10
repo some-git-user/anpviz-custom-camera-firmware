@@ -13,7 +13,30 @@
 # Every entry below is a change made to builds/YMF46D/rootfs/ AFTER extracting
 # the stock image above. Newest first.
 
-[3.4.5.2-custom4] 2026-10-04  ** CURRENT **
+[3.4.5.2-custom6] 2026-10-10  ** CURRENT **
+  Adds telnet recovery-login detection. Feed schema 4.
+  * reclogin.sh appends one epoch second per recovery (telnet) login attempt
+    (success OR failure) to /tmp/telnet_attempts.log. That path never touches
+    web_server, so login_watch.so cannot see it -- the counter lives in the
+    script itself.
+  * nagios.sh emits telnet_attempts_5m (count in the trailing 300 s; absent
+    file -> null). SCHEMA 3 -> 4.
+  * Checker: --warn-telnet (default 1) / --crit-telnet (default 3). Recovery
+    telnet is off by default (SD-flag gated), so any attempt is notable.
+    Detection only -- never blocks, owner cannot be locked out.
+
+[3.4.5.2-custom5] 2026-10-04
+  Adds login/password-reset detection (login_watch.so). Feed schema 3.
+  * New /opt/ch/login_watch.so (uClibc build) interposes MsgUserGetPassword and
+    MsgSetUserConfig via dlsym(RTLD_NEXT), appending one epoch second per event
+    to /tmp/login_attempts.log and /tmp/pwreset.log. Detection only, never blocks.
+  * rcS chains LD_PRELOAD: nagios_authd.so then login_watch.so.
+  * nagios.sh emits login_attempts_5m (getuid brute-force, CVE-2026-100298) and
+    pwreset_5m (unauth password reset, CVE-2026-100296). SCHEMA 2 -> 3.
+  * Checker: --warn-login/--crit-login (20/60), --warn-pwreset/--crit-pwreset (1/2).
+  * VERIFIED on device .109: login_attempts_5m counted live getuid attempts.
+
+[3.4.5.2-custom4] 2026-10-04
   Adds the RECORDING-VOLUME (SD card) metric to the Nagios feed. Feed schema 2.
   The device currently runs custom3, which lacks these fields (the checker
   reports "rec_storage state unknown" against it, by design, rather than
