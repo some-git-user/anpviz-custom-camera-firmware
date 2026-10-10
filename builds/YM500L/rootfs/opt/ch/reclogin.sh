@@ -43,20 +43,27 @@ fi
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/ch:$PATH
 export PATH
 
-# Recover the peer IP of our stdin (the telnet socket). busybox telnetd does NOT
-# export REMOTEHOST/REMOTEIP, so we read it back from /proc/net/tcp: our fd 0 is
-# a socket:[inode]; match that inode and decode the little-endian hex peer
-# address. Returns non-zero (empty) if stdin is not a socket or the lookup fails
-# -- callers must treat that as "unknown", never as a reason to deny a login.
+# Recover the peer IP of this telnet session. busybox 1.24 telnetd gives the
+# login program NO peer info: it passes no argv, sets no REMOTEHOST/REMOTEIP, and
+# our fd 0 is a pty (/dev/pts/N), not the socket. The socket lives one level up:
+# telnetd forks a child per connection and that child holds exactly one
+# ESTABLISHED socket (the client). So we list the parent's socket inodes and pick
+# the ESTABLISHED (st==01) one from /proc/net/tcp, decoding the little-endian hex
+# peer address. Verified on-device (.109): resolves the real client IP. Returns
+# non-zero (empty) if the lookup fails -- callers treat that as "unknown" and
+# NEVER as a reason to deny a login (fail-open; owner cannot be locked out).
+# NOTE: readlink/tr/od are NOT compiled into this busybox -- use ls + awk only.
 peer_ip() {
-	_s=$(readlink /proc/self/fd/0 2>/dev/null)
-	case "$_s" in socket:\[*\]) ;; *) return 1 ;; esac
-	_ino=${_s#socket:\[}; _ino=${_ino%\]}
-	[ -n "$_ino" ] || return 1
-	busybox awk -v i="$_ino" '
-		BEGIN { hd="0123456789ABCDEF"; for (n=0;n<16;n++) H[substr(hd,n+1,1)]=n }
+	_p=$PPID
+	[ -d "/proc/$_p/fd" ] || return 1
+	_inos=$(ls -l /proc/$_p/fd 2>/dev/null | busybox awk '
+		match($0, /socket:\[[0-9]+\]/) { print substr($0, RSTART+8, RLENGTH-9) }')
+	[ -n "$_inos" ] || return 1
+	busybox awk -v inos="$_inos" '
+		BEGIN { hd="0123456789ABCDEF"; for (n=0;n<16;n++) H[substr(hd,n+1,1)]=n
+			m=split(inos, arr, "\n"); for (k=1;k<=m;k++) want[arr[k]]=1 }
 		function hx(s) { return H[substr(s,1,1)]*16 + H[substr(s,2,1)] }
-		$10==i { split($3,a,":"); h=a[1]
+		$4=="01" && ($10 in want) { split($3,a,":"); h=a[1]
 			printf "%d.%d.%d.%d\n", hx(substr(h,7,2)),hx(substr(h,5,2)),hx(substr(h,3,2)),hx(substr(h,1,2)); exit }
 	' /proc/net/tcp 2>/dev/null
 }
