@@ -29,6 +29,14 @@
     web_server entirely, so login_watch.so cannot see it -- the counter lives in
     the script. Checker: --warn-telnet (default 1) / --crit-telnet (default 3);
     telnet is off by default so any attempt is notable. Detection only.
+  - IP attribution: a real network BAN is impossible (no iptables/nftables or
+    tcpwrappers in either rootfs -- verified). busybox telnetd also does not
+    export REMOTEHOST, so reclogin.sh recovers the peer IP itself from
+    /proc/net/tcp (stdin is the socket:[inode]; match it, decode the
+    little-endian hex peer). The source IP + OK/BAD goes to a SEPARATE local-only
+    log /tmp/telnet_access.log; the epoch log feeding the Nagios feed stays
+    IP-free so no client address ever leaves the device. Owner reads it over
+    serial/telnet. Lookup failure -> "unknown", never denies a login.
 
 [custom5] 2026-10-04  -- Hardware Diagnostics UI panel ported
   - Ported the YMF46D "Hardware Diagnostics" overview panel into the stock

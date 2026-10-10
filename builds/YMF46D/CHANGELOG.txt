@@ -24,6 +24,12 @@
   * Checker: --warn-telnet (default 1) / --crit-telnet (default 3). Recovery
     telnet is off by default (SD-flag gated), so any attempt is notable.
     Detection only -- never blocks, owner cannot be locked out.
+  * IP attribution: a real network BAN is impossible (no iptables/nftables or
+    tcpwrappers in this rootfs -- verified). busybox telnetd does not export
+    REMOTEHOST, so reclogin.sh recovers the peer IP from /proc/net/tcp (stdin is
+    the socket:[inode]). Source IP + OK/BAD -> local-only /tmp/telnet_access.log;
+    the epoch log feeding the feed stays IP-free (no client address leaves the
+    device). Lookup failure -> "unknown", never denies a login.
 
 [3.4.5.2-custom5] 2026-10-04
   Adds login/password-reset detection (login_watch.so). Feed schema 3.
